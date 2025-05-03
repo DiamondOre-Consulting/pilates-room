@@ -24,6 +24,17 @@ export const sendOtpBodySchema = z.object({
 export const forgotPasswordBodySchema = z.object({
     email : z.string().email().trim()
  })
+
+
+ 
+ export const resetPasswordBodySchema = z.object({
+    newPassword: z.string().trim()
+})
+
+
+export const resetPasswordParamsSchema = z.object({
+   resetToken : z.string().trim()
+})
  
  
 

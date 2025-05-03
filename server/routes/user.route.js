@@ -1,7 +1,7 @@
 import {Router} from "express"
 import  validate  from "../middlewares/zod.validator.js"
-import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema } from "../validator/auth.validator.js"
-import { signIn,sendOtp,signUp, forgotPassword } from "../controllers/auth/auth.controller.js"
+import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema } from "../validator/auth.validator.js"
+import { signIn,sendOtp,signUp, forgotPassword, resetPassword } from "../controllers/auth/auth.user.controller.js"
 
 
 
@@ -24,6 +24,19 @@ userRouter.post('/send-otp',validate({
 
 
  userRouter.post('/forgot-password', validate({body:forgotPasswordBodySchema}),forgotPassword)
+
+ userRouter.post('/reset-password/:resetToken',validate({body:resetPasswordBodySchema, params:resetPasswordParamsSchema}),resetPassword)
+
+
+
+
+
+
+
+
+
+
+
 
  export default userRouter
 

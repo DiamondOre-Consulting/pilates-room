@@ -260,6 +260,33 @@ export const forgotPassword = asyncHandler(async(req, res)=>{
 
 
 
+export const resetPassword = asyncHandler(async(req,res)=>{
+ 
+    const {resetToken} = req.validatedData.params;
+    let {newPassword} = req.validatedData.body;
+    
+    const existingUser = await User.findOne({
+      resetPasswordToken: resetToken,
+      resetPasswordTokenExpires: { $gt: Date.now() },
+    }).select('+password');
+
+    if(!existingUser){ 
+        throw new ApiError("Token expired",400)
+    }
+
+    newPassword = await bcrypt.hash(newPassword, 10);
+    existingUser.password = newPassword;
+    existingUser.resetPasswordToken = undefined;
+    existingUser.resetPasswordTokenExpires = undefined;
+
+    await existingUser.save();
+
+    sendResponse(res, 200, null, "Password reset successfully");
+
+
+})
+
+
 
 
 
