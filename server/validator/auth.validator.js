@@ -19,3 +19,11 @@ export const signInBodySchema = z.object({
 export const sendOtpBodySchema = z.object({
     email : z.string().email().trim(),
 })
+
+
+export const forgotPasswordBodySchema = z.object({
+    email : z.string().email().trim()
+ })
+ 
+ 
+

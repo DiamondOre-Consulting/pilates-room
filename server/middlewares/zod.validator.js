@@ -7,18 +7,7 @@ const validate = (schemas) => (req, res, next) => {
 
       
       if(schemas.body){ 
-        if (req.body.subCategory && typeof req.body.subCategory === "string") {
-          req.body.subCategory = JSON.parse(req.body.subCategory);
-        }
-        if(req.body.weight && typeof req.body.weight === "string"){
-          req.body.weight = JSON.parse(req.body.weight);
-        }
-        if(req.body.imagesToReplace && typeof req.body.imagesToReplace === "string"){
-          req.body.imagesToReplace = JSON.parse(req.body.imagesToReplace);
-        }
-        if(req.body.imagesToDelete && typeof req.body.imagesToDelete === "string"){
-          req.body.imagesToDelete = JSON.parse(req.body.imagesToDelete);
-        }     
+       
         
         validatedData.body = schemas.body.parse(req.body);
       }
