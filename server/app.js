@@ -3,13 +3,13 @@ import {config} from 'dotenv'
 import morgan  from "morgan"
 import cookieParser from "cookie-parser"
 // import adminRouter from "./routes/admin.route.js"
-// import userRouter from "./routes/user.route.js"
+import userRouter from "./routes/user.route.js"
 import errorMiddleware from "./middlewares/error.middleware.js"
 // import { rateLimiter } from "./utils/rateLimitter.js"
 import cloudinary from "cloudinary"
 import Razorpay from "razorpay"
 import cors from 'cors'
-// import paymentRouter from "./routes/payment.route.js"
+// import paymentRouter from  "./routes/payment.route.js"
 const app= express()
 config()
 
@@ -29,7 +29,8 @@ app.use(cors({
 // })
 
 // app.use("/api/v1/admin",adminRouter)
-// app.use("/api/v1/user", userRouter)
+app.use('/ping', (req, res) => res.send('pong'))
+app.use("/api/v1/user", userRouter)
 // app.use("/api/v1/payment",paymentRouter)
 
 
