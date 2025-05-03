@@ -41,7 +41,7 @@ const OurStudios = () => {
         <div className=" px-4  mx-auto md:px-8 xl:px-20">
        
            
-              <h2 className="text-[32px] uppercase  lg:text-[45px] text-center text-light leading-none mb-4">
+              <h2 className="text-[32px] text-dark uppercase  lg:text-[45px] text-center text-light leading-none mb-4">
                 Our Studios
               </h2>
            
