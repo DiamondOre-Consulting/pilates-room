@@ -33,6 +33,9 @@ userRouter.post('/send-otp',validate({
  userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
 
 
+ 
+
+
 
 
 

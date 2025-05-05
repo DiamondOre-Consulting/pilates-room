@@ -2,14 +2,10 @@ import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
-const userSchema = new mongoose.Schema({
-    firstName: {
+const adminSchema = new mongoose.Schema({
+    fullName: {
         type:String, 
         required:true      
-    },
-    lastName: {
-        type:String,
-        required:true
     },
     email: {
         type:String,
@@ -25,12 +21,6 @@ const userSchema = new mongoose.Schema({
       unique: true,
       sparse: true,
     },
-    postalCode: {
-        type: String,
-        maxlength: 6,
-        minlength: 6,
-        match: /^[0-9]{6}$/, 
-    },
     resetPasswordToken: {
         type: String,
         default: null
@@ -39,22 +29,17 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
-    birthDate: {
-        type:Date
-    },
-    preferredLocation: {
-        type: String
-    }
+   
 },
 {
     timestamps:true
 })
 
-userSchema.methods = {
+adminSchema.methods = {
     
         generateAccessToken : async function(){
-             const user = this.toObject()
-             const token = jwt.sign({id:user._id,email:user.email,firstName:user.firstName, lastName:user.lastName}, process.env.USER_SECRET_KEY,{expiresIn:'7d'})    
+             const admin = this.toObject()
+             const token = jwt.sign({id:admin._id,email:admin.email,fullName:admin.fullName}, process.env.ADMIN_SECRET_KEY,{expiresIn:'7d'})    
              return token;
         },
         comparePassword : async function(plainText){
@@ -62,12 +47,12 @@ userSchema.methods = {
         },
     
         generateRefreshToken : async function(){
-            const user = this.toObject()
-            const refreshToken = jwt.sign({id:user._id,email:user.email,firstName:user.firstName, lastName:user.lastName}, process.env.ADMIN_REFRESH_SECRET_KEY,{expiresIn:'7d'})
+            const admin = this.toObject()
+            const refreshToken = jwt.sign({id:admin._id,email:admin.email,fullName:admin.fullName}, process.env.ADMIN_REFRESH_SECRET_KEY,{expiresIn:'7d'})
             return refreshToken;
         }
 }
 
-const User = mongoose.model('User',userSchema)
+const Admin = mongoose.model('Admin',adminSchema)
 
-export default User
+export default Admin

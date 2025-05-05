@@ -1,0 +1,62 @@
+import Class from "../../models/class.model.js";
+import asyncHandler from "../../utils/asyncHandler.js"
+import { fileUpload } from "../../utils/fileUpload.js";
+import sendResponse from "../../utils/sendResponse.js"
+import ApiError from "../../utils/apiError.js"  
+
+
+
+
+
+export const createClass = asyncHandler(async(req,res)=>{
+
+      const {title,description,location,date,time,price,capacity,enrolledCount,available,duration} = req.validatedData.body
+
+      if (!req.files?.["instructor.image"]){
+        throw new ApiError("Instructor image is required",400);
+      }
+      
+
+      const newClass = await Class.create({
+          duration,
+          title,
+          description,
+          location,
+          date,
+          time,
+          price,
+          capacity,
+          enrolledCount,
+          available
+      })
+
+
+
+      if(req.files?.["instructor.image"][0]?.buffer){   
+          const {publicId,secureUrl} = await fileUpload(req.files["instructor.image"][0].buffer,"instructor")     
+          newClass.instructor = {name:req.validatedData.body.instructorName, image:{publicId, secureUrl}}
+      }
+
+
+      if(!req.files?.image) {
+           
+          const result = await promise.allSettled(
+            req.files.image.map((file) => {
+              return fileUpload(file.buffer, "class");
+            })
+          )
+
+          const successfulUploads = result.filter((result)=>{
+            return result.status === "fulfilled"
+          }).map((result)=>{
+            return result.value
+          })
+          
+          newClass.image.push(...successfulUploads)         
+        }
+        
+        await newClass.save()
+
+        sendResponse(res,200,newClass,"Class created successfully")
+
+})

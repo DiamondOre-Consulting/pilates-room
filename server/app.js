@@ -2,7 +2,7 @@ import express from "express"
 import {config} from 'dotenv'
 import morgan  from "morgan"
 import cookieParser from "cookie-parser"
-// import adminRouter from "./routes/admin.route.js"
+import adminRouter from "./routes/admin.route.js"
 import userRouter from "./routes/user.route.js"
 import errorMiddleware from "./middlewares/error.middleware.js"
 // import { rateLimiter } from "./utils/rateLimitter.js"
@@ -22,13 +22,13 @@ app.use(cors({
      credentials:true
 }))
 
-// cloudinary.v2.config({
-//   cloud_name : process.env.cloud_name,
-//   api_key : process.env.api_key,
-//   api_secret: process.env.api_secret
-// })
+cloudinary.v2.config({
+  cloud_name : process.env.cloud_name,
+  api_key : process.env.api_key,
+  api_secret: process.env.api_secret
+})
 
-// app.use("/api/v1/admin",adminRouter)
+app.use("/api/v1/admin",adminRouter)
 app.use('/ping', (req, res) => res.send('pong'))
 app.use("/api/v1/user", userRouter)
 // app.use("/api/v1/payment",paymentRouter)
