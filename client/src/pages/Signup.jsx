@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-
 const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   // const [otpField, setOtpField] = useState(false);
@@ -70,7 +69,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
       console.log(formData);
       const response = await dispatch(userSignUp(formData));
       if (response?.payload?.statusCode === 200) {
-       setIsPopUpOpen(false)
+        setIsPopUpOpen(false);
       }
     } catch (error) {
       console.log(error);
@@ -137,14 +136,22 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col space-y-6justify-center items-center">
+                  <div className="flex flex-col space-y-4 justify-center items-center">
                     <label className="text-xl text-gray-600">Password</label>
                     <input
-                      type="password"
+                      type={showPassword ? "password" : "text"}
                       name="password"
                       onChange={handleInputChange}
                       className=" border-b border-gray-600 w-[20rem] focus:outline-none"
                     />
+
+                    <p className="space-x-2 text-sm flex items-center ">
+                      <input
+                        type="checkbox"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                      />
+                      <span>Show Password</span>
+                    </p>
                   </div>
                 </>
               )}

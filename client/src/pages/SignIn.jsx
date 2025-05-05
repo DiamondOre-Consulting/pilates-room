@@ -5,6 +5,7 @@ import { RxCross1 } from "react-icons/rx";
 
 const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [loader, setLoader] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,9 +64,17 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
             <div className="flex flex-col space-y-6 justify-center items-center">
               <label className="text-xl text-gray-600">Password</label>
               <input
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 className=" border-b border-gray-600 w-[20rem] focus:outline-none"
               />
+                 <p className="space-x-2 text-sm flex items-center ">
+                      <input
+                        type="checkbox"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                      />
+                      <span>Show Password</span>
+                    </p>
             </div>
           </div>
           <button
