@@ -8,7 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 import logo from '../assets/TPR-Logo.webp'
 
 const routes = [
-  { name: "INTRO OFFER", href: "/", isActive: true },
+  { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
   // { name: "TIME TABLE", href: "/bike", isActive: false },
   { name: "PRIVATES", href: "/scooty", isActive: false },
   { name: "PRICING", href: "/accessories", isActive: false },
@@ -55,7 +55,7 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             duration-200
                             ${
                               route.isActive
-                                ? "text-dark underline decoration-text-dark"
+                                ? "text-dark underline decoration-text-dark "
                                 : "opacity-90 hover:opacity-100"
                             }`}
             to={route.href}
@@ -65,13 +65,14 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
         </li>
       ))}
       <li className="relative" ref={dropdownRef}>
-        <button
+        <Link
+        to={'/class-schedule'}
           className="flex items-center gap-x-3 text-dark hover:text-dark lg:hover:text-dark"
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          onMouseEnter={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           TIME TABLE
           <IoIosArrowDown />
-        </button>
+        </Link>
         <ul
           className={`absolute lg:left-0 right-0 w-52 lg:mt-[0.95rem] duration-500 lg:rounded-t-none lg:bg-mainRed bg-neutral-900 text-white rounded-lg shadow-lg transition-transform  ease-in-out ${
             isDropdownOpen
