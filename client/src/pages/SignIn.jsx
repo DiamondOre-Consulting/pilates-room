@@ -53,7 +53,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
         <div className=" lg:min-w-4xl w-full flex flex-col items-center justify-center h-full px-10 lg:px-0 py-10 lg:py-20">
           <h1 className="uppercase text-4xl">SignIn</h1>
           <div className="space-y-4 mt-10 flex flex-col justify-center  items-center  w-full">
-            <div className="flex flex-col space-y-6 justify-center items-center">
+            <div className="flex flex-col space-y-4 justify-center items-center">
               <label className="text-xl text-gray-600">Email Address</label>
               <input
                 onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +61,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
               />
             </div>
 
-            <div className="flex flex-col space-y-6 justify-center items-center">
+            <div className="flex flex-col space-y-4 justify-center items-center">
               <label className="text-xl text-gray-600">Password</label>
               <input
                 type={showPassword ? "text" : "password"}
