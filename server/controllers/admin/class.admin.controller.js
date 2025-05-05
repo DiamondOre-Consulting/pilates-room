@@ -60,3 +60,26 @@ export const createClass = asyncHandler(async(req,res)=>{
         sendResponse(res,200,newClass,"Class created successfully")
 
 })
+
+
+export const getClasses = asyncHandler(async(req,res)=>{
+  
+    const limit = req.validatedData.query.limit || 10
+    const page = req.validatedData.query.page || 1
+
+
+    const [classesResult,totalClassesResult] = await Promise.allSettled([
+        Class.find().skip((page-1)*limit).limit(limit),
+        Class.countDocuments()
+    ])
+
+    if (classesResult.status !== "fulfilled" || totalClassesResult.status !== "fulfilled") {
+        throw new Error("Failed to fetch classes or count");
+    }
+
+    const classes = classesResult.value;
+    const totalClasses = totalClassesResult.value;
+
+    sendResponse(res,200,{classes,totalClasses},"Total classes fetched successfully")
+
+})
