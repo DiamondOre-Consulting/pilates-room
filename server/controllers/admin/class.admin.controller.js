@@ -38,7 +38,7 @@ export const createClass = asyncHandler(async(req,res)=>{
       }
 
 
-      if(!req.files?.image) {
+      if(req.files?.image) {
            
           const result = await Promise.allSettled(
             req.files.image.map((file) => {
