@@ -14,3 +14,14 @@ export const createClassBodySchema = z.object({
     enrolledCount:z.coerce.number().default(0),
     available:z.coerce.boolean(),
 })
+
+
+
+export const getClassesQuerySchema = z.object({
+    limit:z.coerce.number().default(10),
+    page:z.coerce.number().default(1)
+})
+
+export const deleteClassParamsSchema = z.object({
+    classId:z.string().trim()
+})

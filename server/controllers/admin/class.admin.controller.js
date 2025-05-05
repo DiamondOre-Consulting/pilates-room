@@ -83,3 +83,17 @@ export const getClasses = asyncHandler(async(req,res)=>{
     sendResponse(res,200,{classes,totalClasses},"Total classes fetched successfully")
 
 })
+
+
+export const deleteClass = asyncHandler(async(req,res)=>{
+
+    const {classId} = req.validatedData.params
+
+    const deletedClass = await Class.findByIdAndDelete(classId)
+
+    if(!deletedClass){
+        throw new ApiError("Class not found",400)
+    }
+
+    sendResponse(res,200,null,"Class deleted successfully")
+})
