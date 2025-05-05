@@ -67,9 +67,21 @@ export const getClasses = asyncHandler(async(req,res)=>{
     const limit = req.validatedData.query.limit || 10
     const page = req.validatedData.query.page || 1
 
+    const location = req.validatedData.query.location
+    const date = req.validatedData.query.date
+
+    const query = {}
+    if(location){
+        query.location = location
+    }
+    if(date){
+        query.date = date
+    }
+    
+
 
     const [classesResult,totalClassesResult] = await Promise.allSettled([
-        Class.find().skip((page-1)*limit).limit(limit),
+        Class.find(query).skip((page-1)*limit).limit(limit),
         Class.countDocuments()
     ])
 
@@ -96,4 +108,15 @@ export const deleteClass = asyncHandler(async(req,res)=>{
     }
 
     sendResponse(res,200,null,"Class deleted successfully")
+})
+
+
+export const editClass = asyncHandler(async(req,res)=>{
+
+    const {classId} = req.validatedData.params
+     
+    const updatedClass = await Class.findByIdAndUpdate(classId,req.validatedData.body,{new:true})
+
+    sendResponse(res,200,updatedClass,"Class updated successfully")
+
 })
