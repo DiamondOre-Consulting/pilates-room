@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Signup from "@/pages/Signup";
 import SignIn from "@/pages/SignIn";
 import { RxCross1 } from "react-icons/rx";
+import logo from '../assets/TPR-Logo.webp'
 
 const routes = [
   { name: "INTRO OFFER", href: "/", isActive: true },
@@ -153,7 +154,7 @@ const Navbar = () => {
             <div className="flex items-center">
               <Link to={"/"} className=" text-3xl  font-white" href="#!">
                 <img
-                  src="https://exhalepilateslondon.com/wp-content/themes/epl-theme/assets/img/exhale-pilates-london-navy.svg  "
+                  src={logo}
                   className="w-[5rem] lg:w-[6rem]"
                   alt=""
                 />
