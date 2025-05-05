@@ -40,7 +40,7 @@ export const createClass = asyncHandler(async(req,res)=>{
 
       if(!req.files?.image) {
            
-          const result = await promise.allSettled(
+          const result = await Promise.allSettled(
             req.files.image.map((file) => {
               return fileUpload(file.buffer, "class");
             })
