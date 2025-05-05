@@ -35,6 +35,11 @@ export const forgotPasswordBodySchema = z.object({
 export const resetPasswordParamsSchema = z.object({
    resetToken : z.string().trim()
 })
+
+
+export const newPasswordParamsSchema = z.object({
+    newPassword : z.string().trim()
+})
  
  
 

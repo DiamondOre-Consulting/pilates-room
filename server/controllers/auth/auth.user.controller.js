@@ -287,6 +287,21 @@ export const resetPassword = asyncHandler(async(req,res)=>{
 })
 
 
+export const changePassword = asyncHandler(async(req,res)=>{
+
+  const {newPassword} = req.validatedData.params; 
+  const existingUser = await User.findById(req.user._id).select('+password');
+  const isSame = await bcrypt.compare(newPassword, existingUser.password);
+  if (isSame) {
+    throw new ApiError("New password should be different",400);
+  }
+  existingUser.password = await bcrypt.hash(newPassword, 10);
+  await existingUser.save();
+  sendResponse(res, 200, null, "Password changed successfully");
+  
+})
+
+
 
 
 
