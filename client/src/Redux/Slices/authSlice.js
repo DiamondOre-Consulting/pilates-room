@@ -50,6 +50,39 @@ export const userSignIn = createAsyncThunk('/user/sign-in' , async(data)=>{
 })
 
 
+export const forgotPassword = createAsyncThunk('/user/forgot-password' , async(data)=>{
+  try{
+    console.log(data)
+    const response = await userAxiosInstance.post('/user/forgot-password' , data);
+    console.log(response);
+    toast.success(response?.data?.message);
+    return response?.data
+  }
+  catch(error){
+    console.log(error);
+    toast.error(error?.response?.data?.message);
+
+  }
+})
+
+
+export const userResetPassword = createAsyncThunk(
+  "/user/reset-password",
+  async (data) => {
+    try {
+      console.log(data);
+      const response = await userAxiosInstance.post(
+        `/user/reset-password/${data?.resetToken}`,
+        { newPassword: data?.newPassword }
+      );
+      toast.success(response?.data?.message);
+      return response?.data;
+    } catch (error) {
+      toast.error();
+    }
+  }
+);
+
 const authSlice = createSlice({
    name:"user",
    initialState,
