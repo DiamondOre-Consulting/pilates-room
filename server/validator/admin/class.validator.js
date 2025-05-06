@@ -12,7 +12,7 @@ export const createClassBodySchema = z.object({
     instructorName:z.string().min(3).max(30).trim(),        
     duration:z.string().trim(),
     enrolledCount:z.coerce.number().default(0),
-    available:z.coerce.boolean(),
+    available: z.string().transform(val => val === "true"),
 })
 
 
@@ -40,7 +40,7 @@ export const editClassBodySchema = z.object({
     instructorName:z.string().min(3).max(30).trim().optional(),        
     duration:z.string().trim().optional(),
     enrolledCount:z.coerce.number().optional(),
-    available:z.coerce.boolean().optional(),
+    available: z.string().transform(val => val === "true").optional(),
     
 })
 

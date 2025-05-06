@@ -12,6 +12,7 @@ const allowedImageMimeTypes = [
     "image/tiff",  
     "image/bmp",   
     "image/svg+xml", 
+    "image/avif"
   ];
 
 export const upload =(size)=>{ return multer({
