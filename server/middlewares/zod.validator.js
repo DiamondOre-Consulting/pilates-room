@@ -6,10 +6,11 @@ const validate = (schemas) => (req, res, next) => {
       const validatedData = {};
 
       
-      if(schemas.body){     
+      if(schemas.body){   
         validatedData.body = schemas.body.parse(req.body);
       }
       if(schemas.params){
+        console.log(req.params)
         validatedData.params = schemas.params.parse(req.params);
       }
       if(schemas.query){

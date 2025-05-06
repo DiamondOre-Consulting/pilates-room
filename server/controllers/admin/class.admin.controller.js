@@ -13,6 +13,8 @@ export const createClass = asyncHandler(async(req,res)=>{
 
       const {title,description,location,date,time,price,capacity,enrolledCount,available,duration} = req.validatedData.body
 
+      
+
       if (!req.files?.["instructor.image"]){
         throw new ApiError("Instructor image is required",400);
       }
@@ -123,7 +125,9 @@ export const editClass = asyncHandler(async(req,res)=>{
         throw new ApiError("Class not found",400)
     }
      
+    
     if(req.validatedData.body.instructorName){
+        console.log("enter")
         existingClass.instructor.name = req.validatedData.body.instructorName
         const {instructorName,...rest} = req.validatedData.body
         req.validatedData.body = rest

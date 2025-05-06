@@ -43,3 +43,8 @@ export const editClassBodySchema = z.object({
     available:z.coerce.boolean().optional(),
     
 })
+
+
+export const editClassParamsSchema = z.object({
+    classId:z.string().trim()
+})  
