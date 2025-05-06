@@ -1,11 +1,11 @@
 import  {Router} from "express"
 import { adminMiddleware } from "../middlewares/admin.middleware.js"
-import { createClass, deleteClass, editClass, getClasses } from "../controllers/admin/class.admin.controller.js"
-import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema, editClassParamsSchema } from "../validator/admin/class.validator.js"
+import { createClass, deleteClass, editClass, getClasses } from "../controllers/class.admin.controller.js"
+import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema, editClassParamsSchema } from "../validator/class.validator.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
-import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/admin/package.admin.controller.js"
-import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/admin/package.validator.js"
+import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/package.admin.controller.js"
+import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
 
 
 const adminRouter = Router()

@@ -1,9 +1,9 @@
 
-import asyncHandler from "../../utils/asyncHandler.js"
-import sendResponse from "../../utils/sendResponse.js"
-import Package from "../../models/package.model.js"
-import ApiError from "../../utils/apiError.js"
-import { fileDestroy, fileUpload } from "../../utils/fileUpload.js"
+import asyncHandler from "../utils/asyncHandler.js"
+import sendResponse from "../utils/sendResponse.js"
+import Package from "../models/package.model.js"
+import ApiError from "../utils/apiError.js"
+import { fileDestroy, fileUpload } from "../utils/fileUpload.js"
 
 
 
@@ -34,7 +34,7 @@ export const createPackage = asyncHandler(async(req,res)=>{
 
 export const getAllPackages = asyncHandler(async(req,res)=>{
 
-    const limit = req.validatedData.query.limit || 10
+    const limit = req.validatedData.query.limit || 20
     const page = req.validatedData.query.page || 1
 
    

@@ -1,9 +1,9 @@
-import Class from "../../models/class.model.js";
-import asyncHandler from "../../utils/asyncHandler.js"
-import { fileUpload } from "../../utils/fileUpload.js";
-import sendResponse from "../../utils/sendResponse.js"
-import ApiError from "../../utils/apiError.js"  
-import { fileDestroy } from "../../utils/fileUpload.js";
+import Class from "../models/class.model.js";
+import asyncHandler from "../utils/asyncHandler.js"
+import { fileUpload } from "../utils/fileUpload.js";
+import sendResponse from "../utils/sendResponse.js"
+import ApiError from "../utils/apiError.js"  
+import { fileDestroy } from "../utils/fileUpload.js";
 
 
 
@@ -67,7 +67,7 @@ export const createClass = asyncHandler(async(req,res)=>{
 
 export const getClasses = asyncHandler(async(req,res)=>{
   
-    const limit = req.validatedData.query.limit || 10
+    const limit = req.validatedData.query.limit || 20
     const page = req.validatedData.query.page || 1
 
     const location = req.validatedData.query.location
