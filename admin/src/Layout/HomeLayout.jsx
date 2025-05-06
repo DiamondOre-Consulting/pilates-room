@@ -1,35 +1,116 @@
-import React from 'react';
+import { ReactNode, useState } from "react";
+import {
+    IconFileCvFilled,
+    IconFingerprint,
+    IconKey,
+    IconLayoutDashboardFilled,
+    IconLayoutSidebarRightCollapse,
+    IconLogout,
+    IconSettings,
+    IconTrash
+} from "@tabler/icons-react";
+import { useLocation, useNavigate } from "react-router-dom";
+// import { logout } from "@/Redux/Slice/AuthSlice";
+import { useDispatch } from "react-redux";
 
-const HomeLayout = ({ children }) => {
-  return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
-      <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-md py-4 px-6 border-b border-white/10">
-        <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold text-orange-500">Devi/webakash1806</h1>
-          <nav>
-            <ul className="flex space-x-6 text-gray-300">
-              <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-            </ul>
-          </nav>
-          <button className="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">
-            Login
-          </button>
+const tabs = [
+    { link: "/", label: "Dashboard", icon: IconLayoutDashboardFilled },
+    { link: "/all-class/", label: "Profile", icon: IconFileCvFilled },
+    { link: "/catalogue/detail", label: "Catalogue Detail", icon: IconKey },
+    { link: "/catalogue/products", label: "Products", icon: IconFingerprint },
+    { link: "/catalogue/meta-data", label: "Meta Data", icon: IconTrash },
+    // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
+    { link: "/other-settings", label: "Other Settings", icon: IconSettings },
+];
+
+export function HomeLayout({ children }) {
+    const [collapsed, setCollapsed] = useState(
+        window.innerWidth >= 768 ? false : true
+    );
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const toggleSidebar = () => {
+        setCollapsed((prev) => !prev);
+    };
+
+    const handleLogout = async () => {
+
+        const res = await dispatch(logout() )
+
+
+        if (res?.payload?.success) navigate('/login')
+    }
+
+    const { pathname } = useLocation();
+
+    const ToggleButton = ({ opened, onClick, ariaLabel }) => {
+        return (
+            <IconLayoutSidebarRightCollapse
+                className={`${opened ? "rotate-180" : "mx-auto"} min-w-5 min-h-5 duration-500 transition-all`}
+                onClick={onClick}
+                aria-label={ariaLabel}
+            />
+        );
+    };
+
+    return (
+        <div className="flex h-screen overflow-hidden">
+            <div className="bg-[#E11D48] fixed top-0 left-0 w-full h-[14rem]"></div>
+            <div className="relative z-20 flex w-full h-full mb-0 overflow-hidden bg-white  lg: sm:m-2 lg:m-5 sm:rounded-t-xl">
+                <nav
+                    className={` top-2 left-2 h-screen bg-[#ffdce3] text-black shadow-lg transition-all duration-300 
+                ${collapsed ? "w-13" : "w-54"} `}
+                >
+                    <div className={`relative items-center flex left-${collapsed ? "w-13" : "w-54"} transition-all p-3 duration-300 z-50`}>
+                        <ToggleButton opened={!collapsed} onClick={toggleSidebar} ariaLabel="Toggle sidebar" />
+                        {!collapsed && <span className="ml-4 text-sm min-w-[10rem] font-semibold uppercase tracking-wide">Profile Genie</span>}
+                    </div>
+
+                    <div className={`px-1.5  border-t border-gray-700 flex flex-col w-full py-1 space-y-2`}>{
+                        tabs.map((item) => {
+                            return (<div
+                                className={`flex items-center cursor-pointer w-full overflow-hidden space-y-2  space-x-2 h-[2.3rem]  rounded transition-all duration-300 
+                ${pathname === item.link ? "bg-[#E11D48] text-white" : "text-black hover:bg-gray-400"} 
+                ${collapsed ? "justify-center " : " items-center px-2"}`}
+                                key={item.label}
+                                onClick={(event) => {
+                                    event.preventDefault();
+                                    navigate(item.link)
+                                }}
+                            >
+                                <item.icon className={`${collapsed ? "w-5 h-5" : "min-w-5 min-h-5"}  my-auto`} />
+                                {!collapsed && <span className="min-w-[15rem] text-sm">{item.label}</span>}
+                            </div>)
+                        })
+                    }</div>
+
+                    <div className="px-1.5  border-t pt-1 border-gray-700">
+                        {/* <a
+                        href="#"
+                        className={`${collapsed ? "p-2" : "p-3"} flex items-center space-x-2  rounded-md hover:bg-gray-700`}
+                        onClick={(event) => event.preventDefault()}
+                    >
+                        <IconSwitchHorizontal className="w-5 h-5" stroke={1.5} />
+                        {!collapsed && <span>Change account</span>}
+                    </a> */}
+
+                        <div
+                            className={`p-2  flex items-center space-x-2 w-full  rounded-md hover:bg-gray-700`}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                handleLogout()
+                            }}
+                        >
+                            <IconLogout className={`min-w-5 min-h-5 `} stroke={1.5} />
+                            {!collapsed && <span className="min-w-[15rem]">Logout</span>}
+                        </div>
+                    </div>
+                </nav>
+                <div className={`  p-2 relative overflow-y-scroll z-50 h-full w-full transition-all bg-[#f7f7f7] duration-300`}>
+                    {children}
+                </div>
+            </div>
         </div>
-      </header>
-
-      <main className="flex-1">
-        {children}
-      </main>
-
-      <footer className="bg-black/50 backdrop-blur-md py-6 px-6 border-t border-white/10">
-        <div className="container mx-auto text-center text-gray-400">
-          &copy; {new Date().getFullYear()} Devi. All rights reserved.
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default HomeLayout;
+    );
+}
