@@ -31,7 +31,8 @@ userRouter.post('/send-otp',validate({
 
  userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
 
- userRouter.post('/get-classes',validate({ body:getClassesBodySchema }),getClasses)
+ userRouter.get('/get-classes',validate({ body:getClassesBodySchema }),getClasses)
+
 
 
 
