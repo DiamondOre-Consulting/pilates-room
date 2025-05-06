@@ -136,7 +136,7 @@ export const editClass = asyncHandler(async(req,res)=>{
     Object.assign(existingClass, req.validatedData.body);
 
 
-    if(req.files?.["instructor.image"][0]?.buffer){
+    if(req.files?.["instructor.image"]?.[0]?.buffer){
 
         if(existingClass.instructor.image.publicId){
             await fileDestroy(existingClass.instructor.image.publicId,"instructor")
