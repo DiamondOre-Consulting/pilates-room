@@ -24,7 +24,6 @@ userRouter.post('/signin',validate({
     body:signInBodySchema
 }),signIn)
 
-
 userRouter.post('/send-otp',validate({
     body:sendOtpBodySchema
  }),sendOtp)
@@ -37,10 +36,12 @@ userRouter.post('/send-otp',validate({
 
  userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
 
-
- userRouter.get('/get-all-packages', validate({
+userRouter.get('/get-all-packages', validate({
       query:getAllPackagesQuerySchema
  }),getAllPackages)
+
+
+
 
 
 
