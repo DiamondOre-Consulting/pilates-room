@@ -3,8 +3,10 @@ import  validate  from "../middlewares/zod.validator.js"
 import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
 import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
-import { getClassesBodySchema } from "../validator/class.validator.js"
+
 import { getClasses } from "../controllers/admin/class.admin.controller.js"
+import { getClassesQuerySchema } from "../validator/admin/class.validator.js"
+
 
 
 
@@ -31,7 +33,7 @@ userRouter.post('/send-otp',validate({
 
  userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
 
- userRouter.get('/get-classes',validate({ body:getClassesBodySchema }),getClasses)
+ userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
 
 
 
