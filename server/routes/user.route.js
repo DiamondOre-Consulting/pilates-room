@@ -3,8 +3,8 @@ import  validate  from "../middlewares/zod.validator.js"
 import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
 import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
-import { getClassesBodySchema } from "../validator/user.validator.js"
-import { getClasses } from "../controllers/user/user.controller.js"
+import { getClassesBodySchema } from "../validator/class.validator.js"
+import { getClasses } from "../controllers/admin/class.admin.controller.js"
 
 
 
