@@ -1,3 +1,6 @@
+import ContactUs from "@/components/ContactUs";
+import RecommendedBy from "@/components/RecommendedBy";
+import FindClassSection from "@/components/TimeTable/FindClassSection";
 import React from "react";
 import { SlCalender } from "react-icons/sl";
 
@@ -14,37 +17,10 @@ const ClassSchedule = () => {
         </div>
       </section>
 
-      <section className="py-10 px-10 ">
-        <p className="text-gray-400 mr-0 mb-4 ">My Account</p>
-        <div className="flex  justify-between">
-          <div>
-            <h1 className="text-3xl">Find a Class</h1>
-          </div>
-          <div className="flex flex-col justify-end items-end ">
-            <div className="flex space-x-6">
-              <select className="border rounded-md px-4 py-2 border-gray-300">
-                <option>Location</option>
-              </select>
+      <FindClassSection/>
 
-              <select className="border rounded-md px-4 py-2 border-gray-300">
-                <option>class Type</option>
-              </select>
-
-              <select className="border rounded-md px-4 py-2 border-gray-300">
-                <option>Instructor</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-between bg-black">
-            <p>July</p>
-            <div>
-            <SlCalender />
-            <p>Full Calender</p>
-            </div>
-        </div>
-      </section>
+<RecommendedBy/>
+<ContactUs/>
     </div>
   );
 };
