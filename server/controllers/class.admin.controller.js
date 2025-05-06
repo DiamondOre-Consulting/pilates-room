@@ -1,9 +1,9 @@
-import Class from "../../models/class.model.js";
-import asyncHandler from "../../utils/asyncHandler.js"
-import { fileUpload } from "../../utils/fileUpload.js";
-import sendResponse from "../../utils/sendResponse.js"
-import ApiError from "../../utils/apiError.js"  
-import { fileDestroy } from "../../utils/fileUpload.js";
+import Class from "../models/class.model.js";
+import asyncHandler from "../utils/asyncHandler.js"
+import { fileUpload } from "../utils/fileUpload.js";
+import sendResponse from "../utils/sendResponse.js"
+import ApiError from "../utils/apiError.js"  
+import { fileDestroy } from "../utils/fileUpload.js";
 
 
 

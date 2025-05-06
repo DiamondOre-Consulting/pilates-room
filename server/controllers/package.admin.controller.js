@@ -1,9 +1,9 @@
 
-import asyncHandler from "../../utils/asyncHandler.js"
-import sendResponse from "../../utils/sendResponse.js"
-import Package from "../../models/package.model.js"
-import ApiError from "../../utils/apiError.js"
-import { fileDestroy, fileUpload } from "../../utils/fileUpload.js"
+import asyncHandler from "../utils/asyncHandler.js"
+import sendResponse from "../utils/sendResponse.js"
+import Package from "../models/package.model.js"
+import ApiError from "../utils/apiError.js"
+import { fileDestroy, fileUpload } from "../utils/fileUpload.js"
 
 
 

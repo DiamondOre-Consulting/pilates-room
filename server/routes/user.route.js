@@ -4,10 +4,10 @@ import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBody
 import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
 
-import { getClasses } from "../controllers/admin/class.admin.controller.js"
-import { getClassesQuerySchema } from "../validator/admin/class.validator.js"
-import { getAllPackages } from "../controllers/admin/package.admin.controller.js"
-import { getAllPackagesQuerySchema } from "../validator/admin/package.validator.js"
+import { getClasses } from "../controllers/class.admin.controller.js"
+import { getClassesQuerySchema } from "../validator/class.validator.js"
+import { getAllPackages } from "../controllers/package.admin.controller.js"
+import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
 
 
 
