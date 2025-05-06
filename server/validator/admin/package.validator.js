@@ -20,3 +20,8 @@ export const getAllPackagesQuerySchema = z.object({
 export const getSinglePackageParamsSchema = z.object({
     packageId:z.string().trim()
 })
+
+
+export const deletePackageParamsSchema = z.object({
+    packageId:z.string().trim()
+})

@@ -4,8 +4,8 @@ import { createClass, deleteClass, editClass, getClasses } from "../controllers/
 import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema, editClassParamsSchema } from "../validator/admin/class.validator.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
-import { createPackage, getAllPackages, getSinglePackage } from "../controllers/admin/package.admin.controller.js"
-import { createPackageBodySchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/admin/package.validator.js"
+import { createPackage, deletePackage, getAllPackages, getSinglePackage } from "../controllers/admin/package.admin.controller.js"
+import { createPackageBodySchema, deletePackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/admin/package.validator.js"
 
 
 const adminRouter = Router()
@@ -42,6 +42,11 @@ adminRouter.get('/get-all-packages',validate({
 adminRouter.get('/get-single-package/:packageId',validate({
     params:getSinglePackageParamsSchema
 }),getSinglePackage)
+
+
+adminRouter.delete('/delete-package/:packageId',validate({
+    params:deletePackageParamsSchema
+}),deletePackage)
 
 
 

@@ -62,6 +62,18 @@ export const getSinglePackage = asyncHandler(async(req,res)=>{
     sendResponse(res,200,singlePackage,"Package fetched successfully")
 })
 
+export const deletePackage = asyncHandler(async(req,res)=>{
+
+    const {packageId} = req.validatedData.params
+
+    const deletedPackage = await Package.findByIdAndDelete(packageId)
+    if(!deletedPackage){
+        throw new ApiError("Package not found",404)
+    }
+    sendResponse(res,200,null,"Package deleted successfully")
+
+})
+
 
 
 
