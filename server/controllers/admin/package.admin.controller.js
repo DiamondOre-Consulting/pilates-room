@@ -3,7 +3,8 @@ import asyncHandler from "../../utils/asyncHandler.js"
 import sendResponse from "../../utils/sendResponse.js"
 import Package from "../../models/package.model.js"
 import ApiError from "../../utils/apiError.js"
-import { fileUpload } from "../../utils/fileUpload.js"
+import { fileDestroy, fileUpload } from "../../utils/fileUpload.js"
+
 
 
 
@@ -72,6 +73,32 @@ export const deletePackage = asyncHandler(async(req,res)=>{
     }
     sendResponse(res,200,null,"Package deleted successfully")
 
+})
+
+
+export const editPackage = asyncHandler(async(req,res)=>{
+
+    const {packageId} = req.validatedData.params
+
+    const existingPackage = await Package.findById(packageId)
+    if(!existingPackage){
+        throw new ApiError("Package not found",404)
+    }
+    if (existingPackage.image?.publicId) {
+        await fileDestroy(existingPackage.image.publicId, "package");
+    }
+    if(req.file.buffer){
+        const {publicId,secureUrl} = await fileUpload(req.file.buffer,"package")
+        req.validatedData.body.image = {
+                publicId,
+                secureUrl
+        };
+    }
+    
+    Object.assign(existingPackage, req.validatedData.body);
+
+    await existingPackage.save()
+    sendResponse(res,200,existingPackage,"Package updated successfully")
 })
 
 

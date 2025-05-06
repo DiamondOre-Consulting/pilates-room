@@ -25,3 +25,18 @@ export const getSinglePackageParamsSchema = z.object({
 export const deletePackageParamsSchema = z.object({
     packageId:z.string().trim()
 })
+
+
+export const editPackageBodySchema = z.object({
+
+    title:z.string().trim().optional(),
+    sessionInfo:z.string().trim().optional(),
+    price:z.coerce.number().optional(),
+    description:z.string().trim().optional(),
+    available: z.string().transform(val => val === "true").optional(),
+
+})
+
+export const editPackageParamsSchema = z.object({
+    packageId:z.string().trim()
+})
