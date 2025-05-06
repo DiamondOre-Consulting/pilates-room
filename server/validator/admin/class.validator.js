@@ -18,9 +18,9 @@ export const createClassBodySchema = z.object({
 
 
 export const getClassesQuerySchema = z.object({
-    limit:z.coerce.number().default(10),
-    page:z.coerce.number().default(1),
-    date:z.coerce.date().optional(),
+    limit:z.coerce.number().default(10).optional(),
+    page:z.coerce.number().default(1).optional(),
+    date:z.coerce.date().optional().optional(),
     location:z.string().trim().optional()
 })
 

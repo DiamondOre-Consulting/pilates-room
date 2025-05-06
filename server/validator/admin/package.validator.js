@@ -9,3 +9,9 @@ export const createPackageBodySchema =  z.object({
     available: z.string().transform(val => val === "true"),
 
 })
+
+
+export const getAllPackagesQuerySchema = z.object({
+    limit:z.coerce.number().default(10).optional(),
+    page:z.coerce.number().default(1).optional(),
+})

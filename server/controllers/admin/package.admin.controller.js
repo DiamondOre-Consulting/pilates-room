@@ -30,3 +30,29 @@ export const createPackage = asyncHandler(async(req,res)=>{
 
 })
 
+
+export const getAllPackages = asyncHandler(async(req,res)=>{
+
+    const limit = req.validatedData.query.limit || 10
+    const page = req.validatedData.query.page || 1
+
+   
+    const [packagesResult,totalPackagesResult] = await Promise.allSettled([
+        Package.find().skip((page-1)*limit).limit(limit),
+        Package.countDocuments()
+    ])
+
+    if (packagesResult.status !== "fulfilled" || totalPackagesResult.status !== "fulfilled") {
+        throw new Error("Failed to fetch packages or count");
+    }
+
+    const packages = packagesResult.value;
+    const totalPackages = totalPackagesResult.value;
+
+    sendResponse(res,200,packages,"Packages fetched successfully")
+})
+
+
+
+
+
