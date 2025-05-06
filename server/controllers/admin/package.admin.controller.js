@@ -34,7 +34,7 @@ export const createPackage = asyncHandler(async(req,res)=>{
 
 export const getAllPackages = asyncHandler(async(req,res)=>{
 
-    const limit = req.validatedData.query.limit || 10
+    const limit = req.validatedData.query.limit || 20
     const page = req.validatedData.query.page || 1
 
    

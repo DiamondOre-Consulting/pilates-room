@@ -6,6 +6,8 @@ import { userMiddleware } from "../middlewares/user.middleware.js"
 
 import { getClasses } from "../controllers/admin/class.admin.controller.js"
 import { getClassesQuerySchema } from "../validator/admin/class.validator.js"
+import { getAllPackages } from "../controllers/admin/package.admin.controller.js"
+import { getAllPackagesQuerySchema } from "../validator/admin/package.validator.js"
 
 
 
@@ -34,6 +36,11 @@ userRouter.post('/send-otp',validate({
  userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
 
  userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
+
+
+ userRouter.get('/get-all-packages', validate({
+      query:getAllPackagesQuerySchema
+ }),getAllPackages)
 
 
 
