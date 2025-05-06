@@ -3,6 +3,7 @@ import asyncHandler from "../../utils/asyncHandler.js"
 import { fileUpload } from "../../utils/fileUpload.js";
 import sendResponse from "../../utils/sendResponse.js"
 import ApiError from "../../utils/apiError.js"  
+import { fileDestroy } from "../../utils/fileUpload.js";
 
 
 
@@ -114,9 +115,66 @@ export const deleteClass = asyncHandler(async(req,res)=>{
 export const editClass = asyncHandler(async(req,res)=>{
 
     const {classId} = req.validatedData.params
-     
-    const updatedClass = await Class.findByIdAndUpdate(classId,req.validatedData.body,{new:true})
 
-    sendResponse(res,200,updatedClass,"Class updated successfully")
+
+    const existingClass = await Class.findById(classId)
+
+    if(!existingClass){
+        throw new ApiError("Class not found",400)
+    }
+     
+    if(req.validatedData.body.instructorName){
+        existingClass.instructor.name = req.validatedData.body.instructorName
+        const {instructorName,...rest} = req.validatedData.body
+        req.validatedData.body = rest
+    }
+
+    Object.assign(existingClass, req.validatedData.body);
+
+
+    if(req.files?.["instructor.image"][0]?.buffer){
+
+        if(existingClass.instructor.image.publicId){
+            await fileDestroy(existingClass.instructor.image.publicId,"instructor")
+        }
+
+        const {publicId,secureUrl} = await fileUpload(req.files["instructor.image"][0].buffer,"instructor")
+        existingClass.instructor.image.publicId = publicId
+        existingClass.instructor.image.secureUrl = secureUrl
+    }
+
+    if(req.files?.["image"]) {
+
+        if (existingClass.image.length > 0) {
+            await Promise.allSettled(
+              existingClass.image.map((img) => fileDestroy(img.publicId, "class"))
+            );
+        }
+        
+
+        const result = await Promise.allSettled(
+          req.files.image.map((file) => {
+            return fileUpload(file.buffer, "class");
+          })
+        )
+    
+        const successfulUploads = result.filter((result)=>{
+          return result.status === "fulfilled"
+        }).map((result)=>{
+          return result.value
+        })
+        
+        existingClass.image.push(...successfulUploads)         
+      }
+
+
+    
+
+
+    await existingClass.save();
+    
+    sendResponse(res,200,existingClass,"Class updated successfully")
 
 })
+
+

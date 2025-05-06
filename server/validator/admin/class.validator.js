@@ -3,7 +3,7 @@ import {z} from "zod"
 
 export const createClassBodySchema = z.object({
     title:z.string().min(3).max(30).trim(),
-    description:z.string().min(3).max(30).trim(),
+    description:z.string().trim(),
     location:z.string().min(3).max(30).trim(),
     date:z.coerce.date(),
     time:z.string().trim(),
@@ -26,4 +26,20 @@ export const getClassesQuerySchema = z.object({
 
 export const deleteClassParamsSchema = z.object({
     classId:z.string().trim()
+})
+
+export const editClassBodySchema = z.object({
+
+    title:z.string().min(3).max(30).trim().optional(),
+    description:z.string().trim().optional(),
+    location:z.string().min(3).max(30).trim().optional(),
+    date:z.coerce.date().optional(),
+    time:z.string().trim().optional(),
+    price:z.coerce.number().optional(),
+    capacity:z.coerce.number().optional(),
+    instructorName:z.string().min(3).max(30).trim().optional(),        
+    duration:z.string().trim().optional(),
+    enrolledCount:z.coerce.number().optional(),
+    available:z.coerce.boolean().optional(),
+    
 })

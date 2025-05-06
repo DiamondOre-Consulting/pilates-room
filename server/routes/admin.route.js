@@ -1,7 +1,7 @@
 import  {Router} from "express"
 import { adminMiddleware } from "../middlewares/admin.middleware.js"
-import { createClass, deleteClass, getClasses } from "../controllers/admin/class.admin.controller.js"
-import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema } from "../validator/admin/class.validator.js"
+import { createClass, deleteClass, editClass, getClasses } from "../controllers/admin/class.admin.controller.js"
+import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema } from "../validator/admin/class.validator.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
 
@@ -22,6 +22,10 @@ adminRouter.get('/get-classes',validate({
 adminRouter.delete('/delete-class/:classId',validate({
  params: deleteClassParamsSchema
 }),deleteClass)
+
+adminRouter.put('/edit-class/:classId',validate({
+    body:editClassBodySchema
+}),editClass)
 
 
 
