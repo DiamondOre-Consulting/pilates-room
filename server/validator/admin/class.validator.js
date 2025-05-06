@@ -2,14 +2,14 @@ import {z} from "zod"
 
 
 export const createClassBodySchema = z.object({
-    title:z.string().min(3).max(30).trim(),
+    title:z.string().trim(),
     description:z.string().trim(),
-    location:z.string().min(3).max(30).trim(),
+    location:z.string().trim(),
     date:z.coerce.date(),
     time:z.string().trim(),
     price:z.coerce.number(),
     capacity:z.coerce.number(),
-    instructorName:z.string().min(3).max(30).trim(),        
+    instructorName:z.string().trim(),        
     duration:z.string().trim(),
     enrolledCount:z.coerce.number().default(0),
     available: z.string().transform(val => val === "true"),
@@ -30,14 +30,14 @@ export const deleteClassParamsSchema = z.object({
 
 export const editClassBodySchema = z.object({
 
-    title:z.string().min(3).max(30).trim().optional(),
+    title:z.string().trim().optional(),
     description:z.string().trim().optional(),
-    location:z.string().min(3).max(30).trim().optional(),
+    location:z.string().trim().optional(),
     date:z.coerce.date().optional(),
     time:z.string().trim().optional(),
     price:z.coerce.number().optional(),
     capacity:z.coerce.number().optional(),
-    instructorName:z.string().min(3).max(30).trim().optional(),        
+    instructorName:z.string().trim().optional(),        
     duration:z.string().trim().optional(),
     enrolledCount:z.coerce.number().optional(),
     available: z.string().transform(val => val === "true").optional(),
