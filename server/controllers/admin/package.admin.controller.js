@@ -53,6 +53,16 @@ export const getAllPackages = asyncHandler(async(req,res)=>{
 })
 
 
+export const getSinglePackage = asyncHandler(async(req,res)=>{
+
+    const singlePackage = await Package.findById(req.validatedData.params.packageId)
+    if(!singlePackage){
+        throw new ApiError("Package not found",404)
+    }
+    sendResponse(res,200,singlePackage,"Package fetched successfully")
+})
+
+
 
 
 

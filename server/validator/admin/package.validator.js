@@ -15,3 +15,8 @@ export const getAllPackagesQuerySchema = z.object({
     limit:z.coerce.number().default(10).optional(),
     page:z.coerce.number().default(1).optional(),
 })
+
+
+export const getSinglePackageParamsSchema = z.object({
+    packageId:z.string().trim()
+})
