@@ -84,10 +84,11 @@ export const editPackage = asyncHandler(async(req,res)=>{
     if(!existingPackage){
         throw new ApiError("Package not found",404)
     }
-    if (req.file.buffer&&existingPackage.image?.publicId) {
+    if (req.file&&existingPackage.image?.publicId) {
         await fileDestroy(existingPackage.image.publicId, "package");
     }
-    if(req.file.buffer){
+
+    if(req.file){
         const {publicId,secureUrl} = await fileUpload(req.file.buffer,"package")
         req.validatedData.body.image = {
                 publicId,
