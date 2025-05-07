@@ -21,6 +21,8 @@ const trainingSchema = new mongoose.Schema({
     available: { type: Boolean, default: true },
 
 
+},{
+    timestamps: true
 })
 
 

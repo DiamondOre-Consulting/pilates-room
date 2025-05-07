@@ -56,9 +56,9 @@ adminRouter.put('/edit-package/:packageId',upload(2).single("packageImage"),vali
 }),editPackage)
 
 
-adminRouter.post('/create-training',validate({
+adminRouter.post('/create-training' ,upload(2).array("trainingImage",30),validate({
    body:createTrainingBodySchema
-}),upload(2).array("trainingImage"),createTraining)
+}),createTraining)
 
 
 

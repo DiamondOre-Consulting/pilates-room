@@ -27,12 +27,14 @@ export const createTraining = asyncHandler(async(req,res)=>{
             throw new ApiError(400, "Mismatch between files and moreInfo count");
         }
        
+       
         const uploads = await Promise.allSettled(
             req.files.map((file) => {
-                fileUpload(file.buffer, "training");
+                return fileUpload(file.buffer, "training");
             })
         )
 
+        console.log(uploads)
         newTraining.moreInfo = bodyData.moreInfo.map((info,index)=>({
           
                 ...info,
@@ -52,3 +54,4 @@ export const createTraining = asyncHandler(async(req,res)=>{
    
 
 })
+

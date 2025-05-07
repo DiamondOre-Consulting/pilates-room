@@ -4,14 +4,17 @@ const validate = (schemas) => (req, res, next) => {
   try {
       
       const validatedData = {};
-
-      
-      if(schemas.body){   
-        console.log(req.body);
+      if (Array.isArray(req.body.moreInfo)) {
+        req.body.moreInfo = req.body.moreInfo.map(item =>
+          typeof item === "string" ? JSON.parse(item) : item
+        );
+      }
+      if(schemas.body){
+        console.log(req.body)           
         validatedData.body = schemas.body.parse(req.body);
       }
       if(schemas.params){
-        console.log(req.params)
+     
         validatedData.params = schemas.params.parse(req.params);
       }
       if(schemas.query){
@@ -21,7 +24,7 @@ const validate = (schemas) => (req, res, next) => {
         validatedData.file = schemas.file.parse(req.file);       
       }
       if(schemas.files) {       
-        console.log(req.files)
+       
         validatedData.files = schemas.files.parse(req.files);
       }    
       req.validatedData = validatedData;
