@@ -6,8 +6,8 @@ import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
 import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/package.admin.controller.js"
 import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
-import { createTraining, deleteTraining, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
-import { createTrainingBodySchema, deleteTrainingParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
+import { createTraining, deleteTraining, editTraining, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
+import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, editTrainingsQuerySchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 
 
 
@@ -73,6 +73,11 @@ adminRouter.get('/get-single-training/:trainingId',validate({
 adminRouter.delete('/delete-training/:trainingId',adminMiddleware,validate({
     params:deleteTrainingParamsSchema
 }),deleteTraining)
+
+
+adminRouter.put('/edit-training/:trainingId',upload(2).fields([{ name: 'trainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 }]),validate({
+    body:editTrainingBodySchema, params:editTrainingsParamsSchema
+}),editTraining)
 
 
 

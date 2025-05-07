@@ -4,6 +4,7 @@ import ApiError from "../utils/apiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { fileUpload } from "../utils/fileUpload.js";
 import sendResponse from "../utils/sendResponse.js";
+import { fileDestroy } from "../utils/fileUpload.js";
 
 
 
@@ -95,6 +96,62 @@ export const getSingleTraining = asyncHandler(async(req,res)=>{
 
 export const editTraining = asyncHandler(async(req,res)=>{
 
+    const {trainingId} = req.validatedData.params
+
+    const existingTraining = await Training.findById(trainingId)
+    if(!existingTraining){
+        throw new ApiError("Training not found",404)
+    }
+
+    const bodyData = req.validatedData.body
+
+    let thumbnailUpload = null;
+    if (req.files?.thumbnailImage?.[0]) {
+        if(existingTraining.thumbnail.publicId){
+            await fileDestroy(existingTraining.thumbnail.publicId,"training");
+        }
+        thumbnailUpload = await fileUpload(req.files.thumbnailImage[0].buffer, "training");
+        existingTraining.thumbnail = {
+            publicId: thumbnailUpload?.publicId,
+            secureUrl: thumbnailUpload?.secureUrl,
+        }
+    }
+
+    if(req.files?.trainingImage&&bodyData.moreInfo.length>0){
+        
+        if(existingTraining.moreInfo.length>0){
+            await Promise.allSettled(
+                existingTraining.moreInfo.map(async(info) => {
+                    await cloudinary.uploader.destroy(info.image.publicId);
+                })
+            )
+        }
+
+        const uploads = await Promise.allSettled(
+            req.files.trainingImage.map((file) => {
+                return fileUpload(file.buffer, "training");
+            })
+        )
+
+        existingTraining.moreInfo = bodyData.moreInfo.map((info,index)=>({
+          
+                ...info,
+                image: {
+                    publicId:uploads[index].value.publicId,
+                    secureUrl:uploads[index].value.secureUrl 
+                }
+            
+        }))
+
+    }
+
+    Object.assign(existingTraining, bodyData);
+
+    await existingTraining.save();
+
+    
+    sendResponse(res,200,existingTraining,"Training updated successfully")
+   
 })
 
 export const deleteTraining = asyncHandler(async(req,res)=>{
