@@ -4,13 +4,17 @@ const validate = (schemas) => (req, res, next) => {
   try {
       
       const validatedData = {};
-      if (Array.isArray(req.body.moreInfo)) {
-        req.body.moreInfo = req.body.moreInfo.map(item =>
-          typeof item === "string" ? JSON.parse(item) : item
-        );
-      }
+      
+      
+      
       if(schemas.body){
-        console.log(req.body)           
+        if (req.body.moreInfo&&Array.isArray(req.body.moreInfo)) {
+          console.log("enter")
+          req.body.moreInfo = req.body.moreInfo.map(item =>
+            typeof item === "string" ? JSON.parse(item) : item
+          );
+        }
+              
         validatedData.body = schemas.body.parse(req.body);
       }
       if(schemas.params){

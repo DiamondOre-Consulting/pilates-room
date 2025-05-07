@@ -16,3 +16,8 @@ export const createTrainingBodySchema = z.object({
     available: z.string().transform(val => val === "true"),
 })
 
+
+export const getSingleTrainingParamsSchema = z.object({
+    trainingId:z.string().trim()
+})
+

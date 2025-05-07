@@ -55,3 +55,20 @@ export const createTraining = asyncHandler(async(req,res)=>{
 
 })
 
+
+export const getTrainings = asyncHandler(async(req,res)=>{
+    const trainings = await Training.find().sort({createdAt:-1}).lean()
+    sendResponse(res,200,trainings,"Trainings fetched successfully")
+})
+
+export const getSingleTraining = asyncHandler(async(req,res)=>{
+
+    const singleTraining = await Training.findById(req.validatedData.params.trainingId).lean()
+    if(!singleTraining){
+        throw new ApiError("Training not found",404)
+    }
+    sendResponse(res,200,singleTraining,"Training fetched successfully")
+
+})
+
+

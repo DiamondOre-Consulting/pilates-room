@@ -6,8 +6,8 @@ import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
 import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/package.admin.controller.js"
 import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
-import { createTraining } from "../controllers/training.controller.js"
-import { createTrainingBodySchema } from "../validator/training.validator.js"
+import { createTraining, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
+import { createTrainingBodySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 
 
 
@@ -59,6 +59,15 @@ adminRouter.put('/edit-package/:packageId',upload(2).single("packageImage"),vali
 adminRouter.post('/create-training' ,upload(2).array("trainingImage",30),validate({
    body:createTrainingBodySchema
 }),createTraining)
+
+
+adminRouter.get('/get-all-trainings',getTrainings)
+
+adminRouter.get('/get-single-training/:trainingId',validate({
+    params:getSingleTrainingParamsSchema
+}),getSingleTraining)
+
+
 
 
 
