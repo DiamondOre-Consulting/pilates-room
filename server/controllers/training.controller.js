@@ -12,24 +12,38 @@ import sendResponse from "../utils/sendResponse.js";
 export const createTraining = asyncHandler(async(req,res)=>{
 
     
-     
+   
     const bodyData = req.validatedData.body
+
+    
+    let thumbnailUpload = null;
+    if (req.files?.thumbnailImage?.[0]) {
+        thumbnailUpload = await fileUpload(req.files.thumbnailImage[0].buffer, "training");
+    }
 
        
     const newTraining = await Training.create({
         ...bodyData,
-        moreInfo:[]
+        moreInfo:[],
+        thumbnail: {
+            publicId: thumbnailUpload?.publicId,
+            secureUrl: thumbnailUpload?.secureUrl,
+        },
     })
+
+  
+
+    
     
 
-    if(req.files&&bodyData.moreInfo.length>0){
-        if (req.files.length !== bodyData.moreInfo.length) {
+    if(req.files?.trainingImage&&bodyData.moreInfo.length>0){
+        if (req.files?.trainingImage.length !== bodyData.moreInfo.length) {
             throw new ApiError(400, "Mismatch between files and moreInfo count");
         }
        
        
         const uploads = await Promise.allSettled(
-            req.files.map((file) => {
+            req.files.trainingImage.map((file) => {
                 return fileUpload(file.buffer, "training");
             })
         )
@@ -108,5 +122,8 @@ export const deleteTraining = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Training deleted successfully")
 
 })
+
+
+
 
 

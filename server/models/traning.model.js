@@ -19,6 +19,10 @@ const trainingSchema = new mongoose.Schema({
         enum:['teacherTraining','youMayAlsoLike']
     },
     available: { type: Boolean, default: true },
+    thumbnail: {
+        publicId: { type: String, required: true },
+        secureUrl: { type: String, required: true }
+      }
 
 
 },{
