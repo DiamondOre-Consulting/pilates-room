@@ -70,7 +70,7 @@ adminRouter.get('/get-single-training/:trainingId',validate({
 }),getSingleTraining)
 
 
-adminRouter.delete('/delete-training/:trainingId',adminMiddleware,validate({
+adminRouter.delete('/delete-training/:trainingId',validate({
     params:deleteTrainingParamsSchema
 }),deleteTraining)
 
