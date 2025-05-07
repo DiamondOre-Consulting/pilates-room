@@ -20,7 +20,7 @@ export const createTraining = asyncHandler(async(req,res)=>{
         ...bodyData,
         moreInfo:[]
     })
-
+    
 
     if(req.files&&bodyData.moreInfo.length>0){
         if (req.files.length !== bodyData.moreInfo.length) {
@@ -34,7 +34,6 @@ export const createTraining = asyncHandler(async(req,res)=>{
             })
         )
 
-        console.log(uploads)
         newTraining.moreInfo = bodyData.moreInfo.map((info,index)=>({
           
                 ...info,
@@ -57,7 +56,14 @@ export const createTraining = asyncHandler(async(req,res)=>{
 
 
 export const getTrainings = asyncHandler(async(req,res)=>{
-    const trainings = await Training.find().sort({createdAt:-1}).lean()
+
+    const category = req.validatedData.query.category
+     
+    const query = {}
+    if(category){
+        query.category = category
+    }
+    const trainings = await Training.find(query).sort({createdAt:-1}).lean()
     sendResponse(res,200,trainings,"Trainings fetched successfully")
 })
 
@@ -68,6 +74,38 @@ export const getSingleTraining = asyncHandler(async(req,res)=>{
         throw new ApiError("Training not found",404)
     }
     sendResponse(res,200,singleTraining,"Training fetched successfully")
+
+})
+
+
+
+export const editTraining = asyncHandler(async(req,res)=>{
+
+})
+
+export const deleteTraining = asyncHandler(async(req,res)=>{
+
+    const {trainingId} = req.validatedData.params
+
+
+
+    const training = await Training.findById(trainingId)
+
+    if(!training){
+        throw new ApiError("Training not found",404)
+    }
+
+    if(training.moreInfo.length>0){
+        await Promise.allSettled(
+            training.moreInfo.map(async(info) => {
+                await cloudinary.uploader.destroy(info.image.publicId);
+            })
+        )
+    }
+
+    await Training.findByIdAndDelete(trainingId)
+   
+    sendResponse(res,200,null,"Training deleted successfully")
 
 })
 

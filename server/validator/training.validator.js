@@ -21,3 +21,12 @@ export const getSingleTrainingParamsSchema = z.object({
     trainingId:z.string().trim()
 })
 
+export const getAllTrainingsQuerySchema = z.object({
+    category:z.string().trim().optional()
+})
+
+
+export const deleteTrainingParamsSchema = z.object({
+    trainingId:z.string().trim()
+})
+
