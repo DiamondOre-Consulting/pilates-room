@@ -84,6 +84,7 @@ export const editPackage = asyncHandler(async(req,res)=>{
     if(!existingPackage){
         throw new ApiError("Package not found",404)
     }
+  
     if (req.file&&existingPackage.image?.publicId) {
         await fileDestroy(existingPackage.image.publicId, "package");
     }

@@ -7,6 +7,7 @@ const validate = (schemas) => (req, res, next) => {
 
       
       if(schemas.body){   
+        console.log(req.body);
         validatedData.body = schemas.body.parse(req.body);
       }
       if(schemas.params){
@@ -20,7 +21,7 @@ const validate = (schemas) => (req, res, next) => {
         validatedData.file = schemas.file.parse(req.file);       
       }
       if(schemas.files) {       
-       
+        console.log(req.files)
         validatedData.files = schemas.files.parse(req.files);
       }    
       req.validatedData = validatedData;

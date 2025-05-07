@@ -6,6 +6,9 @@ import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
 import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/package.admin.controller.js"
 import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
+import { createTraining } from "../controllers/training.controller.js"
+import { createTrainingBodySchema } from "../validator/training.validator.js"
+
 
 
 const adminRouter = Router()
@@ -51,6 +54,11 @@ adminRouter.delete('/delete-package/:packageId',validate({
 adminRouter.put('/edit-package/:packageId',upload(2).single("packageImage"),validate({
     body:editPackageBodySchema, params:editPackageParamsSchema
 }),editPackage)
+
+
+adminRouter.post('/create-training',validate({
+   body:createTrainingBodySchema
+}),upload(2).array("trainingImage"),createTraining)
 
 
 
