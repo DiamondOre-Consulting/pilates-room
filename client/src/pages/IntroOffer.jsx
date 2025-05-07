@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import banner from "../assets/banner.mp4";
 import BookingSection from "@/components/BookingSection";
 import ContactUs from "@/components/ContactUs";
+import { useDispatch } from "react-redux";
+import { getAllPackages } from "@/Redux/Slices/packageSlice";
 const IntroOffer = () => {
+  const dispatch = useDispatch()
+  const [allPackages, setAllPackages] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const handleGetAllPackages = async () => {
+    try {
+      const response = await dispatch(getAllPackages({ page, limit }));
+      console.log(response);
+      setAllPackages(response?.payload?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllPackages();
+  }, []);
+
+  console.log(allPackages)
   return (
     <div>
       <div>
@@ -30,66 +53,35 @@ const IntroOffer = () => {
         <BookingSection />
       </div>
 
-      <div className="grid grid-cols-2  bg-dark  py-20">
-        <div className="flex flex-col justify-center  items-center space-y-4 max-w-xl mx-auto ">
-          <h1 className="text-white text-4xl">First time to Exhale</h1>
-          <p className="text-gray-200 text-center">
-            If you’re looking to start your Pilates journey, you’re in the right
-            place! At Exhale, we teach Classical Pilates, the true works of
-            Joseph Pilates. To make sure you get the best out of your
-            experience, we recommend that you start with one of our intro
-            offers. See which one is best suited for you below.
-          </p>
-          <p className="text-gray-200">
-            Don’t just drop in, discover the magic of Exhale Pilates with one of
-            our intro offers.
-          </p>
 
-          <button className="text-xl bg-white text-dark rounded-md px-4 py-1">
-            Buy Now{" "}
-          </button>
-        </div>
+{
+  allPackages.map((pkg , index)=>(
+    <div className={`flex ${index%2 ===0 ? "bg-dark text-white " : "bg-white flex-row-reverse"}  py-20`}>
+    <div className="flex flex-col justify-center  items-center space-y-4 max-w-xl mx-auto ">
+      <h1 className="text-4xl uppercase">{pkg?.title}</h1>
+      <p className={`text-center ${index%2 ===0 ? "text-gray-200" : "text-black"} text-center`}dangerouslySetInnerHTML={{__html :pkg?.description}} >
+      
+      </p>
+    
 
-        <div className="justify-center items-center w-[35rem] flex mx-auto rounded-lg h-80 " style={{backgroundImage : "url('https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg')" , backgroundSize : "cover"}}>
-          {/* <img
-            src="https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg"
-            className="w-[30rem] h-[25rem]  objet-cover  rounded-lg"
-            alt=""
-          /> */}
-        </div>
-      </div>
+      <button className="text-xl bg-white text-dark rounded-md px-4 py-1">
+        Buy Now{" "}
+      </button>
+    </div>
 
-
-      <div className="grid grid-cols-2  bg-white  py-20">
-        <div className="flex flex-col justify-center  items-center space-y-4 max-w-xl mx-auto ">
-          <h1 className="text-dark text-4xl">First time to Exhale</h1>
-          <p className="text-gray-700 text-center">
-            If you’re looking to start your Pilates journey, you’re in the right
-            place! At Exhale, we teach Classical Pilates, the true works of
-            Joseph Pilates. To make sure you get the best out of your
-            experience, we recommend that you start with one of our intro
-            offers. See which one is best suited for you below.
-          </p>
-          <p className="text-gray-700">
-            Don’t just drop in, discover the magic of Exhale Pilates with one of
-            our intro offers.
-          </p>
-
-          <button className="text-xl bg-white border-2 border-gray-500 text-dark rounded-md px-4 py-1">
-            Buy Now{" "}
-          </button>
-        </div>
-
-        <div className="justify-center items-center w-[35rem] flex mx-auto rounded-lg h-80  " style={{backgroundImage : "url('https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg')" , backgroundSize : "cover", }}>
-          {/* <img
-            src="https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg"
-            className="w-[30rem] h-[25rem]  objet-cover  rounded-lg"
-            alt=""
-          /> */}
-        </div>
+    <div className="justify-center items-center w-[35rem] flex mx-auto rounded-lg h-80 " style={{backgroundImage : `url('${pkg?.image?.secureUrl}')` , backgroundSize : "cover"}}>
+      {/* <img
+        src="https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg"
+        className="w-[30rem] h-[25rem]  objet-cover  rounded-lg"
+        alt=""
+      /> */}
+    </div>
+  </div>
+  ))
+}
+ 
 
 
-      </div>
 
 
       <ContactUs/>

@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 const tabs = [
   { link: "/", label: "Dashboard", icon: IconLayoutDashboardFilled },
   { link: "/all-class/", label: "All Classes", icon: IconFileCvFilled },
-  { link: "/catalogue/detail", label: "Catalogue Detail", icon: IconKey },
+  { link: "/all-packages/", label: "All Packages", icon: IconKey },
   { link: "/catalogue/products", label: "Products", icon: IconFingerprint },
   { link: "/catalogue/meta-data", label: "Meta Data", icon: IconTrash },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
