@@ -118,7 +118,7 @@ export const editTraining = asyncHandler(async(req,res)=>{
             secureUrl: thumbnailUpload?.secureUrl,
         }
     }
-    if(req.files?.trainingImage&&bodyData.moreInfo.length>0){      
+    if(req.files?.updateTrainingImage){      
         if(existingTraining.moreInfo.length>0){
             await Promise.allSettled(
                 moreInfoImagesIndex.map(async(index) => {
@@ -132,7 +132,6 @@ export const editTraining = asyncHandler(async(req,res)=>{
             })
         )
 
-        console.log("uploads",uploads);
 
         moreInfoImagesIndex.forEach((infoIndex, i) => {
             const upload = uploads[i];
@@ -146,6 +145,21 @@ export const editTraining = asyncHandler(async(req,res)=>{
                 };
             }
         });
+    }
+
+    if(req.files?.newTrainingImages && bodyData.moreInfo.length>0){
+        const uploads = await Promise.allSettled(
+            req.files.newTrainingImages.map((file) => {
+                return fileUpload(file.buffer, "training");
+            })
+        )
+        bodyData.moreInfo = bodyData.moreInfo.map((info,index) => ({
+            ...info,
+            image: {
+                publicId: uploads[index].value.publicId,
+                secureUrl: uploads[index].value.secureUrl,
+            },
+        }));
     }
 
     delete bodyData.thumbnail;

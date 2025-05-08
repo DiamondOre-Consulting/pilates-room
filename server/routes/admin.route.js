@@ -75,7 +75,7 @@ adminRouter.delete('/delete-training/:trainingId',validate({
 }),deleteTraining)
 
 
-adminRouter.put('/edit-training/:trainingId',upload(2).fields([{ name: 'trainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 }]),validate({
+adminRouter.put('/edit-training/:trainingId',upload(2).fields([{ name: 'updateTrainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 },{ name: 'newTrainingImages', maxCount: 30 }]),validate({
     body:editTrainingBodySchema, params:editTrainingsParamsSchema
 }),editTraining)
 
