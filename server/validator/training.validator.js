@@ -42,6 +42,7 @@ export const editTrainingBodySchema = z.object({
         title:z.string().trim().optional(),
         description:z.string().trim().optional(),
     })).optional(),
+    moreInfoImagesIndex:z.array(z.string().trim()).optional(),
     category: z.enum(['teacherTraining', 'youMayAlsoLike']).optional(),
     available: z.string().transform(val => val === "true").optional(),
 })
