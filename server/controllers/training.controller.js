@@ -134,15 +134,18 @@ export const editTraining = asyncHandler(async(req,res)=>{
 
         console.log("uploads",uploads);
 
-        existingTraining.moreInfo.map((info,index)=>{
-            const upload = uploads[index]
-            if(upload.status === "fulfilled"&& existingTraining.moreInfo[index]){
-                existingTraining.moreInfo[index].image = {
+        moreInfoImagesIndex.forEach((infoIndex, i) => {
+            const upload = uploads[i];
+            if (
+                upload.status === "fulfilled" &&
+                existingTraining.moreInfo[infoIndex]
+            ) {
+                existingTraining.moreInfo[infoIndex].image = {
                     publicId: upload.value.publicId,
                     secureUrl: upload.value.secureUrl,
                 };
             }
-        })
+        });
     }
 
     delete bodyData.thumbnail;
