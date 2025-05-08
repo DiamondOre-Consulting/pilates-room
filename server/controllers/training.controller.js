@@ -97,13 +97,15 @@ export const getSingleTraining = asyncHandler(async(req,res)=>{
 export const editTraining = asyncHandler(async(req,res)=>{
 
     const {trainingId} = req.validatedData.params
-
     const existingTraining = await Training.findById(trainingId)
     if(!existingTraining){
         throw new ApiError("Training not found",404)
     }
+    const bodyData = {...req.validatedData.body}
 
-    const bodyData = req.validatedData.body
+    const {moreInfoImagesIndex,...rest} = req.validatedData.body||[]
+    req.validatedData.body = rest
+    delete bodyData.moreInfoImagesIndex;
 
     let thumbnailUpload = null;
     if (req.files?.thumbnailImage?.[0]) {
@@ -116,42 +118,38 @@ export const editTraining = asyncHandler(async(req,res)=>{
             secureUrl: thumbnailUpload?.secureUrl,
         }
     }
-
-    if(req.files?.trainingImage&&bodyData.moreInfo.length>0){
-        
+    if(req.files?.trainingImage&&bodyData.moreInfo.length>0){      
         if(existingTraining.moreInfo.length>0){
             await Promise.allSettled(
-                existingTraining.moreInfo.map(async(info) => {
-                    await cloudinary.uploader.destroy(info.image.publicId);
+                moreInfoImagesIndex.map(async(index) => {
+                    await cloudinary.uploader.destroy(existingTraining.moreInfo[index].image.publicId);
                 })
             )
         }
-
         const uploads = await Promise.allSettled(
             req.files.trainingImage.map((file) => {
                 return fileUpload(file.buffer, "training");
             })
         )
 
-        existingTraining.moreInfo = bodyData.moreInfo.map((info,index)=>({
-          
-                ...info,
-                image: {
-                    publicId:uploads[index].value.publicId,
-                    secureUrl:uploads[index].value.secureUrl 
-                }
-            
-        }))
+        console.log("uploads",uploads);
 
+        existingTraining.moreInfo.map((info,index)=>{
+            const upload = uploads[index]
+            if(upload.status === "fulfilled"&& existingTraining.moreInfo[index]){
+                existingTraining.moreInfo[index].image = {
+                    publicId: upload.value.publicId,
+                    secureUrl: upload.value.secureUrl,
+                };
+            }
+        })
     }
 
+    delete bodyData.thumbnail;
+    delete bodyData.moreInfo;
     Object.assign(existingTraining, bodyData);
-
-    await existingTraining.save();
-
-    
-    sendResponse(res,200,existingTraining,"Training updated successfully")
-   
+    await existingTraining.save();   
+    sendResponse(res,200,existingTraining,"Training updated successfully")   
 })
 
 export const deleteTraining = asyncHandler(async(req,res)=>{
