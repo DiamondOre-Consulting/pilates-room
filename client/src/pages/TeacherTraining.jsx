@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import banner from "../assets/banner.mp4";
 import About from '@/components/TeacherTrainingComponents/About';
 import ProgramSchedule from '@/components/TeacherTrainingComponents/ProgramSchedule';
 import Testimonial from '@/components/Testimonial';
 import RecommendedBy from '@/components/RecommendedBy';
+import CrouselSection from '@/components/TeacherTrainingComponents/CrouselSection';
 const TeacherTraining = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
    <>
       <div>
@@ -28,8 +33,12 @@ const TeacherTraining = () => {
           
         </div>
    <About/>
+   <section className='px-8 md:px-20 py-10'>
+    <video src='https://exhalepilateslondon.com/wp-content/uploads/2023/01/Gaby-to-camera-2-intro.mp4' className='rounded-2xl' controls autoplay muted/>
+   </section>
    <ProgramSchedule/>
    <Testimonial/>
+   <CrouselSection/>
    <RecommendedBy/>
    </>
   )

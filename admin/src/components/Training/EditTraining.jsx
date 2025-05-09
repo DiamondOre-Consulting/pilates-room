@@ -1,19 +1,21 @@
-import { editTraining } from '@/Redux/Slices/trainingSlice';
-import React, { useEffect, useRef, useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form';
+import { editTraining } from "@/Redux/Slices/trainingSlice";
+import React, { useEffect, useRef, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { formState } from "@/Hooks/constants";
 import JoditEditor from "jodit-react";
 import TimePicker from "react-time-picker";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
 
-
-const EditTraining = ({setEditTrainingPopUp,editData}) => {
+const EditTraining = ({ setEditTrainingPopUp, editData , handleGetAllTrainings}) => {
   const [trainingImage, setTrainingImage] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState();
   const [thumbnailPreview, setThumbnailPreview] = useState("");
   const editor = useRef(null);
-  const [id , setId] = useState('')
+  const [trainingId, setTrainingId] = useState("");
+  const dispatch = useDispatch();
 
+console.log(trainingImage)
 
   const config = {
     readonly: false,
@@ -36,62 +38,74 @@ const EditTraining = ({setEditTrainingPopUp,editData}) => {
         {
           title: "",
           description: "",
-          uniqueCode: "",
+          uniqueId: "",
           image: { publicId: "", secureUrl: "" },
         },
       ],
     },
   });
 
-
-  
-  
-console.log("eidtdata" , watch())
-  console.log("thumbnail imae",thumbnailImage)
+  console.log("eidtdata", watch());
+  console.log("thumbnail imae", thumbnailImage);
 
   const { fields, append, remove, replace } = useFieldArray({
     control,
     name: "moreInfo",
   });
 
-  console.log(watch(`moreInfo[0].image.secureUrl`))
+  console.log(watch(`moreInfo[0].image.secureUrl`));
 
   useEffect(() => {
     if (editData) {
       const normalizedMoreInfo = (editData.moreInfo || []).map((item) => ({
         title: item?.title || "",
         description: item?.description || "",
-        uniqueCode: item?.uniqueCode || "", 
+        uniqueId: item?.uniqueId || "",
         image: {
           publicId: item?.image?.publicId || "",
           secureUrl: item?.image?.secureUrl || "",
         },
       }));
-  
+
+      const formatTimeTo24H = (timeStr) => {
+        if (!timeStr) return "";
+        const [time, modifier] = timeStr.split(" "); // e.g. ["10:35", "PM"]
+        if (!time || !modifier) return "";
+      
+        let [hours, minutes] = time.split(":").map(Number);
+      
+        if (modifier === "PM" && hours < 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+      
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+      };
+      
       reset({
         ...editData,
         moreInfo: normalizedMoreInfo,
+        startTime: formatTimeTo24H(editData.startTime),
+        endTime: formatTimeTo24H(editData.endTime),
       });
 
-      setId(editData?._id)
+      setTrainingId(editData);
       replace(normalizedMoreInfo);
-  setValue('date' , editData.date.split("T")[0] )
+      setValue("date", editData.date?.split("T")[0] || "");
       setThumbnailPreview(editData?.thumbnail?.secureUrl || "");
     }
   }, [editData]);
 
-  console.log(watch())
+  console.log(watch());
 
-  const getUniqueCode = () => {
+  const getuniqueId = () => {
     return uuidv4().slice(0, 10);
   };
 
   const getFileExtension = (fileName) => {
     return fileName.split(".").pop();
   };
-console.log("id",id)
+  console.log("id", trainingId);
 
-  const handleFileChange = (e,ind) => {
+  const handleFileChange = (e, ind) => {
     const selectedFile = e?.target?.files?.[0];
     if (e.target.name === "thumbnailImage") {
       setThumbnailPreview(URL.createObjectURL(selectedFile));
@@ -99,11 +113,11 @@ console.log("id",id)
         new File([selectedFile], "thumbnailImage", { type: selectedFile.type })
       );
     } else if (selectedFile && e.target.name !== "thumbnailImage") {
-      const uniqueCode = getUniqueCode();
+      const uniqueId = getuniqueId();
       const fileExtension = getFileExtension(selectedFile.name);
       if (!getValues(`moreInfo.${ind}.uniqueId`)) {
-        const fileName = `${uniqueCode}.${fileExtension}`;
-        setValue(`moreInfo.${ind}.uniqueId`, uniqueCode);
+        const fileName = `${uniqueId}.${fileExtension}`;
+        setValue(`moreInfo.${ind}.uniqueId`, uniqueId);
         setValue(
           `moreInfo.${ind}.image.secureUrl`,
           URL.createObjectURL(selectedFile)
@@ -119,7 +133,7 @@ console.log("id",id)
       } else {
         const uniqueId = getValues(`moreInfo.${ind}.uniqueId`);
         const fileName = `${uniqueId}.${fileExtension}`;
-        setValue(`moreInfo.${ind}.uniqueId`, uniqueCode);
+        setValue(`moreInfo.${ind}.uniqueId`, uniqueId);
         setValue(
           `moreInfo.${ind}.image.secureUrl`,
           URL.createObjectURL(selectedFile)
@@ -135,11 +149,11 @@ console.log("id",id)
       }
     }
   };
-  
-  const handleEditTraining = async (data ) => {
+
+  const handleEditTraining = async (data, trainingId) => {
     try {
-        console.log(data)
-       
+      console.log("this is data", data);
+
       const formData = new FormData();
 
       if (data.startTime) {
@@ -178,10 +192,7 @@ console.log("id",id)
                   `moreInfo[${index}][description]`,
                   item.description
                 );
-                formData.append(
-                    `moreInfo[${index}][uniqueId]`,
-                    item.uniqueId
-                  );
+                formData.append(`moreInfo[${index}][uniqueId]`, item.uniqueId);
               }
             });
           } else {
@@ -196,19 +207,19 @@ console.log("id",id)
       });
 
       formData.append("thumbnailImage", thumbnailImage);
-
-     
-      const response = await dispatch(editTraining(id , formData));
+      console.log("this is trainning id", trainingId);
+      const id = data?._id;
+      console.log("now ", id);
+      const response = await dispatch(editTraining({ id, formData }));
 
       if (response?.payload?.success === true) {
         setEditTrainingPopUp(false);
+        await handleGetAllTrainings()
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   return (
     <div className="fixed inset-0 z-40 min-h-full    transition flex items-center justify-center">
@@ -301,9 +312,9 @@ console.log("id",id)
                       errors[input.name] ? "border-red-500" : "border-gray-400"
                     }`}
                   />
-                       {thumbnailPreview && (
+                  {thumbnailPreview && (
                     <img
-                    src={thumbnailPreview}
+                      src={thumbnailPreview}
                       className="size-12 border border-1 border-gray-600 object-cover rounded-full  "
                       alt=""
                     />
@@ -445,7 +456,7 @@ console.log("id",id)
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EditTraining
+export default EditTraining;

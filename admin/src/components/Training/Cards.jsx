@@ -1,6 +1,24 @@
-import React from 'react'
+import { deleteTraining } from '@/Redux/Slices/trainingSlice';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 
-export const Cards = ({trn , setEditTrainingPopUp , setData}) => {
+export const Cards = ({trn , setEditTrainingPopUp , setData , handleGetAllTrainings}) => {
+const dispatch = useDispatch()
+
+    const handleDeleteTraining = async (id) => {
+      try {
+        console.log(id);
+        const response = await dispatch(deleteTraining(id));
+        console.log(response);
+       
+        await handleGetAllTrainings();
+        //   }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+
   return (
     <article className="shadow-lg relative bg-white dark:shadow-none dark:bg-[#1E2735] rounded overflow-hidden h-full">
               <img
@@ -45,7 +63,7 @@ export const Cards = ({trn , setEditTrainingPopUp , setData}) => {
                   </button>
 
                   <button
-                    // onClick={(e) => handleDeleteTraining(trn?._id)}
+                    onClick={(e) => handleDeleteTraining(trn?._id)}
                     className="bg-transparent hover:bg-black border border-black cursor-pointer hover:text-white py-2 px-5 rounded transition"
                   >
                     Delete

@@ -7,7 +7,7 @@ import TimePicker from "react-time-picker";
 import { createTraining } from "@/Redux/Slices/trainingSlice";
 import { useDispatch } from "react-redux";
 
-const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp}) => {
+const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGetAllTrainings}) => {
   const [trainingImage, setTrainingImage] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState();
   const dispatch = useDispatch()
@@ -167,6 +167,7 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp}) => {
 
       if (response?.payload?.success === true) {
         setCreateTrainigPopUp(false);
+       await handleGetAllTrainings()
       }
     } catch (error) {
       console.log(error);

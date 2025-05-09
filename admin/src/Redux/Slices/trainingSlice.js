@@ -49,9 +49,9 @@ export const deleteTraining = createAsyncThunk(
 
 export const editTraining = createAsyncThunk(
   "/admin/edit-training",
-  async ({ id, formData }) => {
+  async ({ id , formData }) => {
     try {
-      console.log("inslice ", trainingId, formData);
+      console.log("inslice ", id );
       const response = await adminAxiosInstance.put(
         `/admin/edit-training/${id}`,
         formData
