@@ -1,10 +1,16 @@
 import ContactUs from "@/components/ContactUs";
 import RecommendedBy from "@/components/RecommendedBy";
 import FindClassSection from "@/components/TimeTable/FindClassSection";
-import React from "react";
+import React, { useEffect } from "react";
 import { SlCalender } from "react-icons/sl";
 
 const ClassSchedule = () => {
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
+    
   return (
     <div>
       <section class="w-full">
