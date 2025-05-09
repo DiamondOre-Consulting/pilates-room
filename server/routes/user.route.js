@@ -14,15 +14,11 @@ import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/t
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 
 
-
-
 const userRouter = Router()
-
 
 userRouter.post('/signup',validate({
     body:signUpBodySchema
 }),signUp)
-
 
 userRouter.post('/signin',validate({
     body:signInBodySchema
@@ -30,38 +26,35 @@ userRouter.post('/signin',validate({
 
 userRouter.post('/send-otp',validate({
     body:sendOtpBodySchema
- }),sendOtp)
+}),sendOtp)
 
- userRouter.post('/forgot-password', validate({body:forgotPasswordBodySchema}),forgotPassword)
+userRouter.post('/forgot-password', validate({body:forgotPasswordBodySchema}),forgotPassword)
 
- userRouter.post('/reset-password/:resetToken',validate({body:resetPasswordBodySchema, params:resetPasswordParamsSchema}),resetPassword)
+userRouter.post('/reset-password/:resetToken',validate({body:resetPasswordBodySchema, params:resetPasswordParamsSchema}),resetPassword)
 
- userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
+userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params:newPasswordParamsSchema}),changePassword)
 
- userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
+userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
 
 userRouter.get('/get-all-packages', validate({
       query:getAllPackagesQuerySchema
- }),getAllPackages)
+}),getAllPackages)
 
- userRouter.post('/add-to-cart/:id/:itemType',userMiddleware,validate({
+userRouter.post('/add-to-cart/:id/:itemType',userMiddleware,validate({
     params:addToCartParamsSchema
- }),addToCart)
+}),addToCart)
 
- userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
+userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
     params:fetchMoreInfoParamsSchema
- }),fetchMoreInfo)
+}),fetchMoreInfo)
 
-
-
- userRouter.get('/get-all-trainings',validate({
+userRouter.get('/get-all-trainings',validate({
      query:getAllTrainingsQuerySchema
  }),getTrainings)
  
- userRouter.get('/get-single-training/:trainingId',validate({
+userRouter.get('/get-single-training/:trainingId',validate({
      params:getSingleTrainingParamsSchema
- }),getSingleTraining)
-
+}),getSingleTraining)
 
 
 
