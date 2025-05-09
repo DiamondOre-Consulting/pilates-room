@@ -9,6 +9,7 @@ export const createTrainingBodySchema = z.object({
     price:z.coerce.number(), 
     description:z.string().trim(),
     moreInfo:z.array(z.object({
+        uniqueId:z.string().trim().optional(),
         title:z.string().trim().optional(),
         description:z.string().trim().optional(),
     })).optional(),

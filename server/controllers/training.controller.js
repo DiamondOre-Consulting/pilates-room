@@ -122,16 +122,17 @@ export const editTraining = asyncHandler(async(req,res)=>{
     }
 
     bodyData.moreInfo.map((training)=>{
-          const trainingExist = existingTraining.moreInfo.find(trainingInfo=>trainingInfo.uniqueId===training.uniqueId);
+
+          const trainingExist = existingTraining.moreInfo.find(info => info.uniqueId === training.uniqueId);
 
           if(!trainingExist){
             const uploadedFile = trainingImages.find((image)=>{
-                return image.value.publicId === training.image
+                return image.value.uniqueId === training.uniqueId
             })
             if(uploadedFile){
                 existingTraining.moreInfo.push({
                     ...training,
-                    image: {
+                    image:{
                         publicId:uploadedFile.value.publicId,
                         secureUrl:uploadedFile.value.secureUrl 
                     }
@@ -141,7 +142,7 @@ export const editTraining = asyncHandler(async(req,res)=>{
           else{
             
             const uploadedFile = trainingImages.find((image)=>{
-                return image.value.publicId === training.image
+                return image.value.uniqueId === existingTraining.uniqueId
             })
 
             if(uploadedFile){
@@ -154,11 +155,7 @@ export const editTraining = asyncHandler(async(req,res)=>{
                 existingTraining.title = training.title,
                 existingTraining.description = training.description
             }
-            
-
           }
-
-
     })
 
     delete bodyData.moreInfo;
