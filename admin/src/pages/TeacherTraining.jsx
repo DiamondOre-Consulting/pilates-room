@@ -314,16 +314,16 @@ const [data , setData] = useState()
           </div>
         </div>
 
-        <div className="grid grid-cols-3 mt-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-12 gap-6">
           {allTrainings?.map((trn) => (
-            <Cards trn={trn} setData={setData}  setEditTrainingPopUp={setEditTrainingPopUp}/>
+            <Cards trn={trn} setData={setData} handleGetAllTrainings={handleGetAllTrainings}  setEditTrainingPopUp={setEditTrainingPopUp}/>
           ))}
         </div>
 
-        {createTrainingPopUp && <CreateTraining  createTrainingPopUp={createTrainingPopUp} setCreateTrainigPopUp={setCreateTrainigPopUp}/>}
+        {createTrainingPopUp && <CreateTraining handleGetAllTrainings={handleGetAllTrainings} createTrainingPopUp={createTrainingPopUp} setCreateTrainigPopUp={setCreateTrainigPopUp}/>}
 
         {editTrainingPopUp && (
-   <EditTraining setEditTrainingPopUp={setEditTrainingPopUp} editData={data}/>
+   <EditTraining setEditTrainingPopUp={setEditTrainingPopUp} editData={data} handleGetAllTrainings={handleGetAllTrainings} />
         )}
       </div>
     </HomeLayout>

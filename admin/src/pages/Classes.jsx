@@ -299,9 +299,9 @@ const Classes = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-x-4 gap-y-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-6 py-10">
           {allClasses?.map((ele) => (
-            <div className="w-full md:max-w-[20rem] bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <div className="w-full  bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <div className="h-20 bg-gradient-to-r from-black to-natural-500 relative">
                 <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
                   <div className="h-24 w-24 rounded-full border-4 border-white bg-white overflow-hidden shadow-md">
