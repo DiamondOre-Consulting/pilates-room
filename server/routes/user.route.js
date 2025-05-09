@@ -10,6 +10,8 @@ import { getAllPackages } from "../controllers/package.admin.controller.js"
 import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
 import { addToCartParamsSchema } from "../validator/order.validator.js"
 import { addToCart } from "../controllers/order.controller.js"
+import { fetchMoreInfo } from "../controllers/training.controller.js"
+import { fetchMoreInfoParamsSchema } from "../validator/training.validator.js"
 
 
 
@@ -45,6 +47,10 @@ userRouter.get('/get-all-packages', validate({
  userRouter.post('/add-to-cart/:id/:itemType',userMiddleware,validate({
     params:addToCartParamsSchema
  }),addToCart)
+
+ userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
+    params:fetchMoreInfoParamsSchema
+ }),fetchMoreInfo)
 
 
 
