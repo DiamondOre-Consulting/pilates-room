@@ -8,6 +8,8 @@ import { getClasses } from "../controllers/class.admin.controller.js"
 import { getClassesQuerySchema } from "../validator/class.validator.js"
 import { getAllPackages } from "../controllers/package.admin.controller.js"
 import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
+import { addToCartParamsSchema } from "../validator/order.validator.js"
+import { addToCart } from "../controllers/order.controller.js"
 
 
 
@@ -39,6 +41,10 @@ userRouter.post('/send-otp',validate({
 userRouter.get('/get-all-packages', validate({
       query:getAllPackagesQuerySchema
  }),getAllPackages)
+
+ userRouter.post('/add-to-cart/:id/:itemType',userMiddleware,validate({
+    params:addToCartParamsSchema
+ }),addToCart)
 
 
 

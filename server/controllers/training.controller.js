@@ -142,7 +142,7 @@ export const editTraining = asyncHandler(async(req,res)=>{
           else{
             
             const uploadedFile = trainingImages.find((image)=>{
-                return image.value.uniqueId === trainingExist.uniqueId
+                return image.value.uniqueId === existingTraining.uniqueId
             })
 
             if(uploadedFile){
