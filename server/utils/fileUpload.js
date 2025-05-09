@@ -9,7 +9,7 @@ export const fileUpload = async(fileBuffer,fileName,folder)=>{
                 { folder:folder },
                 (error, result) => {
                     if (error) return reject(new Error("Upload failed: " + error.message));
-                    console.log(fileBuffer)
+                    
                     const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.')                  
                     resolve( {publicId: result.public_id, secureUrl: result.secure_url ,uniqueId:fileNameWithoutExtension});
                 }
