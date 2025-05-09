@@ -10,7 +10,9 @@ const trainingSchema = new mongoose.Schema({
     location:{type:String,required:true},
     price:{type:Number,required:true},
     description:{type:String,required:true},
-    moreInfo:[{ title:String, description:String, image: {
+    moreInfo:[{ title:String, description:String,
+        uniqueId:String,
+        image: {
         publicId:String,
         secureUrl:String
       }}],

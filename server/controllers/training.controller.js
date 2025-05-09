@@ -11,17 +11,13 @@ import { fileDestroy } from "../utils/fileUpload.js";
 
 
 export const createTraining = asyncHandler(async(req,res)=>{
-
     
-   
+    
     const bodyData = req.validatedData.body
-
-    
     let thumbnailUpload = null;
     if (req.files?.thumbnailImage?.[0]) {
         thumbnailUpload = await fileUpload(req.files.thumbnailImage[0].buffer, "training");
     }
-
        
     const newTraining = await Training.create({
         ...bodyData,
@@ -92,8 +88,6 @@ export const getSingleTraining = asyncHandler(async(req,res)=>{
 
 })
 
-
-
 export const editTraining = asyncHandler(async(req,res)=>{
 
     const {trainingId} = req.validatedData.params
@@ -103,11 +97,10 @@ export const editTraining = asyncHandler(async(req,res)=>{
     }
     const bodyData = {...req.validatedData.body}
 
-    const {moreInfoImagesIndex,...rest} = req.validatedData.body||[]
-    req.validatedData.body = rest
-    delete bodyData.moreInfoImagesIndex;
+
 
     let thumbnailUpload = null;
+
     if (req.files?.thumbnailImage?.[0]) {
         if(existingTraining.thumbnail.publicId){
             await fileDestroy(existingTraining.thumbnail.publicId,"training");
@@ -118,51 +111,57 @@ export const editTraining = asyncHandler(async(req,res)=>{
             secureUrl: thumbnailUpload?.secureUrl,
         }
     }
-    if(req.files?.updateTrainingImage){      
-        if(existingTraining.moreInfo.length>0){
-            await Promise.allSettled(
-                moreInfoImagesIndex.map(async(index) => {
-                    await cloudinary.uploader.destroy(existingTraining.moreInfo[index].image.publicId);
-                })
-            )
-        }
-        const uploads = await Promise.allSettled(
-            req.files.trainingImage.map((file) => {
+
+    let trainingImages=[]
+
+    if(req.files?.trainingImages){      
+        trainingImages = await Promise.allSettled(
+            req.files.trainingImages.map((file) => {
                 return fileUpload(file.buffer, "training");
             })
         )
+    }
 
+    bodyData.moreInfo.map((training)=>{
+          const trainingExist = existingTraining.moreInfo.find(trainingInfo=>trainingInfo.uniqueId===training.uniqueId);
 
-        moreInfoImagesIndex.forEach((infoIndex, i) => {
-            const upload = uploads[i];
-            if (
-                upload.status === "fulfilled" &&
-                existingTraining.moreInfo[infoIndex]
-            ) {
-                existingTraining.moreInfo[infoIndex].image = {
-                    publicId: upload.value.publicId,
-                    secureUrl: upload.value.secureUrl,
-                };
+          if(!trainingExist){
+            const uploadedFile = trainingImages.find((image)=>{
+                return image.value.publicId === training.image
+            })
+            if(uploadedFile){
+                existingTraining.moreInfo.push({
+                    ...training,
+                    image: {
+                        publicId:uploadedFile.value.publicId,
+                        secureUrl:uploadedFile.value.secureUrl 
+                    }
+                })             
+            }          
+          }
+          else{
+            
+            const uploadedFile = trainingImages.find((image)=>{
+                return image.value.publicId === training.image
+            })
+
+            if(uploadedFile){
+                existingTraining.title = training.title,
+                existingTraining.description = training.description
+                existingTraining.image.publicId = uploadedFile.value.publicId
+                existingTraining.image.secureUrl = uploadedFile.value.secureUrl
             }
-        });
-    }
+            else{
+                existingTraining.title = training.title,
+                existingTraining.description = training.description
+            }
+            
 
-    if(req.files?.newTrainingImages && bodyData.moreInfo.length>0){
-        const uploads = await Promise.allSettled(
-            req.files.newTrainingImages.map((file) => {
-                return fileUpload(file.buffer, "training");
-            })
-        )
-        bodyData.moreInfo = bodyData.moreInfo.map((info,index) => ({
-            ...info,
-            image: {
-                publicId: uploads[index].value.publicId,
-                secureUrl: uploads[index].value.secureUrl,
-            },
-        }));
-    }
+          }
 
-    delete bodyData.thumbnail;
+
+    })
+
     delete bodyData.moreInfo;
     Object.assign(existingTraining, bodyData);
     await existingTraining.save();   
@@ -194,8 +193,3 @@ export const deleteTraining = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Training deleted successfully")
 
 })
-
-
-
-
-
