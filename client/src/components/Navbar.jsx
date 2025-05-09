@@ -12,7 +12,7 @@ const routes = [
   // { name: "TIME TABLE", href: "/bike", isActive: false },
   { name: "PRIVATES", href: "/scooty", isActive: false },
   { name: "PRICING", href: "/accessories", isActive: false },
-  { name: "TEACHER TRAINING", href: "/contact", isActive: false },
+  { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
   { name: "EVENTS & WORKSHOP", href: "/about-us", isActive: false },
 ];
 
@@ -52,6 +52,7 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             hover:decoration-text-dark
                             underline-offset-4 
                             transition-all 
+                            tracking-wide
                             duration-200
                             ${
                               route.isActive
@@ -67,14 +68,14 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
       <li className="relative" ref={dropdownRef}>
         <Link
         to={'/class-schedule'}
-          className="flex items-center gap-x-3 text-dark hover:text-dark lg:hover:text-dark"
+          className="flex items-center gap-x-3 tracking-wide text-dark hover:text-dark lg:hover:text-dark"
           onMouseEnter={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           TIME TABLE
           <IoIosArrowDown />
         </Link>
         <ul
-          className={`absolute lg:left-0 right-0 w-52 lg:mt-[0.95rem] duration-500 lg:rounded-t-none lg:bg-mainRed bg-neutral-900 text-white rounded-lg shadow-lg transition-transform  ease-in-out ${
+          className={`absolute lg:left-0 right-0 w-52 lg:mt-[0.95rem] duration-500 lg:rounded-t-none lg:bg-mainRed bg-white text-dark rounded-lg shadow-lg transition-transform  ease-in-out ${
             isDropdownOpen
               ? "scale-100 opacity-100"
               : "scale-95 opacity-0 hidden"
@@ -87,26 +88,26 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
         >
           <li role="menuitem">
             <Link
-              className="block px-4 py-3 text-sm transition-all hover:rounded-lg text-neutral-100 border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed hover:bg-neutral-800 hover:scale-[1.02]"
+              className="block px-4 py-3 text-sm  uppercase transition-all hover:rounded-lg text-dark border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed  hover:scale-[1.02]"
               to="/service"
             >
-              Vehicle Services
+             Promise hill
             </Link>
           </li>
           <li role="menuitem">
             <Link
-              className="block px-4 py-3 text-sm transition-all hover:rounded-lg text-neutral-100 border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed hover:bg-neutral-800 hover:scale-[1.02]"
+              className="block px-4 py-3 text-sm transition-all hover:rounded-lg uppercase text-dark border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed  hover:scale-[1.02]"
               to="/exchange"
             >
-              Exchange
+              Marylebone
             </Link>
           </li>
           <li role="menuitem">
             <Link
-              className="block px-4 py-3 text-sm transition-all hover:rounded-lg text-neutral-100 border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed hover:bg-neutral-800 hover:scale-[1.02]"
+              className="block px-4 py-3 text-sm uppercase transition-all hover:rounded-lg text-dark border-b border-neutral-800 hover:border-none rounded-none lg:hover:bg-mainRed  hover:scale-[1.02]"
               to="/finance"
             >
-              Finance
+              North finchley
             </Link>
           </li>
         </ul>
@@ -144,7 +145,7 @@ const Navbar = () => {
   }, [isPopUpOpen]);
 
   return (
-    <div className="">
+    <div className="fixed z-40 w-full">
       <p className="text-center  text-dark bg-light py-2">
         New to Exhale? Make sure you check out our Intro Offers here.
       </p>

@@ -22,7 +22,7 @@ const HomeMain = () => {
       <Testimonial/>
       <RecommendedBy/>
       <ContactUs/>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   )
 }
