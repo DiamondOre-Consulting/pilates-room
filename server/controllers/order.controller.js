@@ -1,5 +1,5 @@
 import User from "../models/user.model.js"
-import sendResponse from "../utils/sendResponse"
+import sendResponse from "../utils/sendResponse.js"
 
 export const createOrder = asyncHandler(async()=>{
 })
