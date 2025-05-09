@@ -1,7 +1,7 @@
 import cloudinary from "cloudinary"
 import ApiError from "./apiError.js"
 
-export const fileUpload = async(fileBuffer,folder)=>{
+export const fileUpload = async(fileBuffer,fileName,folder)=>{
     try{
 
         return new Promise((resolve, reject) => {
@@ -9,11 +9,9 @@ export const fileUpload = async(fileBuffer,folder)=>{
                 { folder:folder },
                 (error, result) => {
                     if (error) return reject(new Error("Upload failed: " + error.message));
-                    resolve(()=>{
-                        const fileNameWithExtension = file.originalname
-                        const fileName = fileNameWithExtension.split('.').slice(0, -1).join('.')
-                        return { publicId: result.public_id, secureUrl: result.secure_url ,uniqueId:fileName}
-                    },);
+                    console.log(fileBuffer)
+                    const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.')                  
+                    resolve( {publicId: result.public_id, secureUrl: result.secure_url ,uniqueId:fileNameWithoutExtension});
                 }
             );
             uploadStream.end(fileBuffer);

@@ -41,7 +41,7 @@ export const createTraining = asyncHandler(async(req,res)=>{
        
         const uploads = await Promise.allSettled(
             req.files.trainingImage.map((file) => {
-                return fileUpload(file.buffer, "training");
+                return fileUpload(file.buffer, file.fileName, "training");
             })
         )
 
@@ -116,7 +116,7 @@ export const editTraining = asyncHandler(async(req,res)=>{
     if(req.files?.trainingImage){      
         trainingImages = await Promise.allSettled(
             req.files.trainingImage.map((file) => {
-                return fileUpload(file.buffer, "training");
+                return fileUpload(file.buffer, file.name,"training");
             })
         )
     }
