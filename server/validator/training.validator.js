@@ -53,5 +53,9 @@ export const editTrainingsParamsSchema = z.object({
     trainingId:z.string().trim()
 })
 
+export const fetchMoreInfoParamsSchema =z.object({
+    trainingId:z.string().trim()
+})
+
 
 

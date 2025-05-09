@@ -189,3 +189,17 @@ export const deleteTraining = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Training deleted successfully")
 
 })
+
+
+export const fetchMoreInfo = asyncHandler(async(req,res)=>{
+
+    const {trainingId} = req.validatedData.params
+    const training = await Training.findById(trainingId)
+    if(!training){
+        throw new ApiError("Training not found",404)
+    }
+    if (!training.moreInfo || training.moreInfo.length === 0) {
+        throw new ApiError("No additional info available", 404);
+    }
+    sendResponse(res,200,training.moreInfo,"More info fetched successfully")
+})
