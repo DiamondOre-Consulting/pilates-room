@@ -17,7 +17,7 @@ const tabs = [
   { link: "/", label: "Dashboard", icon: IconLayoutDashboardFilled },
   { link: "/all-class/", label: "All Classes", icon: IconFileCvFilled },
   { link: "/all-packages/", label: "All Packages", icon: IconKey },
-  { link: "/catalogue/products", label: "Products", icon: IconFingerprint },
+  { link: "/teacher-training", label: "Teacher Training", icon: IconFingerprint },
   { link: "/catalogue/meta-data", label: "Meta Data", icon: IconTrash },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
   { link: "/other-settings", label: "Other Settings", icon: IconSettings },

@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Classes from './pages/Classes';
 import Packages from './pages/Packages';
+import TeacherTraining from './pages/TeacherTraining';
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path='/all-class' element={<Classes/>}/>
         <Route path='/all-packages' element={<Packages/>}/>
+        <Route path='/teacher-training' element={<TeacherTraining/>}/>
         </Routes>
    
   
