@@ -65,7 +65,6 @@ export const createTraining = asyncHandler(async(req,res)=>{
 
 })
 
-
 export const getTrainings = asyncHandler(async(req,res)=>{
 
     const category = req.validatedData.query.category
@@ -114,9 +113,9 @@ export const editTraining = asyncHandler(async(req,res)=>{
 
     let trainingImages=[]
 
-    if(req.files?.trainingImages){      
+    if(req.files?.trainingImage){      
         trainingImages = await Promise.allSettled(
-            req.files.trainingImages.map((file) => {
+            req.files.trainingImage.map((file) => {
                 return fileUpload(file.buffer, "training");
             })
         )
