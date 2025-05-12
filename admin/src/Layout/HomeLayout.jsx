@@ -82,7 +82,7 @@ export function HomeLayout({ children }) {
           <div
             className={`px-1.5  border-t border-gray-700 flex flex-col w-full py-1 space-y-2`}
           >
-            {tabs.map((item) => {
+            {tabs?.map((item) => {
               return (
                 <div
                   className={`flex items-center cursor-pointer w-full overflow-hidden space-y-2  space-x-2 h-[2.3rem]  rounded transition-all duration-300 

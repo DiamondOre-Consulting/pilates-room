@@ -57,7 +57,7 @@ const IntroOffer = () => {
         <BookingSection />
       </div>
 
-      {allPackages.map((pkg, index) => (
+      {allPackages?.map((pkg, index) => (
         <div
           className={`flex md:px-0 px-4  flex-col md:flex-row md:space-y-0 space-y-4 ${
             index % 2 === 0

@@ -90,7 +90,6 @@ export const changePassword = createAsyncThunk(
       toast.success(response?.data?.message);
       return response.data
 
-      return response?.data;
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message);
@@ -105,6 +104,7 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
     return response?.data;
   } catch (error) {
     console.log(error);
+    initialState.isLoggedIn = false;
   }
 });
 
