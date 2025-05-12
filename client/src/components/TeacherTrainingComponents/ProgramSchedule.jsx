@@ -41,7 +41,11 @@ const ProgramSchedule = () => {
               </a>
               <a href="#!">
                 <div class="text-base absolute top-0 right-0 bg-dark rounded-2xl px-4 py-1 uppercase text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
-                  {ele.date.split("T")[0]}
+                  {new Date(ele.date).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </div>
               </a>
             </div>
@@ -63,7 +67,12 @@ const ProgramSchedule = () => {
                 href="#"
                 class="py-1 text-xs font-regular text-dark mr-1 flex flex-row items-center"
               >
-                <Link to={`/teacher-single-training/${ele?._id}`} class="ml-1 uppercase">Show more </Link>
+                <Link
+                  to={`/teacher-single-training/${ele?._id}`}
+                  class="ml-1 uppercase"
+                >
+                  Show more{" "}
+                </Link>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"

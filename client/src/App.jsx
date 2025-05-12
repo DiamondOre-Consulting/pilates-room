@@ -10,8 +10,22 @@ import TeacherTraining from "./pages/TeacherTraining";
 import SingleTraining from "./components/TeacherTrainingComponents/SingleTraining";
 import MoreInfoTrainings from "./components/TeacherTrainingComponents/MoreInfoTrainings";
 import PrivateSession from "./pages/PrivateSession";
+import Membership from "./pages/Membership";
+import { useDispatch } from "react-redux";
+import { userData } from "./Redux/Slices/authSlice";
+import { useEffect } from "react";
 
 export default function App() {
+  
+const dispatch = useDispatch()
+
+  const fetchData  = async()=>{
+    await dispatch(userData())
+  }
+
+  useEffect(()=>{
+    fetchData()
+  } , [location.pathname , dispatch])
   return (
     <>
 
@@ -27,6 +41,7 @@ export default function App() {
       <Route path="/teacher-single-training/:id" element={<SingleTraining/>}/>
       <Route path="/moreInfo/:id" element={<MoreInfoTrainings/>}/> 
       <Route path="/private-session" element={<PrivateSession/>}/>
+      <Route path="/membership" element={<Membership/>}/>
     </Routes>
     <Footer/>
     </>

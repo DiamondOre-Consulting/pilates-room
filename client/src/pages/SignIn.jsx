@@ -2,6 +2,7 @@ import { forgotPassword, userSignIn } from "@/Redux/Slices/authSlice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { RxCross1 } from "react-icons/rx";
+import UserDashboard from "./UserDashboard";
 
 const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [loader, setLoader] = useState(false);
@@ -10,6 +11,8 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPasswordPopUp, setForgotPasswordPopUp] = useState(false);
+  
+
 
   const handleSignIn = async () => {
     console.log("clicked");
@@ -18,8 +21,10 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
     try {
       const response = await dispatch(userSignIn({ email, password }));
       console.log(response);
-      if(response?.payload?.statusCode == 200){
+      if(response?.payload?.success){
+       
         setIsPopUpOpen(false);
+       
       }
      
     } catch (error) {
@@ -215,6 +220,10 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
           </button>
         </div>
       </div>
+
+
+
+
     </div>
   );
 };

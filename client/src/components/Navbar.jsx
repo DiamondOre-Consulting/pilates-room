@@ -5,7 +5,9 @@ import { IoIosArrowDown } from "react-icons/io";
 import Signup from "@/pages/Signup";
 import SignIn from "@/pages/SignIn";
 import { RxCross1 } from "react-icons/rx";
-import logo from '../assets/TPR-Logo.webp'
+import logo from "../assets/TPR-Logo.webp";
+import { useSelector } from "react-redux";
+import UserDashboard from "@/pages/UserDashboard";
 
 const routes = [
   { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
@@ -13,7 +15,7 @@ const routes = [
   { name: "PRIVATES", href: "/private-session", isActive: false },
   // { name: "PRICING", href: "/accessories", isActive: false },
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
-  // { name: "EVENTS & WORKSHOP", href: "/about-us", isActive: false },
+  { name: "MEMBERSHIP", href: "/membership", isActive: false },
 ];
 
 const NavMenu = ({ routes, isOpen, setIsOpen }) => {
@@ -125,7 +127,8 @@ const Navbar = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const popupRef = useRef(null);
-
+  const { isLoggedIn, user } = useSelector((state) => state?.auth);
+const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -144,10 +147,16 @@ const Navbar = () => {
     };
   }, [isPopUpOpen]);
 
+  console.log("data", user, isLoggedIn);
+
   return (
     <div className="fixed z-40 w-full">
       <p className="text-center  text-dark bg-light py-2">
-        New to Exhale? Make sure you check out our Intro Offers here.
+        New to Room? Make sure you check out our Intro Offers{" "}
+        <Link to={"/intro-offers"} className="underline">
+          here
+        </Link>
+        .
       </p>
 
       <nav className=" top-0 left-0 w-full z-20  bg-mainBg text-zinc-900">
@@ -155,11 +164,7 @@ const Navbar = () => {
           <div className="container  flex  justify-between py-3 lg:py-3 items-center px-4 lg:px-0 mx-auto lg:max-w-[95%]">
             <div className="flex items-center">
               <Link to={"/"} className=" text-3xl  font-white" href="#!">
-                <img
-                  src={logo}
-                  className="w-[5rem] lg:w-[6rem]"
-                  alt=""
-                />
+                <img src={logo} className="w-[5rem] lg:w-[6rem]" alt="" />
               </Link>
               <div className="flex flex-row  items-center  p-2 lg:flex-row-reverse">
                 <div onClick={() => setIsOpen(false)}>
@@ -170,7 +175,7 @@ const Navbar = () => {
                                 <SearchModal />
                             </Modal> */}
                 </div>
-           
+
                 <NavMenu
                   routes={routes}
                   isOpen={isOpen}
@@ -180,38 +185,61 @@ const Navbar = () => {
             </div>
             <div className="flex items-center space-x-6">
               <FiPhone className="text-2xl text-gray-600" />
-              <button onClick={()=> setIsPopUpOpen(true)} className="border border-[#FF6950]  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+              <button
+                onClick={() => setIsPopUpOpen(true)}
+                className={`border border-[#FF6950] ${isLoggedIn ? "hidden" : "block"}  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white`}
+              >
                 Login
               </button>
-              <button
-                  className="z-20 block cursor-pointer size-10 lg:hidden "
-                  type="button"
-                  id="hamburger"
-                  onClick={() => setIsOpen(!isOpen)}
+              {isLoggedIn && (
+                <svg
+                onClick={()=> setUserDashboardPopUp(true)}
+                  className="text-gray-700 cursor-pointer"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-user-round-icon lucide-circle-user-round"
                 >
-                  {isOpen ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6 text-black"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  ) : (
-                    <>
-                      <div className="h-0.5 w-7 bg-black mb-1" />
-                      <div className="h-0.5 w-7 bg-black mb-1" />
-                      <div className="h-0.5 w-7 bg-black" />
-                    </>
-                  )}
-                </button>
+                  <path d="M18 20a6 6 0 0 0-12 0" />
+                  <circle cx="12" cy="10" r="4" />
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              )}
+              <button
+                className="z-20 block cursor-pointer size-10 lg:hidden "
+                type="button"
+                id="hamburger"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                {isOpen ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-black"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <>
+                    <div className="h-0.5 w-7 bg-black mb-1" />
+                    <div className="h-0.5 w-7 bg-black mb-1" />
+                    <div className="h-0.5 w-7 bg-black" />
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -219,9 +247,10 @@ const Navbar = () => {
 
       {isPopUpOpen && (
         <div className="fixed inset-0 z-80 flex items-center justify-center bg-black/20">
-          <div    ref={popupRef} className="bg-white lg:max-h-[90vh] lg:min-w-[90vw] rounded-md">
-         
-        
+          <div
+            ref={popupRef}
+            className="bg-white lg:max-h-[90vh] lg:min-w-[90vw] rounded-md"
+          >
             {isSignIn ? (
               <SignIn
                 setIsPopUpOpen={setIsPopUpOpen}
@@ -236,6 +265,38 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+
+
+    {
+      userDashboardPopUp &&(
+        <div className='fixed inset-0 z-40 min-h-full    transition flex items-center justify-center'>
+        <div className="fixed inset-0 bg-black/50" onClick={()=> setUserDashboardPopUp(false)}></div>
+        <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
+        <button
+          type="button"
+          onClick={() => setUserDashboardPopUp(false)}
+          className="absolute top-2 right-2 cursor-pointer"
+        >
+          <svg
+            className="h-5 w-5 text-gray-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      <UserDashboard setUserDashboardPopUp={setUserDashboardPopUp}/>
+        </div>
+     
+    </div>
+      )
+    }
     </div>
   );
 };
