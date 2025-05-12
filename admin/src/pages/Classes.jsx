@@ -531,7 +531,7 @@ const Classes = () => {
               onSubmit={handleSubmit(handleAddClass)}
               className="text-gray-700 grid grid-cols-2 gap-4  pt-18 text-sm"
             >
-              {formState.map((input, index) => (
+              {formState?.map((input, index) => (
                 <div
                   key={index}
                   className={`flex flex-col ${
@@ -653,7 +653,7 @@ const Classes = () => {
               onSubmit={handleSubmit(handleEditClass)}
               className="text-gray-700 grid grid-cols-2 gap-4 pt-14 text-sm"
             >
-              {formState.map((input, index) => (
+              {formState?.map((input, index) => (
                 <div
                   key={index}
                   className={`flex flex-col ${

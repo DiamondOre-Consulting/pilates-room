@@ -252,7 +252,7 @@ console.log(trainingImage)
           onSubmit={handleSubmit(handleEditTraining)}
           className="text-gray-700 grid grid-cols-3 gap-4 h-[90vh] overflow-y-auto text-sm"
         >
-          {formState.map((input, index) => (
+          {formState?.map((input, index) => (
             <div
               key={index}
               className={`flex flex-col ${
@@ -347,7 +347,7 @@ console.log(trainingImage)
             </div>
           ))}
 
-          {fields.map((item, index) => (
+          {fields?.map((item, index) => (
             <div
               key={item.id}
               className="border col-span-3 space-y-1 p-3 rounded-md mt-2"
