@@ -25,6 +25,12 @@ const IntroOffer = () => {
     handleGetAllPackages();
   }, []);
 
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
+
   console.log(allPackages)
   return (
     <div>

@@ -8,9 +8,15 @@ import OurStudios from '@/components/OurStudios'
 import RecommendedBy from '@/components/RecommendedBy'
 import Testimonial from '@/components/Testimonial'
 import WhatWeDo from '@/components/WhatWeDo'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const HomeMain = () => {
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
+  
   return (
     <div>
       <Hero/>
