@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ExhaleEducationSection = () => {
   return (
@@ -11,7 +12,7 @@ const ExhaleEducationSection = () => {
             </h2>
 
             <div className="flex flex-col md:flex-row justify-between w-full gap-y-8 md:gap-y-0 md:gap-x-20  items-center mt-12 ">
-              <div className="flex flex-col justify-center items-start ">
+              <div className="flex flex-col justify-center items-center md:items-start ">
                 <article className="rounded-lg ">
                   <div className="relative">
                     <img
@@ -21,13 +22,13 @@ const ExhaleEducationSection = () => {
                   </div>
                 </article>
 
-                <button className="border text-dark border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+                <Link to={'/teacher-training'} className="border text-dark border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
                     Teacher Training
-                </button>
+                </Link>
               </div>
 
 
-              <div className="flex flex-col justify-start items-end ">
+              <div className="flex flex-col justify-start items-center md:items-end ">
                 <article className="rounded-lg ">
                   <div className="relative">
                     <img

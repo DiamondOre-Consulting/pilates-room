@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const WhatWeDo = () => {
   return (
     <div className="py-10 bg-light">
       <div className="flex flex-col justify-center items-center max-w-xl mx-auto space-y-4">
         <h1 className="text-5xl text-dark">What We Do</h1>
-        <p className="text-center mt-6 text-dark">
+        <p className="text-center mt-6 text-dark md:px-0 px-4">
           From clients who are new to Pilates, recovering from an injury, post
           pregnancy or wanting to be seriously challenged. Those wanting a
           career change or to enhance their current Pilates knowledge with our
@@ -15,9 +16,9 @@ const WhatWeDo = () => {
         <p className="text-dark">
           There’s a class for everyone at Exhale. Find yours now.
         </p>
-        <button className="border text-dark bg-white hover:text-white mt-6 border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+        <Link to={'/class-schedule'} className="border text-dark bg-white hover:text-white mt-6 border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
           View class timetable
-        </button>
+        </Link>
       </div>
 
       <div className="flex justify-between flex-wrap gap-y-10 mt-20 px-4 md:px-20">
@@ -35,9 +36,9 @@ const WhatWeDo = () => {
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, laborum, hic earum officia sit, quibusdam blanditiis saepe nesciunt sapiente nihil dolores et? Ad adipisci quos nisi, earum veritatis deleniti nesciunt.</p>
             </div>
           </div>
-          <button className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
-            Teacher Training
-          </button>
+          <Link to={'/intro-offers'} className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+           Intro offers
+          </Link>
         </div>
 
         <div className="flex flex-col justify-center  items-center">
@@ -52,9 +53,9 @@ const WhatWeDo = () => {
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, laborum, hic earum officia sit, quibusdam blanditiis saepe nesciunt sapiente nihil dolores et? Ad adipisci quos nisi, earum veritatis deleniti nesciunt.</p>
             </div>
           </div>
-          <button className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+          <Link to={'/teacher-training'} className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
             Teacher Training
-          </button>
+          </Link>
         </div>
 
         <div className="flex flex-col justify-center  items-center">
