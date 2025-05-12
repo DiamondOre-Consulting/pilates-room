@@ -12,33 +12,26 @@ export const createCouponBodySchema = z.object({
     isFirst: z.coerce.boolean().default(false)
 })
 
-// const couponIdSchema =  z.object({
-//     couponId : z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid coupon ID format" }),
-// });
+const couponIdSchema =  z.object({
+    couponId : z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid coupon ID format" }),
+});
 
 
-// export const deleteCouponParamsSchema =  couponIdSchema;
+export const deleteCouponParamsSchema =  couponIdSchema;
 
 
-// export const editCouponParamsSchema = couponIdSchema;
+export const editCouponParamsSchema = couponIdSchema;
 
 
-// export const editCouponBodySchema = z.object({
-//     couponCode : z.string().optional(),
-//     discountType : z.enum(["percentage", "fixed"]).optional(),
-//     startDate : z.preprocess(val => new Date(val), z.date()).optional(),
-//     endDate : z.preprocess(val => new Date(val), z.date()).optional(),
-//     minAmount : z.coerce.number().min(1, "Min amount is required").optional(),
-//     discountValue : z.coerce.number().min(1, "Discount value is required").optional(),
-//     isActive : z.coerce.boolean().default(true).optional(),
-// })
+export const editCouponBodySchema = z.object({
+    couponCode : z.string().optional(),
+    discountType : z.enum(["percentage", "fixed"]).optional(),
+    startDate : z.preprocess(val => new Date(val), z.date()).optional(),
+    endDate : z.preprocess(val => new Date(val), z.date()).optional(),
+    minAmount : z.coerce.number().min(1, "Min amount is required").optional(),
+    discountValue : z.coerce.number().min(1, "Discount value is required").optional(),
+    isActive : z.coerce.boolean().default(true).optional(),
+    isFirst: z.coerce.boolean().default(false).optional()
+})
 
 
-// export const applyCouponParamsSchema = z.object({
-//     couponCode: z.string().min(3).max(20).trim()
-// })
-
-// export const buyNowApplyCouponParamsSchema = z.object({
-//     couponCode: z.string().min(3).max(20).trim(),
-//     productId : z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid product ID format" }),
-// })

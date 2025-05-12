@@ -8,8 +8,8 @@ import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePac
 import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
 import { createTraining, deleteTraining, editTraining, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
-import { createCoupon } from "../controllers/coupon.controller.js"
-import { createCouponBodySchema } from "../validator/coupon.validator.js"
+import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
+import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 
 
 
@@ -85,6 +85,23 @@ adminRouter.put('/edit-training/:trainingId',upload(2).fields([{ name: 'training
 adminRouter.post('/create-coupon',validate({
   body:createCouponBodySchema
 }),createCoupon)
+
+
+adminRouter.get('/get-all-coupons',getAllCoupons)
+
+adminRouter.delete('/delete-coupon/:couponId',validate({
+   params:deleteCouponParamsSchema
+}),deleteCoupon)
+
+
+adminRouter.put('/edit-coupon/:couponId',validate({
+    body:editCouponBodySchema, params:editCouponParamsSchema
+}),editCoupon)
+
+
+
+
+
 
 
 
