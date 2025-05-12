@@ -9,6 +9,7 @@ import ClassSchedule from "./pages/ClassSchedule";
 import TeacherTraining from "./pages/TeacherTraining";
 import SingleTraining from "./components/TeacherTrainingComponents/SingleTraining";
 import MoreInfoTrainings from "./components/TeacherTrainingComponents/MoreInfoTrainings";
+import PrivateSession from "./pages/PrivateSession";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
       <Route path="/teacher-training" element={<TeacherTraining/>}/>
       <Route path="/teacher-single-training/:id" element={<SingleTraining/>}/>
       <Route path="/moreInfo/:id" element={<MoreInfoTrainings/>}/> 
+      <Route path="/private-session" element={<PrivateSession/>}/>
     </Routes>
     <Footer/>
     </>

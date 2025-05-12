@@ -9,11 +9,11 @@ import logo from '../assets/TPR-Logo.webp'
 
 const routes = [
   { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
-  // { name: "TIME TABLE", href: "/bike", isActive: false },
-  { name: "PRIVATES", href: "/scooty", isActive: false },
-  { name: "PRICING", href: "/accessories", isActive: false },
+  { name: "TIME TABLE", href: "/class-schedule", isActive: false },
+  { name: "PRIVATES", href: "/private-session", isActive: false },
+  // { name: "PRICING", href: "/accessories", isActive: false },
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
-  { name: "EVENTS & WORKSHOP", href: "/about-us", isActive: false },
+  // { name: "EVENTS & WORKSHOP", href: "/about-us", isActive: false },
 ];
 
 const NavMenu = ({ routes, isOpen, setIsOpen }) => {
@@ -65,7 +65,7 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
           </Link>
         </li>
       ))}
-      <li className="relative" ref={dropdownRef}>
+      {/* <li className="relative" ref={dropdownRef}>
         <Link
         to={'/class-schedule'}
           className="flex items-center gap-x-3 tracking-wide text-dark hover:text-dark lg:hover:text-dark"
@@ -111,7 +111,7 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
             </Link>
           </li>
         </ul>
-      </li>
+      </li> */}
     </ul>
   );
 };

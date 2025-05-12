@@ -134,17 +134,17 @@ const FindClassSection = () => {
 
   return (
     <>
-      <section className="py-10 px-10 ">
+      <section className="py-10 px-4 md:px-10 ">
         <p className="text-gray-400 mr-0 mb-4 ">My Account</p>
-        <div className="flex  justify-between">
+        <div className="flex md:flex-row flex-col justify-between">
           <div>
             <h1 className="text-3xl">Find a Class</h1>
           </div>
-          <div className="flex flex-col justify-end items-end ">
-            <div className="flex space-x-6">
+          <div className="flex flex-col justify-end md:items-end ">
+            <div className="flex space-x-1 md:space-x-6">
               <select
                 onChange={(e) => setLocation(e.target?.value)}
-                className="border rounded-md px-4 py-2 border-gray-300"
+                className="border rounded-md px-1 md:px-4 py-2 border-gray-300"
               >
                 <option value={null}>Location</option>
                 {allClasses?.map((cls) => (
@@ -152,11 +152,11 @@ const FindClassSection = () => {
                 ))}
               </select>
 
-              <select className="border rounded-md px-4 py-2 border-gray-300">
+              <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
                 <option>class Type</option>
               </select>
 
-              <select className="border rounded-md px-4 py-2 border-gray-300">
+              <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
                 <option>Instructor</option>
               </select>
             </div>

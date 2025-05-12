@@ -150,7 +150,8 @@ const SingleTraining = () => {
         </div>
       </div>
 
-      <div className="absolute fixed bottom-0 w-full z-40 ">
+      <div className="absolute fixed bottom-0 w-full z-40 md:block hidden">
+        
         <BookingSection />
       </div>
     

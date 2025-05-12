@@ -12,7 +12,7 @@ const BookingSection = () => {
       <p
         className="flex justify-center items-center w-full text-dark cursor-pointer hover:underline 
                             hover:decoration-text-dark
-                            hover:text-red-300
+                            hover:text-[#FF6950]
                             underline-offset-4 
                             transition-all 
                             duration-200"
@@ -23,21 +23,24 @@ const BookingSection = () => {
       to={'/class-schedule'}
         className="flex justify-center items-center w-full text-dark  hover:underline 
                             hover:decoration-text-dark
+                             hover:text-[#FF6950]
                             underline-offset-4 
                             transition-all 
                             duration-200 md:border-x-2 border-black h-full"
       >
         Join a class
       </Link>
-      <p
+      <Link
+      to={'/teacher-training'}
         className="flex justify-center items-center w-full text-dark  hover:underline 
                             hover:decoration-text-dark
                             underline-offset-4 
+                             hover:text-[#FF6950]
                             transition-all 
                             duration-200"
       >
         Book Teacher Training
-      </p>
+      </Link>
     </div>
   );
 };
