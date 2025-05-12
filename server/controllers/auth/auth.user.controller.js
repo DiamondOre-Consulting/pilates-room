@@ -303,6 +303,13 @@ export const changePassword = asyncHandler(async(req,res)=>{
 
 
 
+export const getProfile = asyncHandler(async(req,res)=>{  
+    const user = req.user
+    sendResponse(res, 200, user, "User profile fetched successfully");
+})
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 import {Router} from "express"
 import  validate  from "../middlewares/zod.validator.js"
 import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
-import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword } from "../controllers/auth/auth.user.controller.js"
+import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword, getProfile } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
 
 import { getClasses } from "../controllers/class.admin.controller.js"
@@ -55,6 +55,9 @@ userRouter.get('/get-all-trainings',validate({
 userRouter.get('/get-single-training/:trainingId',validate({
      params:getSingleTrainingParamsSchema
 }),getSingleTraining)
+
+
+userRouter.get('/get-user',userMiddleware,getProfile)
 
 
 
