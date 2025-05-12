@@ -16,8 +16,8 @@ const Hero = () => {
           ></video>
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-black/40  z-10"></div>
-        <div className="video-content max-w-4xl leading-22  z-10">
-          <h1 className="text-[2rem] md:text-[5rem] uppercase">Londons most loved Pilates Studio</h1>
+        <div className="video-content w-sm md:w-4xl leading-16  md:leading-22  z-10">
+          <h1 className="text-[3rem] md:text-[5rem] uppercase ">Londons most loved Pilates Studio</h1>
           <Link to={'/intro-offers'} className="uppercase border text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]">Get Started</Link>
         </div>
       </section>

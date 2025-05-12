@@ -99,7 +99,7 @@ const AccountDetails = () => {
                 type="text"
                 value={newPassword}  onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter New Password"
-                className="focus:outline-none px-1 "
+                className="focus:outline-none px-1 w-60"
               />
               <div className="text-xs flex  ">
                 <div className="flex justify-center  items-center space-x-1">

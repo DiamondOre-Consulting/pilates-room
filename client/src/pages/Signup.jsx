@@ -187,6 +187,12 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                 "Send Otp"
               )}
             </button>
+              <p className="lg:hidden md:hidden block mt-2 cursor-pointer">
+            {" "}
+            already have an account ?{" "}
+            <span onClick={() => setIsSignIn(true)}>signin</span>
+          </p>
+
           </div>
           <div className="border w-full  bg-light flex flex-col py-10 md:hidden hidden lg:flex justify-between items-center ">
             <div>
@@ -199,7 +205,9 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
             >
               Sign In
             </button>
+            
           </div>
+          
         </div>
       </div>
     </div>
