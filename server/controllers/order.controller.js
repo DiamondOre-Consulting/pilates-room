@@ -3,8 +3,14 @@ import asyncHandler from "../utils/asyncHandler.js";
 import sendResponse from "../utils/sendResponse.js"
 
 
-export const createOrder = asyncHandler(async()=>{
-})
+// export const createOrder = asyncHandler(async()=>{
+
+//        const userId = req.user._id;
+
+//        const user = await User.findById(userId);
+
+
+// })
 
 
 export const addToCart = asyncHandler(async(req, res) => {

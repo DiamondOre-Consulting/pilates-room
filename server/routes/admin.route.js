@@ -108,7 +108,7 @@ adminRouter.post('/create-membership-package',validate({
 
 adminRouter.get('/get-all-membership-packages',getAllMembershipPackages)
 
-adminMiddleware.get('/get-single-membership-package/:membershipPackageId',validate({
+adminRouter.get('/get-single-membership-package/:membershipPackageId',validate({
     params:getSingleMembershipPackageParamsSchema
 }),getSingleMembershipPackage)
 
