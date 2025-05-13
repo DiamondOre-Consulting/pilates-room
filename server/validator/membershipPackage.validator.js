@@ -13,5 +13,10 @@ export const createMembershipPackageBodySchema = z.object({
 })
 
 export const getSingleMembershipPackageParamsSchema = z.object({
-    packageId:z.string().trim()
+    membershipPackageId:z.string().trim()
+})
+
+
+export const deleteMembershipPackageParamsSchema = z.object({
+    membershipPackageId:z.string().trim()
 })

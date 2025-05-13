@@ -10,8 +10,8 @@ import { createTraining, deleteTraining, editTraining, getSingleTraining, getTra
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
-import { createMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
-import { createMembershipPackageBodySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
+import { createMembershipPackage, deleteMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
+import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 
 
 
@@ -111,6 +111,12 @@ adminRouter.get('/get-all-membership-packages',getAllMembershipPackages)
 adminMiddleware.get('/get-single-membership-package/:membershipPackageId',validate({
     params:getSingleMembershipPackageParamsSchema
 }),getSingleMembershipPackage)
+
+
+
+adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
+    params:deleteMembershipPackageParamsSchema
+}),deleteMembershipPackage)
 
 
 

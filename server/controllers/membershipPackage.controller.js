@@ -39,3 +39,16 @@ export const getSingleMembershipPackage = asyncHandler(async(req,res)=>{
     }
     sendResponse(res,200,membershipPackage,"Membership package fetched successfully")
 })
+
+
+export const deleteMembershipPackage = asyncHandler(async(req,res)=>{
+
+    const {membershipPackageId} = req.validatedData.params
+
+    const deletedMembershipPackage = await MembershipPackage.findByIdAndDelete(membershipPackageId)
+    if(!deletedMembershipPackage){
+        throw new ApiError("Membership package not found",404)
+    }
+    sendResponse(res,200,null,"Membership package deleted successfully")
+    }
+)
