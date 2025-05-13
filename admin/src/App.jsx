@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Classes from './pages/Classes';
 import Packages from './pages/Packages';
 import TeacherTraining from './pages/TeacherTraining';
+import MembershipPackage from './pages/MembershipPackage';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path='/all-class' element={<Classes/>}/>
         <Route path='/all-packages' element={<Packages/>}/>
         <Route path='/teacher-training' element={<TeacherTraining/>}/>
+        <Route path='/membership-package' element={<MembershipPackage/>}/>
         </Routes>
    
   

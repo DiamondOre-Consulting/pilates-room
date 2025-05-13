@@ -73,6 +73,8 @@ export const editClass = createAsyncThunk('/admin/edit-class' , async({classId ,
     toast.error(error?.response?.data?.message)
   } 
 })
+
+
 const classSlice = createSlice({
   name: "class",
   initialState: null,

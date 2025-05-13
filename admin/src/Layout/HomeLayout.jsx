@@ -18,7 +18,7 @@ const tabs = [
   { link: "/all-class/", label: "All Classes", icon: IconFileCvFilled },
   { link: "/all-packages/", label: "All Packages", icon: IconKey },
   { link: "/teacher-training", label: "Teacher Training", icon: IconFingerprint },
-  { link: "/catalogue/meta-data", label: "Meta Data", icon: IconTrash },
+  { link: "/membership-package", label: "Membership Package", icon: IconTrash },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
   { link: "/other-settings", label: "Other Settings", icon: IconSettings },
 ];
