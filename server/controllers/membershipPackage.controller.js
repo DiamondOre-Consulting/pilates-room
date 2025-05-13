@@ -52,3 +52,22 @@ export const deleteMembershipPackage = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Membership package deleted successfully")
     }
 )
+
+
+
+export const editMembershipPackage = asyncHandler(async(req,res)=>{ 
+
+    const {membershipPackageId} = req.validatedData.params
+
+    const existingMembershipPackage = await MembershipPackage.findById(membershipPackageId)
+    if(!existingMembershipPackage){
+        throw new ApiError("Membership package not found",404)
+    }
+
+    Object.assign(existingMembershipPackage, req.validatedData.body);
+  
+    await existingMembershipPackage.save()
+
+    sendResponse(res,200,existingMembershipPackage,"Membership package updated")
+    }
+)

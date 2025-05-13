@@ -10,8 +10,8 @@ import { createTraining, deleteTraining, editTraining, getSingleTraining, getTra
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
-import { createMembershipPackage, deleteMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
-import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
+import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
+import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 
 
 
@@ -118,6 +118,10 @@ adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
     params:deleteMembershipPackageParamsSchema
 }),deleteMembershipPackage)
 
+
+adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
+    body:editMembershipPackageBodySchema, params:editMembershipPackageParamsSchema
+}),editMembershipPackage)
 
 
 

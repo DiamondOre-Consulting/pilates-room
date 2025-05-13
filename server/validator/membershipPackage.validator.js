@@ -20,3 +20,19 @@ export const getSingleMembershipPackageParamsSchema = z.object({
 export const deleteMembershipPackageParamsSchema = z.object({
     membershipPackageId:z.string().trim()
 })
+
+
+export const editMembershipPackageBodySchema = z.object({
+    packageName:z.string().trim().optional(),
+    validity:z.string().trim().optional(),
+    totalSessions:z.coerce.number().optional(),
+    price:z.coerce.number().optional(),
+    perSessionPrice:z.coerce.number().optional(),
+    description:z.string().trim().optional(),
+    packageType:z.enum(["monthly","quarterly","yearly"]).optional(),
+    available: z.string().transform(val => val === "true").optional(),
+})
+
+export const editMembershipPackageParamsSchema = z.object({
+    membershipPackageId:z.string().trim()
+})
