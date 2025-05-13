@@ -5,81 +5,81 @@ import sendResponse from "../utils/sendResponse.js"
 
 
 
-// export const createOrder = asyncHandler(async()=>{
+export const createOrder = asyncHandler(async()=>{
 
-//        const userId = req.user._id;
-//        const paymentId = req.validatedData.body.paymentId
+       const userId = req.user._id;
+       const paymentId = req.validatedData.body.paymentId
 
-//        const userWithCart = await User.findById(userId)
-//                 .populate({
-//                     path: 'cart.item',
-//                     model: doc => doc.cart.itemType 
-//                 });
+       const userWithCart = await User.findById(userId)
+                .populate({
+                    path: 'cart.item',
+                    model: doc => doc.cart.itemType 
+                });
 
                 
-//         if(!userWithCart.isMember){
+        if(!userWithCart.isMember){
 
-//            const payment = await razorpayInstance.payments.fetch(paymentId);
-//            const paymentStatus = payment.status;
+           const payment = await razorpayInstance.payments.fetch(paymentId);
+           const paymentStatus = payment.status;
 
-//                 if(userWithCart.cart.itemType === 'Package'){
+                if(userWithCart.cart.itemType === 'Package'){
 
-//                             const order = await Order.create({
-//                                 user: userId,
-//                                 Product: {
-//                                     item: userWithCart.cart.item._id,
-//                                     itemType: userWithCart.cart.itemType
-//                                 },
-//                                 status: 'scheduled',
-//                                 isMember: false,
-//                                 price: userWithCart.cart.item.price,
-//                                 paymentStatus: paymentStatus
-//                             })
+                            const order = await Order.create({
+                                user: userId,
+                                Product: {
+                                    item: userWithCart.cart.item._id,
+                                    itemType: userWithCart.cart.itemType
+                                },
+                                status: 'scheduled',
+                                isMember: false,
+                                price: userWithCart.cart.item.price,
+                                paymentStatus: paymentStatus
+                            })
                     
-//                 }
-//           else{
+                }
+          else{
 
              
-//                     const order = await Order.create({
-//                         user: userId,
-//                         Product: {
-//                             item: userWithCart.cart.item._id,
-//                             itemType: userWithCart.cart.itemType
-//                         },
-//                         status: 'scheduled',
-//                         scheduledDate: userWithCart.cart.item.date,
-//                         isMember: false,
-//                         price: userWithCart.cart.item.price,
-//                         paymentStatus: paymentStatus
-//                     }) 
+                    const order = await Order.create({
+                        user: userId,
+                        Product: {
+                            item: userWithCart.cart.item._id,
+                            itemType: userWithCart.cart.itemType
+                        },
+                        status: 'scheduled',
+                        scheduledDate: userWithCart.cart.item.date,
+                        isMember: false,
+                        price: userWithCart.cart.item.price,
+                        paymentStatus: paymentStatus
+                    }) 
           
 
-//           }
+          }
 
        
             
              
             
 
-//        }
-//        else{
+       }
+       else{
 
-//                 if(userWithCart.memberShipPlan.startDate){
+                if(userWithCart.memberShipPlan.startDate){
                     
-//                      if()
+                     if()
 
-//                 }
-//                 else{
+                }
+                else{
 
-//                 }
+                }
 
 
                     
 
-//        }
+       }
 
 
-// })
+})
 
 
 export const addToCart = asyncHandler(async(req, res) => {

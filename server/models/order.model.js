@@ -8,7 +8,7 @@ const orderSchema = new Schema({
     },
     Product:{
         item:{
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             refPath: 'product.itemType'
         },
         itemType:{
@@ -30,7 +30,7 @@ const orderSchema = new Schema({
         enum: ['pending', 'paid', 'failed', 'refunded'],
         default: 'pending'
     },
-    
+
 
 }, {
     timestamps: true
