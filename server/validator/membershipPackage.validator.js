@@ -9,7 +9,7 @@ export const createMembershipPackageBodySchema = z.object({
     perSessionPrice:z.coerce.number(),
     description:z.string().trim(),
     packageType:z.enum(["monthly","quarterly","yearly"]),
-    available: z.string().transform(val => val === "true").optional(),
+    available: z.boolean().optional(),
 })
 
 export const getSingleMembershipPackageParamsSchema = z.object({
@@ -30,7 +30,7 @@ export const editMembershipPackageBodySchema = z.object({
     perSessionPrice:z.coerce.number().optional(),
     description:z.string().trim().optional(),
     packageType:z.enum(["monthly","quarterly","yearly"]).optional(),
-    available: z.string().transform(val => val === "true").optional(),
+    available: z.boolean().optional(),
 })
 
 export const editMembershipPackageParamsSchema = z.object({

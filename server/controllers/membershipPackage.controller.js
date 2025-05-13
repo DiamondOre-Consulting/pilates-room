@@ -19,8 +19,6 @@ export const createMembershipPackage = asyncHandler(async(req,res)=>{
 })
 
 
-
-
 export const getAllMembershipPackages = asyncHandler(async(req,res)=>{
 
     const membershipPackages = await MembershipPackage.find({})
@@ -52,7 +50,6 @@ export const deleteMembershipPackage = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Membership package deleted successfully")
     }
 )
-
 
 
 export const editMembershipPackage = asyncHandler(async(req,res)=>{ 

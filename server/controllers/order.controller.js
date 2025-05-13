@@ -7,7 +7,23 @@ import sendResponse from "../utils/sendResponse.js"
 
 //        const userId = req.user._id;
 
-//        const user = await User.findById(userId);
+//        const userWithCart = await User.findById(userId)
+//                 .populate({
+//                     path: 'cart.item',
+//                     model: doc => doc.cart.itemType 
+//                 });
+
+//        if(!user.isMember){
+             
+          
+//         const product = user.cart.items
+             
+            
+
+//        }
+//        else{
+
+//        }
 
 
 // })
