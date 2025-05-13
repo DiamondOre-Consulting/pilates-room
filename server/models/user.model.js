@@ -60,8 +60,35 @@ const userSchema = new mongoose.Schema({
         ref:'Order'
     }],
     upcomingSchedule:[{
-         
-    }]
+        item:{
+            type: mongoose.Schema.Types.ObjectId,
+            refPath: 'upcomingSchedule.itemType'
+        },
+        itemType:{
+            type: String,
+            enum: ['Package', 'Class', 'Training']
+        }
+
+    }],
+    isMember:{
+        type:Boolean,
+        default:false
+    },
+    memberShipPlan:{
+        registrationDate:Date,
+        expiryDate:Date,
+        remainingSession:Number,
+        package:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'MembershipPackage'
+        },
+        status:{
+            type:String,
+            enum:['active','cancelled','expired']
+        },
+        subscriptionId:String
+    }
+
 
 },
 {

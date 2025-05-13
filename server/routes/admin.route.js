@@ -10,6 +10,8 @@ import { createTraining, deleteTraining, editTraining, getSingleTraining, getTra
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
+import { createMembershipPackage } from "../controllers/membershipPackage.controller.js"
+import { createMembershipPackageBodySchema } from "../validator/membershipPackage.validator.js"
 
 
 
@@ -97,6 +99,14 @@ adminRouter.delete('/delete-coupon/:couponId',validate({
 adminRouter.put('/edit-coupon/:couponId',validate({
     body:editCouponBodySchema, params:editCouponParamsSchema
 }),editCoupon)
+
+
+adminRouter.post('/create-membership-package',adminMiddleware,validate({
+    body:createMembershipPackageBodySchema
+}),createMembershipPackage)
+
+
+
 
 
 
