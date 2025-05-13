@@ -11,3 +11,7 @@ export const createMembershipPackageBodySchema = z.object({
     packageType:z.enum(["monthly","quarterly","yearly"]),
     available: z.string().transform(val => val === "true").optional(),
 })
+
+export const getSingleMembershipPackageParamsSchema = z.object({
+    packageId:z.string().trim()
+})

@@ -10,8 +10,8 @@ import { createTraining, deleteTraining, editTraining, getSingleTraining, getTra
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
-import { createMembershipPackage } from "../controllers/membershipPackage.controller.js"
-import { createMembershipPackageBodySchema } from "../validator/membershipPackage.validator.js"
+import { createMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
+import { createMembershipPackageBodySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 
 
 
@@ -101,9 +101,16 @@ adminRouter.put('/edit-coupon/:couponId',validate({
 }),editCoupon)
 
 
-adminRouter.post('/create-membership-package',adminMiddleware,validate({
+adminRouter.post('/create-membership-package',validate({
     body:createMembershipPackageBodySchema
 }),createMembershipPackage)
+
+
+adminRouter.get('/get-all-membership-packages',getAllMembershipPackages)
+
+adminMiddleware.get('/get-single-membership-package/:membershipPackageId',validate({
+    params:getSingleMembershipPackageParamsSchema
+}),getSingleMembershipPackage)
 
 
 
