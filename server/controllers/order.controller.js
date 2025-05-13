@@ -14,7 +14,8 @@ import sendResponse from "../utils/sendResponse.js"
 //                 .populate({
 //                     path: 'cart.item',
 //                     model: doc => doc.cart.itemType 
-//                 });
+//                 })
+//                 .populate("memberShipPlan.package");
 
                 
 //         if(!userWithCart.isMember){
