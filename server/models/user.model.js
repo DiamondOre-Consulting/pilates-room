@@ -76,7 +76,8 @@ const userSchema = new mongoose.Schema({
     },
     memberShipPlan:{
         registrationDate:Date,
-        expiryDate:Date,
+        expiryDate:Date,    
+        startDate:Date,    
         remainingSession:Number,
         package:{
             type: mongoose.Schema.Types.ObjectId,

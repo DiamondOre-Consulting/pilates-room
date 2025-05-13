@@ -12,6 +12,7 @@ import { addToCartParamsSchema } from "../validator/order.validator.js"
 import { addToCart } from "../controllers/order.controller.js"
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
+import { getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
 
 
 const userRouter = Router()
@@ -58,6 +59,10 @@ userRouter.get('/get-single-training/:trainingId',validate({
 
 
 userRouter.get('/get-user',userMiddleware,getProfile)
+
+userRouter.get('/get-membership-packages',validate({
+    query:getAllMembershipPackagesForUserQuerySchema
+}),getAllMembershipPackages)
 
 
 

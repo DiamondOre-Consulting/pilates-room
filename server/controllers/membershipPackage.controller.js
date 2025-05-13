@@ -21,7 +21,13 @@ export const createMembershipPackage = asyncHandler(async(req,res)=>{
 
 export const getAllMembershipPackages = asyncHandler(async(req,res)=>{
 
-    const membershipPackages = await MembershipPackage.find({})
+
+    const query = {}
+    if(req.validatedData.query.packageType){
+        query.packageName = req.validatedData.query.packageType
+    }
+
+    const membershipPackages = await MembershipPackage.find(query)
     if(membershipPackages.length === 0){
         throw new ApiError("Membership packages not found",404)
     }

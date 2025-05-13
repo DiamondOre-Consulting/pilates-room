@@ -13,6 +13,7 @@ const packageSchema = new mongoose.Schema({
         secureUrl: { type: String, required: true }
     },
     available: { type: Boolean, default: true },
+
     
 })
 

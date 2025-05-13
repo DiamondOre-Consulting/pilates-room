@@ -1,47 +1,41 @@
 import { model, Schema } from "mongoose"
 
-const couponSchema = new Schema({
-    couponCode: {
+const orderSchema = new Schema({
+    
+    user:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
+    },
+    Product:{
+        item:{
+            type: mongoose.Schema.Types.ObjectId,
+            refPath: 'product.itemType'
+        },
+        itemType:{
+            type: String,
+            enum: ['Package', 'Class', 'Training']
+        }
+    },
+    status:{
+        type:String,
+        enum:["scheduled","pending","completed","cancelled"],
+        default:"scheduled"
+    },
+    scheduledDate:Date,
+    cancelledDate:Date,
+    isMember:Boolean,
+    price:Number,
+    paymentStatus: {
         type: String,
-        required: true,
-        unique: true
+        enum: ['pending', 'paid', 'failed', 'refunded'],
+        default: 'pending'
     },
-    discountType: {
-        type: String,
-        enum: ["percentage", "fixed"],
-        required: true,
-        default: "percentage"
-    },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    endDate: {
-        type: Date,
-        required: true
-    },
-    minAmount: {
-        type: Number,
-        required: true
-    },
-    isFirst: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    discountValue: {
-        type: Number,
-        required: true
-    },
-    isActive: {
-        type: Boolean,
-        required: true,
-        default: true
-    }
+    
+
 }, {
     timestamps: true
 })
 
-const Coupon = model("Coupon", couponSchema)
+const Order = model("Order", orderSchema)
 
-export default Coupon
+export default Order

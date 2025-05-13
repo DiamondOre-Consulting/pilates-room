@@ -1,32 +1,85 @@
+import Order from "../models/order.model.js";
 import User from "../models/user.model.js"
 import asyncHandler from "../utils/asyncHandler.js";
 import sendResponse from "../utils/sendResponse.js"
 
 
-// export const createOrder = asyncHandler(async()=>{
 
-//        const userId = req.user._id;
+export const createOrder = asyncHandler(async()=>{
 
-//        const userWithCart = await User.findById(userId)
-//                 .populate({
-//                     path: 'cart.item',
-//                     model: doc => doc.cart.itemType 
-//                 });
+       const userId = req.user._id;
+       const paymentId = req.validatedData.body.paymentId
 
-//        if(!user.isMember){
+       const userWithCart = await User.findById(userId)
+                .populate({
+                    path: 'cart.item',
+                    model: doc => doc.cart.itemType 
+                });
+
+                
+        if(!userWithCart.isMember){
+
+           const payment = await razorpayInstance.payments.fetch(paymentId);
+           const paymentStatus = payment.status;
+
+                if(userWithCart.cart.itemType === 'Package'){
+
+                            const order = await Order.create({
+                                user: userId,
+                                Product: {
+                                    item: userWithCart.cart.item._id,
+                                    itemType: userWithCart.cart.itemType
+                                },
+                                status: 'scheduled',
+                                isMember: false,
+                                price: userWithCart.cart.item.price,
+                                paymentStatus: paymentStatus
+                            })
+                    
+                }
+          else{
+
              
+                    const order = await Order.create({
+                        user: userId,
+                        Product: {
+                            item: userWithCart.cart.item._id,
+                            itemType: userWithCart.cart.itemType
+                        },
+                        status: 'scheduled',
+                        scheduledDate: userWithCart.cart.item.date,
+                        isMember: false,
+                        price: userWithCart.cart.item.price,
+                        paymentStatus: paymentStatus
+                    }) 
           
-//         const product = user.cart.items
+
+          }
+
+       
+            
              
             
 
-//        }
-//        else{
+       }
+       else{
 
-//        }
+                if(userWithCart.memberShipPlan.startDate){
+                    
+                     if()
+
+                }
+                else{
+
+                }
 
 
-// })
+                    
+
+       }
+
+
+})
 
 
 export const addToCart = asyncHandler(async(req, res) => {
