@@ -13,6 +13,7 @@ import { addToCart } from "../controllers/order.controller.js"
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
+import { getAllMembershipPackages } from "../controllers/membershipPackage.controller.js"
 
 
 const userRouter = Router()
