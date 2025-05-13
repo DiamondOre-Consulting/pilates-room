@@ -7,7 +7,7 @@ const membershipPackageSchema = new mongoose.Schema({
         required:true
     },
     validity:{
-        type:String,
+        type:Number,
         required:true
     },
     totalSessions:{

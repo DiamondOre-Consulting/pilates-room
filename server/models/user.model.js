@@ -87,7 +87,9 @@ const userSchema = new mongoose.Schema({
             type:String,
             enum:['active','cancelled','expired']
         },
-        subscriptionId:String
+        subscriptionId:{String
+            
+        }
     }
 
 

@@ -3,7 +3,6 @@ import mongoose from "mongoose"
 
 const packageSchema = new mongoose.Schema({
 
-
     title:{type:String,required:true},
     sessionInfo:{type:String,required:true},
     price:{type:Number,required:true},
@@ -13,7 +12,6 @@ const packageSchema = new mongoose.Schema({
         secureUrl: { type: String, required: true }
     },
     available: { type: Boolean, default: true },
-
     
 })
 
