@@ -3,16 +3,16 @@ import MembershipPackage from "../models/membershipPackage.model.js";
 import ApiError from "../utils/apiError.js";
 import Razorpay from 'razorpay';
 import User from "../models/user.model.js";
+import { configDotenv } from "dotenv";
 
-
-
-
+configDotenv()
 
 
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+  
 
 
 export const buyMembership = asyncHandler(async(req,res)=>{
