@@ -8,7 +8,7 @@ export const createMembershipPackageBodySchema = z.object({
     price:z.coerce.number(),
     perSessionPrice:z.coerce.number(),
     description:z.string().trim(),
-    packageType:z.enum(["monthly","quarterly","yearly"]),
+    packageType:z.enum(["monthly","quarterly","discovery"]),
     available: z.boolean().optional(),
 })
 
