@@ -4,6 +4,7 @@ import ApiError from "../utils/apiError.js";
 import Razorpay from 'razorpay';
 import User from "../models/user.model.js";
 import { configDotenv } from "dotenv";
+import sendResponse from "../utils/sendResponse.js";
 
 configDotenv()
 
@@ -13,8 +14,6 @@ const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
   
-
-
 export const buyMembership = asyncHandler(async(req,res)=>{
 
 
@@ -28,7 +27,6 @@ export const buyMembership = asyncHandler(async(req,res)=>{
     }
 
     
-
     const payment = await razorpay.payments.fetch(paymentId);
 
     if (payment.status !== 'captured') {
@@ -61,6 +59,8 @@ export const buyMembership = asyncHandler(async(req,res)=>{
         await existingUser.save()
  
     }
+
+    sendResponse(res,200,null,"Membership purchased successfully")
       
        
 })
