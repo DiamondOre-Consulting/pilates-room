@@ -1,44 +1,43 @@
-import MembershipPackage from "../models/membershipPackage.model.js";
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js"
 import asyncHandler from "../utils/asyncHandler.js";
 import sendResponse from "../utils/sendResponse.js"
 import ApiError from "../utils/apiError.js"
+import Class from "../models/class.model.js";
 
 
 
-// export const createOrder = asyncHandler(async(req,res)=>{
 
-//     const userId = req.user.id
-//     const { membershipPackageId } = req.validatedData.query
+export const createOrder = asyncHandler(async(req,res)=>{
 
-//     const existingUser = await User.findById(userId)
+    const userId = req.user.id
+    const { classId } = req.validatedData.params
 
-//     if(!existingUser.isMember||!existingUser.isDiscovery){
-//         throw new ApiError("User is not a member",400)
-//     }
+    const existingUser = await User.findById(userId)
 
-//     const membershipPackage = await MembershipPackage.findById(membershipPackageId)
+    if(!existingUser.isMember||!existingUser.isDiscovery){
+        throw new ApiError("User is not a member",400)
+    }
 
-//     if(!membershipPackage){
-//         throw new ApiError("Membership package not found",404)
-//     }
+    const existingClass = await Class.findById(classId)
+
+    if(!existingClass){
+        throw new ApiError("Class not found",404)
+    }
 
 
-//     const createOrder = await Order.create({
-//         user: userId,
-//         Product: {
-//             item: membershipPackageId,
-//             itemType: userWithCart.cart.itemType
-//         },
-//         status: 'scheduled',
-//         isMember: false,
-//         price: userWithCart.cart.item.price,
-//         paymentStatus: paymentStatus
+    const createOrder = await Order.create({
+        user: userId,
+        Product: classId,
+        status: 'scheduled',
+        scheduledDate: existingClass.date,
+        price: userWithCart.cart.item.price,
 
-//     })
+    })
 
-//     sendResponse(res,200,createOrder,"Order created successfully")
-// })
+    existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession-1;
+
+    sendResponse(res,200,createOrder,"Order created successfully")
+})
 
 

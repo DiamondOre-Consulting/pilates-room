@@ -6,15 +6,9 @@ const orderSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"User"
     },
-    Product:{
-        item:{
-            type: Schema.Types.ObjectId,
-            refPath: 'product.itemType'
-        },
-        itemType:{
-            type: String,
-            enum: ['Package', 'Class', 'Training']
-        }
+    product:{
+        type:Schema.Types.ObjectId,
+        ref:"Class"
     },
     status:{
         type:String,
@@ -23,15 +17,8 @@ const orderSchema = new Schema({
     },
     scheduledDate:Date,
     cancelledDate:Date,
-    isMember:Boolean,
     price:Number,
-    paymentStatus: {
-        type: String,
-        enum: ['pending', 'paid', 'failed', 'refunded'],
-        default: 'pending'
-    },
-
-
+    
 }, {
     timestamps: true
 })
