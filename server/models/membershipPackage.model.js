@@ -26,7 +26,7 @@ const membershipPackageSchema = new mongoose.Schema({
        type:String,
        required:true
     },
-    packageType:{
+    packageType : {
         type:String,
         enum:["monthly","quarterly","discovery"],
         required:true

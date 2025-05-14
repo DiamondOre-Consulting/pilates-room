@@ -3,8 +3,18 @@ import ApiError from "../utils/apiError.js"
 import sendResponse from "../utils/sendResponse.js"
 import User from "../models/user.model.js"
 import MembershipPackage from "../models/membershipPackage.model.js"
+import Razorpay from 'razorpay';
+import { configDotenv } from "dotenv";
+
+configDotenv()
 
 
+
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
 
 
 
