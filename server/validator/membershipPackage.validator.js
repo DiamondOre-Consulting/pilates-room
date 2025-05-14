@@ -3,7 +3,7 @@ import {z} from "zod"
 
 export const createMembershipPackageBodySchema = z.object({
     packageName:z.string().trim(),
-    validity:z.number().trim(),
+    validity:z.coerce.number(),
     totalSessions:z.coerce.number(),
     price:z.coerce.number(),
     perSessionPrice:z.coerce.number(),
@@ -24,7 +24,7 @@ export const deleteMembershipPackageParamsSchema = z.object({
 
 export const editMembershipPackageBodySchema = z.object({
     packageName:z.string().trim().optional(),
-    validity:z.number().trim().optional(),
+    validity:z.coerce.number().optional(),
     totalSessions:z.coerce.number().optional(),
     price:z.coerce.number().optional(),
     perSessionPrice:z.coerce.number().optional(),
