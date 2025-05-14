@@ -12,8 +12,11 @@ import { addToCartParamsSchema } from "../validator/order.validator.js"
 import { addToCart } from "../controllers/order.controller.js"
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
-import { getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
+import { buyMembershipBodySchema, getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
 import { getAllMembershipPackages } from "../controllers/membershipPackage.controller.js"
+import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/payment.controller.js"
+import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
+import { buyMembership } from "../controllers/buyMembership.controller.js"
 
 
 const userRouter = Router()
@@ -64,6 +67,25 @@ userRouter.get('/get-user',userMiddleware,getProfile)
 userRouter.get('/get-membership-packages',validate({
     query:getAllMembershipPackagesForUserQuerySchema
 }),getAllMembershipPackages)
+
+
+
+
+userRouter.get('/key',userMiddleware,razorpayKey)
+
+userRouter.post('/checkout-payment',userMiddleware,validate({
+     query: checkoutPaymentQuerySchema
+}),checkoutPayment)
+
+userRouter.post('/verify-payment',userMiddleware, validate({body:verifyPaymentBodySchema}),verifyPayment)
+
+
+
+userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware,validate({
+    params:buyMembershipBodySchema
+}),buyMembership)
+
+
 
 
 

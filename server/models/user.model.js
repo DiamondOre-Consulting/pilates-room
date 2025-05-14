@@ -56,9 +56,8 @@ const userSchema = new mongoose.Schema({
         },
         itemType:{
             type: String,
-            enum: ['Package', 'Class', 'Training']
+            enum: ['Package', 'Class']
         }
-
     }],
     isDiscovery:{
         type:Boolean,

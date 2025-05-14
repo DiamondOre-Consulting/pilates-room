@@ -40,3 +40,9 @@ export const editMembershipPackageParamsSchema = z.object({
 export const getAllMembershipPackagesForUserQuerySchema = z.object({
     packageType:z.string().trim().optional()
 })
+
+
+export const buyMembershipBodySchema = z.object({
+    membershipPackageId:z.string().trim(),
+    paymentId:z.string().trim()
+})
