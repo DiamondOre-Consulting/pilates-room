@@ -45,16 +45,6 @@ const userSchema = new mongoose.Schema({
     preferredLocation: {
         type: String
     },
-    cart: {
-        item:{
-            type: mongoose.Schema.Types.ObjectId,
-            refPath: 'cart.itemType'
-        },
-        itemType:{
-            type: String,
-            enum: ['Package', 'Class', 'Training']
-        }
-    },
     orderHistory:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Order'
@@ -70,6 +60,13 @@ const userSchema = new mongoose.Schema({
         }
 
     }],
+    isDiscovery:{
+        type:Boolean,
+        default:false
+    },
+    discoveryPaymentId:{
+        type:String
+    },
     isMember:{
         type:Boolean,
         default:false
@@ -87,9 +84,7 @@ const userSchema = new mongoose.Schema({
             type:String,
             enum:['active','cancelled','expired']
         },
-        subscriptionId:{String
-            
-        }
+        subscriptionId:String
     }
 
 
