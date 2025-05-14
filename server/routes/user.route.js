@@ -8,8 +8,8 @@ import { getClasses } from "../controllers/class.admin.controller.js"
 import { getClassesQuerySchema } from "../validator/class.validator.js"
 import { getAllPackages } from "../controllers/package.admin.controller.js"
 import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
-import { addToCartParamsSchema } from "../validator/order.validator.js"
-import { addToCart } from "../controllers/order.controller.js"
+
+
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { buyMembershipBodySchema, getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
@@ -45,9 +45,7 @@ userRouter.get('/get-all-packages', validate({
       query:getAllPackagesQuerySchema
 }),getAllPackages)
 
-userRouter.post('/add-to-cart/:id/:itemType',userMiddleware,validate({
-    params:addToCartParamsSchema
-}),addToCart)
+
 
 userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
     params:fetchMoreInfoParamsSchema

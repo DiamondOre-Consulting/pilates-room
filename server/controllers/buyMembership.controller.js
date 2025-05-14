@@ -1,4 +1,4 @@
-import asyncHandler from "../utils/asyncHandler";
+import asyncHandler from "../utils/asyncHandler.js";
 import MembershipPackage from "../models/membershipPackage.model.js";
 import ApiError from "../utils/apiError.js";
 import Razorpay from 'razorpay';
