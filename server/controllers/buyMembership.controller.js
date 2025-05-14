@@ -43,7 +43,7 @@ export const buyMembership = asyncHandler(async(req,res)=>{
         }
         else{
             existingUser.isMember = true
-            existingUser.membershipPackage ={
+            existingUser.memberShipPlan ={
                  package: membershipPackage._id,
                  registrationDate: new Date(),
                  remainingSession: membershipPackage.totalSessions,

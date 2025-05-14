@@ -13,9 +13,9 @@ export const createOrder = asyncHandler(async(req,res)=>{
     const userId = req.user.id
     const { classId } = req.validatedData.params
 
-    const existingUser = await User.findById(userId)
+    const existingUser = await User.findById(userId).populate('memberShipPlan')
 
-    if(!existingUser.isMember||!existingUser.isDiscovery){
+    if(!existingUser.isMember||!existingUser.isDiscovery||existingUser.isDiscovery){
         throw new ApiError("User is not a member",400)
     }
 
@@ -36,6 +36,10 @@ export const createOrder = asyncHandler(async(req,res)=>{
     })
 
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession-1;
+    if(!existingUser.memberShipPlan.startDate){
+        existingUser.memberShipPlan.startDate = new Date();
+        existingUser.memberShipPlan.expiryDate = new Date(existingUser.memberShipPlan.startDate.getTime() + existingUser.memberShipPlan.package.validity*7 * 24 * 60 * 60 * 1000);
+    }
 
     sendResponse(res,200,createOrder,"Order created successfully")
 })
