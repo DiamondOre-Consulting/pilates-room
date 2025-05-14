@@ -72,7 +72,7 @@ export const verifyPayment = async (req, res) => {
 
     const body = razorpay_order_id + "|" + razorpay_payment_id
 
-    const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET).update(body).digest('hex')
+    const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET).update(body).digest('hex')
 
     if (expectedSignature !== razorpay_signature) {
        throw new ApiError("Invalid signature",400)
