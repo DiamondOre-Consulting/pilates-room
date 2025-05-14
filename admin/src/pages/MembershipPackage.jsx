@@ -58,7 +58,7 @@ const MembershipPackage = () => {
     {
       label: "validity (in weeks)",
       name: "validity",
-      inputType: "number",
+      inputType: "text",
       error: {
         required: "validity is required",
         // minLength: { value: 2, message: "Minimum 2 characters required" },
@@ -339,9 +339,9 @@ const MembershipPackage = () => {
                           }`}
                         >
                           <option value="">Select Type</option>
+                          <option value="discovery">Discovery</option>
                           <option value="monthly">Monthly</option>
                           <option value="quarterly">Quarterly</option>
-                          <option value="yearly">Yearly</option>
                         </select>
                         {errors[input.name] && (
                           <span className="text-red-500 text-xs">
@@ -473,7 +473,7 @@ const MembershipPackage = () => {
                           <option value="">Select Type</option>
                           <option value="monthly">Monthly</option>
                           <option value="quarterly">Quarterly</option>
-                          <option value="yearly">Yearly</option>
+                          <option value="discovery">Discovery</option>
                         </select>
                         {errors[input.name] && (
                           <span className="text-red-500 text-xs">

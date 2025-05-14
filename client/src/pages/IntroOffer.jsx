@@ -75,7 +75,7 @@ const IntroOffer = () => {
             ></p>
 
             <button className="text-xl bg-white text-dark rounded-md px-4 py-1">
-              Buy Now{" "}
+              Book Now{" "}
             </button>
           </div>
 

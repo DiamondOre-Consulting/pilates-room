@@ -11,9 +11,10 @@ import UserDashboard from "@/pages/UserDashboard";
 
 const routes = [
   { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
+  { name: "ABOUT US", href: "/about-us", isActive: false },
+
   { name: "TIME TABLE", href: "/class-schedule", isActive: false },
   { name: "PRIVATES", href: "/private-session", isActive: false },
-  // { name: "PRICING", href: "/accessories", isActive: false },
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
   { name: "MEMBERSHIP", href: "/membership", isActive: false },
 ];
