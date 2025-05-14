@@ -29,7 +29,7 @@ export const editMembershipPackageBodySchema = z.object({
     price:z.coerce.number().optional(),
     perSessionPrice:z.coerce.number().optional(),
     description:z.string().trim().optional(),
-    packageType:z.enum(["monthly","quarterly","yearly"]).optional(),
+    packageType:z.enum(["monthly","quarterly","discovery"]).optional(),
     available: z.boolean().optional(),
 })
 
