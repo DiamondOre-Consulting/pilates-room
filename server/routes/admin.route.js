@@ -120,9 +120,8 @@ adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
     params:deleteMembershipPackageParamsSchema
 }),deleteMembershipPackage)
 
-
 adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
-    body:editMembershipPackageBodySchema, params:editMembershipPackageParamsSchema
+    body:editMembershipPackageBodySchema,params:editMembershipPackageParamsSchema
 }),editMembershipPackage)
 
 

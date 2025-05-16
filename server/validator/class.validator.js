@@ -10,7 +10,6 @@ export const createClassBodySchema = z.object({
     z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
      ),
     time:z.string().trim(),
-    price:z.coerce.number(),
     capacity:z.coerce.number(),
     instructorName:z.string().trim(),        
     duration:z.string().trim(),
@@ -41,7 +40,6 @@ export const editClassBodySchema = z.object({
     z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
     ).optional(),
     time:z.string().trim().optional(),
-    price:z.coerce.number().optional(),
     capacity:z.coerce.number().optional(),
     instructorName:z.string().trim().optional(),        
     duration:z.string().trim().optional(),
