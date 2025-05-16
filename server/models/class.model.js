@@ -6,7 +6,7 @@ const classSchema = new mongoose.Schema({
   instructor: {name: String,image:{publicId:String, secureUrl: String}},
   location: {type:String,required:true},
   weeks: [{type:String,
-    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
   }],
   time: {type:String,required:true},
   duration: {type:String,required:true},
