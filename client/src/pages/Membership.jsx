@@ -148,7 +148,7 @@ console.log(response.payload.success)
       </section>
 
       <section className="ezy__pricing10 light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-        <div className="container ">
+        <div className=" ">
           <div className="grid ">
             <div className="flex flex-col items-center justify-center mb-4">
               <h3 className="text-3xl leading-none md:text-[45px] text-gray-800 font-bold mb-2">
@@ -242,7 +242,7 @@ user?.data?.isDiscovery ? "":
                 {allMemberShip?.map((ele, index) => (
                   <div
                     key={index}
-                    className="bg-gray-100 dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden"
+                    className={` ${user?.data?.isMember && user?.data?.memberShipPlan?.package != ele?._id ? "blur-sm" : "bg-gray-100"} dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
                   >
                     <div className="grow">
                       <div className="pt-6 bg-dark text-white rounded-t-2xl">

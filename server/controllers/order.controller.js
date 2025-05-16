@@ -10,13 +10,15 @@ export const createOrder = asyncHandler(async(req,res)=>{
 
     const userId = req.user.id
     const { classId } = req.validatedData.params
-    const {date} = req.validatedData.body
-
     const existingUser = await User.findById(userId).populate('memberShipPlan.package')
 
     if(!existingUser.isMember||!existingUser.isDiscovery){
         throw new ApiError("User is not a member",400)
     }
+    console.log(existingUser)
+    console.log("enter")
+    const {date} = req.validatedData.body
+
     const existingClass = await Class.findById(classId)
 
     if(!existingClass){

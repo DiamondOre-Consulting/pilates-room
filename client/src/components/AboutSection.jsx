@@ -4,7 +4,7 @@ const AboutSection = () => {
   return (
     <div>
       <section className="ezy__about1 bg-dark py-14 md:py-24  dark:bg-[#0b1727] text-white dark:text-white">
-			<div className="container px-4">
+			<div className=" px-4">
 				<div className="flex flex-col md:flex-row gap-10  justify-end items-center  max-w-7xl mx-auto">
 					<div className="text-start  flex flex-col justify-center items-center   ">
 						<h2 className="  w-full text-4xl md:text-[5rem] leading-wide md:leading-tight text-center">

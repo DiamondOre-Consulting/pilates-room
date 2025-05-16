@@ -162,7 +162,7 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
 
       <nav className=" top-0 left-0 w-full z-20  bg-mainBg text-zinc-900">
         <div className="mx-auto bg-white  z-20">
-          <div className="container  flex  justify-between py-3 lg:py-3 items-center px-4 lg:px-0 mx-auto lg:max-w-[95%]">
+          <div className="  flex  justify-between py-3 lg:py-3 items-center px-4 lg:px-0 mx-auto lg:max-w-[95%]">
             <div className="flex items-center">
               <Link to={"/"} className=" text-3xl  font-white" href="#!">
                 <img src={logo} className="w-[5rem] lg:w-[6rem]" alt="" />

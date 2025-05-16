@@ -4,16 +4,16 @@ import { toast } from "sonner";
 
 export const getAllClasses = createAsyncThunk(
   "/admin/all-class",
-  async ({ location, date  , limit , page}) => {
+  async ({ location, week  , limit , page}) => {
     try {
-      console.log("data is ", location, date , limit , page );
+      console.log("data is ", location, week , limit , page );
       const queryParams = new URLSearchParams();
 
       
       if (limit) queryParams.append("limit", limit);
       if (page) queryParams.append("page", page);
       if (location) queryParams.append("location", location);
-      if (date) queryParams.append("date", date);
+      if (week) queryParams.append("week", week);
       const response = await userAxiosInstance.get(
         `/user/get-classes?${queryParams?.toString()}`
       );

@@ -28,7 +28,7 @@ const AboutSection = () => {
   return (
     <div>
       <section className="ezy__about9 light py-14 md:pt-20 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-        <div className="container px-4 my-10">
+        <div className=" px-4 my-10">
           <div className="grid grid-cols-12 items-center gap-4 mb-12">
             <div className="col-span-12 lg:col-span-6">
               <h1 className="text-3xl leading-none font-bold uppercase tracking-wider mb-2">

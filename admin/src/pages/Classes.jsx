@@ -33,6 +33,26 @@ const Classes = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const days = [
+    { short: "Sun", full: "sunday" },
+    { short: "Mon", full: "monday" },
+    { short: "Tue", full: "tuesday" },
+    { short: "Wed", full: "wednesday" },
+    { short: "Thu", full: "thursday" },
+    { short: "Fri", full: "friday" },
+    { short: "Sat", full: "saturday" },
+  ];
+
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const toggleDay = (dayFullName) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayFullName)
+        ? prev.filter((d) => d !== dayFullName)
+        : [...prev, dayFullName]
+    );
+  };
+
   const formState = [
     {
       label: "Title",
@@ -43,6 +63,7 @@ const Classes = () => {
         minLength: { value: 2, message: "Minimum 2 characters required" },
       },
     },
+  
     {
       label: "Description",
       inputType: "textarea",
@@ -85,14 +106,7 @@ const Classes = () => {
         minLength: { value: 4, message: "Minimum 4 characters required" },
       },
     },
-    {
-      label: "Date",
-      inputType: "date",
-      name: "date",
-      error: {
-        required: "Date is required",
-      },
-    },
+
     {
       label: "Time",
       inputType: "time",
@@ -113,14 +127,7 @@ const Classes = () => {
         required: "Duration is required",
       },
     },
-    {
-      label: "Price",
-      inputType: "text",
-      name: "price",
-      error: {
-        required: "Price is required",
-      },
-    },
+
     {
       label: "Capacity",
       inputType: "text",
@@ -154,6 +161,13 @@ const Classes = () => {
         required: "enrolledCount is required",
       },
     },
+
+    {
+      name: "weeks",
+      label: "Select Weeks",
+      inputType: "days",
+      required: true,
+    },
   ];
 
   const handleFileUpload = (e) => {
@@ -167,11 +181,18 @@ const Classes = () => {
   const handleAddClass = async (data) => {
     try {
       console.log("Submitted Data:", data);
-
+      if (selectedDays.length === 0) {
+        alert("Please select at least one day.");
+        return;
+      }
       const formData = new FormData();
 
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
+      });
+
+      selectedDays.forEach((day) => {
+        formData.append("weeks", day);
       });
 
       if (instructorImage) {
@@ -230,8 +251,10 @@ const Classes = () => {
     setClassId(id);
     setEditClassData(data);
     reset(data);
-    setValue("date", data?.date.split("T")[0]);
+    // setValue("date", data?.date.split("T")[0]);
     setValue("instructorName", data?.instructor?.name);
+     setValue("weeks", data?.weeks || []);
+       setSelectedDays(data?.weeks || []);
     serPreviewImage(data?.instructor?.image?.secureUrl);
     console.log(id, data);
     setEditClassPopUp(true);
@@ -241,9 +264,14 @@ const Classes = () => {
     try {
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
-        formData.append(key, data[key]);
-      });
+    Object.keys(data).forEach((key) => {
+  if (key !== "weeks") {
+    formData.append(key, data[key]);
+  }
+});
+selectedDays.forEach((day) => {
+  formData.append("weeks", day);
+});
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -252,9 +280,9 @@ const Classes = () => {
 
       const response = await dispatch(editClass({ classId, formData }));
       console.log(response);
-      if(response?.payload?.success){
-        setEditClassPopUp(false)
-        await handleGetAllClasses()
+      if (response?.payload?.success) {
+        setEditClassPopUp(false);
+        await handleGetAllClasses();
       }
     } catch (error) {
       console.error(error);
@@ -268,6 +296,7 @@ const Classes = () => {
     placeholder: "Enter text here...",
     height: 250,
   };
+
   return (
     <HomeLayout>
       <div>
@@ -320,8 +349,11 @@ const Classes = () => {
                 </h1>
                 <p className="text-purple-600 font-medium">{ele?.title}</p>
 
-                <p dangerouslySetInnerHTML={{__html :ele?.description}}  className="text-gray-600 text-sm mt-2 mb-4"/>
-                  
+                <p
+                  dangerouslySetInnerHTML={{ __html: ele?.description }}
+                  className="text-gray-600 text-sm mt-2 mb-4"
+                />
+
                 <div className="flex flex-wrap justify-center gap-2 my-4">
                   <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
                     Duration :- {ele?.duration}
@@ -501,13 +533,13 @@ const Classes = () => {
       </div>
 
       {addClassPopUp && (
-        <div className="fixed inset-0 z-40 min-h-full overflow-y-auto mt-10  py-10  transition flex items-center justify-center">
+        <div className="fixed inset-0 z-40 min-h-full overflow-y-auto  transition flex items-center justify-center">
           <div
             className="fixed inset-0 bg-black/50"
             onClick={() => setAddClassPopUp(false)}
           ></div>
 
-          <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
+          <div className="relative w-full max-w-4xl h-[95vh] overflow-y-auto p-4 mx-auto bg-white rounded-xl z-50">
             <button
               type="button"
               onClick={() => setAddClassPopUp(false)}
@@ -529,7 +561,7 @@ const Classes = () => {
 
             <form
               onSubmit={handleSubmit(handleAddClass)}
-              className="text-gray-700 grid grid-cols-2 gap-4  pt-18 text-sm"
+              className="text-gray-700 grid grid-cols-2 gap-4  text-sm"
             >
               {formState?.map((input, index) => (
                 <div
@@ -586,6 +618,33 @@ const Classes = () => {
                       {/* {input.label} */}
                       {/* {input.required && <span className="text-red-500">*</span>} */}
                     </label>
+                  ) : input.inputType === "days" ? (
+                    <div className="p-4  col-span-3   mx-auto">
+                      <h2 className="text-center text-xl font-semibold mb-4 text-gray-800">
+                        Select Days of the Week
+                      </h2>
+                      <div className="flex justify-center items-center gap-2 overflow-x-auto pb-2">
+                        {days.map(({ short, full }) => (
+                          <button
+                            key={short}
+                            type="button"
+                            onClick={() => toggleDay(full)}
+                            className={`size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
+            ${
+              selectedDays.includes(full)
+                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+            }`}
+                          >
+                            {short}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="mt-4 text-center text-sm text-gray-700">
+                        <span className="font-medium">Selected Days:</span>{" "}
+                        {selectedDays.join(", ") || "None"}
+                      </div>
+                    </div>
                   ) : (
                     <input
                       type={input.inputType}
@@ -597,6 +656,7 @@ const Classes = () => {
                       }`}
                     />
                   )}
+
                   {errors[input.name] && (
                     <span className="text-red-500 text-xs">
                       {errors[input.name].message}
@@ -629,7 +689,7 @@ const Classes = () => {
             onClick={() => setEditClassPopUp(false)}
           ></div>
 
-          <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
+          <div className="relative w-full max-w-4xl p-4 mx-auto h-[90vh] overflow-y-auto bg-white rounded-xl z-50">
             <button
               type="button"
               onClick={() => setEditClassPopUp(false)}
@@ -651,7 +711,7 @@ const Classes = () => {
 
             <form
               onSubmit={handleSubmit(handleEditClass)}
-              className="text-gray-700 grid grid-cols-2 gap-4 pt-14 text-sm"
+              className="text-gray-700 grid grid-cols-2 gap-4  text-sm"
             >
               {formState?.map((input, index) => (
                 <div
@@ -708,6 +768,34 @@ const Classes = () => {
                       {/* {input.label} */}
                       {/* {input.required && <span className="text-red-500">*</span>} */}
                     </label>
+                  ) : input.inputType === "days" ? (
+                    <div className="p-4 w-full col-span-2 mx-auto">
+                      <h2 className="text-center text-xl font-semibold mb-4 text-gray-800">
+                        Select Days of the Week
+                      </h2>
+                      <div className="flex justify-center items-center gap-2 overflow-x-auto pb-2">
+                        {days.map(({ short, full }) => (
+                          <button
+                            key={short}
+                            type="button"
+                            value={watch('weeks')}
+                            onClick={() => toggleDay(full)}
+                            className={`size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
+            ${
+              selectedDays.includes(full)
+                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+            }`}
+                          >
+                            {short}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="mt-4 text-center text-sm text-gray-700">
+                        <span className="font-medium">Selected Days:</span>{" "}
+                        {selectedDays.join(", ") || "None"}
+                      </div>
+                    </div>
                   ) : (
                     <input
                       type={input.inputType}
@@ -726,6 +814,32 @@ const Classes = () => {
                   )}
                 </div>
               ))}
+
+              {/* <div className="p-4 w-full col-span-2 mx-auto">
+                <h2 className="text-center text-xl font-semibold mb-4 text-gray-800">
+                  Select Days of the Week
+                </h2>
+                <div className="flex justify-center items-center gap-2 overflow-x-auto pb-2">
+                  {days.map(({ short }) => (
+                    <button
+                      key={short}
+                      onClick={() => toggleDay(short)}
+                      className={`size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
+              ${
+                selectedDays.includes(short)
+                  ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                  : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+              }`}
+                    >
+                      {short}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-4 text-center text-sm text-gray-700">
+                  <span className="font-medium">Selected Days:</span>{" "}
+                  {selectedDays.join(", ") || "None"}
+                </div>
+              </div> */}
 
               <div className="col-span-2">
                 <button

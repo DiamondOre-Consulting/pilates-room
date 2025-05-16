@@ -39,7 +39,7 @@ const RecommendedBy = () => {
   return (
     <div>
         	<section className="ezy__clients16  py-14 md:py-10 bg-white dark:bg-[#0b1727] dark:text-white">
-			<div className="container px-4">
+			<div className=" px-4">
 			
 				
 						<h2 className="text-4xl mb-6  leading-none text-center text-dark ">

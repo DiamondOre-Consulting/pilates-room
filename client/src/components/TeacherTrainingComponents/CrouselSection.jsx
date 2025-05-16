@@ -27,7 +27,7 @@ const crousel = [
 const CrouselSection = () => {
   return (
     <section className="ezy__testimonial24 light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-    <div className="container px-4 mx-auto">
+    <div className=" px-4 mx-auto">
       <div className="flex items-center justify-center text-center mb-6 md:mb-12">
         <div className="max-w-xl">
           <hr className="w-20 mb-4 border-gray-300 dark:border-gray-600 mx-auto" />

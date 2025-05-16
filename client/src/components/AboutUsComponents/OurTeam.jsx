@@ -45,7 +45,7 @@ const OurTeam = () => {
   return (
     <div>
          	<section className="ezy__team20 light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-			<div className="container px-4 mx-auto">
+			<div className=" px-4 mx-auto">
 				<div className="flex justify-center text-center">
 					<div className="sm:max-w-lg">
 						<h3 className="text-3xl leading-none md:text-[45px] font-bold">

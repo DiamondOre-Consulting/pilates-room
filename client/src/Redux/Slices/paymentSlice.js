@@ -65,6 +65,21 @@ export const createMembership = createAsyncThunk('/user/create-order' , async({m
   }
 })
 
+
+export const createOrderForClassBooking = createAsyncThunk('/user/create-order', async(data)=>{
+  try {
+    console.log("dataaaaaaaaaaaaaa in creating ",data?.date)
+    const response = await userAxiosInstance.post(`/user/create-order/${data?.classId}` , data);
+    toast.success(response?.data?.message)
+    return response?.data
+    console.log(response);
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+})
+
+
 const paymentSlice = createSlice({
   name: "payment",
   initialState: null,
