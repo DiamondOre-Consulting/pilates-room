@@ -42,6 +42,8 @@ export const createOrder = asyncHandler(async(req,res)=>{
         existingUser.memberShipPlan.expiryDate = new Date(existingUser.memberShipPlan.startDate.getTime() + existingUser.memberShipPlan.package.validity*7 * 24 * 60 * 60 * 1000);
     }
 
+    await existingUser.save()
+
     sendResponse(res,200,createOrder,"Order created successfully")
 })
 
