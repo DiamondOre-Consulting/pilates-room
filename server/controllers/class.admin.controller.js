@@ -25,7 +25,7 @@ export const createClass = asyncHandler(async(req,res)=>{
           title,
           description,
           location,
-           weeks,
+          weeks,
           time,
           price,
           capacity,
