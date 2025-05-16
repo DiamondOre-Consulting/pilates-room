@@ -51,3 +51,10 @@ export const adminSignOut = asyncHandler(async (req, res) => {
     res.clearCookie("refreshAccessToken", cookieOptions);
     sendResponse(res, 200, null, "User logged out successfully");
 });
+
+
+export const getAdminProfile = asyncHandler(async(req,res)=>{  
+    const user = req.user
+    sendResponse(res, 200, user, "User profile fetched successfully");
+})
+

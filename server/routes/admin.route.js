@@ -12,7 +12,7 @@ import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../contro
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
-import { adminSignIn, adminSignOut } from "../controllers/auth/auth.admin.controller.js"
+import { adminSignIn, adminSignOut, getAdminProfile } from "../controllers/auth/auth.admin.controller.js"
 import { adminSignInBodySchema } from "../validator/auth.validator.js"
 
 
@@ -132,6 +132,9 @@ adminRouter.post('/sign-in',validate({
 }),adminSignIn)
 
 adminRouter.get('/sign-out',adminSignOut)
+
+
+adminRouter.get('/get-user-profile',adminMiddleware,getAdminProfile)
 
 
 
