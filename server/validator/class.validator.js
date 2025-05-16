@@ -1,6 +1,5 @@
 import {z} from "zod"
 
-
 export const createClassBodySchema = z.object({
     title:z.string().trim(),
     description:z.string().trim(),
@@ -8,7 +7,7 @@ export const createClassBodySchema = z.object({
     weeks: z
     .array(
     z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
-     ),
+    ),
     time:z.string().trim(),
     capacity:z.coerce.number(),
     instructorName:z.string().trim(),        
@@ -22,7 +21,7 @@ export const createClassBodySchema = z.object({
 export const getClassesQuerySchema = z.object({
     limit:z.coerce.number().default(10).optional(),
     page:z.coerce.number().default(1).optional(),
-    date:z.coerce.date().optional().optional(),
+    week:z.string().optional(),
     location:z.string().trim().optional()
 })
 

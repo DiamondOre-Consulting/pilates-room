@@ -77,9 +77,10 @@ export const getClasses = asyncHandler(async(req,res)=>{
     if(location){
         query.location = location
     }
-    if(date){
-        query.date = date
+    if(week){
+        query.weeks = week
     }
+    
     
 
 
