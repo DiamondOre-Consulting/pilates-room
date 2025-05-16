@@ -317,10 +317,17 @@ export const signOut = asyncHandler(async(req,res)=>{
 
 
 
-export const getProfile = asyncHandler(async(req,res)=>{  
-    const user = req.user
-    sendResponse(res, 200, user, "User profile fetched successfully");
-})
+export const getProfile = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const user = await User.findById(userId)
+    .populate({
+      path: 'upcomingSchedule.item',
+      model: 'Class'
+    });
+
+  sendResponse(res, 200, user, "User profile fetched successfully");
+});
 
 
 
