@@ -15,7 +15,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
 
     const existingUser = await User.findById(userId).populate('memberShipPlan')
 
-    if(!existingUser.isMember||!existingUser.isDiscovery||existingUser.isDiscovery){
+    if(!existingUser.isMember||!existingUser.isDiscovery){
         throw new ApiError("User is not a member",400)
     }
 

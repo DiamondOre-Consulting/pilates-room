@@ -1,5 +1,4 @@
 import express from "express"
-
 import {config} from 'dotenv'
 import morgan  from "morgan"
 import cookieParser from "cookie-parser"
@@ -11,7 +10,6 @@ import cloudinary from "cloudinary"
 import Razorpay from "razorpay"
 import cors from 'cors'
 import './utils/membershipChecker.js';
-// import paymentRouter from  "./routes/payment.route.js"
 const app= express()
 config()
 
@@ -35,7 +33,6 @@ app.use('/ping', (req, res) => res.send('pong'))
 app.use("/api/v1/user", userRouter)
 // app.use("/api/v1/payment",paymentRouter)
 
-
 // app.all("/*",(req,res)=>{
 //      res.status(404).json({message : "OOPS! 404 Page not found"})
 // })
@@ -45,6 +42,5 @@ app.use(errorMiddleware);
 //      key_id: process.env.RAZORPAY_KEY_ID,
 //      key_secret: process.env.RAZORPAY_SECRET,
 // });
-
 
 export default app;
