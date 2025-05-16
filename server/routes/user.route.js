@@ -18,7 +18,7 @@ import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/paym
 import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
 import { buyMembership } from "../controllers/buyMembership.controller.js"
 import { createOrder } from "../controllers/order.controller.js"
-import { createOrderParamsSchema } from "../validator/order.validator.js"
+import { createOrderBodySchema, createOrderParamsSchema } from "../validator/order.validator.js"
 
 
 const userRouter = Router()
@@ -86,7 +86,7 @@ userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware
 }),buyMembership)
 
 userRouter.post('/create-order/:classId',userMiddleware,validate({
-    params:createOrderParamsSchema
+    params:createOrderParamsSchema, body: createOrderBodySchema
 }),createOrder)
 
 

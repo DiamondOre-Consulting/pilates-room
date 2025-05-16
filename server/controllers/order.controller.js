@@ -6,33 +6,27 @@ import ApiError from "../utils/apiError.js"
 import Class from "../models/class.model.js";
 
 
-
-
 export const createOrder = asyncHandler(async(req,res)=>{
-    
 
     const userId = req.user.id
     const { classId } = req.validatedData.params
+    const {date} = req.validatedData.body
 
     const existingUser = await User.findById(userId).populate('memberShipPlan.package')
 
     if(!existingUser.isMember||!existingUser.isDiscovery){
         throw new ApiError("User is not a member",400)
     }
-
     const existingClass = await Class.findById(classId)
 
     if(!existingClass){
         throw new ApiError("Class not found",404)
     }
-
-
     const createOrder = await Order.create({
         user: userId,
         Product: classId,
         status: 'scheduled',
-        scheduledDate: existingClass.date,
-
+        scheduledDate: date,
     })
 
     existingUser.upcomingSchedule.push({ item: existingClass._id });

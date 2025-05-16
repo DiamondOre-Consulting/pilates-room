@@ -11,7 +11,7 @@ import { fileDestroy } from "../utils/fileUpload.js";
 
 export const createClass = asyncHandler(async(req,res)=>{
 
-      const {title,description,location,date,time,price,capacity,enrolledCount,available,duration} = req.validatedData.body
+      const {title,description,location,weeks,time,price,capacity,enrolledCount,available,duration} = req.validatedData.body
 
       
 
@@ -25,7 +25,7 @@ export const createClass = asyncHandler(async(req,res)=>{
           title,
           description,
           location,
-          date,
+           weeks,
           time,
           price,
           capacity,
