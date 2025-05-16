@@ -31,7 +31,6 @@ export const createOrder = asyncHandler(async(req,res)=>{
         Product: classId,
         status: 'scheduled',
         scheduledDate: existingClass.date,
-        price: userWithCart.cart.item.price,
 
     })
 

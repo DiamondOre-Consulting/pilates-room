@@ -8,7 +8,6 @@ const classSchema = new mongoose.Schema({
   date: {type:Date,required:true},
   time: {type:String,required:true},
   duration: {type:String,required:true},
-  price: {type:Number,required:true},
   capacity: {type:Number,required:true},
   enrolledCount: { type: Number, default: 0 },
   image: [{publicId:String, secureUrl: String}],

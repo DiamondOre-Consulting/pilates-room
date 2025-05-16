@@ -17,8 +17,7 @@ const orderSchema = new Schema({
     },
     scheduledDate:Date,
     cancelledDate:Date,
-    price:Number,
-    
+
 }, {
     timestamps: true
 })
