@@ -52,11 +52,7 @@ const userSchema = new mongoose.Schema({
     upcomingSchedule:[{
         item:{
             type: mongoose.Schema.Types.ObjectId,
-            refPath: 'upcomingSchedule.itemType'
-        },
-        itemType:{
-            type: String,
-            enum: ['Package', 'Class']
+            ref:'Class'
         }
     }],
     isDiscovery:{

@@ -34,6 +34,8 @@ export const createOrder = asyncHandler(async(req,res)=>{
 
     })
 
+    existingUser.upcomingSchedule.push({ item: existingClass._id });
+
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession-1;
     if(!existingUser.memberShipPlan.startDate){
         existingUser.memberShipPlan.startDate = new Date();
