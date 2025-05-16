@@ -14,6 +14,7 @@ import Membership from "./pages/Membership";
 import { useDispatch } from "react-redux";
 import { userData } from "./Redux/Slices/authSlice";
 import { useEffect } from "react";
+import Aboutus from "./pages/Aboutus";
 
 export default function App() {
   
@@ -42,6 +43,7 @@ const dispatch = useDispatch()
       <Route path="/moreInfo/:id" element={<MoreInfoTrainings/>}/> 
       <Route path="/private-session" element={<PrivateSession/>}/>
       <Route path="/membership" element={<Membership/>}/>
+      <Route path="/about-us" element={<Aboutus/>}/>
     </Routes>
     <Footer/>
     </>
