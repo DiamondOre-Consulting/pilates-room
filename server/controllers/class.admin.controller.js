@@ -71,7 +71,7 @@ export const getClasses = asyncHandler(async(req,res)=>{
     const page = req.validatedData.query.page || 1
 
     const location = req.validatedData.query.location
-    const date = req.validatedData.query.date
+    const week = req.validatedData.query.week
 
     const query = {}
     if(location){

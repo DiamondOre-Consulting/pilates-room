@@ -40,6 +40,14 @@ export const resetPasswordParamsSchema = z.object({
 export const newPasswordParamsSchema = z.object({
     newPassword : z.string().trim()
 })
+
+
+
+export const adminSignInBodySchema = z.object({
+    email : z.string().email().trim(),
+    password : z.string().min(6).trim(),
+})
+
  
  
 

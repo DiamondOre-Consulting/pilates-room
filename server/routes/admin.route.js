@@ -12,6 +12,7 @@ import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../contro
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
+import { adminSignIn, adminSignOut } from "../controllers/auth/auth.admin.controller.js"
 
 
 
@@ -123,6 +124,13 @@ adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
 adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
     body:editMembershipPackageBodySchema,params:editMembershipPackageParamsSchema
 }),editMembershipPackage)
+
+
+adminRouter.post('/sign-in',validate({
+    body:adminSignInBodySchema
+}),adminSignIn)
+
+adminRouter.get('/sign-out',adminSignOut)
 
 
 

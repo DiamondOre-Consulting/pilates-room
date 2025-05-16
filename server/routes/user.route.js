@@ -1,7 +1,7 @@
 import {Router} from "express"
 import  validate  from "../middlewares/zod.validator.js"
 import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
-import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword, getProfile } from "../controllers/auth/auth.user.controller.js"
+import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword, getProfile, signOut } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
 
 import { getClasses } from "../controllers/class.admin.controller.js"
@@ -88,6 +88,8 @@ userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware
 userRouter.post('/create-order/:classId',userMiddleware,validate({
     params:createOrderParamsSchema, body: createOrderBodySchema
 }),createOrder)
+
+userRouter.get('/sign-out',signOut)
 
 
 

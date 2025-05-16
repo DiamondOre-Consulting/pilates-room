@@ -259,6 +259,13 @@ export const forgotPassword = asyncHandler(async(req, res)=>{
 });
 
 
+export const signout = asyncHandler(async (req, res) => {
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshAccessToken", cookieOptions);
+    sendResponse(res, 200, null, "User logged out successfully");
+});
+
+
 
 export const resetPassword = asyncHandler(async(req,res)=>{
  
@@ -299,6 +306,13 @@ export const changePassword = asyncHandler(async(req,res)=>{
   await existingUser.save();
   sendResponse(res, 200, null, "Password changed successfully");
   
+})
+
+
+export const signOut = asyncHandler(async(req,res)=>{
+  res.clearCookie("accessToken", cookieOptions);
+  res.clearCookie("refreshAccessToken", cookieOptions);
+  sendResponse(res, 200, null, "User logged out successfully");
 })
 
 
