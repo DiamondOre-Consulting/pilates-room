@@ -13,6 +13,7 @@ import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema,
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 import { adminSignIn, adminSignOut } from "../controllers/auth/auth.admin.controller.js"
+import { adminSignInBodySchema } from "../validator/auth.validator.js"
 
 
 
