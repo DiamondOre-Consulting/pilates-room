@@ -1,4 +1,5 @@
 import express from "express"
+
 import {config} from 'dotenv'
 import morgan  from "morgan"
 import cookieParser from "cookie-parser"
@@ -9,6 +10,7 @@ import errorMiddleware from "./middlewares/error.middleware.js"
 import cloudinary from "cloudinary"
 import Razorpay from "razorpay"
 import cors from 'cors'
+import './utils/membershipChecker.js';
 // import paymentRouter from  "./routes/payment.route.js"
 const app= express()
 config()

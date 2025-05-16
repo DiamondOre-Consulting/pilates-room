@@ -85,7 +85,7 @@ userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware
     params:buyMembershipBodySchema
 }),buyMembership)
 
-userRouter.post('/create-order/:classId',validate({
+userRouter.post('/create-order/:classId',userMiddleware,validate({
     params:createOrderParamsSchema
 }),createOrder)
 
