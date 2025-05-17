@@ -6,14 +6,14 @@ import { userMiddleware } from "../middlewares/user.middleware.js"
 
 import { getClasses, getScheduledClass } from "../controllers/class.admin.controller.js"
 import { getClassesQuerySchema } from "../validator/class.validator.js"
-import { getAllPackages } from "../controllers/package.admin.controller.js"
-import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
+// import { getAllPackages } from "../controllers/post.admin.controller.js"
+// import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
 
 
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
-import { buyMembershipBodySchema, getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
-import { getAllMembershipPackages } from "../controllers/membershipPackage.controller.js"
+import { buyMembershipBodySchema } from "../validator/membershipPackage.validator.js"
+// import { getAllMembershipPackages } from "../controllers/membershipPackage.controller.js"
 import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/payment.controller.js"
 import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
 import { buyMembership } from "../controllers/buyMembership.controller.js"
@@ -43,9 +43,9 @@ userRouter.post('/change-password/:newPassword',userMiddleware,validate({ params
 
 userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClasses)
 
-userRouter.get('/get-all-packages', validate({
-      query:getAllPackagesQuerySchema
-}),getAllPackages)
+// userRouter.get('/get-all-packages', validate({
+//       query:getAllPackagesQuerySchema
+// }),getAllPackages)
 
 userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
     params:fetchMoreInfoParamsSchema
@@ -62,9 +62,9 @@ userRouter.get('/get-single-training/:trainingId',validate({
 
 userRouter.get('/get-user',userMiddleware,getProfile)
 
-userRouter.get('/get-membership-packages',validate({
-    query:getAllMembershipPackagesForUserQuerySchema
-}),getAllMembershipPackages)
+// userRouter.get('/get-membership-packages',validate({
+//     query:getAllMembershipPackagesForUserQuerySchema
+// }),getAllMembershipPackages)
 
 userRouter.get('/key',userMiddleware,razorpayKey)
 
@@ -76,9 +76,9 @@ userRouter.post('/verify-payment',userMiddleware, validate({body:verifyPaymentBo
 
 
 
-userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware,validate({
-    params:buyMembershipBodySchema
-}),buyMembership)
+// userRouter.post('/buy-membership/:membershipPackageId/:paymentId',userMiddleware,validate({
+//     params:buyMembershipBodySchema
+// }),buyMembership)
 
 userRouter.post('/create-order/:classId',userMiddleware,validate({
     params:createOrderParamsSchema, body: createOrderBodySchema
@@ -93,6 +93,9 @@ userRouter.delete('/delete-order/:orderId',userMiddleware,validate({
 userRouter.get('/get-scheduled-class',userMiddleware, getScheduledClass)
 
 userRouter.get('/get-order-history',userMiddleware, orderHistory)
+
+
+
 
 
 

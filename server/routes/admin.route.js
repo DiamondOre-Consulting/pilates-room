@@ -4,14 +4,14 @@ import { createClass, deleteClass, editClass, getClasses } from "../controllers/
 import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema, editClassParamsSchema } from "../validator/class.validator.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import validate from "../middlewares/zod.validator.js"
-import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/package.admin.controller.js"
-import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
+// import { createPackage, deletePackage, editPackage, getAllPackages, getSinglePackage } from "../controllers/post.admin.controller.js"
+// import { createPackageBodySchema, deletePackageParamsSchema, editPackageBodySchema, editPackageParamsSchema, getAllPackagesQuerySchema, getSinglePackageParamsSchema } from "../validator/package.validator.js"
 import { createTraining, deleteTraining, editTraining, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodySchema, editTrainingsParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
-import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
-import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
+// import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
+// import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 import { adminSignIn, adminSignOut, getAdminProfile } from "../controllers/auth/auth.admin.controller.js"
 import { adminSignInBodySchema } from "../validator/auth.validator.js"
 
@@ -39,27 +39,27 @@ adminRouter.put('/edit-class/:classId',upload(2).fields([{ name: "image", maxCou
 }),editClass)
 
 
-adminRouter.post('/create-package',upload(2).single("packageImage"),validate({
-    body:createPackageBodySchema
-}),createPackage)
+// adminRouter.post('/create-package',upload(2).single("packageImage"),validate({
+//     body:createPackageBodySchema
+// }),createPackage)
 
-adminRouter.get('/get-all-packages',validate({
-    query:getAllPackagesQuerySchema
-}),getAllPackages)
-
-
-adminRouter.get('/get-single-package/:packageId',validate({
-    params:getSinglePackageParamsSchema
-}),getSinglePackage)
+// adminRouter.get('/get-all-packages',validate({
+//     query:getAllPackagesQuerySchema
+// }),getAllPackages)
 
 
-adminRouter.delete('/delete-package/:packageId',validate({
-    params:deletePackageParamsSchema
-}),deletePackage)
+// adminRouter.get('/get-single-package/:packageId',validate({
+//     params:getSinglePackageParamsSchema
+// }),getSinglePackage)
 
-adminRouter.put('/edit-package/:packageId',upload(2).single("packageImage"),validate({
-    body:editPackageBodySchema, params:editPackageParamsSchema
-}),editPackage)
+
+// adminRouter.delete('/delete-package/:packageId',validate({
+//     params:deletePackageParamsSchema
+// }),deletePackage)
+
+// adminRouter.put('/edit-package/:packageId',upload(2).single("packageImage"),validate({
+//     body:editPackageBodySchema, params:editPackageParamsSchema
+// }),editPackage)
 
 
 adminRouter.post('/create-training' ,upload(2).fields([{ name: 'trainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 }]),validate({
@@ -103,28 +103,25 @@ adminRouter.put('/edit-coupon/:couponId',validate({
 }),editCoupon)
 
 
-adminRouter.post('/create-membership-package',validate({
-    body:createMembershipPackageBodySchema
-}),createMembershipPackage)
+// adminRouter.post('/create-membership-package',validate({
+//     body:createMembershipPackageBodySchema
+// }),createMembershipPackage)
 
+// adminRouter.get('/get-all-membership-packages',validate({
+//     query:getAllMembershipPackagesForUserQuerySchema
+// }),getAllMembershipPackages)
 
-adminRouter.get('/get-all-membership-packages',validate({
-    query:getAllMembershipPackagesForUserQuerySchema
-}),getAllMembershipPackages)
+// adminRouter.get('/get-single-membership-package/:membershipPackageId',validate({
+//     params:getSingleMembershipPackageParamsSchema
+// }),getSingleMembershipPackage)
 
-adminRouter.get('/get-single-membership-package/:membershipPackageId',validate({
-    params:getSingleMembershipPackageParamsSchema
-}),getSingleMembershipPackage)
+// adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
+//     params:deleteMembershipPackageParamsSchema
+// }),deleteMembershipPackage)
 
-
-
-adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
-    params:deleteMembershipPackageParamsSchema
-}),deleteMembershipPackage)
-
-adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
-    body:editMembershipPackageBodySchema,params:editMembershipPackageParamsSchema
-}),editMembershipPackage)
+// adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
+//     body:editMembershipPackageBodySchema,params:editMembershipPackageParamsSchema
+// }),editMembershipPackage)
 
 
 adminRouter.post('/sign-in',validate({

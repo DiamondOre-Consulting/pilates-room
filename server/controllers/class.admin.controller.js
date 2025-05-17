@@ -190,7 +190,7 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
       const userId = req.user._id
 
       const user = await User.findById(userId).populate('upcomingSchedule.item');
-      
+     
       sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
 
 })

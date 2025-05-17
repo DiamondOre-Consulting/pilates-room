@@ -72,7 +72,10 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
     const existingUser = await User.findById(userId)
 
-    existingUser.upcomingSchedule.pull({ item: orderId });
+    existingUser.upcomingSchedule = existingUser.upcomingSchedule.filter(
+        s => s.item.toString() !== existingOrder.product.toString()
+      );
+
     existingUser.remainingSession = existingUser.remainingSession+1;
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession+1;
     existingOrder.status = "cancelled"
