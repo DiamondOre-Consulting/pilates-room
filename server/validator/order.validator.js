@@ -11,4 +11,9 @@ export const createOrderBodySchema = z.object({
 })
 
 
+export const deleteOrderParamsSchema = z.object({
+    orderId:z.string().trim()
+})
+
+
 

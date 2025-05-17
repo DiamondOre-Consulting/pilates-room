@@ -46,3 +46,38 @@ export const createOrder = asyncHandler(async(req,res)=>{
 })
 
 
+
+export const cancelOrder = asyncHandler(async(req,res)=>{
+    
+    const userId = req.user._id;
+
+    const {orderId} = req.validatedData.params
+
+    const existingOrder = await Order.findById(orderId)
+
+    if(!existingOrder){
+        throw new ApiError("Order not found",404)
+    }
+
+    const scheduledDate = new Date(existingOrder.scheduledDate);
+    const today = new Date();
+
+   =
+    scheduledDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (scheduledDate.getTime() <= today.getTime()) {
+    throw new ApiError("Order cannot be cancelled on the scheduled date or after", 400);
+    }
+
+
+    const existingUser = await User.findById(userId)
+
+    existingUser.upcomingSchedule.pull({ item: orderId });
+    existingUser.remainingSession = existingUser.remainingSession+1;
+    await existingOrder.deleteOne();
+    sendResponse(res,200,null,"Order cancelled successfully")
+
+})
+
+

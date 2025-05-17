@@ -17,8 +17,8 @@ import { getAllMembershipPackages } from "../controllers/membershipPackage.contr
 import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/payment.controller.js"
 import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
 import { buyMembership } from "../controllers/buyMembership.controller.js"
-import { createOrder } from "../controllers/order.controller.js"
-import { createOrderBodySchema, createOrderParamsSchema } from "../validator/order.validator.js"
+import { cancelOrder, createOrder } from "../controllers/order.controller.js"
+import { createOrderBodySchema, createOrderParamsSchema, deleteOrderParamsSchema } from "../validator/order.validator.js"
 
 
 const userRouter = Router()
@@ -68,9 +68,6 @@ userRouter.get('/get-membership-packages',validate({
     query:getAllMembershipPackagesForUserQuerySchema
 }),getAllMembershipPackages)
 
-
-
-
 userRouter.get('/key',userMiddleware,razorpayKey)
 
 userRouter.post('/checkout-payment',userMiddleware,validate({
@@ -90,6 +87,11 @@ userRouter.post('/create-order/:classId',userMiddleware,validate({
 }),createOrder)
 
 userRouter.get('/sign-out',signOut)
+
+
+userRouter.delete('/delete-order/:orderId',userMiddleware,validate({
+   params:deleteOrderParamsSchema
+}),cancelOrder)
 
 
 
