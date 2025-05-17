@@ -8,8 +8,8 @@ import crypto from "crypto"
 
 const cookieOptions = {
     httpOnly: true,
-    // secure: true,
-    sameSite: "Lax",
+    secure: true,
+    sameSite: "None",
 };
 
 

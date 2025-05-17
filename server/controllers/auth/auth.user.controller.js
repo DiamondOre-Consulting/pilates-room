@@ -14,9 +14,9 @@ import crypto from "crypto"
 const otpStore = new Map()
 
 const cookieOptions = {
-    httpOnly: true,
-    // secure: true,
-    sameSite: "Lax",
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
 };
 
 

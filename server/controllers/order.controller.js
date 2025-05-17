@@ -25,7 +25,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     }
     const createOrder = await Order.create({
         user: userId,
-        Product: classId,
+        product: classId,
         status: 'scheduled',
         scheduledDate: date,
     })
