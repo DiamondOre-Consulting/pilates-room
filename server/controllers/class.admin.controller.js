@@ -189,7 +189,14 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
       
       const userId = req.user._id
 
-      const user = await User.findById(userId).populate('upcomingSchedule.item');
+      const user = await User.findById(userId).populate({
+        path: 'upcomingSchedule.item',
+        model: 'Order', // explicitly tell Mongoose that 'item' is an Order
+        populate: {
+          path: 'product',
+          model: 'Class'
+        }
+      });
      
       sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
 
