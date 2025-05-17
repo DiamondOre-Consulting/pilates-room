@@ -15,8 +15,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     if(!existingUser.isMember||!existingUser.isDiscovery){
         throw new ApiError("User is not a member",400)
     }
-    console.log(existingUser)
-    console.log("enter")
+
     const {date} = req.validatedData.body
 
     const existingClass = await Class.findById(classId)
@@ -31,7 +30,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
         scheduledDate: date,
     })
 
-    existingUser.upcomingSchedule.push({ item: existingClass._id });
+    existingUser.upcomingSchedule.push({ item: createOrder._id });
 
     
 
