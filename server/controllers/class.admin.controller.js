@@ -4,6 +4,8 @@ import { fileUpload } from "../utils/fileUpload.js";
 import sendResponse from "../utils/sendResponse.js"
 import ApiError from "../utils/apiError.js"  
 import { fileDestroy } from "../utils/fileUpload.js";
+import User from "../models/user.model.js";
+
 
 
 
@@ -179,6 +181,17 @@ export const editClass = asyncHandler(async(req,res)=>{
     await existingClass.save();
     
     sendResponse(res,200,existingClass,"Class updated successfully")
+
+})
+
+
+export const getScheduledClass = asyncHandler(async(req,res)=>{
+      
+      const userId = req.user._id
+
+      const user = await User.findById(userId).populate('upcomingSchedule.item');
+      
+      sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
 
 })
 

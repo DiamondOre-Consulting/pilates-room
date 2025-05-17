@@ -4,7 +4,7 @@ import { signUpBodySchema,signInBodySchema,sendOtpBodySchema, forgotPasswordBody
 import { signIn,sendOtp,signUp, forgotPassword, resetPassword, changePassword, getProfile, signOut } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
 
-import { getClasses } from "../controllers/class.admin.controller.js"
+import { getClasses, getScheduledClass } from "../controllers/class.admin.controller.js"
 import { getClassesQuerySchema } from "../validator/class.validator.js"
 import { getAllPackages } from "../controllers/package.admin.controller.js"
 import { getAllPackagesQuerySchema } from "../validator/package.validator.js"
@@ -92,6 +92,9 @@ userRouter.get('/sign-out',signOut)
 userRouter.delete('/delete-order/:orderId',userMiddleware,validate({
    params:deleteOrderParamsSchema
 }),cancelOrder)
+
+
+userRouter.get('/get-scheduled-class',userMiddleware, getScheduledClass)
 
 
 
