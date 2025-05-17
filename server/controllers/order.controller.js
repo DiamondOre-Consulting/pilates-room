@@ -62,7 +62,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     const scheduledDate = new Date(existingOrder.scheduledDate);
     const today = new Date();
 
-   =
+   
     scheduledDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
 
