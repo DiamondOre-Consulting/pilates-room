@@ -75,7 +75,9 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
     existingUser.upcomingSchedule.pull({ item: orderId });
     existingUser.remainingSession = existingUser.remainingSession+1;
-    await existingOrder.deleteOne();
+    existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession+1;
+    existingOrder.status = "cancelled"
+    await existingOrder.save();
     sendResponse(res,200,null,"Order cancelled successfully")
 
 })

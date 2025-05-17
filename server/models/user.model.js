@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
     upcomingSchedule:[{
         item:{
             type: mongoose.Schema.Types.ObjectId,
-            ref:'Class'
+            ref:'Order'
         }
     }],
     isDiscovery:{
