@@ -17,7 +17,7 @@ import { getAllMembershipPackages } from "../controllers/membershipPackage.contr
 import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/payment.controller.js"
 import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
 import { buyMembership } from "../controllers/buyMembership.controller.js"
-import { cancelOrder, createOrder } from "../controllers/order.controller.js"
+import { cancelOrder, createOrder, orderHistory } from "../controllers/order.controller.js"
 import { createOrderBodySchema, createOrderParamsSchema, deleteOrderParamsSchema } from "../validator/order.validator.js"
 
 
@@ -46,8 +46,6 @@ userRouter.get('/get-classes',validate({ query:getClassesQuerySchema }),getClass
 userRouter.get('/get-all-packages', validate({
       query:getAllPackagesQuerySchema
 }),getAllPackages)
-
-
 
 userRouter.get('/fetch-more-info/:trainingId',userMiddleware,validate({
     params:fetchMoreInfoParamsSchema
@@ -88,13 +86,17 @@ userRouter.post('/create-order/:classId',userMiddleware,validate({
 
 userRouter.get('/sign-out',signOut)
 
-
 userRouter.delete('/delete-order/:orderId',userMiddleware,validate({
    params:deleteOrderParamsSchema
 }),cancelOrder)
 
-
 userRouter.get('/get-scheduled-class',userMiddleware, getScheduledClass)
+
+userRouter.get('/get-order-history',userMiddleware, orderHistory)
+
+
+
+
 
 
 

@@ -70,7 +70,6 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     throw new ApiError("Order cannot be cancelled on the scheduled date or after", 400);
     }
 
-
     const existingUser = await User.findById(userId)
 
     existingUser.upcomingSchedule.pull({ item: orderId });
@@ -81,6 +80,16 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     sendResponse(res,200,null,"Order cancelled successfully")
 
 })
+
+
+export const orderHistory = asyncHandler(async (req, res) => {
+    const userId = req.user._id;     
+    const orderHistory = await Order.find({ user: userId }).populate('product');    
+    if (!orderHistory || orderHistory.length === 0) {
+        throw new ApiError("Order not found", 404);
+    }
+    sendResponse(res, 200, orderHistory, "Order history");
+});
 
 
 
