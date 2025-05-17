@@ -79,6 +79,18 @@ export const createOrderForClassBooking = createAsyncThunk('/user/create-order',
   }
 })
 
+export const cancelOrder = createAsyncThunk('/user/cancel-order' , async(orderId)=>{
+  try {
+    const response = await userAxiosInstance.delete(`/user/delete-order/${orderId}`);
+    console.log(response)
+    return response?.data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+
 
 const paymentSlice = createSlice({
   name: "payment",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/TPR-Logo.webp";
 import {
   BoxIcon,
@@ -12,8 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "@/components/UserDashboardCompo/AccountDetails";
+import { useDispatch } from "react-redux";
+import { getOrderData } from "@/Redux/Slices/authSlice";
+import History from "@/components/UserDashboardCompo/History";
+import Schedule from "@/components/UserDashboardCompo/Schedule";
 
 const UserDashboard = () => {
+
+
   return (
     <>
       <div className="flex flex-col justify-center items-center mb-3">
@@ -118,17 +124,17 @@ const UserDashboard = () => {
         </ScrollArea>
         <TabsContent value="tab-1">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-            Content for Tab 1
+         <Schedule/>
           </p>
         </TabsContent>
         <TabsContent value="tab-2">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-            Content for Tab 2
+         <History/>
           </p>
         </TabsContent>
         <TabsContent value="tab-3">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-            Content for Tab 3
+           <Schedule/>
           </p>
         </TabsContent>
         <TabsContent value="tab-4">

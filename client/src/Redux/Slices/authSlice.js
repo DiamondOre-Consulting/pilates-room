@@ -108,6 +108,30 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
   }
 });
 
+
+
+export const getScheduleClass = createAsyncThunk('/user/get-schedule-class' , async()=>{
+  try {
+    const response = await userAxiosInstance.get('/user/get-scheduled-class');
+    return response?.data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+export const getOrderData = createAsyncThunk('/user/get-order-history' , async()=>{
+  try {
+    const response = await userAxiosInstance.get('/user/get-order-history');
+    return response?.data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+
+
 const authSlice = createSlice({
   name: "user",
   initialState,
