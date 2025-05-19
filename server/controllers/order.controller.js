@@ -72,8 +72,11 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
     const existingUser = await User.findById(userId)
 
+    console.log(existingOrder.product.toString())
+    console.log(existingUser.upcomingSchedule)
+
     existingUser.upcomingSchedule = existingUser.upcomingSchedule.filter(
-        s => s.item.toString() !== existingOrder.product.toString()
+        s => s.item.toString() !== existingOrder.product._id.toString()
       );
 
     existingUser.remainingSession = existingUser.remainingSession+1;
