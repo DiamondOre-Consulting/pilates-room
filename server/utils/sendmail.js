@@ -14,7 +14,7 @@ export const sendMail = async(title,email,subject,message)=>{
     });
 
     transporter.sendMail({
-        from : `${title} <${process.env.SMTP_FROM_EMAIL}>`,
+        from : `The Pilates Room <${process.env.SMTP_FROM_EMAIL}>`,
         to: email,
         subject: subject,
         html: message

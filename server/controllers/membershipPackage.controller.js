@@ -11,6 +11,7 @@ export const createMembershipPackage = asyncHandler(async(req,res)=>{
     if (exists) {
         return res.status(400).json({ message: 'Package with this name already exists' });
     }
+    
 
 
     const newMembershipPackage = await MembershipPackage.create(req.validatedData.body)

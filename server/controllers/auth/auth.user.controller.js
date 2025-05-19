@@ -254,7 +254,7 @@ export const forgotPassword = asyncHandler(async(req, res)=>{
   </body>
 </html>`;
   
-    await sendMail("Reset Password",email, "Reset Password", emailTemplate);
+    await sendMail(email, "Reset Password", emailTemplate);
     sendResponse(res, 200, null, "Password reset email sent successfully");
 });
 

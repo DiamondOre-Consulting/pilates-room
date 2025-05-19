@@ -119,7 +119,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     </html>
     `;
 
-    await sendMail("Class Booked",existingUser.email,"Order Confirmation",emailTemplateForUser(existingUser.firstName,existingClass.title,date,existingClass.time))
+    await sendMail(existingUser.email,"Order Confirmation",emailTemplateForUser(existingUser.firstName,existingClass.title,date,existingClass.time))
     
     
     const emailTemplateForAdmin = (firstName, lastName, userEmail, className, scheduledDate) => `
@@ -150,7 +150,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     </html>
     `;
 
-   await sendMail("Class Booked","jadonyash755@gmail.com",`Order Received From ${existingUser.firstName}`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title,date))
+   await sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName}`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title,date))
 
     await existingUser.save()
 
@@ -238,7 +238,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     </html>
     `;
 
-    await sendMail("Class Cancelled",
+    await sendMail(
         existingUser.email,
         "Class Cancellation Confirmation",
         emailTemplateForCancel(existingUser.firstName, existingOrder.product.title, existingOrder.scheduledDate)
@@ -273,7 +273,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
 
 
-await sendMail("Class Cancelled",
+await sendMail(
     adminEmail,
     `Class Cancellation by ${existingUser.firstName} ${existingUser.lastName}`,
     emailTemplateForAdminCancel(existingUser.firstName, existingUser.lastName, existingUser.email, existingClass.title, existingOrder.scheduledDate)
