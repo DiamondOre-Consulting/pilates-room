@@ -5,7 +5,7 @@ import sendResponse from "../utils/sendResponse.js"
 import ApiError from "../utils/apiError.js"
 import Class from "../models/class.model.js";
 import { sendMail } from "../utils/sendmail.js";
-import logoImage from '../assets/Pilates-logo.webp'
+
 
 
 export const createOrder = asyncHandler(async(req,res)=>{
@@ -99,7 +99,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     <body>
       <div class="container">
         <div class="header">
-          <img src="${logoImage}" alt="Logo" class="logo" />
+          <img src="https://res.cloudinary.com/disdsorfp/image/upload/v1747652022/TPR-Logo_yh2gyj.webp" alt="Logo" class="logo" />
           <h2>Order Confirmation</h2>
         </div>
         <p>Hi ${userName},</p>
@@ -137,7 +137,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     </head>
     <body>
     <div class="container">
-        <img src="${logoImage}" alt="Logo" style="max-width:150px; display:block; margin: 0 auto 20px;" />
+        <img src="https://res.cloudinary.com/disdsorfp/image/upload/v1747652022/TPR-Logo_yh2gyj.webp" alt="Logo" style="max-width:150px; display:block; margin: 0 auto 20px;" />
         <h2>New Order Received</h2>
         <p><strong>User:</strong> ${firstName} ${lastName} (${userEmail})</p>
         <p><strong>Class Booked:</strong> ${className}</p>
@@ -227,7 +227,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     <body>
       <div class="container">
         <!-- Replace the src below with your logo URL -->
-        <img src="${logoImage}" alt="Logo" class="logo" />
+        <img src="https://res.cloudinary.com/disdsorfp/image/upload/v1747652022/TPR-Logo_yh2gyj.webp" alt="Logo" class="logo" />
         <h2>class Cancellation Confirmed</h2>
         <p>Hi ${userName},</p>
         <p>Your booking for the class <strong>${className}</strong> scheduled on <strong>${new Date(scheduledDate).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' })}</strong> has been successfully cancelled.</p>
@@ -260,7 +260,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
       </head>
       <body>
         <div class="container">
-          <img src="${logoImage}" alt="Logo" />
+          <img src="https://res.cloudinary.com/disdsorfp/image/upload/v1747652022/TPR-Logo_yh2gyj.webp" alt="Logo" />
           <h2>Order Cancellation Alert</h2>
           <p>User <strong>${firstName} ${lastName}</strong> (${userEmail}) has cancelled their booking.</p>
           <p><strong>Class:</strong> ${className}</p>
