@@ -189,6 +189,8 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
       
       const userId = req.user._id
 
+    
+
       const user = await User.findById(userId).populate({
         path: 'upcomingSchedule.item',
         model: 'Order',
@@ -198,25 +200,52 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
         }
       });
 
-      const currentDate = new Date()
+
+   
+        const currentDate = new Date()
 
      
 
-        console.log(user.upcomingSchedule)
+    
+      function parseTime(timeStr) {
+        if (!timeStr) return null;
+        const [time, modifier] = timeStr.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        if (modifier.toLowerCase() === 'pm' && hours !== 12) hours += 12;
+        if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
+        return { hours, minutes };
+      }
 
 
 
 
         user.upcomingSchedule = user.upcomingSchedule.filter((schedule)=>{
-        const productTimeStr = schedule.item?.product?.time;
-        const productTime = new Date(productTimeStr);
           
-          if(schedule.item.product==null||!schedule.item.product){
+          if(schedule.item?.product==null||!schedule.item?.product){
               return false
           }
-          const classDate = new Date(schedule.item.scheduledDate)
-          return classDate.getTime() > currentDate.getTime() || currentDate.getTime() > productTime.getTime();
+
+          const classDate = new Date(schedule.item.scheduledDate);
+          if (classDate < currentDate) return false;
+
+          const timeObj = parseTime(schedule.item.product.time);
+          if (!timeObj) return true;
+          
+          if (
+            classDate.toDateString() === currentDate.toDateString() && 
+            (timeObj.hours < currentDate.getHours() || (timeObj.hours === currentDate.getHours() && timeObj.minutes <= currentDate.getMinutes()))
+          ) {
+            return false;
+          }
+        
+          return true;
       })
+    
+
+
+
+       await user.save();
+      
      
       sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
 
