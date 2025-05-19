@@ -12,7 +12,7 @@ import { getClassesQuerySchema } from "../validator/class.validator.js"
 
 import { fetchMoreInfo, getSingleTraining, getTrainings } from "../controllers/training.controller.js"
 import { fetchMoreInfoParamsSchema, getAllTrainingsQuerySchema, getSingleTrainingParamsSchema } from "../validator/training.validator.js"
-import { buyMembershipBodySchema } from "../validator/membershipPackage.validator.js"
+import { buyMembershipBodySchema, getAllMembershipPackagesForUserQuerySchema } from "../validator/membershipPackage.validator.js"
 import { getAllMembershipPackages } from "../controllers/membershipPackage.controller.js"
 import { checkoutPayment, razorpayKey, verifyPayment } from "../controllers/payment.controller.js"
 import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validator/payment.validator.js"
@@ -65,6 +65,7 @@ userRouter.get('/get-user',userMiddleware,getProfile)
 userRouter.get('/get-membership-packages',validate({
     query:getAllMembershipPackagesForUserQuerySchema
 }),getAllMembershipPackages)
+
 
 userRouter.get('/key',userMiddleware,razorpayKey)
 
@@ -123,5 +124,3 @@ userRouter.get('/get-order-history',userMiddleware, orderHistory)
 
 
  export default userRouter
-
-
