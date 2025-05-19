@@ -87,7 +87,7 @@ userRouter.post('/create-order/:classId',userMiddleware,validate({
 
 userRouter.get('/sign-out',signOut)
 
-userRouter.delete('/delete-order/:orderId',userMiddleware,validate({
+userRouter.put('/cancel-order/:orderId',userMiddleware,validate({
    params:deleteOrderParamsSchema
 }),cancelOrder)
 

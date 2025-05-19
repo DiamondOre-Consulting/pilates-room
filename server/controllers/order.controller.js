@@ -72,17 +72,15 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
     const existingUser = await User.findById(userId)
 
-    console.log(existingOrder.product.toString())
-    console.log(existingUser.upcomingSchedule)
-
     existingUser.upcomingSchedule = existingUser.upcomingSchedule.filter(
-        s => s.item.toString() !== existingOrder.product._id.toString()
+        s => s.item.toString() !== existingOrder._id.toString()
       );
 
     existingUser.remainingSession = existingUser.remainingSession+1;
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession+1;
     existingOrder.status = "cancelled"
     await existingOrder.save();
+    await existingUser.save();
     sendResponse(res,200,null,"Order cancelled successfully")
 
 })
@@ -98,6 +96,29 @@ export const orderHistory = asyncHandler(async (req, res) => {
 });
 
 
+export const allOrderHistory = asyncHandler(async (req, res) => {   
+
+    const page=req.validatedData.query.page || 1
+    const limit= req.validatedData.query.limit || 10
+
+    const date = req.validatedData.query.date
+
+    const query = {}
+    if(date){
+        query.createdAt = date
+    }
+    const orderHistory = await Order.find(query).populate('product').skip((page-1)*limit).limit(limit).sort({ createdAt: -1 });    
+    if (!orderHistory || orderHistory.length === 0) {
+        throw new ApiError("Order not found", 404);
+    }
+
+    const totalOrderHistory = await Order.countDocuments(query);
+    const hasMore = page * limit < totalOrderHistory;
+
+    sendResponse(res, 200, orderHistory, "Order history");
+});
+
+    
 
 
 

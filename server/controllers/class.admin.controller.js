@@ -197,6 +197,15 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
           model: 'Class'
         }
       });
+
+      const currentDate = new Date()
+
+
+
+
+      user.upcommingSchedule = user.upcomingSchedule.filter((schedule)=>{
+          
+      })
      
       sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
 
