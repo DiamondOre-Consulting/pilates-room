@@ -200,11 +200,22 @@ export const getScheduledClass = asyncHandler(async(req,res)=>{
 
       const currentDate = new Date()
 
+     
+
+        console.log(user.upcomingSchedule)
 
 
 
-      user.upcommingSchedule = user.upcomingSchedule.filter((schedule)=>{
+
+        user.upcomingSchedule = user.upcomingSchedule.filter((schedule)=>{
+        const productTimeStr = schedule.item?.product?.time;
+        const productTime = new Date(productTimeStr);
           
+          if(schedule.item.product==null||!schedule.item.product){
+              return false
+          }
+          const classDate = new Date(schedule.item.scheduledDate)
+          return classDate.getTime() > currentDate.getTime() || currentDate.getTime() > productTime.getTime();
       })
      
       sendResponse(res,200,user.upcomingSchedule,"Scheduled classes fetched successfully")
