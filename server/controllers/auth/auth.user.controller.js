@@ -140,7 +140,7 @@ export const sendOtp = asyncHandler(async(req,res)=>{
     </div>
     `;
 
-   sendMail(email, "OTP for signup", emailTemplate);
+   sendMail("Authentication",email, "OTP for signup", emailTemplate);
 
    console.log(otp)
 
@@ -254,7 +254,7 @@ export const forgotPassword = asyncHandler(async(req, res)=>{
   </body>
 </html>`;
   
-    await sendMail(email, "Reset Password", emailTemplate);
+    await sendMail("Reset Password",email, "Reset Password", emailTemplate);
     sendResponse(res, 200, null, "Password reset email sent successfully");
 });
 
