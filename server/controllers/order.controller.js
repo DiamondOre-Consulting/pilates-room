@@ -119,29 +119,30 @@ export const createOrder = asyncHandler(async(req,res)=>{
     
     
     const emailTemplateForAdmin = (firstName, lastName, userEmail, className, scheduledDate) => `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8" />
-        <title>New Order Received</title>
-        <style>
-            body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:20px; }
-            .container { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:8px; }
-            h2 { color:#333; }
-            p { color:#555; line-height:1.5; }
-        </style>
-        </head>
-        <body>
-        <div class="container">
-            <h2>New Order Received</h2>
-            <p><strong>User:</strong> ${firstName} ${lastName} (${userEmail})</p>
-            <p><strong>Class Booked:</strong> ${className}</p>
-            <p><strong>Scheduled Date:</strong> ${new Date(scheduledDate).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' })}</p>
-            <p>Please check the admin panel for more details.</p>
-        </div>
-        </body>
-        </html>
-        `;
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <title>New Order Received</title>
+    <style>
+        body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:20px; }
+        .container { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:8px; }
+        h2 { color:#333; }
+        p { color:#555; line-height:1.5; }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <img src="./Pilates-logo.webp" alt="Logo" style="max-width:150px; display:block; margin: 0 auto 20px;" />
+        <h2>New Order Received</h2>
+        <p><strong>User:</strong> ${firstName} ${lastName} (${userEmail})</p>
+        <p><strong>Class Booked:</strong> ${className}</p>
+        <p><strong>Scheduled Date:</strong> ${new Date(scheduledDate).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' })}</p>
+        <p>Please check the admin panel for more details.</p>
+    </div>
+    </body>
+    </html>
+    `;
 
     sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName}`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title,date))
 

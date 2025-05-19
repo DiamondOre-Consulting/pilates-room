@@ -316,7 +316,6 @@ export const signOut = asyncHandler(async(req,res)=>{
 })
 
 
-
 export const getProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
@@ -327,7 +326,7 @@ export const getProfile = asyncHandler(async (req, res) => {
   })
   .populate({
     path: 'memberShipPlan.package',
-    model: 'MemberShipPlan' 
+    model: 'MemberShipPlan'
   });
 
   sendResponse(res, 200, user, "User profile fetched successfully");
