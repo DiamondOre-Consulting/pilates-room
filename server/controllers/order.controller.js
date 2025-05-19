@@ -296,25 +296,61 @@ export const orderHistory = asyncHandler(async (req, res) => {
 
 export const allOrderHistory = asyncHandler(async (req, res) => {   
 
-    const page=req.validatedData.query.page || 1
-    const limit= req.validatedData.query.limit || 10
-
-    const date = req.validatedData.query.date
-
-    const query = {}
-    if(date){
-        query.createdAt = date
+    const page = parseInt(req.validatedData.query.page) || 1;
+    const limit = parseInt(req.validatedData.query.limit) || 10;
+    const date = req.validatedData.query.date;
+  
+    const query = {};
+  
+    // Date filter (for exact day)
+    if (date) {
+      const startOfDay = new Date(date);
+      startOfDay.setHours(0, 0, 0, 0);
+  
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+  
+      query.createdAt = { $gte: startOfDay, $lte: endOfDay };
     }
-    const orderHistory = await Order.find(query).populate('product').skip((page-1)*limit).limit(limit).sort({ createdAt: -1 });    
-    if (!orderHistory || orderHistory.length === 0) {
-        throw new ApiError("Order not found", 404);
-    }
-
-    const totalOrderHistory = await Order.countDocuments(query);
+  
+    const [orderHistory, totalOrderHistory] = await Promise.all([
+      Order.find(query)
+        .populate('product')
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      Order.countDocuments(query)
+    ]);
+  
     const hasMore = page * limit < totalOrderHistory;
+  
+    sendResponse(res, 200, {
+      data: orderHistory,
+      pagination: {
+        page,
+        limit,
+        total: totalOrderHistory,
+        hasMore,
+        totalPages: Math.ceil(totalOrderHistory / limit)
+      }
+    }, "Order history fetched successfully");
+  });
 
-    sendResponse(res, 200, orderHistory, "Order history");
-});
+
+export const getSingleOrder = asyncHandler(async(req,res)=>{
+
+    const {orderId} = req.validatedData.params
+
+    if (order.user.toString() !== req.user._id.toString()) {
+        throw new ApiError("Unauthorized access to order", 403);
+    }
+
+    const order = await Order.findById(orderId).populate('product')
+    if(!order){
+        throw new ApiError("Order not found",404)
+    }
+    sendResponse(res,200,order,"Order found")
+})
 
     
 

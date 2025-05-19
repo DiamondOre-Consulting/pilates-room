@@ -14,6 +14,8 @@ import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 import { adminSignIn, adminSignOut, getAdminProfile } from "../controllers/auth/auth.admin.controller.js"
 import { adminSignInBodySchema } from "../validator/auth.validator.js"
+import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
+import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 
 
 
@@ -132,6 +134,16 @@ adminRouter.get('/sign-out',adminSignOut)
 
 
 adminRouter.get('/get-user-profile',adminMiddleware,getAdminProfile)
+
+
+adminRouter.get('/get-single-order/:orderId',adminMiddleware,validate({
+    params:getSingleOrderParamsSchema
+}),getSingleOrder)
+
+
+adminRouter.get('/get-all-orders',adminMiddleware,validate({
+   query: getAllOrdersQuerySchema
+}),allOrderHistory)
 
 
 

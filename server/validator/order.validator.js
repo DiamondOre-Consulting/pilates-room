@@ -1,4 +1,4 @@
-import {z} from "zod";
+import {date, z} from "zod";
 
 
 
@@ -15,5 +15,16 @@ export const deleteOrderParamsSchema = z.object({
     orderId:z.string().trim()
 })
 
+
+export const getSingleOrderParamsSchema = z.object({
+    orderId:z.string().trim()
+})
+
+
+export const getAllOrdersQuerySchema = z.object({
+    limit:z.coerce.number().default(10).optional(),
+    page:z.coerce.number().default(1).optional(),
+    date:z.coerce.date().optional(),
+})
 
 
