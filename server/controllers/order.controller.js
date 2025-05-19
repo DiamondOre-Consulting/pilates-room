@@ -106,7 +106,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     <p><strong>Class:</strong> ${className}<br />
        <strong>Date:</strong> ${new Date(scheduledDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
     <p>We look forward to seeing you there. If you have any questions, feel free to reach out to our support team.</p>
-    <a href=${process.env.FRONTEND_URL}/api/v1/user/get-scheduled-classes class="button">View Your Schedule</a>
+    <a href="${process.env.FRONTEND_URL}/api/v1/user/get-scheduled-classes" class="button">View Your Schedule</a>
     <div class="footer">
       <p>The Pilates Room</p>
     </div>
@@ -115,7 +115,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
 </html>
 `;
 
-    sendMail(existingUser.email,"Order Confirmation",emailTemplateForUser(existingUser.name,existingClass.title,date))
+    await sendMail(existingUser.email,"Order Confirmation",emailTemplateForUser(existingUser.name,existingClass.title,date))
     
     
     const emailTemplateForAdmin = (firstName, lastName, userEmail, className, scheduledDate) => `
@@ -144,7 +144,7 @@ export const createOrder = asyncHandler(async(req,res)=>{
     </html>
     `;
 
-    sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName}`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title,date))
+   await sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName}`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title,date))
 
     await existingUser.save()
 
@@ -185,8 +185,94 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
     existingUser.remainingSession = existingUser.remainingSession+1;
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession+1;
     existingOrder.status = "cancelled"
+ 
+
+
     await existingOrder.save();
     await existingUser.save();
+
+    const emailTemplateForCancel = (userName, className, scheduledDate) => `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Order Cancellation</title>
+      <style>
+        body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:20px; }
+        .container { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:8px; text-align: center; }
+        h2 { color:#333; }
+        p { color:#555; line-height:1.5; }
+        .button {
+          display: inline-block;
+          background-color: #dc3545;
+          color: #fff !important;
+          padding: 10px 20px;
+          margin-top: 20px;
+          border-radius: 4px;
+          text-decoration: none;
+          font-weight: bold;
+        }
+        .logo {
+          max-width: 150px;
+          margin-bottom: 20px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <!-- Replace the src below with your logo URL -->
+        <img src="./Pilates-logo.webp" alt="Logo" class="logo" />
+        <h2>Order Cancellation Confirmation</h2>
+        <p>Hi ${userName},</p>
+        <p>Your booking for the class <strong>${className}</strong> scheduled on <strong>${new Date(scheduledDate).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' })}</strong> has been successfully cancelled.</p>
+        <p>If you have any questions or wish to reschedule, please contact our support team.</p>
+        <a href="${process.env.FRONTEND_URL}/api/v1/user/get-scheduled-classes" class="button">View Your Schedule</a>
+      </div>
+    </body>
+    </html>
+    `;
+
+    await sendMail(
+        existingUser.email,
+        "Order Cancellation Confirmation",
+        emailTemplateForCancel(existingUser.firstName, existingOrder.product.title, existingOrder.scheduledDate)
+      );
+
+      const emailTemplateForAdminCancel = (firstName, lastName, userEmail, className, scheduledDate) => `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Order Cancellation Notice</title>
+        <style>
+          body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:20px; }
+          .container { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:8px; text-align:center; }
+          h2 { color:#333; }
+          p { color:#555; line-height:1.5; }
+          img { max-width:150px; margin-bottom:20px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <img src="./Pilates-logo.webp" alt="Logo" />
+          <h2>Order Cancellation Alert</h2>
+          <p>User <strong>${firstName} ${lastName}</strong> (${userEmail}) has cancelled their booking.</p>
+          <p><strong>Class:</strong> ${className}</p>
+          <p><strong>Scheduled Date:</strong> ${new Date(scheduledDate).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' })}</p>
+          <p>Please update the records accordingly.</p>
+        </div>
+      </body>
+      </html>
+      `;
+
+
+
+await sendMail(
+    adminEmail,
+    `Order Cancellation by ${existingUser.firstName} ${existingUser.lastName}`,
+    emailTemplateForAdminCancel(existingUser.firstName, existingUser.lastName, existingUser.email, existingClass.title, existingOrder.scheduledDate)
+  );
+
     sendResponse(res,200,null,"Order cancelled successfully")
 
 })
