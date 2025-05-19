@@ -326,7 +326,7 @@ export const getProfile = asyncHandler(async (req, res) => {
   })
   .populate({
     path: 'memberShipPlan.package',
-    model: 'MemberShipPlan'
+    model: 'MembershipPackage'
   });
 
   sendResponse(res, 200, user, "User profile fetched successfully");
