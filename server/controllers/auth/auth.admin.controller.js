@@ -54,10 +54,7 @@ export const adminSignOut = asyncHandler(async (req, res) => {
 
 
 export const getAdminProfile = asyncHandler(async(req,res)=>{  
-    const userId = req.user._id
-
-    const user = await user.findById(userId).populate("membershipPlan.package")
-
+    const user = req.user
     sendResponse(res, 200, user, "User profile fetched successfully");
 })
 

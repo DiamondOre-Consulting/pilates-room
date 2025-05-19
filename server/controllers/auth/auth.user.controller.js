@@ -321,10 +321,14 @@ export const getProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   const user = await User.findById(userId)
-    .populate({
-      path: 'upcomingSchedule.item',
-      model: 'Order'
-    });
+  .populate({
+    path: 'upcomingSchedule.item',
+    model: 'Order'
+  })
+  .populate({
+    path: 'memberShipPlan.package',
+    model: 'MemberShipPlan' 
+  });
 
   sendResponse(res, 200, user, "User profile fetched successfully");
 });
