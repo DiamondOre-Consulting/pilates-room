@@ -16,119 +16,119 @@ const otpStore = new Map()
 const cookieOptions = {
   httpOnly: true,
   secure: true,
-  sameSite: "None",
+  sameSite: "None",
 };
 
 
 
 
-export const signIn = asyncHandler(async(req,res)=>{
+export const signIn = asyncHandler(async (req, res) => {
 
-    const {email,password} = req.validatedData.body
+  const { email, password } = req.validatedData.body
 
-    const existingUser = await User.findOne({email}).select('+password')
-    
-    if (!existingUser) {
-        throw new ApiError("User not found", 422);
-    }
+  const existingUser = await User.findOne({ email }).select('+password')
 
-    const passwordCheck = await existingUser.comparePassword(password);
+  if (!existingUser) {
+    throw new ApiError("User not found", 422);
+  }
 
-    if (!passwordCheck) {
-        throw new ApiError("Password is incorrect", 409);
-    }
+  const passwordCheck = await existingUser.comparePassword(password);
+
+  if (!passwordCheck) {
+    throw new ApiError("Password is incorrect", 409);
+  }
 
 
-    const accessToken = await existingUser.generateAccessToken();
-    const refreshAccessToken = await existingUser.generateRefreshToken();
-    existingUser.refreshAccessToken = refreshAccessToken;
-    await existingUser.save();
+  const accessToken = await existingUser.generateAccessToken();
+  const refreshAccessToken = await existingUser.generateRefreshToken();
+  existingUser.refreshAccessToken = refreshAccessToken;
+  await existingUser.save();
 
-    res.cookie("accessToken", accessToken, cookieOptions);
-    res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
-    existingUser.password = undefined;
-    existingUser.refreshAccessToken = undefined;
-    existingUser.resetPasswordToken = undefined;
-    existingUser.resetPasswordTokenExpires = undefined;
+  res.cookie("accessToken", accessToken, cookieOptions);
+  res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+  existingUser.password = undefined;
+  existingUser.refreshAccessToken = undefined;
+  existingUser.resetPasswordToken = undefined;
+  existingUser.resetPasswordTokenExpires = undefined;
 
-    sendResponse(res, 200, existingUser, "User logged in successfully");
+  sendResponse(res, 200, existingUser, "User logged in successfully");
 
 })
 
 
-export const signUp = asyncHandler(async(req,res)=>{
+export const signUp = asyncHandler(async (req, res) => {
 
-    const {email,password,otp,firstName,lastName} = req.validatedData.body
-    console.log(req.validatedData.body)
-    
-    const existingUser = await User.findOne({email})
+  const { email, password, otp, firstName, lastName } = req.validatedData.body
+  console.log(req.validatedData.body)
 
-    if(existingUser){
-       throw new ApiError("User already exist",400)
-    }
+  const existingUser = await User.findOne({ email })
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-   
-    const storedOtp = otpStore.get(email);
-    
-    if(!storedOtp){
-        throw new ApiError("Otp is missing",400)
-    }
+  if (existingUser) {
+    throw new ApiError("User already exist", 400)
+  }
 
-    if(storedOtp.otp!==otp){
-        throw new ApiError("Otp entered is not matching",400)
-    }
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-     const user = await User.create({
-        email,
-        password: hashedPassword,
-        firstName,
-        lastName
-      });
-      
-      otpStore.delete("email");
-          
-      const token = await user.generateAccessToken();
-      const refreshAccessToken = await user.generateRefreshToken();
-      user.refreshAccessToken = refreshAccessToken;
+  const storedOtp = otpStore.get(email);
+
+  if (!storedOtp) {
+    throw new ApiError("Otp is missing", 400)
+  }
+
+  if (storedOtp.otp !== otp) {
+    throw new ApiError("Otp entered is not matching", 400)
+  }
+
+  const user = await User.create({
+    email,
+    password: hashedPassword,
+    firstName,
+    lastName
+  });
+
+  otpStore.delete("email");
+
+  const token = await user.generateAccessToken();
+  const refreshAccessToken = await user.generateRefreshToken();
+  user.refreshAccessToken = refreshAccessToken;
 
 
-      await user.save();
-    
-      user.password = undefined;
-      user.refreshAccessToken = undefined;
-      user.resetPasswordToken = undefined;
-      user.resetPasswordTokenExpires = undefined;
-    
-      res.cookie("accessToken", token, cookieOptions);
-      res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+  await user.save();
 
-      sendResponse(res, 200, user, "User created successfully")
+  user.password = undefined;
+  user.refreshAccessToken = undefined;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordTokenExpires = undefined;
 
-    
+  res.cookie("accessToken", token, cookieOptions);
+  res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+
+  sendResponse(res, 200, user, "User created successfully")
+
+
 })
 
 
-export const sendOtp = asyncHandler(async(req,res)=>{
-     
-    const {email} = req.validatedData.body
+export const sendOtp = asyncHandler(async (req, res) => {
 
-    const existingUser = await User.findOne({email})
+  const { email } = req.validatedData.body
 
-    if(existingUser){
-       throw new ApiError("User already exist",400)
-    }
+  const existingUser = await User.findOne({ email })
 
-    const generatedOTP = () => {
-        return randomUUID().replace(/\D/g, '').slice(0, 6);
-    };
+  if (existingUser) {
+    throw new ApiError("User already exist", 400)
+  }
 
-    const otp=generatedOTP()
+  const generatedOTP = () => {
+    return randomUUID().replace(/\D/g, '').slice(0, 6);
+  };
 
-    otpStore.set(email, { otp, expiresAt: Date.now() + 5 * 60 * 1000 });
-    
+  const otp = generatedOTP()
 
-    const emailTemplate = `
+  otpStore.set(email, { otp, expiresAt: Date.now() + 5 * 60 * 1000 });
+
+
+  const emailTemplate = `
     <div style="font-family: Arial, sans-serif; text-align: center;">
         <h2 style="color: #b8860b;">Pilates Room</h2>
         <p>Dear Customer,</p>
@@ -140,39 +140,39 @@ export const sendOtp = asyncHandler(async(req,res)=>{
     </div>
     `;
 
-   sendMail("Authentication",email, "OTP for signup", emailTemplate);
+  sendMail("Authentication", email, "OTP for signup", emailTemplate);
 
-   console.log(otp)
+  console.log(otp)
 
-   sendResponse(res,200,null,"Otp sent successfully")
-    
+  sendResponse(res, 200, null, "Otp sent successfully")
 
-    
+
+
 })
 
 
-export const forgotPassword = asyncHandler(async(req, res)=>{
-    const { email } = req.validatedData.body;
-  
-    const existingUser = await User.findOne({ email });
-  
-    if (!existingUser) {
-      throw new ApiError("User not found", 400);
-    }
-  
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
-    const expiryTime = encodeURIComponent(resetPasswordTokenExpires)
-  
-    existingUser.resetPasswordToken = resetToken;
-    existingUser.resetPasswordTokenExpires = resetPasswordTokenExpires;
-  
-    await existingUser.save();
-  
-  
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingUser.email}/${expiryTime}`;
-  
-    const emailTemplate = `
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.validatedData.body;
+
+  const existingUser = await User.findOne({ email });
+
+  if (!existingUser) {
+    throw new ApiError("User not found", 400);
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
+  const expiryTime = encodeURIComponent(resetPasswordTokenExpires)
+
+  existingUser.resetPasswordToken = resetToken;
+  existingUser.resetPasswordTokenExpires = resetPasswordTokenExpires;
+
+  await existingUser.save();
+
+
+  const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingUser.email}/${expiryTime}`;
+
+  const emailTemplate = `
 <html>
   <head>
     <style>
@@ -253,63 +253,63 @@ export const forgotPassword = asyncHandler(async(req, res)=>{
     </div>
   </body>
 </html>`;
-  
-    await sendMail(email, "Reset Password", emailTemplate);
-    sendResponse(res, 200, null, "Password reset email sent successfully");
+
+  await sendMail(email, "Reset Password", emailTemplate);
+  sendResponse(res, 200, null, "Password reset email sent successfully");
 });
 
 
 export const signout = asyncHandler(async (req, res) => {
-    res.clearCookie("accessToken", cookieOptions);
-    res.clearCookie("refreshAccessToken", cookieOptions);
-    sendResponse(res, 200, null, "User logged out successfully");
+  res.clearCookie("accessToken", cookieOptions);
+  res.clearCookie("refreshAccessToken", cookieOptions);
+  sendResponse(res, 200, null, "User logged out successfully");
 });
 
 
 
-export const resetPassword = asyncHandler(async(req,res)=>{
- 
-    const {resetToken} = req.validatedData.params;
-    let {newPassword} = req.validatedData.body;
-    
-    const existingUser = await User.findOne({
-      resetPasswordToken: resetToken,
-      resetPasswordTokenExpires: { $gt: Date.now() },
-    }).select('+password');
+export const resetPassword = asyncHandler(async (req, res) => {
 
-    if(!existingUser){ 
-        throw new ApiError("Token expired",400)
-    }
+  const { resetToken } = req.validatedData.params;
+  let { newPassword } = req.validatedData.body;
 
-    newPassword = await bcrypt.hash(newPassword, 10);
-    existingUser.password = newPassword;
-    existingUser.resetPasswordToken = undefined;
-    existingUser.resetPasswordTokenExpires = undefined;
+  const existingUser = await User.findOne({
+    resetPasswordToken: resetToken,
+    resetPasswordTokenExpires: { $gt: Date.now() },
+  }).select('+password');
 
-    await existingUser.save();
+  if (!existingUser) {
+    throw new ApiError("Token expired", 400)
+  }
 
-    sendResponse(res, 200, null, "Password reset successfully");
+  newPassword = await bcrypt.hash(newPassword, 10);
+  existingUser.password = newPassword;
+  existingUser.resetPasswordToken = undefined;
+  existingUser.resetPasswordTokenExpires = undefined;
+
+  await existingUser.save();
+
+  sendResponse(res, 200, null, "Password reset successfully");
 
 
 })
 
 
-export const changePassword = asyncHandler(async(req,res)=>{
+export const changePassword = asyncHandler(async (req, res) => {
 
-  const {newPassword} = req.validatedData.params; 
+  const { newPassword } = req.validatedData.params;
   const existingUser = await User.findById(req.user._id).select('+password');
   const isSame = await bcrypt.compare(newPassword, existingUser.password);
   if (isSame) {
-    throw new ApiError("New password should be different",400);
+    throw new ApiError("New password should be different", 400);
   }
   existingUser.password = await bcrypt.hash(newPassword, 10);
   await existingUser.save();
   sendResponse(res, 200, null, "Password changed successfully");
-  
+
 })
 
 
-export const signOut = asyncHandler(async(req,res)=>{
+export const signOut = asyncHandler(async (req, res) => {
   res.clearCookie("accessToken", cookieOptions);
   res.clearCookie("refreshAccessToken", cookieOptions);
   sendResponse(res, 200, null, "User logged out successfully");
@@ -320,14 +320,14 @@ export const getProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   const user = await User.findById(userId)
-  .populate({
-    path: 'upcomingSchedule.item',
-    model: 'Order'
-  })
-  .populate({
-    path: 'memberShipPlan.package',
-    model: 'MembershipPackage'
-  });
+    .populate({
+      path: 'upcomingSchedule.item',
+      model: 'Order'
+    })
+    .populate({
+      path: 'memberShipPlan.package',
+      model: 'MembershipPackage'
+    });
 
   sendResponse(res, 200, user, "User profile fetched successfully");
 });
