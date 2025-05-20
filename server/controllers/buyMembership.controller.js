@@ -119,9 +119,9 @@ export const buyMembership = asyncHandler(async(req,res)=>{
     </html>
     `;
 
-    sendMail(existingUser.email,"Membership Confirmation",emailTemplateForUser(existingUser.firstName,membershipPackage.title))
+    await sendMail(existingUser.email,"Membership Confirmation",emailTemplateForUser(existingUser.firstName,membershipPackage.title))
     
-    sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName} For membership`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title))
+    awaitsendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName} For membership`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title))
 
 
     sendResponse(res,200,null,"Membership purchased successfully")
