@@ -41,6 +41,7 @@ export const buyMembership = asyncHandler(async(req,res)=>{
         
 
             if(!existingUser.isDiscovery){
+                existingUser.memberShipPlan.memberShipFrom = new Date()
                 existingUser.isDiscovery = true
                 existingUser.discoveryPaymentId=paymentId
 
@@ -105,6 +106,10 @@ export const buyMembership = asyncHandler(async(req,res)=>{
 
             }
             else{
+                existingUser.memberShipPlan.memberShipCount= existingUser.memberShipPlan.memberShipCount+1;
+
+                
+
                 existingUser.isMember = true
                 existingUser.memberShipPlan ={
                     package: membershipPackage._id,
@@ -172,9 +177,7 @@ export const buyMembership = asyncHandler(async(req,res)=>{
                 await sendMail(existingUser.email,"Membership Confirmation",emailTemplateForUser(existingUser.firstName,membershipPackage.packageName))
                 
                 await sendMail("jadonyash755@gmail.com",`Order Received From ${existingUser.firstName} For membership`,emailTemplateForAdmin(existingUser.firstName,existingUser.lastName,existingUser.email,existingClass.title))
-        
-        
-      
+              
         
         }
 

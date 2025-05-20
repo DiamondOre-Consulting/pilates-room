@@ -20,6 +20,10 @@ export const createOrder = asyncHandler(async(req,res)=>{
 
     const {date} = req.validatedData.body
 
+    if(existingUser.memberShipPlan.remainingSession<=0||existingUser.memberShipPlan.status=='expired'||existingUser.memberShipPlan.expiryDate< new Date()){
+         throw new ApiError("Your membership has been expired",400)
+    }
+
     const existingClass = await Class.findById(classId)
 
     if(!existingClass){
@@ -188,7 +192,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
         s => s.item.toString() !== existingOrder._id.toString()
       );
 
-    existingUser.remainingSession = existingUser.remainingSession+1;
+    
     existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession+1;
     existingOrder.status = "cancelled"
  

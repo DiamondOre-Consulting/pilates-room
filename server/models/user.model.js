@@ -67,6 +67,8 @@ const userSchema = new mongoose.Schema({
         default:false
     },
     memberShipPlan:{
+        memberShipFrom:Date,
+        memberShipCount:Number,
         registrationDate:Date,
         expiryDate:Date,    
         startDate:Date,    
