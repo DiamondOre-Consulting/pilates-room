@@ -6,7 +6,12 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import SignIn from "./SignIn";
 import Signup from "./Signup";
-import { checkOutPayment, createMembership, getRazorpaykey, varifyPayment } from "@/Redux/Slices/paymentSlice";
+import {
+  checkOutPayment,
+  createMembership,
+  getRazorpaykey,
+  varifyPayment,
+} from "@/Redux/Slices/paymentSlice";
 import { userData } from "@/Redux/Slices/authSlice";
 
 const Membership = () => {
@@ -16,6 +21,7 @@ const Membership = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [selectedPlan, setSelectedPlan] = useState("Discovery");
+  const [loader, setLoader] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   console.log("userdata", user, isLoggedIn);
 
@@ -44,28 +50,28 @@ const Membership = () => {
       const response = await dispatch(getRazorpaykey());
       console.log("key", response);
       setRazorPayKey(response?.payload?.data?.key);
-      console.log("it is a key",razorpayKey)
+      console.log("it is a key", razorpayKey);
     } catch (error) {
       console.log(error);
     }
   };
 
-useEffect(() => {
-  if (!isPopUpOpen) {
-    handleGetRazorPayKey();
-  }
-}, [dispatch, isPopUpOpen, user]);
+  useEffect(() => {
+    if (!isPopUpOpen) {
+      handleGetRazorPayKey();
+    }
+  }, [dispatch, isPopUpOpen, user]);
 
   const paymentDetails = {
     razorpay_payment_id: "",
     razorpay_order_id: "",
     razorpay_signature: "",
-    
   };
 
   // console.log("membership id" , membershipPackageId)
   const handleCheckOutPayment = async (membershipPackageId) => {
     try {
+      setLoader(membershipPackageId);
       if (!razorpayKey) {
         await handleGetRazorPayKey();
       }
@@ -73,7 +79,7 @@ useEffect(() => {
       console.log("id in a function", membershipPackageId);
       const response = await dispatch(checkOutPayment({ membershipPackageId }));
       console.log("slectedmemebership", response);
-      console.log("key in function",razorpayKey)
+      console.log("key in function", razorpayKey);
       const options = {
         key: razorpayKey,
         amount: response?.payload?.data?.amount,
@@ -82,36 +88,36 @@ useEffect(() => {
         description: "",
         image: "",
         order_id: response?.payload?.data?.id,
-     handler: async function (res) {
-  const paymentDetails = {
-    razorpay_payment_id: res.razorpay_payment_id,
-    razorpay_order_id: res.razorpay_order_id,
-    razorpay_signature: res.razorpay_signature,
-  };
+        handler: async function (res) {
+          const paymentDetails = {
+            razorpay_payment_id: res.razorpay_payment_id,
+            razorpay_order_id: res.razorpay_order_id,
+            razorpay_signature: res.razorpay_signature,
+          };
 
-  console.log("paymentdetails", paymentDetails);
+          console.log("paymentdetails", paymentDetails);
 
-  const response = await dispatch(varifyPayment(paymentDetails));
-  console.log("response:", response);
-console.log(response.payload.success)
-  if (response.payload.success) {
-    console.log("console after success")
+          const response = await dispatch(varifyPayment(paymentDetails));
+          console.log("response:", response);
+          console.log(response.payload.success);
+          if (response.payload.success) {
+            console.log("console after success");
 
-
-    console.log("data consoleafter success", membershipPackageId , paymentDetails.razorpay_payment_id)
-    const res = await dispatch(
-      createMembership({
-        membershipPackageId,
-        paymentId: paymentDetails.razorpay_payment_id,
-      })
-    );
-    console.log("Membership creation:", res);
-   await  dispatch(userData())
-  }
-}
-,
-
-
+            console.log(
+              "data consoleafter success",
+              membershipPackageId,
+              paymentDetails.razorpay_payment_id
+            );
+            const res = await dispatch(
+              createMembership({
+                membershipPackageId,
+                paymentId: paymentDetails.razorpay_payment_id,
+              })
+            );
+            console.log("Membership creation:", res);
+            await dispatch(userData());
+          }
+        },
         prefill: {
           name: "Zoya",
           email: "zoya@gmail.com",
@@ -131,10 +137,12 @@ console.log(response.payload.success)
       }
     } catch (error) {
       console.log(error, razorpayKey);
+    } finally {
+      setLoader(false);
     }
   };
 
-  console.log("ismember",user?.data?.isMember)
+  console.log("ismember", user?.data?.isMember);
   return (
     <div>
       <section class="w-full">
@@ -194,27 +202,50 @@ console.log(response.payload.success)
 
                     <button
                       onClick={() => {
+// console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
+                        // if( user?.data?.isMember  && user?.data?.memberShipPlan?.package?._id === ele?._id){
+                        //   return 
+                        // }
                         if (!isLoggedIn) {
                           console.log("clicked", isLoggedIn, showSignIn);
                           setIsPopUpOpen(true);
                         } else {
                           console.log("Selected package ID:", ele?._id);
                           // setMembershipPackageId(ele?._id)
-user?.data?.isDiscovery ? "":
-                          handleCheckOutPayment(ele?._id);
+                          user?.data?.isDiscovery
+                            ? ""
+                            : handleCheckOutPayment(ele?._id);
                         }
                       }}
-                      className={`text-xl cursor-pointer ${user?.data?.isDiscovery  ? "bg-green-600 text-white" :"bg-white text-dark"}  rounded-md px-4 py-1`}
+                      // disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
+                      className={`text-xl cursor-pointer ${
+                        user?.data?.isDiscovery
+                          ? "bg-green-600 text-white"
+                          : "bg-white text-dark"
+                      }  rounded-md px-4 py-1`}
                     >
-
-                      {
-                        user.data?.isDiscovery ?(
-                              <p>Session Booked</p>
-                        ):(
-                          <p>Book Now</p>
-                        )
-                      }
-                      
+                      {loader ? (
+                        <svg
+                          aria-hidden="true"
+                          class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                          viewBox="0 0 100 101"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill"
+                          />
+                        </svg>
+                      ) : user?.data?.isDiscovery ? (
+                        "Session Booked"
+                      ) : (
+                        "Book Now"
+                      )}
                     </button>
                   </div>
 
@@ -242,7 +273,12 @@ user?.data?.isDiscovery ? "":
                 {allMemberShip?.map((ele, index) => (
                   <div
                     key={index}
-                    className={` ${user?.data?.isMember && user?.data?.memberShipPlan?.package != ele?._id ? "blur-sm" : "bg-gray-100"} dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
+                    className={` ${
+                      user?.data?.isMember &&
+                      user?.data?.memberShipPlan?.package?._id != ele?._id
+                        ? "blur-sm"
+                        : "bg-gray-100"
+                    } dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
                   >
                     <div className="grow">
                       <div className="pt-6 bg-dark text-white rounded-t-2xl">
@@ -268,7 +304,11 @@ user?.data?.isDiscovery ? "":
                     </div>
 
                     <button
-                   onClick={() => {
+                      onClick={() => {
+
+                          if( user?.data?.isMember  && user?.data?.memberShipPlan?.package?._id === ele?._id){
+                          return 
+                        }
                         if (!isLoggedIn) {
                           console.log("clicked", isLoggedIn, showSignIn);
                           setIsPopUpOpen(true);
@@ -278,16 +318,38 @@ user?.data?.isDiscovery ? "":
                           handleCheckOutPayment(ele?._id);
                         }
                       }}
-                      className={` ${user?.data?.memberShipPlan?.package ===ele?._id?
- "bg-green-600" : "bg-dark" } px-8 py-3 rounded text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
+
+                                            disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
+
+                      className={` ${
+                        user?.data?.memberShipPlan?.package?._id === ele?._id
+                          ? "bg-green-600"
+                          : "bg-dark"
+                      } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
                     >
-  {
-                        user?.data?.memberShipPlan?.package === ele?._id ?(
-                              <p>Session Booked</p>
-                        ):(
-                          <p>Book Now</p>
-                        )
-                      }
+                      {loader === ele?._id ? (
+                        <svg
+                          aria-hidden="true"
+                          class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                          viewBox="0 0 100 101"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill"
+                          />
+                        </svg>
+                      ) : user?.data?.memberShipPlan?.package?._id === ele?._id ? (
+                        <p>Session Booked</p>
+                      )
+                       : (
+                        <p>Book Now</p>
+                      )}
                     </button>
                   </div>
                 ))}

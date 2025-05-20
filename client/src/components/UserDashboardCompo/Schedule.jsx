@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getScheduleClass } from "@/Redux/Slices/authSlice";
+import { getScheduleClass, userData } from "@/Redux/Slices/authSlice";
 import { cancelOrder } from "@/Redux/Slices/paymentSlice";
 import Counter from "../Counter";
 
@@ -30,6 +30,7 @@ const Schedule = () => {
       const response = await dispatch(cancelOrder(orderId));
       if (response?.payload?.statusCode) {
         await handleGetAllSchedule();
+        await dispatch(userData())
       }
     } catch (error) {
       console.log(error);
@@ -42,10 +43,19 @@ const Schedule = () => {
     return new Date().getDate();
   };
 
+    const toUtcMidnightIso = (d) =>
+    new Date(
+      Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+    ).toISOString();
+  const getToday = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()); // midnight today
+  };
+    
   return (
     <div className="">
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded">
+        <table className="min-w-full  bg-white border border-gray-200 rounded">
           <thead>
             <tr className="bg-gray-100">
               <th className="py-2 px-4 border-b">Instructor</th>
@@ -59,18 +69,21 @@ const Schedule = () => {
               <th className="py-2 px-4 border-b">Starts In</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="max-h-80 ">
             {scheduleClass.length > 0 ? (
               scheduleClass.map((entry) => {
                 const item = entry.item;
                 const product = item?.product;
                 const instructor = product?.instructor;
-
+ const today = getToday();
                 const scheduledDate = new Date(item?.scheduledDate);
                 const isToday =
                   scheduledDate.getDate() === getTodayDate() &&
                   scheduledDate.getMonth() === new Date().getMonth() &&
                   scheduledDate.getFullYear() === new Date().getFullYear();
+      const diffTime = scheduledDate.getTime() - today.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
 
                 return (
                   <tr key={entry._id} className="hover:bg-gray-50">
@@ -97,18 +110,24 @@ const Schedule = () => {
                     <td className="py-2 px-4 border-b text-center">
                       <button
                         onClick={() => handleCancelOrder(item._id, product._id)}
-                        className={`text-xs px-3 py-1 rounded bg-red-400 text-white`}
+                        className={`text-xs px-3 py-1 rounded bg-red-600 disabled:opacity-30 text-white`}
                         disabled={
-                          loader === product._id || item.status === "cancelled"
+                          loader === product?._id || item?.status === "cancelled"|| isToday  
                         }
                       >
-                        {loader === product._id ? "…" : "Cancel"}
+                        {loader === product?._id ? "…" : "Cancel"}
                       </button>
                     </td>
                     <td className="py-2 px-4 border-b text-center">
-                      {isToday &&
-                        item?.status !== "cancelled" &&
-                        <Counter scheduledDateTime={product?.time} />}
+                     <td className="py-2 px-4 border-b text-red-800 text-center">
+                      {isToday && item.status !== "cancelled" ? (
+                        <Counter scheduledDateTime={product?.time} />
+                      ) : diffDays > 0 ? (
+                        `${diffDays} day${diffDays > 1 ? "s" : ""} left`
+                      ) : (
+                        "Past"
+                      )}
+                    </td>
                     </td>
                   </tr>
                 );

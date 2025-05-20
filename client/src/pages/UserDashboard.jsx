@@ -12,13 +12,23 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "@/components/UserDashboardCompo/AccountDetails";
-import { useDispatch } from "react-redux";
-import { getOrderData } from "@/Redux/Slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrderData, logout, userData } from "@/Redux/Slices/authSlice";
 import History from "@/components/UserDashboardCompo/History";
 import Schedule from "@/components/UserDashboardCompo/Schedule";
+import Passes from "@/components/UserDashboardCompo/Passes";
+import { IconLogout } from "@tabler/icons-react";
 
 const UserDashboard = () => {
+  const dispatch = useDispatch();
+  const [dashpoardPopUp, setDashboardPopUp] = useState(false);
+  const { isLoggedIn, user } = useSelector((state) => state?.auth);
 
+ const handleLogout =async ()=>{
+  const res =await dispatch(logout())
+
+  console.log(res)
+ }
 
   return (
     <>
@@ -27,7 +37,10 @@ const UserDashboard = () => {
 
         <div className="border-gray-600 border-y py-2 mt-4 flex  w-full justify-between">
           <p className="uppercase">Your Account</p>
-          <p className="flex space-x-4">
+          <div
+            className="flex space-x-4 cursor-pointer"
+         
+          >
             <svg
               className="text-gray-600"
               xmlns="http://www.w3.org/2000/svg"
@@ -44,29 +57,13 @@ const UserDashboard = () => {
               <circle cx="12" cy="8" r="5" />
               <path d="M20 21a8 8 0 0 0-16 0" />
             </svg>
-            <svg
-              className="text-gray-600"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-log-out-icon lucide-log-out"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" x2="9" y1="12" y2="12" />
-            </svg>
-          </p>
+          <IconLogout onClick={handleLogout}/>
+          </div>
         </div>
       </div>
 
-      <Tabs defaultValue="tab-1 w-full  ">
-        <ScrollArea>
+      <Tabs defaultValue="tab-1" className="w-full h-[60vh] overflow-y-auto">
+        <ScrollArea className="fixed">
           <TabsList className="text-foreground cursor-pointer mb-3 h-auto flex  justify-between w-full rounded-none border-b bg-transparent px-0 py-1">
             <TabsTrigger
               value="tab-1"
@@ -124,25 +121,29 @@ const UserDashboard = () => {
         </ScrollArea>
         <TabsContent value="tab-1">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-         <Schedule/>
+            <Schedule />
           </p>
         </TabsContent>
         <TabsContent value="tab-2">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-         <History/>
+            <History />
           </p>
         </TabsContent>
         <TabsContent value="tab-3">
           <p className="text-muted-foreground pt-1 text-center text-xs">
-           <Schedule/>
+            <Passes />
           </p>
         </TabsContent>
         <TabsContent value="tab-4">
           <p className="text-muted-foreground pt-1 ">
-           <AccountDetails/>
+            <AccountDetails />
           </p>
         </TabsContent>
       </Tabs>
+
+      {!isLoggedIn && !dashpoardPopUp && (
+        <UserDashboard onClose={() => setDashboardPopUp(false)} />
+      )}
     </>
   );
 };

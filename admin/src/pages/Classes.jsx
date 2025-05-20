@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import JoditEditor from "jodit-react";
+import TimePicker from "react-time-picker";
+
 
 const Classes = () => {
   const dispatch = useDispatch();
@@ -187,9 +189,22 @@ const Classes = () => {
       }
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
-        formData.append(key, data[key]);
-      });
+     Object.keys(data).forEach((key) => {
+    if (key !== "time") formData.append(key, data[key]);
+  });
+
+  if (data.time) {
+    const [hour, minute] = data.time.split(":");
+    const start = new Date();
+    start.setHours(hour);
+    start.setMinutes(minute);
+    const formattedStart = start.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });           // => "08:00 AM"
+    formData.append("time", formattedStart);
+  }
 
       selectedDays.forEach((day) => {
         formData.append("weeks", day);
@@ -256,6 +271,21 @@ const Classes = () => {
      setValue("weeks", data?.weeks || []);
        setSelectedDays(data?.weeks || []);
     serPreviewImage(data?.instructor?.image?.secureUrl);
+
+      const formatTimeTo24H = (timeStr) => {
+        if (!timeStr) return "";
+        const [time, modifier] = timeStr.split(" "); // e.g. ["10:35", "PM"]
+        if (!time || !modifier) return "";
+      
+        let [hours, minutes] = time.split(":").map(Number);
+      
+        if (modifier === "PM" && hours < 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+      
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+      };
+
+      setValue("time" ,  formatTimeTo24H(data.time));
     console.log(id, data);
     setEditClassPopUp(true);
   };
@@ -265,13 +295,26 @@ const Classes = () => {
       const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
-  if (key !== "weeks") {
+  if (key !== "weeks" && key !== "time") {
     formData.append(key, data[key]);
   }
 });
 selectedDays.forEach((day) => {
   formData.append("weeks", day);
 });
+
+    if (data.time) {
+    const [hour, minute] = data.time.split(":");
+    const start = new Date();
+    start.setHours(hour);
+    start.setMinutes(minute);
+    const formattedStart = start.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });        
+    formData.append("time", formattedStart);
+  }
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -589,7 +632,23 @@ selectedDays.forEach((day) => {
                           : "border-gray-400"
                       }`}
                     />
-                  ) : input.inputType === "file" ? (
+                  ) :
+
+
+                   input.inputType === "time" ? (
+                                  <TimePicker
+                                    onChange={(value) => setValue(input.name, value)}
+                                    value={watch(input.name)}
+                                    format="hh:mm a"
+                                    disableClock={true}
+                                    className={`border px-2 py-1 rounded w-full ${
+                                      errors[input.name] ? "border-red-500" : "border-gray-400"
+                                    }`}
+                                  />
+                                ) :
+                  
+                  
+                  input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
@@ -758,7 +817,23 @@ selectedDays.forEach((day) => {
                         />
                       )}
                     </div>
-                  ) : input.inputType === "checkbox" ? (
+                  ) : 
+
+                  input.inputType === "time" ? (
+                                  <TimePicker
+                                    onChange={(value) => setValue(input.name, value)}
+                                    value={watch(input.name)}
+                                    format="hh:mm a"
+                                    disableClock={true}
+                                    className={`border px-2 py-1 rounded w-full ${
+                                      errors[input.name] ? "border-red-500" : "border-gray-400"
+                                    }`}
+                                  />
+                                ) :
+                  
+                  
+                  
+                  input.inputType === "checkbox" ? (
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"

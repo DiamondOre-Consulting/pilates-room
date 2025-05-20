@@ -49,12 +49,12 @@ const History = () => {
                   key={_id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
-                  <td className="px-6 py-4 font-medium">{product.title}</td>
-                  <td className="px-6 py-4">{product.instructor.name}</td>
+                  <td className="px-6 py-4 font-medium">{product?.title}</td>
+                  <td className="px-6 py-4">{product?.instructor?.name}</td>
                   <td className="px-6 py-4">
                     {sched.toLocaleDateString("en-GB")}
                   </td>
-                  <td className="px-6 py-4">{product.time}</td>
+                  <td className="px-6 py-4">{product?.time}</td>
                   <td className="px-6 py-4 capitalize">{status}</td>
                 </tr>
               );
