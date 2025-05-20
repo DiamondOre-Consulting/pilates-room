@@ -69,15 +69,15 @@ export const signUp = asyncHandler(async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // const storedOtp = otpStore.get(email);
+  const storedOtp = otpStore.get(email);
 
-  // if (!storedOtp) {
-  //   throw new ApiError("Otp is missing", 400)
-  // }
+  if (!storedOtp) {
+    throw new ApiError("Otp is missing", 400)
+  }
 
-  // if (storedOtp.otp !== otp) {
-  //   throw new ApiError("Otp entered is not matching", 400)
-  // }
+  if (storedOtp.otp !== otp) {
+    throw new ApiError("Otp entered is not matching", 400)
+  }
 
   const user = await User.create({
     email,
