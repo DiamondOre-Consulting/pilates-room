@@ -165,7 +165,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
     const {orderId} = req.validatedData.params
 
-    const existingOrder = await Order.findById(orderId)
+    const existingOrder = await Order.findById(orderId).populate("product")
 
     if(!existingOrder){
         throw new ApiError("Order not found",404)
@@ -276,7 +276,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 await sendMail(
     "jadonyash755@gmail.com",
     `Class Cancellation by ${existingUser.firstName} ${existingUser.lastName}`,
-    emailTemplateForAdminCancel(existingUser.firstName, existingUser.lastName, existingUser.email, existingClass.title, existingOrder.scheduledDate)
+    emailTemplateForAdminCancel(existingUser.firstName, existingUser.lastName, existingUser.email, existingOrder.product.title, existingOrder.scheduledDate)
   );
 
     sendResponse(res,200,null,"Class cancelled successfully")
