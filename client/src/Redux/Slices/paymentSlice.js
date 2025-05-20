@@ -81,7 +81,7 @@ export const createOrderForClassBooking = createAsyncThunk('/user/create-order',
 
 export const cancelOrder = createAsyncThunk('/user/cancel-order' , async(orderId)=>{
   try {
-    const response = await userAxiosInstance.delete(`/user/delete-order/${orderId}`);
+    const response = await userAxiosInstance.put(`/user/cancel-order/${orderId}`);
     console.log(response)
     return response?.data
   } catch (error) {

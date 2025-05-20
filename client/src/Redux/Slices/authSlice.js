@@ -88,8 +88,7 @@ export const changePassword = createAsyncThunk(
       );
       console.log(response);
       toast.success(response?.data?.message);
-      return response.data
-
+      return response.data;
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message);
@@ -108,29 +107,41 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
   }
 });
 
+export const logout = createAsyncThunk('/user/logout', async () => {
+    try {
+        let res =await userAxiosInstance.get('/user/sign-out');
 
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return e?.response?.data?.message;
 
-export const getScheduleClass = createAsyncThunk('/user/get-schedule-class' , async()=>{
-  try {
-    const response = await userAxiosInstance.get('/user/get-scheduled-class');
-    return response?.data
-  } catch (error) {
-    console.log(error)
+    }
+});
+
+export const getScheduleClass = createAsyncThunk(
+  "/user/get-schedule-class",
+  async () => {
+    try {
+      const response = await userAxiosInstance.get("/user/get-scheduled-class");
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
-})
+);
 
-
-export const getOrderData = createAsyncThunk('/user/get-order-history' , async()=>{
-  try {
-    const response = await userAxiosInstance.get('/user/get-order-history');
-    return response?.data
-  } catch (error) {
-    console.log(error)
+export const getOrderData = createAsyncThunk(
+  "/user/get-order-history",
+  async () => {
+    try {
+      const response = await userAxiosInstance.get("/user/get-order-history");
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
-})
-
-
-
+);
 
 const authSlice = createSlice({
   name: "user",
@@ -150,7 +161,11 @@ const authSlice = createSlice({
         state.user = action?.payload;
         console.log("active", action?.payload);
         state.isLoggedIn = true;
-      });
+      })
+        .addCase(logout.fulfilled, (state) => {
+                state.user = {};
+                state.isLoggedIn = false;
+            })
   },
 });
 

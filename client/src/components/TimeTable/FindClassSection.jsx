@@ -17,6 +17,7 @@ import { userData } from "@/Redux/Slices/authSlice";
 import SignIn from "@/pages/SignIn";
 import Signup from "@/pages/Signup";
 import Counter from "../Counter";
+import { toast } from "sonner";
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const FindClassSection = () => {
@@ -28,6 +29,8 @@ const FindClassSection = () => {
   const { user, isLoggedIn } = useSelector((state) => state.auth);
   const [location, setLocation] = useState("");
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const [isSignIn , setIsSignIn] = useState(false)
 
   const handleGetAllClasses = async () => {
     try {
@@ -165,10 +168,18 @@ const FindClassSection = () => {
 
   const handleCreateOrder = async (classId) => {
     try {
+      const toUtcMidnightIso = (d) =>
+        new Date(
+          Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+        ).toISOString();
+
+      const isoDate = toUtcMidnightIso(selectedDate);
+      console.log("selected dateeeeeeeeeee", isoDate);
       setLoader(classId);
+
       const payload = {
         classId,
-        date: selectedDate.toISOString(),
+        date: isoDate,
       };
       console.log("clickkkkkkked", classId, selectedDate);
       const response = await dispatch(createOrderForClassBooking(payload));
@@ -205,6 +216,7 @@ const FindClassSection = () => {
       if (response?.payload?.statusCode) {
         setLoader(false);
         await handleGetAllClasses();
+        await dispatch(userData())
       }
     } catch (error) {
       console.log(error);
@@ -218,26 +230,78 @@ const FindClassSection = () => {
     return new Date().getDate();
   };
 
-  const isExpiredToday = (timeStr /* e.g. "10:00" */) => {
+  const isExpiredToday = (timeStr, selectedDate) => {
+    if (!timeStr) return false;
+
+    const match = timeStr
+      .trim()
+      .toUpperCase()
+      .match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?$/);
+
+    if (!match) return false;
+
+    let [, hStr, mStr, sStr, mer] = match;
+    let hour = Number(hStr);
+    const min = Number(mStr);
+    const sec = Number(sStr ?? 0);
+
+    if (mer === "PM" && hour !== 12) hour += 12;
+    if (mer === "AM" && hour === 12) hour = 0;
+
+    const start = new Date(selectedDate);
+    start.setHours(hour, min, sec, 0);
+
     const now = new Date();
-    const [isoHour, isoMin] = timeStr.split(":").map(Number); // convert to numbers
+    const sameDay =
+      now.getFullYear() === start.getFullYear() &&
+      now.getMonth() === start.getMonth() &&
+      now.getDate() === start.getDate();
 
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-
-    const sameDay = getTodayDate() === new Date(selectedDate).getDate(); // make sure selectedDate is in scope
-
-    const timePassed = hour > isoHour || (hour === isoHour && minute > isoMin);
-
-    return sameDay && timePassed;
+    return sameDay && now >= start;
   };
 
   // test
   console.log(isExpiredToday("10:00"));
 
+  const [allReadySchedulePopUp, setAllReadySchedulePopUp] = useState(false);
+  const [expiredPopUP, setExpiredPopUp] = useState(false);
 
-  const [allReadySchedulePopUp  , setAllReadySchedulePopUp] = useState(false);
-  const [expiredPopUP , setExpiredPopUp] = useState(false)
+  const toUtcMidnightIso = (d) =>
+    new Date(
+      Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+    ).toISOString();
+
+  const isoDate = toUtcMidnightIso(selectedDate);
+  // console.log("selected dateeeeeeeeeee",isoDate)
+
+  const isBookingClosed = (classTime) => {
+    if (!classTime) return false;
+
+    const [time, modifier] = classTime.split(" ");
+    let [h, m] = time.split(":").map(Number);
+    if (modifier === "PM" && h < 12) h += 12;
+    if (modifier === "AM" && h === 12) h = 0;
+
+    const start = new Date();
+    start.setHours(h, m, 0, 0);
+    const now = new Date();
+    const diffMs = start - now;
+    return diffMs <= 0 || diffMs < 60 * 60 * 1000;
+  };
+
+  const hasStarted = (classTime, day) => {
+    if (!classTime || !day) return false;
+
+    // parse "10:00", "10:00 AM", "10:00 PM"
+    const [time, meridiem] = classTime.trim().toUpperCase().split(/\s+/);
+    let [h, m] = time.split(":").map(Number);
+    if (meridiem === "PM" && h !== 12) h += 12;
+    if (meridiem === "AM" && h === 12) h = 0;
+
+    const start = new Date(day);
+    start.setHours(h, m, 0, 0); // zero seconds & ms
+    return Date.now() >= start.getTime();
+  };
 
   return (
     <>
@@ -462,8 +526,8 @@ const FindClassSection = () => {
                             : "max-h-0 opacity-0"
                         }`}
                       >
-                        <p className="text-sm text-gray-600">
-                          {cls.description}
+                        <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: cls.description }}>
+                        
                         </p>
                       </div>
                     </div>
@@ -484,11 +548,28 @@ const FindClassSection = () => {
                                 getTodayDate() &&
                               s?.item?.product === cls?._id &&
                               new Date(s?.item?.scheduledDate).getDate() ===
-                                new Date(selectedDate?.toISOString()).getDate()
+                                new Date(
+                                  toUtcMidnightIso(selectedDate)
+                                ).getDate()
                           )
                         ) {
                           return;
                         }
+
+                        if (hasStarted(cls.time, selectedDate)) {
+                          return;
+                        }
+
+                        if (
+                          isBookingClosed(cls.time) &&
+                          new Date(selectedDate).getDate() === getTodayDate()
+                          // user?.data?.upcomingSchedule?.some(/* … */)
+                        ) {
+                          setShowModal(true);
+                          //  toast.error('Sorry, bookings close 1 hour before the session begins.');
+                          return;
+                        }
+
                         if (!isLoggedIn) {
                           setIsPopUpOpen(true);
                         } else if (
@@ -496,7 +577,7 @@ const FindClassSection = () => {
                             (s) =>
                               s?.item?.product === cls?._id &&
                               s?.item?.scheduledDate ===
-                                selectedDate?.toISOString() &&
+                                toUtcMidnightIso(selectedDate) &&
                               new Date(s?.item?.scheduledDate).getDate() !==
                                 getTodayDate()
                           )
@@ -514,17 +595,27 @@ const FindClassSection = () => {
                           handleCreateOrder(cls?._id);
                         }
                       }}
-                      disabled={loader === cls?._id}
+                      disabled={
+                        loader === cls?._id
+                        // isBookingClosed(cls.time) ||
+                        // cls.capacity === 0 ||
+                        // !cls.availables
+                      }
                       className={`${
                         cls?.capacity === 0 || !cls.available
                           ? "bg-gray-400"
-                          : isExpiredToday(cls?.time)
+                          : isExpiredToday(
+                              cls?.time,
+                              toUtcMidnightIso(selectedDate)
+                            )
+                          ? "bg-gray-600"
+                          : hasStarted(cls.time, selectedDate) // ← first style
                           ? "bg-gray-600"
                           : user?.data?.upcomingSchedule?.some(
                               (s) =>
                                 s?.item?.product === cls?._id &&
                                 s?.item?.scheduledDate ===
-                                  selectedDate?.toISOString() &&
+                                  toUtcMidnightIso(selectedDate) &&
                                 new Date(s?.item?.scheduledDate).getDate() >
                                   getTodayDate()
                             )
@@ -538,7 +629,7 @@ const FindClassSection = () => {
                                 s?.item?.product === cls?._id &&
                                 new Date(s?.item?.scheduledDate).getDate() ===
                                   new Date(
-                                    selectedDate?.toISOString()
+                                    toUtcMidnightIso(selectedDate)
                                   ).getDate()
                             )
                           ? "bg-green-500"
@@ -568,13 +659,18 @@ const FindClassSection = () => {
                           </svg>
                           <span className="ml-2">Loading...</span>
                         </div>
-                      ) : isExpiredToday(cls?.time) ? (
+                      ) : isExpiredToday(
+                          cls?.time,
+                          toUtcMidnightIso(selectedDate)
+                        ) ? (
+                        "Session Expired"
+                      ) : hasStarted(cls.time, selectedDate) ? (
                         "Session Expired"
                       ) : user?.data?.upcomingSchedule?.some(
                           (s) =>
                             s?.item?.product === cls?._id &&
                             s?.item?.scheduledDate ===
-                              selectedDate?.toISOString() &&
+                              toUtcMidnightIso(selectedDate) &&
                             new Date(s?.item?.scheduledDate).getDate() >
                               getTodayDate()
                         ) ? (
@@ -587,7 +683,7 @@ const FindClassSection = () => {
                               getTodayDate() &&
                             s?.item?.product === cls?._id &&
                             new Date(s?.item?.scheduledDate).getDate() ===
-                              new Date(selectedDate?.toISOString()).getDate()
+                              new Date(toUtcMidnightIso(selectedDate)).getDate()
                         ) ? (
                         "Session Booked"
                       ) : (
@@ -599,7 +695,8 @@ const FindClassSection = () => {
                         new Date(s?.item?.scheduledDate).getDate() ===
                           getTodayDate() &&
                         s?.item?.product === cls?._id &&
-                        s?.item?.scheduledDate === selectedDate?.toISOString()
+                        s?.item?.scheduledDate ===
+                          toUtcMidnightIso(selectedDate)
                     ) && (
                       <div className="text-green-600 text-sm mt-2">
                         Starts In:{" "}
@@ -714,6 +811,29 @@ const FindClassSection = () => {
                 setIsSignIn={setIsSignIn}
               />
             )}
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+          onClick={() => setShowModal(false)} /* click outside */
+        >
+          <div
+            className="bg-white w-[90%] max-w-sm rounded-xl p-6 text-center shadow-lg"
+            onClick={(e) => e.stopPropagation()} /* stop bubble   */
+          >
+            <h2 className="text-lg font-semibold mb-3">Booking Closed</h2>
+            <p className="text-sm text-gray-700 mb-6">
+              Sorry, bookings close one hour before the class starts.
+            </p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="bg-dark text-white px-4 py-2 rounded-md w-full"
+            >
+              OK
+            </button>
           </div>
         </div>
       )}

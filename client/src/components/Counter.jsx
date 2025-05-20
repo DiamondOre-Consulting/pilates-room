@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 
+/** Parse “18:30”, “11:50 AM”, “11:50 AM:00”, etc. → {h, m} */
+const parseTime = (raw) => {
+  const cleaned = raw.trim().toUpperCase();
+
+  // 12‑hour?
+  const ampmMatch = cleaned.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/);
+  if (ampmMatch) {
+    let h = Number(ampmMatch[1]);
+    const m = Number(ampmMatch[2]);
+    const period = ampmMatch[3];
+    if (period === "PM" && h !== 12) h += 12;
+    if (period === "AM" && h === 12) h = 0;
+    return { h, m };
+  }
+
+  // simple 24‑hour “HH:mm”
+  const [h, m] = cleaned.split(":").map(Number);
+  return { h, m };
+};
+
 const getCountdownToDateTime = (scheduledTime) => {
   const now = new Date();
-  const [targetHour, targetMinute] = scheduledTime.split(":").map(Number);
+  const { h: targetHour, m: targetMinute } = parseTime(scheduledTime);
 
   const target = new Date();
   target.setHours(targetHour, targetMinute, 0, 0);
-
-  if (now >= target) {
-    target.setDate(target.getDate() + 1); // move to next day
-  }
+// console.log("targeeeeeeeeeet",target)
+  // if target already passed today, move to tomorrow
+  if (now >= target) target.setDate(target.getDate() + 1);
 
   const diffInSeconds = Math.floor((target - now) / 1000);
   const hours = Math.floor(diffInSeconds / 3600);
@@ -26,24 +45,20 @@ const Counter = ({ scheduledDateTime = "18:30" }) => {
     seconds: 0,
   });
 
-  useEffect(() => {
-    const updateTimer = () => {
-      const time = getCountdownToDateTime(scheduledDateTime);
-      setRemainingTime(time);
-    };
+  
 
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
+  useEffect(() => {
+    const update = () => setRemainingTime(getCountdownToDateTime(scheduledDateTime));
+    update();                          // initial render
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);    // cleanup
   }, [scheduledDateTime]);
 
-  const formatTime = (time) => String(time).padStart(2, "0");
+  const pad = (n) => String(n).padStart(2, "0");
 
   return (
     <span className="text-green-600 text-sm">
-      {formatTime(remainingTime.hours)}:
-      {formatTime(remainingTime.minutes)}:
-      {formatTime(remainingTime.seconds)}
+      {pad(remainingTime.hours)}:{pad(remainingTime.minutes)}:{pad(remainingTime.seconds)}
     </span>
   );
 };
