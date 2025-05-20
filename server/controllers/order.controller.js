@@ -274,7 +274,7 @@ export const cancelOrder = asyncHandler(async(req,res)=>{
 
 
 await sendMail(
-    adminEmail,
+    "jadonyash755@gmail.com",
     `Class Cancellation by ${existingUser.firstName} ${existingUser.lastName}`,
     emailTemplateForAdminCancel(existingUser.firstName, existingUser.lastName, existingUser.email, existingClass.title, existingOrder.scheduledDate)
   );
