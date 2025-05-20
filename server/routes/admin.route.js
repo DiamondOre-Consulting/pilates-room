@@ -141,7 +141,7 @@ adminRouter.get('/get-single-order/:orderId',adminMiddleware,validate({
 }),getSingleOrder)
 
 
-adminRouter.get('/get-all-orders',adminMiddleware,validate({
+adminRouter.get('/get-all-orders',validate({
    query: getAllOrdersQuerySchema
 }),allOrderHistory)
 

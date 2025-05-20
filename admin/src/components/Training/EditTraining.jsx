@@ -250,7 +250,7 @@ console.log(trainingImage)
 
         <form
           onSubmit={handleSubmit(handleEditTraining)}
-          className="text-gray-700 grid grid-cols-3 gap-4 h-[90vh] overflow-y-auto text-sm"
+          className="text-gray-700 md:grid grid-cols-3 gap-4 h-[90vh] overflow-y-auto text-sm"
         >
           {formState?.map((input, index) => (
             <div

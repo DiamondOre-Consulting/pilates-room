@@ -206,9 +206,9 @@ const Classes = () => {
     formData.append("time", formattedStart);
   }
 
-      selectedDays.forEach((day) => {
-        formData.append("weeks", day);
-      });
+    selectedDays.forEach((day, index) => {
+  formData.append(`weeks[${index}]`, day);
+});
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -299,8 +299,8 @@ const Classes = () => {
     formData.append(key, data[key]);
   }
 });
-selectedDays.forEach((day) => {
-  formData.append("weeks", day);
+selectedDays.forEach((day, index) => {
+  formData.append(`weeks[${index}]`, day);
 });
 
     if (data.time) {
@@ -351,7 +351,23 @@ selectedDays.forEach((day) => {
 
           <div className="flex flex-col space-y-2">
             <button
-              onClick={() => setAddClassPopUp(true)}
+            
+              onClick={() =>{
+   reset({
+    title: "",
+    description: "",
+    instructorName: "",
+    image: null, 
+    location: "",
+    time: "",
+    duration: "",
+    capacity: "",
+    available: false,
+    enrolledCount: "",
+    weeks: [], 
+  });
+
+               setAddClassPopUp(true)}}
               className="bg-black text-white px-4 py-2 rounded-md  cursor-pointer text-sm"
             >
               Add Class
@@ -604,13 +620,13 @@ selectedDays.forEach((day) => {
 
             <form
               onSubmit={handleSubmit(handleAddClass)}
-              className="text-gray-700 grid grid-cols-2 gap-4  text-sm"
+              className="text-gray-700  md:grid grid-cols-2 gap-4  text-sm"
             >
               {formState?.map((input, index) => (
                 <div
                   key={index}
                   className={`flex flex-col ${
-                    input.inputType === "textarea" ? "col-span-2" : ""
+                    input.inputType === "textarea" ? "w-full md:col-span-2" : ""
                   }`}
                 >
                   <label className="mb-1">
@@ -653,7 +669,7 @@ selectedDays.forEach((day) => {
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 rounded ${
+                        className={`border px-2 py-1 w-60 rounded ${
                           errors[input.name]
                             ? "border-red-500"
                             : "border-gray-400"
@@ -678,7 +694,7 @@ selectedDays.forEach((day) => {
                       {/* {input.required && <span className="text-red-500">*</span>} */}
                     </label>
                   ) : input.inputType === "days" ? (
-                    <div className="p-4  col-span-3   mx-auto">
+                    <div className="p-4  md:col-span-3   mx-auto">
                       <h2 className="text-center text-xl font-semibold mb-4 text-gray-800">
                         Select Days of the Week
                       </h2>
@@ -688,7 +704,7 @@ selectedDays.forEach((day) => {
                             key={short}
                             type="button"
                             onClick={() => toggleDay(full)}
-                            className={`size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
+                            className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
             ${
               selectedDays.includes(full)
                 ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
@@ -770,7 +786,7 @@ selectedDays.forEach((day) => {
 
             <form
               onSubmit={handleSubmit(handleEditClass)}
-              className="text-gray-700 grid grid-cols-2 gap-4  text-sm"
+              className="text-gray-700 md:grid grid-cols-2 gap-4  text-sm"
             >
               {formState?.map((input, index) => (
                 <div
@@ -803,7 +819,7 @@ selectedDays.forEach((day) => {
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 rounded ${
+                        className={`border px-2 py-1 w-50 rounded ${
                           errors[input.name]
                             ? "border-red-500"
                             : "border-gray-400"
@@ -844,7 +860,7 @@ selectedDays.forEach((day) => {
                       {/* {input.required && <span className="text-red-500">*</span>} */}
                     </label>
                   ) : input.inputType === "days" ? (
-                    <div className="p-4 w-full col-span-2 mx-auto">
+                    <div className="p-4 w-full md:col-span-2 mx-auto">
                       <h2 className="text-center text-xl font-semibold mb-4 text-gray-800">
                         Select Days of the Week
                       </h2>
@@ -855,7 +871,7 @@ selectedDays.forEach((day) => {
                             type="button"
                             value={watch('weeks')}
                             onClick={() => toggleDay(full)}
-                            className={`size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
+                            className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
             ${
               selectedDays.includes(full)
                 ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"

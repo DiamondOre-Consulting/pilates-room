@@ -250,7 +250,7 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
         <div className="fixed inset-0 z-80 flex items-center justify-center bg-black/20">
           <div
             ref={popupRef}
-            className="bg-white lg:max-h-[90vh] lg:min-w-[90vw] rounded-md"
+            className="bg-white  rounded-md"
           >
             {isSignIn ? (
               <SignIn

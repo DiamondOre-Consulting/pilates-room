@@ -179,8 +179,8 @@ const MembershipPackage = () => {
       <div>
         <div className="flex justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All Membership Package</h1>
-            <div className="w-40 h-1 bg-black"></div>
+            <h1 className="text-xl md:text-2xl">All Membership Package</h1>
+            <div className="w-20 md:w-40 h-1 bg-black"></div>
           </div>
 
           <div className="flex flex-col space-y-2">
@@ -198,7 +198,7 @@ const MembershipPackage = () => {
                 });
                 setAddMembershipPackage(true);
               }}
-              className="bg-black text-white px-4 py-2 rounded-md  cursor-pointer text-sm"
+              className="bg-black text-white px-2 md:px-4 py-2 rounded-md  cursor-pointer text-xs md:text-sm"
             >
               Add Membership Package
             </button>
@@ -298,7 +298,7 @@ const MembershipPackage = () => {
 
               <form
                 onSubmit={handleSubmit(handleAddMembershipPackage)}
-                className="text-gray-700 grid grid-cols-3 gap-4 h-[80vh] overflow-y-auto text-sm"
+                className="text-gray-700 md:grid grid-cols-3 gap-4 h-[80vh] overflow-y-auto text-sm"
               >
                 {formState.map((input, index) => (
                   <div
@@ -430,7 +430,7 @@ const MembershipPackage = () => {
 
               <form
                 onSubmit={handleSubmit(handleEditMemberShipPackage)}
-                className="text-gray-700 grid grid-cols-3 gap-4 h-[80vh] overflow-y-auto text-sm"
+                className="text-gray-700 md:grid grid-cols-3 gap-4 h-[80vh] overflow-y-auto text-sm"
               >
                 {formState.map((input, index) => (
                   <div

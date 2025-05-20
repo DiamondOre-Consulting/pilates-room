@@ -8,19 +8,25 @@ import {
   IconLogout,
   IconSettings,
   IconTrash,
+   IconSchool ,
+   IconPackage,
+   IconWriting,
+   IconUsersGroup,
+   IconTruckDelivery
 } from "@tabler/icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { logout } from "@/Redux/Slice/AuthSlice";
 import { useDispatch } from "react-redux";
+import { adminLogout } from "@/Redux/Slices/authSlice";
 
 const tabs = [
   { link: "/", label: "Dashboard", icon: IconLayoutDashboardFilled },
-  { link: "/all-class/", label: "All Classes", icon: IconFileCvFilled },
-  { link: "/all-packages/", label: "All Packages", icon: IconKey },
-  { link: "/teacher-training", label: "Teacher Training", icon: IconFingerprint },
-  { link: "/membership-package", label: "Membership Package", icon: IconTrash },
+  { link: "/all-class/", label: "All Classes", icon: IconSchool },
+  { link: "/all-packages/", label: "All Packages", icon: IconPackage },
+  { link: "/teacher-training", label: "Teacher Training", icon: IconWriting },
+  { link: "/membership-package", label: "Membership Package", icon: IconUsersGroup },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
-  { link: "/other-settings", label: "Other Settings", icon: IconSettings },
+  { link: "/orders", label: "All Orders", icon: IconTruckDelivery },
 ];
 
 export function HomeLayout({ children }) {
@@ -35,7 +41,7 @@ export function HomeLayout({ children }) {
   };
 
   const handleLogout = async () => {
-    const res = await dispatch(logout());
+    const res = await dispatch(adminLogout());
 
     if (res?.payload?.success) navigate("/login");
   };

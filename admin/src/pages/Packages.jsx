@@ -129,7 +129,7 @@ const Packages = () => {
   const handleGetAllPackages = async () => {
     try {
       const response = await dispatch(getAllPackages({ page, limit }));
-      console.log(response);
+      console.log("packagessssssssss",response);
       setAllPackages(response?.payload?.data);
     } catch (error) {
       console.log(error);

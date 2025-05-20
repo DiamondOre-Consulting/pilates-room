@@ -30,7 +30,7 @@ const Schedule = () => {
       const response = await dispatch(cancelOrder(orderId));
       if (response?.payload?.statusCode) {
         await handleGetAllSchedule();
-        await dispatch(userData())
+        await dispatch(userData());
       }
     } catch (error) {
       console.log(error);
@@ -43,15 +43,21 @@ const Schedule = () => {
     return new Date().getDate();
   };
 
-    const toUtcMidnightIso = (d) =>
+  const toUtcMidnightIso = (d) =>
     new Date(
       Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
     ).toISOString();
+
+
   const getToday = () => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate()); // midnight today
   };
-    
+
+  
+
+
+
   return (
     <div className="">
       <div className="overflow-x-auto">
@@ -75,15 +81,14 @@ const Schedule = () => {
                 const item = entry.item;
                 const product = item?.product;
                 const instructor = product?.instructor;
- const today = getToday();
+                const today = getToday();
                 const scheduledDate = new Date(item?.scheduledDate);
                 const isToday =
                   scheduledDate.getDate() === getTodayDate() &&
                   scheduledDate.getMonth() === new Date().getMonth() &&
                   scheduledDate.getFullYear() === new Date().getFullYear();
-      const diffTime = scheduledDate.getTime() - today.getTime();
+                const diffTime = scheduledDate.getTime() - today.getTime();
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
 
                 return (
                   <tr key={entry._id} className="hover:bg-gray-50">
@@ -112,22 +117,24 @@ const Schedule = () => {
                         onClick={() => handleCancelOrder(item._id, product._id)}
                         className={`text-xs px-3 py-1 rounded bg-red-600 disabled:opacity-30 text-white`}
                         disabled={
-                          loader === product?._id || item?.status === "cancelled"|| isToday  
+                          loader === product?._id ||
+                          item?.status === "cancelled" ||
+                          isToday
                         }
                       >
                         {loader === product?._id ? "…" : "Cancel"}
                       </button>
                     </td>
                     <td className="py-2 px-4 border-b text-center">
-                     <td className="py-2 px-4 border-b text-red-800 text-center">
-                      {isToday && item.status !== "cancelled" ? (
-                        <Counter scheduledDateTime={product?.time} />
-                      ) : diffDays > 0 ? (
-                        `${diffDays} day${diffDays > 1 ? "s" : ""} left`
-                      ) : (
-                        "Past"
-                      )}
-                    </td>
+                      <td className="py-2 px-4 border-b text-red-800 text-center">
+                        {isToday && item.status !== "cancelled" ? (
+                          <Counter scheduledDateTime={product?.time} />
+                        ) : diffDays > 0 ? (
+                          `${diffDays} day${diffDays > 1 ? "s" : ""} left`
+                        ) : (
+                          "Past"
+                        )}
+                      </td>
                     </td>
                   </tr>
                 );

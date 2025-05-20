@@ -30,7 +30,7 @@ const FindClassSection = () => {
   const [location, setLocation] = useState("");
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(false)
+  const [isSignIn, setIsSignIn] = useState(false);
 
   const handleGetAllClasses = async () => {
     try {
@@ -161,9 +161,7 @@ const FindClassSection = () => {
     handleGetAllClasses();
   }, [selectedDate, location, selectedDate]);
 
-
-
-  console.log("asdfghjkl", selectedDate)
+  console.log("asdfghjkl", selectedDate);
   const [confirmationPopUp, setConfirmationPopUp] = useState(false);
   const [membershipErrorPopup, setMembershipErrorPopup] = useState(false);
 
@@ -219,7 +217,7 @@ const FindClassSection = () => {
       if (response?.payload?.statusCode) {
         setLoader(false);
         await handleGetAllClasses();
-        await dispatch(userData())
+        await dispatch(userData());
       }
     } catch (error) {
       console.log(error);
@@ -235,12 +233,12 @@ const FindClassSection = () => {
 
   const getTodayDate = () => {
     const today = new Date();
-    const todayDate = today.toISOString().split('T')[0];
+    const todayDate = today.toISOString().split("T")[0];
     console.log("today dateeeee", todayDate);
     return todayDate;
   };
 
-  console.log(getTodayDate())
+  console.log(getTodayDate());
 
   const isExpiredToday = (timeStr, selectedDate) => {
     if (!timeStr) return false;
@@ -315,7 +313,7 @@ const FindClassSection = () => {
     return Date.now() >= start.getTime();
   };
 
-  console.log("selected date", toUtcMidnightIso(selectedDate).split('T')[0])
+  console.log("selected date", toUtcMidnightIso(selectedDate).split("T")[0]);
   return (
     <div>
       <section className="py-10 px-4 md:px-10 ">
@@ -413,10 +411,11 @@ const FindClassSection = () => {
             <button
               onClick={() => changeWeek(-1)}
               disabled={isCurrentWeek}
-              className={`mb-1 flex items-center justify-center size-6 sm:size-8 md:size-10 rounded-lg shrink-0 transition-all ${isCurrentWeek
-                ? " text-gray-400 cursor-not-allowed"
-                : " hover:text-gray-800 "
-                }`}
+              className={`mb-1 flex items-center justify-center size-6 sm:size-8 md:size-10 rounded-lg shrink-0 transition-all ${
+                isCurrentWeek
+                  ? " text-gray-400 cursor-not-allowed"
+                  : " hover:text-gray-800 "
+              }`}
             >
               <FiChevronLeft className="text-xl" />
             </button>
@@ -429,8 +428,9 @@ const FindClassSection = () => {
                   className="flex items-center justify-center flex-col"
                 >
                   <p
-                    className={`text-sm uppercase mb-1 font-semibold ${isDisabled ? "text-gray-300" : "text-[#00354C]"
-                      }`}
+                    className={`text-sm uppercase mb-1 font-semibold ${
+                      isDisabled ? "text-gray-300" : "text-[#00354C]"
+                    }`}
                   >
                     {isToday(date) ? "Tod" : daysOfWeek[date.getDay()]}
                   </p>
@@ -441,10 +441,11 @@ const FindClassSection = () => {
                     className={`flex flex-col items-center justify-center size-8 sm:size-10 md:size-14 rounded-full border transition-all shrink-0 cursor-pointer
                   ${isToday(date) ? "" : "border-gray-300"}
                   ${isSelected(date) ? "bg-[#00354C] text-white" : ""}
-                  ${isDisabled
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "hover:bg-[#00354C]/20"
-                      }`}
+                  ${
+                    isDisabled
+                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "hover:bg-[#00354C]/20"
+                  }`}
                   >
                     <span className="text-md font-semibold">
                       {date.getDate()}
@@ -514,8 +515,9 @@ const FindClassSection = () => {
                         >
                           Show Details
                           <svg
-                            className={`transform transition-transform ${expandedCardIndex === index ? "rotate-180" : ""
-                              }`}
+                            className={`transform transition-transform ${
+                              expandedCardIndex === index ? "rotate-180" : ""
+                            }`}
                             width="14"
                             height="14"
                             viewBox="0 0 24 24"
@@ -530,17 +532,23 @@ const FindClassSection = () => {
                         </button>
 
                         <div
-                          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedCardIndex === index
-                            ? "max-h-fit mt-2 opacity-100"
-                            : "max-h-0 opacity-0"
-                            }`}
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                            expandedCardIndex === index
+                              ? "max-h-fit mt-2 opacity-100"
+                              : "max-h-0 opacity-0"
+                          }`}
                         >
-                          <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: cls.description }}>
-
-                          </p>
+                          <p
+                            className="text-sm text-gray-600"
+                            dangerouslySetInnerHTML={{
+                              __html: cls.description,
+                            }}
+                          ></p>
                         </div>
                       </div>
-                      <div className="text-sm text-gray-500">{cls.location}</div>
+                      <div className="text-sm text-gray-500">
+                        {cls.location}
+                      </div>
                       <div className="text-xs text-red-500 mt-1">
                         {" "}
                         {cls?.capacity <= 10
@@ -551,7 +559,10 @@ const FindClassSection = () => {
                         onClick={async () => {
                           try {
                             if (
-                              isExpiredToday(cls?.time, toUtcMidnightIso(selectedDate)) ||
+                              isExpiredToday(
+                                cls?.time,
+                                toUtcMidnightIso(selectedDate)
+                              ) ||
                               hasStarted(cls.time, selectedDate)
                             ) {
                               return;
@@ -562,8 +573,11 @@ const FindClassSection = () => {
                               return;
                             }
 
-                            if (isBookingClosed(cls.time) &&
-                              new Date(selectedDate).getDate() === getTodayDate()) {
+                            if (
+                              isBookingClosed(cls.time) &&
+                              new Date(selectedDate).getDate() ===
+                                getTodayDate()
+                            ) {
                               setShowModal(true);
                               return;
                             }
@@ -571,72 +585,127 @@ const FindClassSection = () => {
                             setLoader(cls?._id);
 
                             // Check for existing booking
-                            const existingBooking = user?.data?.upcomingSchedule?.find(
-                              (s) => {
-                                const scheduledDate = new Date(s?.item?.scheduledDate);
+                            const existingBooking =
+                              user?.data?.upcomingSchedule?.find((s) => {
+                                const scheduledDate = new Date(
+                                  s?.item?.scheduledDate
+                                );
                                 const selectedDateObj = new Date(selectedDate);
-                                return s?.item?.product === cls?._id &&
-                                  scheduledDate.getDate() === selectedDateObj.getDate() &&
-                                  scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                                  scheduledDate.getFullYear() === selectedDateObj.getFullYear();
-                              }
-                            );
+                                return (
+                                  s?.item?.product === cls?._id &&
+                                  scheduledDate.getDate() ===
+                                    selectedDateObj.getDate() &&
+                                  scheduledDate.getMonth() ===
+                                    selectedDateObj.getMonth() &&
+                                  scheduledDate.getFullYear() ===
+                                    selectedDateObj.getFullYear()
+                                );
+                              });
 
                             if (existingBooking) {
-                              await handleCancelOrder(existingBooking?.item?._id, cls?._id);
+                              await handleCancelOrder(
+                                existingBooking?.item?._id,
+                                cls?._id
+                              );
                             } else {
                               await handleCreateOrder(cls?._id);
                             }
                           } catch (error) {
-                            console.error("Error handling button click:", error);
-                            toast.error("Something went wrong. Please try again.");
+                            console.error(
+                              "Error handling button click:",
+                              error
+                            );
+                            toast.error(
+                              "Something went wrong. Please try again."
+                            );
                           } finally {
                             setLoader(null);
                           }
                         }}
-                        disabled={loader === cls?._id}
-                        className={`h-fit text-white w-full cursor-pointer md:w-full px-10 py-2 rounded-lg ${cls?.capacity === 0 || !cls.available
-                          ? "bg-gray-400"
-                          : isExpiredToday(cls?.time, toUtcMidnightIso(selectedDate))
+                        disabled={
+                          loader === cls?._id ||
+                          user?.data?.upcomingSchedule?.some((s) => {
+                            const scheduledDate = new Date(
+                              s?.item?.scheduledDate
+                            );
+                            const selectedDateObj = new Date(selectedDate);
+                            return (
+                              s?.item?.product === cls?._id &&
+                              scheduledDate.getDate() ===
+                                selectedDateObj.getDate() &&
+                              scheduledDate.getMonth() ===
+                                selectedDateObj.getMonth() &&
+                              scheduledDate.getFullYear() ===
+                                selectedDateObj.getFullYear() &&
+                              scheduledDate.toISOString().split("T")[0] ===
+                                getTodayDate()
+                            );
+                          })
+                        }
+                        className={`h-fit text-white w-full cursor-pointer md:w-full px-10 py-2 rounded-lg ${
+                          cls?.capacity === 0 || !cls.available
+                            ? "bg-gray-400"
+                            : isExpiredToday(
+                                cls?.time,
+                                toUtcMidnightIso(selectedDate)
+                              )
                             ? "bg-gray-600"
                             : hasStarted(cls.time, selectedDate)
-                              ? "bg-gray-600"
-                              : user?.data?.upcomingSchedule?.some((s) => {
-                                const scheduledDate = new Date(s?.item?.scheduledDate);
+                            ? "bg-gray-600"
+                            : user?.data?.upcomingSchedule?.some((s) => {
+                                const scheduledDate = new Date(
+                                  s?.item?.scheduledDate
+                                );
                                 const selectedDateObj = new Date(selectedDate);
-                                return s?.item?.product === cls?._id &&
-                                  scheduledDate.getDate() === selectedDateObj.getDate() &&
-                                  scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                                  scheduledDate.getFullYear() === selectedDateObj.getFullYear() &&
-                                  scheduledDate.toISOString().split('T')[0] === getTodayDate();
+                                return (
+                                  s?.item?.product === cls?._id &&
+                                  scheduledDate.getDate() ===
+                                    selectedDateObj.getDate() &&
+                                  scheduledDate.getMonth() ===
+                                    selectedDateObj.getMonth() &&
+                                  scheduledDate.getFullYear() ===
+                                    selectedDateObj.getFullYear() &&
+                                  scheduledDate.toISOString().split("T")[0] ===
+                                    getTodayDate()
+                                );
                               })
-                                ? "bg-green-500"
-                                : user?.data?.upcomingSchedule?.some((s) => {
-                                  if (s?.item?.product !== cls?._id) return false;
+                            ? "bg-green-500"
+                            : user?.data?.upcomingSchedule?.some((s) => {
+                                if (s?.item?.product !== cls?._id) return false;
 
-                                  const scheduledDate = new Date(s?.item?.scheduledDate);
-                                  const selectedDateObj = new Date(selectedDate);
-                                  const today = new Date();
-                                  today.setHours(0, 0, 0, 0);
+                                const scheduledDate = new Date(
+                                  s?.item?.scheduledDate
+                                );
+                                const selectedDateObj = new Date(selectedDate);
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);
 
-                                  const isSameDate =
-                                    scheduledDate.getDate() === selectedDateObj.getDate() &&
-                                    scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                                    scheduledDate.getFullYear() === selectedDateObj.getFullYear();
+                                const isSameDate =
+                                  scheduledDate.getDate() ===
+                                    selectedDateObj.getDate() &&
+                                  scheduledDate.getMonth() ===
+                                    selectedDateObj.getMonth() &&
+                                  scheduledDate.getFullYear() ===
+                                    selectedDateObj.getFullYear();
 
-                                  const isToday =
-                                    scheduledDate.getDate() === today.getDate() &&
-                                    scheduledDate.getMonth() === today.getMonth() &&
-                                    scheduledDate.getFullYear() === today.getFullYear();
+                                const isToday =
+                                  scheduledDate.getDate() === today.getDate() &&
+                                  scheduledDate.getMonth() ===
+                                    today.getMonth() &&
+                                  scheduledDate.getFullYear() ===
+                                    today.getFullYear();
 
-                                  return isSameDate && !isToday;
-                                })
-                                  ? "bg-red-600"
-                                  : "bg-dark"
-                          }`}
+                                return isSameDate && !isToday;
+                              })
+                            ? "bg-red-600"
+                            : "bg-dark"
+                        }`}
                       >
                         {loader === cls?._id ? (
-                          <div role="status" className="flex items-center justify-center">
+                          <div
+                            role="status"
+                            className="flex items-center justify-center"
+                          >
                             <svg
                               aria-hidden="true"
                               className="inline w-6 h-6 text-gray-200 animate-spin fill-gray-600"
@@ -655,40 +724,57 @@ const FindClassSection = () => {
                             </svg>
                             <span className="ml-2">Loading...</span>
                           </div>
-                        ) : isExpiredToday(cls?.time, toUtcMidnightIso(selectedDate)) ? (
+                        ) : isExpiredToday(
+                            cls?.time,
+                            toUtcMidnightIso(selectedDate)
+                          ) ? (
                           "Session Expired"
                         ) : hasStarted(cls.time, selectedDate) ? (
                           "Session Expired"
                         ) : user?.data?.upcomingSchedule?.some((s) => {
-                          const scheduledDate = new Date(s?.item?.scheduledDate);
-                          const selectedDateObj = new Date(selectedDate);
-                          return s?.item?.product === cls?._id &&
-                            scheduledDate.getDate() === selectedDateObj.getDate() &&
-                            scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                            scheduledDate.getFullYear() === selectedDateObj.getFullYear() &&
-                            scheduledDate.toISOString().split('T')[0] === getTodayDate();
-                        }) ? (
+                            const scheduledDate = new Date(
+                              s?.item?.scheduledDate
+                            );
+                            const selectedDateObj = new Date(selectedDate);
+                            return (
+                              s?.item?.product === cls?._id &&
+                              scheduledDate.getDate() ===
+                                selectedDateObj.getDate() &&
+                              scheduledDate.getMonth() ===
+                                selectedDateObj.getMonth() &&
+                              scheduledDate.getFullYear() ===
+                                selectedDateObj.getFullYear() &&
+                              scheduledDate.toISOString().split("T")[0] ===
+                                getTodayDate()
+                            );
+                          }) ? (
                           "Session Booked"
                         ) : user?.data?.upcomingSchedule?.some((s) => {
-                          if (s?.item?.product !== cls?._id) return false;
+                            if (s?.item?.product !== cls?._id) return false;
 
-                          const scheduledDate = new Date(s?.item?.scheduledDate);
-                          const selectedDateObj = new Date(selectedDate);
-                          const today = new Date();
-                          today.setHours(0, 0, 0, 0);
+                            const scheduledDate = new Date(
+                              s?.item?.scheduledDate
+                            );
+                            const selectedDateObj = new Date(selectedDate);
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
 
-                          const isSameDate =
-                            scheduledDate.getDate() === selectedDateObj.getDate() &&
-                            scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                            scheduledDate.getFullYear() === selectedDateObj.getFullYear();
+                            const isSameDate =
+                              scheduledDate.getDate() ===
+                                selectedDateObj.getDate() &&
+                              scheduledDate.getMonth() ===
+                                selectedDateObj.getMonth() &&
+                              scheduledDate.getFullYear() ===
+                                selectedDateObj.getFullYear();
 
-                          const isToday =
-                            scheduledDate.getDate() === today.getDate() &&
-                            scheduledDate.getMonth() === today.getMonth() &&
-                            scheduledDate.getFullYear() === today.getFullYear();
+                            const isToday =
+                              scheduledDate.getDate() === today.getDate() &&
+                              scheduledDate.getMonth() === today.getMonth() &&
+                              scheduledDate.getFullYear() ===
+                                today.getFullYear();
 
-                          return isSameDate && !isToday;
-                        }) ? (
+                            return isSameDate && !isToday;
+                          }) ? (
                           "Cancel Class"
                         ) : cls?.capacity === 0 || !cls.available ? (
                           "Unavailable"
@@ -696,22 +782,26 @@ const FindClassSection = () => {
                           "Book"
                         )}
                       </button>
-                      {user?.data?.upcomingSchedule?.some(
-                        (s) => {
-                          const scheduledDate = new Date(s?.item?.scheduledDate);
-                          const selectedDateObj = new Date(selectedDate);
-                          return s?.item?.product === cls?._id &&
-                            scheduledDate.getDate() === selectedDateObj.getDate() &&
-                            scheduledDate.getMonth() === selectedDateObj.getMonth() &&
-                            scheduledDate.getFullYear() === selectedDateObj.getFullYear() &&
-                            scheduledDate.toISOString().split('T')[0] === getTodayDate();
-                        }
-                      ) && (
-                          <div className="text-green-600 text-sm mt-2 flex items-center gap-1">
-                            <span>Starts In:</span>
-                            <Counter scheduledDateTime={cls?.time} />
-                          </div>
-                        )}
+                      {user?.data?.upcomingSchedule?.some((s) => {
+                        const scheduledDate = new Date(s?.item?.scheduledDate);
+                        const selectedDateObj = new Date(selectedDate);
+                        return (
+                          s?.item?.product === cls?._id &&
+                          scheduledDate.getDate() ===
+                            selectedDateObj.getDate() &&
+                          scheduledDate.getMonth() ===
+                            selectedDateObj.getMonth() &&
+                          scheduledDate.getFullYear() ===
+                            selectedDateObj.getFullYear() &&
+                          scheduledDate.toISOString().split("T")[0] ===
+                            getTodayDate()
+                        );
+                      }) && (
+                        <div className="text-green-600 text-sm mt-2 flex items-center gap-1">
+                          <span>Starts In:</span>
+                          <Counter scheduledDateTime={cls?.time} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -788,7 +878,8 @@ const FindClassSection = () => {
                   Access Denied
                 </h2>
                 <p className="text-gray-600">
-                  You need to purchase a membership package to access this class.
+                  You need to purchase a membership package to access this
+                  class.
                 </p>
                 <Link
                   to={"/membership"}
@@ -808,7 +899,7 @@ const FindClassSection = () => {
               onClick={() => setIsPopUpOpen(false)}
             ></div>
 
-            <div className="bg-white z-80 lg:max-h-[90vh] lg:min-w-[90vw] rounded-md">
+            <div className="bg-white z-80  rounded-md">
               {isSignIn ? (
                 <Signup
                   setIsPopUpOpen={setIsPopUpOpen}

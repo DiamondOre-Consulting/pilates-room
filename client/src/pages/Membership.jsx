@@ -396,7 +396,7 @@ const Membership = () => {
             onClick={() => setIsPopUpOpen(false)}
           ></div>
 
-          <div className="bg-white z-80 lg:max-h-[90vh] lg:min-w-[90vw] rounded-md">
+          <div className="bg-white z-80  rounded-md">
             {isSignIn ? (
               <Signup
                 setIsPopUpOpen={setIsPopUpOpen}
