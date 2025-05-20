@@ -161,6 +161,9 @@ const FindClassSection = () => {
     handleGetAllClasses();
   }, [selectedDate, location, selectedDate]);
 
+
+
+  console.log("asdfghjkl",selectedDate)
   const [confirmationPopUp, setConfirmationPopUp] = useState(false);
   const [membershipErrorPopup, setMembershipErrorPopup] = useState(false);
 
@@ -225,10 +228,19 @@ const FindClassSection = () => {
     }
   };
 
-  const getTodayDate = () => {
-    console.log(new Date().getDate());
-    return new Date().getDate();
-  };
+  // const getTodayDate = () => {
+  //   console.log(new Date().getDate());
+  //   return new Date()
+  // };
+
+const getTodayDate = () => {
+  const today = new Date();
+  const todayDate = today.toISOString().split('T')[0];
+  console.log("today dateeeee", todayDate);
+  return todayDate;
+};
+
+console.log(getTodayDate())
 
   const isExpiredToday = (timeStr, selectedDate) => {
     if (!timeStr) return false;
@@ -303,6 +315,7 @@ const FindClassSection = () => {
     return Date.now() >= start.getTime();
   };
 
+  console.log("selected date",toUtcMidnightIso(selectedDate).split('T')[0])
   return (
     <>
       <section className="py-10 px-4 md:px-10 ">
@@ -616,7 +629,7 @@ const FindClassSection = () => {
                                 s?.item?.product === cls?._id &&
                                 s?.item?.scheduledDate ===
                                   toUtcMidnightIso(selectedDate) &&
-                                new Date(s?.item?.scheduledDate).getDate() >
+                                new Date(s?.item?.scheduledDate) >
                                   getTodayDate()
                             )
                           ? "bg-red-600"
@@ -624,13 +637,13 @@ const FindClassSection = () => {
                           ? "Unavailable"
                           : user?.data?.upcomingSchedule?.some(
                               (s) =>
-                                new Date(s?.item?.scheduledDate).getDate() ===
+                                new Date(s?.item?.scheduledDate) ==
                                   getTodayDate() &&
                                 s?.item?.product === cls?._id &&
-                                new Date(s?.item?.scheduledDate).getDate() ===
+                                new Date(s?.item?.scheduledDate) ==
                                   new Date(
                                     toUtcMidnightIso(selectedDate)
-                                  ).getDate()
+                                  )
                             )
                           ? "bg-green-500"
                           : "bg-dark"
@@ -666,24 +679,21 @@ const FindClassSection = () => {
                         "Session Expired"
                       ) : hasStarted(cls.time, selectedDate) ? (
                         "Session Expired"
-                      ) : user?.data?.upcomingSchedule?.some(
-                          (s) =>
-                            s?.item?.product === cls?._id &&
-                            s?.item?.scheduledDate ===
-                              toUtcMidnightIso(selectedDate) &&
-                            new Date(s?.item?.scheduledDate).getDate() >
-                              getTodayDate()
+                      ) : user?.data?.upcomingSchedule?.some((s) =>
+                        
+                            s?.item?.product === cls?._id && toUtcMidnightIso(selectedDate).split('T')[0]!==s?.item?.scheduledDate.split("T")[0]
+                            
                         ) ? (
                         "Cancel Class"
                       ) : cls?.capacity === 0 || !cls.available ? (
                         "Unavailable"
                       ) : user?.data?.upcomingSchedule?.some(
                           (s) =>
-                            new Date(s?.item?.scheduledDate).getDate() ===
+                            new Date(s?.item?.scheduledDate) ==
                               getTodayDate() &&
-                            s?.item?.product === cls?._id &&
-                            new Date(s?.item?.scheduledDate).getDate() ===
-                              new Date(toUtcMidnightIso(selectedDate)).getDate()
+                            s?.item?.product == cls?._id &&
+                            new Date(s?.item?.scheduledDate).toISOString().split('T')[0] ==
+                              new Date(toUtcMidnightIso(selectedDate.toISOString().split('T')[0]))
                         ) ? (
                         "Session Booked"
                       ) : (
