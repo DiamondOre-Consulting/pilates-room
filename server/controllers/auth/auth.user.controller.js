@@ -69,15 +69,15 @@ export const signUp = asyncHandler(async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const storedOtp = otpStore.get(email);
+  // const storedOtp = otpStore.get(email);
 
-  if (!storedOtp) {
-    throw new ApiError("Otp is missing", 400)
-  }
+  // if (!storedOtp) {
+  //   throw new ApiError("Otp is missing", 400)
+  // }
 
-  if (storedOtp.otp !== otp) {
-    throw new ApiError("Otp entered is not matching", 400)
-  }
+  // if (storedOtp.otp !== otp) {
+  //   throw new ApiError("Otp entered is not matching", 400)
+  // }
 
   const user = await User.create({
     email,
@@ -140,7 +140,7 @@ export const sendOtp = asyncHandler(async (req, res) => {
     </div>
     `;
 
-  sendMail("Authentication", email, "OTP for signup", emailTemplate);
+  sendMail(email, "OTP for signup", emailTemplate);
 
   console.log(otp)
 
@@ -258,15 +258,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   sendResponse(res, 200, null, "Password reset email sent successfully");
 });
 
-
-export const signout = asyncHandler(async (req, res) => {
-  res.clearCookie("accessToken", cookieOptions);
-  res.clearCookie("refreshAccessToken", cookieOptions);
-  sendResponse(res, 200, null, "User logged out successfully");
-});
-
-
-
 export const resetPassword = asyncHandler(async (req, res) => {
 
   const { resetToken } = req.validatedData.params;
@@ -310,9 +301,19 @@ export const changePassword = asyncHandler(async (req, res) => {
 
 
 export const signOut = asyncHandler(async (req, res) => {
-  res.clearCookie("accessToken", cookieOptions);
-  res.clearCookie("refreshAccessToken", cookieOptions);
-  sendResponse(res, 200, null, "User logged out successfully");
+  await User.findByIdAndUpdate(req.user._id,
+    {
+      $set: { refreshToken: "" }
+    },
+    { new: true }
+  )
+
+  console.log("object")
+  return res
+    .status(200)
+    .clearCookie("accessToken", cookieOptions)
+    .clearCookie("refreshToken", cookieOptions)
+    .json({ success: true, message: "User logged out successfully!" });
 })
 
 

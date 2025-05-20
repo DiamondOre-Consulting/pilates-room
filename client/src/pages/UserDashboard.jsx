@@ -18,17 +18,26 @@ import History from "@/components/UserDashboardCompo/History";
 import Schedule from "@/components/UserDashboardCompo/Schedule";
 import Passes from "@/components/UserDashboardCompo/Passes";
 import { IconLogout } from "@tabler/icons-react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [dashpoardPopUp, setDashboardPopUp] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state?.auth);
 
- const handleLogout =async ()=>{
-  const res =await dispatch(logout())
+  const handleLogout = () => {
+    // Clear everything immediately
+    localStorage.clear();
+    sessionStorage.clear();
 
-  console.log(res)
- }
+    // Dispatch logout without waiting
+    dispatch(logout());
+
+    // Force reload the page
+    window.location.href = '/';
+  };
 
   return (
     <>
@@ -37,10 +46,7 @@ const UserDashboard = () => {
 
         <div className="border-gray-600 border-y py-2 mt-4 flex  w-full justify-between">
           <p className="uppercase">Your Account</p>
-          <div
-            className="flex space-x-4 cursor-pointer"
-         
-          >
+          <div className="flex space-x-4">
             <svg
               className="text-gray-600"
               xmlns="http://www.w3.org/2000/svg"
@@ -49,15 +55,20 @@ const UserDashboard = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-user-round-icon lucide-user-round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <circle cx="12" cy="8" r="5" />
               <path d="M20 21a8 8 0 0 0-16 0" />
             </svg>
-          <IconLogout onClick={handleLogout}/>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <IconLogout size={20} />
+              <span className="text-sm">Logout</span>
+            </button>
           </div>
         </div>
       </div>

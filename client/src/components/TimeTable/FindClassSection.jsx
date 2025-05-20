@@ -548,58 +548,50 @@ const FindClassSection = () => {
                           : ""}
                       </div>
                       <button
-                        onClick={() => {
-                          if (
-                            isExpiredToday(cls?.time) ||
-                            user?.data?.upcomingSchedule?.some(
-                              (s) =>
-                                new Date(s?.item?.scheduledDate).getDate() ===
-                                getTodayDate() &&
-                                s?.item?.product === cls?._id &&
-                                new Date(s?.item?.scheduledDate).getDate() ===
-                                new Date(
-                                  toUtcMidnightIso(selectedDate)
-                                ).getDate()
-                            )
-                          ) {
-                            return;
-                          }
+                        onClick={async () => {
+                          try {
+                            if (
+                              isExpiredToday(cls?.time, toUtcMidnightIso(selectedDate)) ||
+                              hasStarted(cls.time, selectedDate)
+                            ) {
+                              return;
+                            }
 
-                          if (hasStarted(cls.time, selectedDate)) {
-                            return;
-                          }
+                            if (!isLoggedIn) {
+                              setIsPopUpOpen(true);
+                              return;
+                            }
 
-                          if (
-                            isBookingClosed(cls.time) &&
-                            new Date(selectedDate).getDate() === getTodayDate()
-                          ) {
-                            setShowModal(true);
-                            return;
-                          }
+                            if (isBookingClosed(cls.time) &&
+                              new Date(selectedDate).getDate() === getTodayDate()) {
+                              setShowModal(true);
+                              return;
+                            }
 
-                          if (!isLoggedIn) {
-                            setIsPopUpOpen(true);
-                          } else if (
-                            user?.data?.upcomingSchedule?.some(
-                              (s) =>
-                                s?.item?.product === cls?._id &&
-                                s?.item?.scheduledDate ===
-                                toUtcMidnightIso(selectedDate) &&
-                                new Date(s?.item?.scheduledDate).getDate() !==
-                                getTodayDate()
-                            )
-                          ) {
-                            handleCancelOrder(
-                              user?.data?.upcomingSchedule?.find(
-                                (s) =>
-                                  s?.item?.product === cls?._id &&
-                                  new Date(s?.item?.scheduledDate).getDate() !==
-                                  getTodayDate()
-                              )?.item?._id,
-                              cls?._id
+                            setLoader(cls?._id);
+
+                            // Check for existing booking
+                            const existingBooking = user?.data?.upcomingSchedule?.find(
+                              (s) => {
+                                const scheduledDate = new Date(s?.item?.scheduledDate);
+                                const selectedDateObj = new Date(selectedDate);
+                                return s?.item?.product === cls?._id &&
+                                  scheduledDate.getDate() === selectedDateObj.getDate() &&
+                                  scheduledDate.getMonth() === selectedDateObj.getMonth() &&
+                                  scheduledDate.getFullYear() === selectedDateObj.getFullYear();
+                              }
                             );
-                          } else {
-                            handleCreateOrder(cls?._id);
+
+                            if (existingBooking) {
+                              await handleCancelOrder(existingBooking?.item?._id, cls?._id);
+                            } else {
+                              await handleCreateOrder(cls?._id);
+                            }
+                          } catch (error) {
+                            console.error("Error handling button click:", error);
+                            toast.error("Something went wrong. Please try again.");
+                          } finally {
+                            setLoader(null);
                           }
                         }}
                         disabled={loader === cls?._id}
@@ -705,16 +697,19 @@ const FindClassSection = () => {
                         )}
                       </button>
                       {user?.data?.upcomingSchedule?.some(
-                        (s) =>
-                          new Date(s?.item?.scheduledDate).getDate() ===
-                          getTodayDate() &&
-                          s?.item?.product === cls?._id &&
-                          s?.item?.scheduledDate ===
-                          toUtcMidnightIso(selectedDate)
+                        (s) => {
+                          const scheduledDate = new Date(s?.item?.scheduledDate);
+                          const selectedDateObj = new Date(selectedDate);
+                          return s?.item?.product === cls?._id &&
+                            scheduledDate.getDate() === selectedDateObj.getDate() &&
+                            scheduledDate.getMonth() === selectedDateObj.getMonth() &&
+                            scheduledDate.getFullYear() === selectedDateObj.getFullYear() &&
+                            scheduledDate.toISOString().split('T')[0] === getTodayDate();
+                        }
                       ) && (
-                          <div className="text-green-600 text-sm mt-2">
-                            Starts In:{" "}
-                            <Counter scheduledDateTime={`${cls?.time}:00`} />
+                          <div className="text-green-600 text-sm mt-2 flex items-center gap-1">
+                            <span>Starts In:</span>
+                            <Counter scheduledDateTime={cls?.time} />
                           </div>
                         )}
                     </div>
