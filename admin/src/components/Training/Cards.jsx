@@ -37,7 +37,7 @@ const dispatch = useDispatch()
                   ></div>
                 </h4>
                 <p>
-                  <p className="text-blue-600 opacity-70">{trn?.location}</p>
+                  <p className="text-blue-600 opacity-70  mb-2">{trn?.location}</p>
 
                   {/* <p className="text-blue-600 bg-blue-400/50 w-fit px-2 rounded-md opacity-70">
                     ₹ {pkg?.price}
@@ -45,12 +45,12 @@ const dispatch = useDispatch()
 
                   <span>{/* At <span>{date}</span> */}</span>
                 </p>
-                <p
+                {/* <p
                   dangerouslySetInnerHTML={{ __html: trn?.description }}
                   className="opacity-60 mt-3 mb-8 text-xs"
-                />
+                /> */}
 
-                <div className="flex space-x-4 absolute  bottom-4">
+                <div className="flex space-x-4    bottom-4">
                   <button
                     onClick={(e) => {
                         setEditTrainingPopUp(true);

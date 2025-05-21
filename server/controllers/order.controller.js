@@ -46,6 +46,10 @@ export const createOrder = asyncHandler(async (req, res) => {
     existingUser.memberShipPlan.expiryDate = new Date(existingUser.memberShipPlan.startDate.getTime() + existingUser.memberShipPlan.package.validity * 7 * 24 * 60 * 60 * 1000);
   }
 
+  if(existingUser.memberShipPlan.remainingSession<=0){
+    existingUser.isMember = false
+  }
+
   const emailTemplateForUser = (userName, className, scheduledDate, time) => `
     <!DOCTYPE html>
     <html lang="en">
@@ -196,7 +200,9 @@ export const cancelOrder = asyncHandler(async (req, res) => {
   existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession + 1;
   existingOrder.status = "cancelled"
 
-
+if(existingUser.memberShipPlan.remainingSession>0){
+    existingUser.isMember = true
+  }
 
   await existingOrder.save();
   await existingUser.save();

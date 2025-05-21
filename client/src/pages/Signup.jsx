@@ -3,10 +3,16 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useId } from "react"
+import { OTPInput } from "input-otp";
+import { cn } from "@/lib/utils";
+
+
 
 const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   // const [otpField, setOtpField] = useState(false);
+    const id = useId()
   const [otherFeild, setOtherFeild] = useState(false);
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -27,6 +33,13 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
       [name]: value,
     }));
   };
+
+  const handleOtpChange = (value) => {
+  setFormData((prev) => ({
+    ...prev,
+    otp: value,
+  }));
+};
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
@@ -78,17 +91,28 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
     }
   };
 
+  function Slot(props) {
+  return (
+    (<div
+      className={cn(
+        "border-input bg-background text-foreground flex size-9 items-center justify-center rounded-md border font-medium shadow-xs transition-[color,box-shadow]",
+        { "border-ring ring-ring/50 z-10 ring-[3px]": props.isActive }
+      )}>
+      {props.char !== null && <div>{props.char}</div>}
+    </div>)
+  );
+}
   return (
     <div>
       <div>
         <div className="flex justify-between h-full">
           <div className=" w-full flex flex-col  items-center justify-center  h-full ">
-            <div className="py-4 h-[32rem] flex justify-center flex-col   px-8">
-              <h1 className="uppercase text-4xl text-center">SignUp</h1>
+            <div className="py-4 h-[30rem] flex justify-center flex-col   px-8">
+              <h1 className=" text-3xl text-center">SignUp</h1>
               <div className=" mt-6 flex flex-col justify-center  items-center  w-full">
                 <div className=" space-x-6 min-w-xs h-auto  items-center justify-center ">
                   <div className="flex flex-col w-full space-y-1">
-                    <label className="text-xl text-gray-600 text-left">
+                    <label className="text-md text-gray-600 text-left">
                       Email Address
                     </label>
                     <input
@@ -96,19 +120,33 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                       name="email"
                       value={formData?.email}
                       onChange={handleInputChange}
-                      className=" border-b border-gray-600  focus:outline-none"
+                      className=" border border-gray-400 rounded-md py-1 px-1 focus:outline-none"
                     />
                   </div>
 
                   {otherFeild && (
                     <div className="flex flex-col  mt-2">
-                      <label className="text-xl text-gray-600">OTP</label>
-                      <input
+                      <label className="text-md text-gray-600">OTP</label>
+                      {/* <input
                         name="otp"
                         value={formData?.otp}
                         onChange={handleInputChange}
-                        className=" border-b border-gray-600 md:w-[20rem] focus:outline-none"
-                      />
+                        className=" border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
+                      /> */}
+                       <OTPInput
+        id={id}
+          name="otp"
+                       value={formData?.otp}
+                      onChange={handleOtpChange}
+        containerClassName="flex items-center gap-3 has-disabled:opacity-50"
+        maxLength={6}
+        render={({ slots }) => (
+          <div className="flex gap-2">
+            {slots.map((slot, idx) => (
+              <Slot key={idx} {...slot} />
+            ))}
+          </div>
+        )} />
                     </div>
                   )}
                 </div>
@@ -116,38 +154,38 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                 {otherFeild && (
                   <>
                     {" "}
-                    <div className=" ">
+                    <div className=" w-full">
                       <div className="flex flex-col mt-2 ">
-                        <label className="text-xl text-gray-600">
+                        <label className="text-md text-gray-600">
                           First Name
                         </label>
                         <input
                           name="firstName"
                           value={formData?.firstName}
                           onChange={handleInputChange}
-                          className=" border-b border-gray-600  md:w-[20rem] focus:outline-none"
+                          className=" border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
                         />
                       </div>
 
                       <div className="flex flex-col mt-2">
-                        <label className="text-xl text-gray-600">
+                        <label className="text-md text-gray-600">
                           Last Name
                         </label>
                         <input
                           name="lastName"
                           value={formData?.lastName}
                           onChange={handleInputChange}
-                          className=" border-b border-gray-600 md:w-[20rem] focus:outline-none"
+                          className="border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
                         />
                       </div>
                     </div>
                     <div className="flex flex-col mt-2 ">
-                      <label className="text-xl text-gray-600">Password</label>
+                      <label className="text-md text-gray-600">Password</label>
                       <input
                         type={showPassword ? "password" : "text"}
                         name="password"
                         onChange={handleInputChange}
-                        className=" border-b border-gray-600 w-[20rem] focus:outline-none"
+                        className="border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                       />
 
                       <p className="space-x-2 mt-2 text-sm flex items-center ">
@@ -164,7 +202,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
               <button
                 onClick={otherFeild ? handleSignup : handleSendOtp}
                 disabled={loader}
-                className="uppercase border border-gray-800 hover:text-white w-full mt-10 text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
+                className="uppercase border border-gray-800 hover:text-white w-full mt-2 text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl bg-dark text-white"
               >
                 {loader ? (
                   <div

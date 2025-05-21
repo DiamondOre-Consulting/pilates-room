@@ -143,12 +143,19 @@ const Membership = () => {
   };
 
   console.log("ismember", user?.data?.isMember);
+
+  const getTodayDate = () => {
+    const today = new Date();
+    const todayDate = today.toISOString().split("T")[0];
+    console.log("today dateeeee", todayDate);
+    return todayDate;
+  };
   return (
     <div>
-      <section class="w-full">
-        <div class="w-full h-[28rem] bg-[url('https://exhalepilateslondon.com/wp-content/uploads/2022/11/class-schedule.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
+      <section className="w-full">
+        <div className="w-full h-[28rem] bg-[url('https://exhalepilateslondon.com/wp-content/uploads/2022/11/class-schedule.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
           <div>
-            <h1 class="text-white text-center xl:text-7xl uppercase lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
+            <h1 className="text-white text-center xl:text-7xl uppercase lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
               Book Membership
             </h1>
           </div>
@@ -202,9 +209,9 @@ const Membership = () => {
 
                     <button
                       onClick={() => {
-// console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
+                        // console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
                         // if( user?.data?.isMember  && user?.data?.memberShipPlan?.package?._id === ele?._id){
-                        //   return 
+                        //   return
                         // }
                         if (!isLoggedIn) {
                           console.log("clicked", isLoggedIn, showSignIn);
@@ -227,7 +234,7 @@ const Membership = () => {
                       {loader ? (
                         <svg
                           aria-hidden="true"
-                          class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                          className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                           viewBox="0 0 100 101"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -305,10 +312,26 @@ const Membership = () => {
 
                     <button
                       onClick={() => {
-
-                          if( user?.data?.isMember  && user?.data?.memberShipPlan?.package?._id === ele?._id){
-                          return 
+                        if (
+                          user?.data?.isMember &&
+                          user?.data?.memberShipPlan?.package?._id === ele?._id
+                        ) {
+                          return;
                         }
+
+                        if (
+                          user?.data?.memberShipPlan?.package?._id ===
+                            ele?._id &&
+                          (user?.data?.memberShipPlan?.remainingSession === 0 ||
+                            user?.data?.isMember == false ||
+                            getTodayDate() >
+                              user?.data?.memberShipPlan?.expiryDate.split(
+                                "T"
+                              )[0])
+                        ) {
+                          handleCheckOutPayment(ele?._id);
+                        }
+
                         if (!isLoggedIn) {
                           console.log("clicked", isLoggedIn, showSignIn);
                           setIsPopUpOpen(true);
@@ -318,19 +341,24 @@ const Membership = () => {
                           handleCheckOutPayment(ele?._id);
                         }
                       }}
-
-                                            disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
-
-                      className={` ${
+                      disabled={
+                        user?.data?.isMember &&
                         user?.data?.memberShipPlan?.package?._id === ele?._id
-                          ? "bg-green-600"
+                      }
+                      className={` ${
+                        user?.data?.memberShipPlan?.package?._id === ele?._id && user?.data?.isMember === true
+                          ? "bg-green-600":
+                       user?.data?.memberShipPlan?.package?._id === ele?._id &&
+  (user?.data?.memberShipPlan?.remainingSession === 0 ||
+    user?.data?.isMember == false ||
+    getTodayDate() > user?.data?.memberShipPlan?.expiryDate.split("T")[0])?"bg-red-600"
                           : "bg-dark"
                       } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
                     >
                       {loader === ele?._id ? (
                         <svg
                           aria-hidden="true"
-                          class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                          className="w-6 h-6 text-gray-200 text-center flex justify-center items-center mx-auto animate-spin dark:text-gray-600 fill-blue-600"
                           viewBox="0 0 100 101"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -344,10 +372,32 @@ const Membership = () => {
                             fill="currentFill"
                           />
                         </svg>
-                      ) : user?.data?.memberShipPlan?.package?._id === ele?._id ? (
+                      ) : //   : user?.data?.isDiscovery && user?.data?.memberShipPlan?.remainingSession > 0 && user?.data?.isMember ? (
+                      //   "Session Booked"
+                      // ) : user?.data?.memberShipPlan?.remainingSession === 0 || user?.data?.isMember == false ||
+                      //   getTodayDate() >
+                      //     user?.data?.memberShipPlan?.expiryDate.split(
+                      //       "T"
+                      //     )[0] ? (
+                      //   "Renew Package"
+                      // ) : (
+                      //   "Book Now"
+                      // )}
+
+                      user?.data?.memberShipPlan?.package?._id === ele?._id &&
+                        user?.data?.memberShipPlan?.remainingSession > 0 &&
+                        user?.data?.isMember === true ? (
                         <p>Session Booked</p>
-                      )
-                       : (
+                      ) : user?.data?.memberShipPlan?.package?._id ===
+                          ele?._id &&
+                        (user?.data?.memberShipPlan?.remainingSession === 0 ||
+                          user?.data?.isMember == false ||
+                          getTodayDate() >
+                            user?.data?.memberShipPlan?.expiryDate.split(
+                              "T"
+                            )[0]) ? (
+                        "Renew Your Package"
+                      ) : (
                         <p>Book Now</p>
                       )}
                     </button>
@@ -398,12 +448,12 @@ const Membership = () => {
 
           <div className="bg-white z-80  rounded-md">
             {isSignIn ? (
-              <Signup
+              <SignIn
                 setIsPopUpOpen={setIsPopUpOpen}
                 setIsSignIn={setIsSignIn}
               />
             ) : (
-              <SignIn
+              <Signup
                 setIsPopUpOpen={setIsPopUpOpen}
                 setIsSignIn={setIsSignIn}
               />

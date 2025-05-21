@@ -25,14 +25,14 @@ const WhatWeDo = () => {
      
 
         <div className="flex flex-col justify-center  items-center">
-          <div class="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://exhalepilateslondon.com/wp-content/uploads/2023/01/PRIMROSE-1-scaled.jpg"
               alt="Car Image"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
 
-            <div class="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
+            <div className="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, laborum, hic earum officia sit, quibusdam blanditiis saepe nesciunt sapiente nihil dolores et? Ad adipisci quos nisi, earum veritatis deleniti nesciunt.</p>
             </div>
           </div>
@@ -42,14 +42,14 @@ const WhatWeDo = () => {
         </div>
 
         <div className="flex flex-col justify-center  items-center">
-          <div class="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://exhalepilateslondon.com/wp-content/uploads/2023/01/PRIMROSE-1-scaled.jpg"
               alt="Car Image"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
 
-            <div class="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
+            <div className="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, laborum, hic earum officia sit, quibusdam blanditiis saepe nesciunt sapiente nihil dolores et? Ad adipisci quos nisi, earum veritatis deleniti nesciunt.</p>
             </div>
           </div>
@@ -59,14 +59,14 @@ const WhatWeDo = () => {
         </div>
 
         <div className="flex flex-col justify-center  items-center">
-          <div class="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-84 h-80 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://exhalepilateslondon.com/wp-content/uploads/2023/01/PRIMROSE-1-scaled.jpg"
               alt="Car Image"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
 
-            <div class="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
+            <div className="absolute inset-0 bg-light text-dark px-4 text-center bg-opacity-100 transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out flex items-center justify-center">
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, laborum, hic earum officia sit, quibusdam blanditiis saepe nesciunt sapiente nihil dolores et? Ad adipisci quos nisi, earum veritatis deleniti nesciunt.</p>
             </div>
           </div>

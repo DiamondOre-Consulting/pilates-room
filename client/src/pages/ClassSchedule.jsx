@@ -13,10 +13,10 @@ const ClassSchedule = () => {
     
   return (
     <div>
-      <section class="w-full">
-        <div class="w-full h-[22rem] bg-[url('https://exhalepilateslondon.com/wp-content/uploads/2022/11/class-schedule.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
+      <section className="w-full">
+        <div className="w-full h-[22rem] bg-[url('https://exhalepilateslondon.com/wp-content/uploads/2022/11/class-schedule.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
           <div>
-            <h1 class="text-white text-center xl:text-7xl lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
+            <h1 className="text-white text-center xl:text-7xl lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
               Class Shedule
             </h1>
           </div>

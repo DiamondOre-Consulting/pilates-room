@@ -900,17 +900,18 @@ const FindClassSection = () => {
             ></div>
 
             <div className="bg-white z-80  rounded-md">
-              {isSignIn ? (
-                <Signup
-                  setIsPopUpOpen={setIsPopUpOpen}
-                  setIsSignIn={setIsSignIn}
-                />
-              ) : (
-                <SignIn
-                  setIsPopUpOpen={setIsPopUpOpen}
-                  setIsSignIn={setIsSignIn}
-                />
-              )}
+           {isSignIn ? (
+  <SignIn
+    setIsPopUpOpen={setIsPopUpOpen}
+    setIsSignIn={setIsSignIn}
+  />
+) : (
+  <Signup
+    setIsPopUpOpen={setIsPopUpOpen}
+    setIsSignIn={setIsSignIn}
+  />
+)}
+
             </div>
           </div>
         )}

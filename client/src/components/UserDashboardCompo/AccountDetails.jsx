@@ -73,7 +73,7 @@ const AccountDetails = () => {
               <svg
                 onClick={() => setShowNewPasswordFeild(true)}
                 xmlns="http://www.w3.org/2000/svg"
-                className="cursor-pointer"
+                className="cursor-pointer z-80"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -101,7 +101,7 @@ const AccountDetails = () => {
                 placeholder="Enter New Password"
                 className="focus:outline-none px-1 w-60"
               />
-              <div className="text-xs flex  ">
+              <div className="text-xs flex flex-col space-y-1 md:flex-row  ">
                 <div className="flex justify-center  items-center space-x-1">
                 <p>Show Password </p>
                 <input type="checkbox"    />

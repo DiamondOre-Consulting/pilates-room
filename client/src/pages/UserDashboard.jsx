@@ -41,7 +41,7 @@ const UserDashboard = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center mb-3">
+      <div className="flex flex-col justify-center items-center mb-3 ">
         <img src={logo} alt="" className="w-40" />
 
         <div className="border-gray-600 border-y py-2 mt-4 flex  w-full justify-between">
@@ -131,7 +131,7 @@ const UserDashboard = () => {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
         <TabsContent value="tab-1">
-          <p className="text-muted-foreground pt-1 text-center text-xs">
+          <p className="text-muted-foreground pt-1 text-center text-xs ">
             <Schedule />
           </p>
         </TabsContent>

@@ -50,24 +50,25 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
       <div className="flex justify-center h-full">
         <div className="w-full relative">
           <div className="p-8 ">
-            <h1 className="uppercase text-4xl text-center">SignIn</h1>
-            <div className="space-y-4 mt-10 flex flex-col justify-center  items-center  w-full">
-              <div className="flex flex-col space-y-4 justify-left">
-                <label className="text-lg text-gray-600">Email Address</label>
+            <h1 className=" text-4xl text-center">SignIn</h1>
+            <div className="space-y-2 mt-10 flex flex-col justify-center  items-center  w-full">
+              <div className="flex flex-col  justify-left">
+                <label className="text-md text-gray-600">Email Address</label>
                 <input
                   onChange={(e) => setEmail(e.target.value)}
-                  className=" border-b border-gray-600 w-[20rem] focus:outline-none"
+                  className=" border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                 />
+                
               </div>
 
-              <div className="flex flex-col space-y-4 ">
-                <label className="text-xl text-gray-600">Password</label>
+              <div className="flex flex-col ">
+                <label className="text-md text-gray-600">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
                   onChange={(e) => setPassword(e.target.value)}
-                  className=" border-b border-gray-600 w-[20rem] focus:outline-none"
+                  className=" border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                 />
-                <p className="space-x-2 text-sm flex items-center ">
+                <p className="space-x-2 mt-1 text-sm flex items-center ">
                   <input
                     type="checkbox"
                     onClick={() => setShowPassword((prev) => !prev)}
@@ -80,7 +81,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
             <button
               type="submit"
               onClick={handleSignIn}
-              className="uppercase border border-gray-800 hover:text-white w-[20rem] mt-10 text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
+              className="uppercase border border-gray-800 hover:text-white w-[20rem] mt-10 text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl bg-dark text-white"
             >
               {loader ? (
                 <div role="status" className="flex items-center justify-center">
@@ -154,7 +155,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
                         <div className="flex flex-col justify-center  ">
                           <label
                             for="email"
-                            className="block uppercase text-lg  ml-1 mb-2 "
+                            className="block  text-md  ml-1 mb-2 "
                           >
                             Email
                           </label>
@@ -165,14 +166,14 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
                               name="email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
-                              className=" border-b border-gray-600 w-[20rem] focus:outline-none"
+                              className=" border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                             />
                           </div>
                         </div>
 
                         <button
                           type="submit"
-                          className="uppercase border border-gray-800 hover:text-white w-full text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
+                          className="uppercase border border-gray-800 hover:text-white w-full text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer  px-4 py-1 rounded-md text-xl bg-dark text-white"
                         >
                           {loader ? (
                             <div

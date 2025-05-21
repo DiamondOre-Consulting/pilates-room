@@ -408,10 +408,10 @@ selectedDays.forEach((day, index) => {
                 </h1>
                 <p className="text-purple-600 font-medium">{ele?.title}</p>
 
-                <p
+                {/* <p
                   dangerouslySetInnerHTML={{ __html: ele?.description }}
                   className="text-gray-600 text-sm mt-2 mb-4"
-                />
+                /> */}
 
                 <div className="flex flex-wrap justify-center gap-2 my-4">
                   <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
@@ -420,9 +420,9 @@ selectedDays.forEach((day, index) => {
                   <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                     Capacity :- {ele?.capacity}
                   </span>
-                  <span className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                  {/* <span className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                     Price :- {ele?.price}
-                  </span>
+                  </span> */}
                   {/* <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
                 JavaScript
               </span> */}

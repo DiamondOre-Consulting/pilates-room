@@ -114,10 +114,7 @@ export const buyMembership = asyncHandler(async (req, res) => {
                 registrationDate: new Date(),
                 remainingSession: membershipPackage.totalSessions,
                 status: "active",
-                subscriptionId: paymentId
-
-
-
+                subscriptionId: paymentId,
             }
             const emailTemplateForUser = (firstName, packageTitle) => `
                 <!DOCTYPE html>

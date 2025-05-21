@@ -244,10 +244,10 @@ const MembershipPackage = () => {
                   </li>
                 </ul>
 
-                <div
+                {/* <div
                   className="text-sm mt-4"
                   dangerouslySetInnerHTML={{ __html: pkg.description }}
-                />
+                /> */}
               </div>
 
               <div className="px-6 pb-6 mt-auto flex  space-x-4">
