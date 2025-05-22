@@ -8,11 +8,12 @@ import {
   IconLogout,
   IconSettings,
   IconTrash,
-   IconSchool ,
-   IconPackage,
-   IconWriting,
-   IconUsersGroup,
-   IconTruckDelivery
+  IconArticle,
+  IconSchool,
+  IconPackage,
+  IconWriting,
+  IconUsersGroup,
+  IconTruckDelivery
 } from "@tabler/icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { logout } from "@/Redux/Slice/AuthSlice";
@@ -25,8 +26,10 @@ const tabs = [
   { link: "/all-packages/", label: "All Packages", icon: IconPackage },
   { link: "/teacher-training", label: "Teacher Training", icon: IconWriting },
   { link: "/membership-package", label: "Membership Package", icon: IconUsersGroup },
+  { link: "/blog-management", label: "Blog Management", icon: IconArticle },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
   { link: "/orders", label: "All Orders", icon: IconTruckDelivery },
+  { link: "/other-settings", label: "Other Settings", icon: IconSettings },
 ];
 
 export function HomeLayout({ children }) {
@@ -51,9 +54,8 @@ export function HomeLayout({ children }) {
   const ToggleButton = ({ opened, onClick, ariaLabel }) => {
     return (
       <IconLayoutSidebarRightCollapse
-        className={`${
-          opened ? "rotate-180" : "mx-auto"
-        } min-w-5 min-h-5 duration-500 transition-all`}
+        className={`${opened ? "rotate-180" : "mx-auto"
+          } min-w-5 min-h-5 duration-500 transition-all`}
         onClick={onClick}
         aria-label={ariaLabel}
       />
@@ -69,9 +71,8 @@ export function HomeLayout({ children }) {
                 ${collapsed ? "w-13" : "w-54"} `}
         >
           <div
-            className={`relative items-center flex left-${
-              collapsed ? "w-13" : "w-54"
-            } transition-all p-3 duration-300 z-50`}
+            className={`relative items-center flex left-${collapsed ? "w-13" : "w-54"
+              } transition-all p-3 duration-300 z-50`}
           >
             <ToggleButton
               opened={!collapsed}
@@ -92,11 +93,10 @@ export function HomeLayout({ children }) {
               return (
                 <div
                   className={`flex items-center cursor-pointer w-full overflow-hidden space-y-2  space-x-2 h-[2.3rem]  rounded transition-all duration-300 
-                ${
-                  pathname === item.link
-                    ? "bg-black text-white"
-                    : "text-white hover:bg-gray-400"
-                } 
+                ${pathname === item.link
+                      ? "bg-black text-white"
+                      : "text-white hover:bg-gray-400"
+                    } 
                 ${collapsed ? "justify-center " : " items-center px-2"}`}
                   key={item.label}
                   onClick={(event) => {
@@ -105,9 +105,8 @@ export function HomeLayout({ children }) {
                   }}
                 >
                   <item.icon
-                    className={`${
-                      collapsed ? "w-5 h-5" : "min-w-5 min-h-5"
-                    }  my-auto`}
+                    className={`${collapsed ? "w-5 h-5" : "min-w-5 min-h-5"
+                      }  my-auto`}
                   />
                   {!collapsed && (
                     <span className="min-w-[15rem] text-sm">{item.label}</span>
