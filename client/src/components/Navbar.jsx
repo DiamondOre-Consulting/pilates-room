@@ -17,6 +17,8 @@ const routes = [
   { name: "PRIVATES", href: "/private-session", isActive: false },
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
   { name: "MEMBERSHIP", href: "/membership", isActive: false },
+  { name: "BLOGS", href: "/all-blogs", isActive: false },
+
 ];
 
 const NavMenu = ({ routes, isOpen, setIsOpen }) => {

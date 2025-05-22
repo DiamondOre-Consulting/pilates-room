@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { userData } from "./Redux/Slices/authSlice";
 import { useEffect } from "react";
 import Aboutus from "./pages/Aboutus";
+import SingleBlogPage from "./components/SingleBlogPage";
+import BlogPage from "./pages/BlogPage";
 
 export default function App() {
   
@@ -44,6 +46,8 @@ const dispatch = useDispatch()
       <Route path="/private-session" element={<PrivateSession/>}/>
       <Route path="/membership" element={<Membership/>}/>
       <Route path="/about-us" element={<Aboutus/>}/>
+      <Route path="/:slug" element={<SingleBlogPage/>}/>
+      <Route path="/all-blogs" element={<BlogPage/>}/>
     </Routes>
     <Footer/>
     </>

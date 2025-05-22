@@ -4,6 +4,7 @@ import BookingSection from "@/components/BookingSection";
 import ContactUs from "@/components/ContactUs";
 import { useDispatch } from "react-redux";
 import { getAllPackages } from "@/Redux/Slices/packageSlice";
+import BlogSection from "@/components/BlogSection";
 const IntroOffer = () => {
   const dispatch = useDispatch();
   const [allPackages, setAllPackages] = useState([]);
@@ -94,6 +95,8 @@ const IntroOffer = () => {
           </div>
         </div>
       ))}
+
+      <BlogSection/>
 
       <ContactUs />
     </div>
