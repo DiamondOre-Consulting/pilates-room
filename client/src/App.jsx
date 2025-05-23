@@ -31,6 +31,8 @@ export default function App() {
     fetchData();
   }, [location.pathname, dispatch]);
 
+
+  
   return (
     <>
       <Navbar />
