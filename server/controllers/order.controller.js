@@ -46,7 +46,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     existingUser.memberShipPlan.expiryDate = new Date(existingUser.memberShipPlan.startDate.getTime() + existingUser.memberShipPlan.package.validity * 7 * 24 * 60 * 60 * 1000);
   }
 
-  if(existingUser.memberShipPlan.remainingSession<=0){
+  if (existingUser.memberShipPlan.remainingSession <= 0) {
     existingUser.isMember = false
   }
 
@@ -200,7 +200,7 @@ export const cancelOrder = asyncHandler(async (req, res) => {
   existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession + 1;
   existingOrder.status = "cancelled"
 
-if(existingUser.memberShipPlan.remainingSession>0){
+  if (existingUser.memberShipPlan.remainingSession > 0) {
     existingUser.isMember = true
   }
 
@@ -294,17 +294,59 @@ if(existingUser.memberShipPlan.remainingSession>0){
 })
 
 
+
+
+const updateOrderStatuses = asyncHandler(async () => {
+  const currentDate = new Date();
+
+  const scheduledOrders = await Order.find({
+    status: 'scheduled',
+    'product.date': { $lte: currentDate }
+  }).populate('product');
+
+  for (const order of scheduledOrders) {
+    const scheduledDateTime = new Date(order.product.date);
+    if (scheduledDateTime < currentDate) {
+      await Order.findByIdAndUpdate(order._id, {
+        status: 'completed'
+      });
+    }
+  }
+});
+
 export const orderHistory = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const orderHistory = await Order.find({ user: userId }).populate('product');
+
+  await updateOrderStatuses();
+
+  const orderHistory = await Order.find({ user: userId })
+    .populate('product')
+    .sort({ createdAt: -1 });
+
   if (!orderHistory || orderHistory.length === 0) {
     throw new ApiError("Order not found", 404);
   }
-  sendResponse(res, 200, orderHistory, "Order history");
+
+  const ordersWithStatus = orderHistory.map(order => {
+    const orderObj = order.toObject();
+    const scheduledDateTime = new Date(order.product.date);
+    const currentDate = new Date();
+
+    orderObj.statusInfo = {
+      isPast: scheduledDateTime < currentDate,
+      isUpcoming: scheduledDateTime > currentDate,
+      scheduledDate: scheduledDateTime,
+      currentDate: currentDate
+    };
+
+    return orderObj;
+  });
+
+  sendResponse(res, 200, ordersWithStatus, "Order history");
 });
 
-
 export const allOrderHistory = asyncHandler(async (req, res) => {
+  await updateOrderStatuses();
 
   const page = parseInt(req.validatedData.query.page) || 1;
   const limit = parseInt(req.validatedData.query.limit) || 10;
@@ -312,7 +354,6 @@ export const allOrderHistory = asyncHandler(async (req, res) => {
 
   const query = {};
 
-  // Date filter (for exact day)
   if (date) {
     const startOfDay = new Date(date);
     startOfDay.setHours(0, 0, 0, 0);

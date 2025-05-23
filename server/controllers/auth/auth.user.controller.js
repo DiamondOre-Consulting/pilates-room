@@ -58,7 +58,7 @@ export const signIn = asyncHandler(async (req, res) => {
 
 export const signUp = asyncHandler(async (req, res) => {
 
-  const { email, password, otp, firstName, lastName } = req.validatedData.body
+  const { email, password, otp, firstName, lastName, phoneNumber } = req.validatedData.body
   console.log(req.validatedData.body)
 
   const existingUser = await User.findOne({ email })
@@ -83,7 +83,8 @@ export const signUp = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     firstName,
-    lastName
+    lastName,
+    phoneNumber
   });
 
   otpStore.delete("email");

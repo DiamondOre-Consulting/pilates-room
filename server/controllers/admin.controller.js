@@ -148,6 +148,8 @@ const getDetailedStats = asyncHandler(async (req, res) => {
         }, "Detailed statistics retrieved successfully"));
 });
 
+
+
 export {
     getDashboardStats,
     getDetailedStats
