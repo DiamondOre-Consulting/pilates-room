@@ -5,6 +5,8 @@ import memberShipPackage from './Slices/MembershpPackageSlice'
 import orderSlice from './Slices/orderSlice'
 import authSlice from './Slices/authSlice'
 import blogSlice from './Slices/blogSlice'
+import adminSlice from './Slices/adminSlice'
+
 export const store = configureStore({
     reducer: {
         authSlice: authSlice,
@@ -13,6 +15,7 @@ export const store = configureStore({
         training: trainingSlice,
         membership: memberShipPackage,
         order: orderSlice,
+        admin : adminSlice
     }
 
 })

@@ -24,6 +24,17 @@ export const adminLogout =  createAsyncThunk('/admin/log-out' ,async()=>{
    console.log(error) 
   }
 })
+
+export const adminData = createAsyncThunk('/admin/get-user-profile' , async()=>{
+  try {
+    const response = await adminAxiosInstance.get('/admin/get-user-profile')
+    return response?.data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
 const authSlice = createSlice({
   name: "admin",
   initialState : null,

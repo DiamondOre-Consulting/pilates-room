@@ -25,13 +25,13 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         status: { $ne: 'cancelled' },
     })
         .sort({ createdAt: -1 })
-        .limit(10)
+        .limit(5)
         .populate('user', 'firstName lastName email phoneNumber')
         .populate('product', 'title date time');
 
     const recentMembers = await User.find({ isMember: true })
         .sort({ createdAt: -1 })
-        .limit(10)
+        .limit(5)
         .select('firstName lastName email isMember isDiscovery memberShipPlan createdAt')
         .lean();
 

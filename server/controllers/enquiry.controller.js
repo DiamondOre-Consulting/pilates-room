@@ -6,7 +6,7 @@ import asyncHandler from '../utils/asyncHandler.js';
 // Create new enquiry
 const createEnquiry = asyncHandler(async (req, res) => {
     const { name, email, phone, message, topic } = req.body;
-
+console.log(req?.body)
     if (!name || !email || !phone || !message || !topic) {
         throw new ApiError("All fields are required", 400);
     }

@@ -13,7 +13,9 @@ import {
   IconPackage,
   IconWriting,
   IconUsersGroup,
-  IconTruckDelivery
+  IconChecks ,
+  IconAddressBook,
+  IconTruckDelivery,
 } from "@tabler/icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { logout } from "@/Redux/Slice/AuthSlice";
@@ -23,12 +25,34 @@ import { adminLogout } from "@/Redux/Slices/authSlice";
 const tabs = [
   { link: "/", label: "Dashboard", icon: IconLayoutDashboardFilled },
   { link: "/all-class/", label: "All Classes", icon: IconSchool },
-  { link: "/all-packages/", label: "All Packages", icon: IconPackage },
+  // { link: "/all-packages/", label: "All Packages", icon: IconPackage },
   { link: "/teacher-training", label: "Teacher Training", icon: IconWriting },
-  { link: "/membership-package", label: "Membership Package", icon: IconUsersGroup },
+  {
+    link: "/membership-package",
+    label: "Membership Package",
+    icon: IconUsersGroup,
+  },
   { link: "/blog-management", label: "Blog Management", icon: IconArticle },
   // { link: "/add-catalogue", label: "Add Catalogue", icon: IconDatabaseImport },
-  { link: "/orders", label: "All Orders", icon: IconTruckDelivery },
+  { link: "/orders", label: "All Bookings", icon: IconChecks },
+  { link: "/all-users", label: "All Users", icon: IconUsersGroup },
+  {
+    link: "/contact-enquiries",
+    label: "Contact Enquries",
+    icon: IconAddressBook,
+  },
+  {
+    link: "/teacher-training-enquiries",
+    label: "Teacher Training Enquries",
+    icon: IconAddressBook,
+  },
+
+  {
+    link: "/private-class-enquiries",
+    label: "Private Class Enquiries",
+    icon: IconAddressBook,
+  },
+
   { link: "/other-settings", label: "Other Settings", icon: IconSettings },
 ];
 
@@ -54,8 +78,9 @@ export function HomeLayout({ children }) {
   const ToggleButton = ({ opened, onClick, ariaLabel }) => {
     return (
       <IconLayoutSidebarRightCollapse
-        className={`${opened ? "rotate-180" : "mx-auto"
-          } min-w-5 min-h-5 duration-500 transition-all`}
+        className={`${
+          opened ? "rotate-180" : "mx-auto"
+        } min-w-5 min-h-5 duration-500 transition-all`}
         onClick={onClick}
         aria-label={ariaLabel}
       />
@@ -68,11 +93,12 @@ export function HomeLayout({ children }) {
       <div className="relative z-20 flex w-full h-full mb-0 overflow-hidden bg-white  lg: sm:m-2 lg:m-5 sm:rounded-t-xl">
         <nav
           className={` top-2 left-2 h-screen bg-gradient-to-r from-black/80 via-black/40 to-black/70 text-white shadow-lg transition-all duration-300 
-                ${collapsed ? "w-13" : "w-54"} `}
+                ${collapsed ? "w-13" : "w-58"} `}
         >
           <div
-            className={`relative items-center flex left-${collapsed ? "w-13" : "w-54"
-              } transition-all p-3 duration-300 z-50`}
+            className={`relative items-center flex left-${
+              collapsed ? "w-13" : "w-58"
+            } transition-all p-3 duration-300 z-50`}
           >
             <ToggleButton
               opened={!collapsed}
@@ -93,10 +119,11 @@ export function HomeLayout({ children }) {
               return (
                 <div
                   className={`flex items-center cursor-pointer w-full overflow-hidden space-y-2  space-x-2 h-[2.3rem]  rounded transition-all duration-300 
-                ${pathname === item.link
-                      ? "bg-black text-white"
-                      : "text-white hover:bg-gray-400"
-                    } 
+                ${
+                  pathname === item.link
+                    ? "bg-black text-white"
+                    : "text-white hover:bg-gray-400"
+                } 
                 ${collapsed ? "justify-center " : " items-center px-2"}`}
                   key={item.label}
                   onClick={(event) => {
@@ -105,8 +132,9 @@ export function HomeLayout({ children }) {
                   }}
                 >
                   <item.icon
-                    className={`${collapsed ? "w-5 h-5" : "min-w-5 min-h-5"
-                      }  my-auto`}
+                    className={`${
+                      collapsed ? "w-5 h-5" : "min-w-5 min-h-5"
+                    }  my-auto`}
                   />
                   {!collapsed && (
                     <span className="min-w-[15rem] text-sm">{item.label}</span>
@@ -127,7 +155,7 @@ export function HomeLayout({ children }) {
                     </a> */}
 
             <div
-              className={`p-2  flex items-center space-x-2 w-full  rounded-md hover:bg-gray-700`}
+              className={`p-2  flex items-center cursor-pointer space-x-2 w-full  rounded-md hover:bg-gray-700`}
               onClick={(event) => {
                 event.preventDefault();
                 handleLogout();

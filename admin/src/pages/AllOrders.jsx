@@ -11,7 +11,7 @@ const AllOrders = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -19,8 +19,11 @@ const AllOrders = () => {
 
   const handleGetAllOrders = async () => {
     setLoading(true);
-    const formattedDate = date.toISOString().split("T")[0];
-    console.log(formattedDate);
+     let formattedDate;
+  if (date) {
+    formattedDate = date.toISOString().split("T")[0];
+  }
+    console.log("dateeee",formattedDate);
     const response = await dispatch(
       getAllOrders({ page, limit, date: formattedDate })
     );
@@ -56,7 +59,7 @@ const AllOrders = () => {
       <div>
         <div className="flex justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All Orders</h1>
+            <h1 className="text-2xl">All Bookings</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
