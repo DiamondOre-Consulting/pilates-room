@@ -1,4 +1,4 @@
-import  {Router} from "express"
+import { Router } from "express"
 import { adminMiddleware } from "../middlewares/admin.middleware.js"
 import { createClass, deleteClass, editClass, getClasses } from "../controllers/class.admin.controller.js"
 import { createClassBodySchema, getClassesQuerySchema, deleteClassParamsSchema, editClassBodySchema, editClassParamsSchema } from "../validator/class.validator.js"
@@ -16,6 +16,8 @@ import { adminSignIn, adminSignOut, getAdminProfile } from "../controllers/auth/
 import { adminSignInBodySchema } from "../validator/auth.validator.js"
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
+import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
+import { getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
 
 
 
@@ -23,22 +25,22 @@ const adminRouter = Router()
 
 
 
-adminRouter.post('/create-class',upload(1).fields([{ name: "image", maxCount: 4 }, { name: "instructor.image", maxCount:1}]),validate({
-   body:createClassBodySchema
-}),createClass)
+adminRouter.post('/create-class', upload(1).fields([{ name: "image", maxCount: 4 }, { name: "instructor.image", maxCount: 1 }]), validate({
+    body: createClassBodySchema
+}), createClass)
 
-adminRouter.get('/get-classes',validate({
-    query:getClassesQuerySchema
-}),getClasses)
+adminRouter.get('/get-classes', validate({
+    query: getClassesQuerySchema
+}), getClasses)
 
 
-adminRouter.delete('/delete-class/:classId',validate({
- params: deleteClassParamsSchema
-}),deleteClass)
+adminRouter.delete('/delete-class/:classId', validate({
+    params: deleteClassParamsSchema
+}), deleteClass)
 
-adminRouter.put('/edit-class/:classId',upload(2).fields([{ name: "image", maxCount: 4 }, { name: "instructor.image", maxCount:1}]),validate({
-    body:editClassBodySchema, params: editClassParamsSchema
-}),editClass)
+adminRouter.put('/edit-class/:classId', upload(2).fields([{ name: "image", maxCount: 4 }, { name: "instructor.image", maxCount: 1 }]), validate({
+    body: editClassBodySchema, params: editClassParamsSchema
+}), editClass)
 
 
 // adminRouter.post('/create-package',upload(2).single("packageImage"),validate({
@@ -64,88 +66,100 @@ adminRouter.put('/edit-class/:classId',upload(2).fields([{ name: "image", maxCou
 // }),editPackage)
 
 
-adminRouter.post('/create-training' ,upload(2).fields([{ name: 'trainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 }]),validate({
-   body:createTrainingBodySchema
-}),createTraining)
+adminRouter.post('/create-training', upload(2).fields([{ name: 'trainingImage', maxCount: 30 }, { name: 'thumbnailImage', maxCount: 1 }]), validate({
+    body: createTrainingBodySchema
+}), createTraining)
 
 
-adminRouter.get('/get-all-trainings',validate({
-    query:getAllTrainingsQuerySchema
-}),getTrainings)
+adminRouter.get('/get-all-trainings', validate({
+    query: getAllTrainingsQuerySchema
+}), getTrainings)
 
-adminRouter.get('/get-single-training/:trainingId',validate({
-    params:getSingleTrainingParamsSchema
-}),getSingleTraining)
-
-
-adminRouter.delete('/delete-training/:trainingId',validate({
-    params:deleteTrainingParamsSchema
-}),deleteTraining)
+adminRouter.get('/get-single-training/:trainingId', validate({
+    params: getSingleTrainingParamsSchema
+}), getSingleTraining)
 
 
-adminRouter.put('/edit-training/:trainingId',upload(2).fields([{ name: 'trainingImage', maxCount: 30 },{ name: 'thumbnailImage', maxCount: 1 }]),validate({
-    body:editTrainingBodySchema, params:editTrainingsParamsSchema
-}),editTraining)
+adminRouter.delete('/delete-training/:trainingId', validate({
+    params: deleteTrainingParamsSchema
+}), deleteTraining)
 
 
-adminRouter.post('/create-coupon',validate({
-  body:createCouponBodySchema
-}),createCoupon)
+adminRouter.put('/edit-training/:trainingId', upload(2).fields([{ name: 'trainingImage', maxCount: 30 }, { name: 'thumbnailImage', maxCount: 1 }]), validate({
+    body: editTrainingBodySchema, params: editTrainingsParamsSchema
+}), editTraining)
 
 
-adminRouter.get('/get-all-coupons',getAllCoupons)
-
-adminRouter.delete('/delete-coupon/:couponId',validate({
-   params:deleteCouponParamsSchema
-}),deleteCoupon)
+adminRouter.post('/create-coupon', validate({
+    body: createCouponBodySchema
+}), createCoupon)
 
 
-adminRouter.put('/edit-coupon/:couponId',validate({
-    body:editCouponBodySchema, params:editCouponParamsSchema
-}),editCoupon)
+adminRouter.get('/get-all-coupons', getAllCoupons)
+
+adminRouter.delete('/delete-coupon/:couponId', validate({
+    params: deleteCouponParamsSchema
+}), deleteCoupon)
 
 
-adminRouter.post('/create-membership-package',validate({
-    body:createMembershipPackageBodySchema
-}),createMembershipPackage)
-
-adminRouter.get('/get-all-membership-packages',validate({
-    query:getAllMembershipPackagesForUserQuerySchema
-}),getAllMembershipPackages)
-
-adminRouter.get('/get-single-membership-package/:membershipPackageId',validate({
-    params:getSingleMembershipPackageParamsSchema
-}),getSingleMembershipPackage)
-
-adminRouter.delete('/delete-membership-package/:membershipPackageId',validate({
-    params:deleteMembershipPackageParamsSchema
-}),deleteMembershipPackage)
-
-adminRouter.put('/edit-membership-package/:membershipPackageId',validate({
-    body:editMembershipPackageBodySchema,params:editMembershipPackageParamsSchema
-}),editMembershipPackage)
+adminRouter.put('/edit-coupon/:couponId', validate({
+    body: editCouponBodySchema, params: editCouponParamsSchema
+}), editCoupon)
 
 
-adminRouter.post('/sign-in',validate({
-    body:adminSignInBodySchema
-}),adminSignIn)
+adminRouter.post('/create-membership-package', validate({
+    body: createMembershipPackageBodySchema
+}), createMembershipPackage)
 
-adminRouter.get('/sign-out',adminSignOut)
+adminRouter.get('/get-all-membership-packages', validate({
+    query: getAllMembershipPackagesForUserQuerySchema
+}), getAllMembershipPackages)
+
+adminRouter.get('/get-single-membership-package/:membershipPackageId', validate({
+    params: getSingleMembershipPackageParamsSchema
+}), getSingleMembershipPackage)
+
+adminRouter.delete('/delete-membership-package/:membershipPackageId', validate({
+    params: deleteMembershipPackageParamsSchema
+}), deleteMembershipPackage)
+
+adminRouter.put('/edit-membership-package/:membershipPackageId', validate({
+    body: editMembershipPackageBodySchema, params: editMembershipPackageParamsSchema
+}), editMembershipPackage)
 
 
-adminRouter.get('/get-user-profile',adminMiddleware,getAdminProfile)
+adminRouter.post('/sign-in', validate({
+    body: adminSignInBodySchema
+}), adminSignIn)
+
+adminRouter.get('/sign-out', adminSignOut)
 
 
-adminRouter.get('/get-single-order/:orderId',adminMiddleware,validate({
-    params:getSingleOrderParamsSchema
-}),getSingleOrder)
+adminRouter.get('/get-user-profile', adminMiddleware, getAdminProfile)
 
 
-adminRouter.get('/get-all-orders',validate({
-   query: getAllOrdersQuerySchema
-}),allOrderHistory)
+adminRouter.get('/get-single-order/:orderId', adminMiddleware, validate({
+    params: getSingleOrderParamsSchema
+}), getSingleOrder)
 
 
+adminRouter.get('/get-all-orders', validate({
+    query: getAllOrdersQuerySchema
+}), allOrderHistory)
+
+
+adminRouter.route('/enquiry')
+    .get(getAllEnquiries)
+
+
+adminRouter.route('/enquiry/:enquiryId')
+    .get(getEnquiryById)
+    .delete(deleteEnquiry)
+
+
+adminRouter.get('/dashboard-stats', getDashboardStats)
+
+adminRouter.get('/detailed-stats', getDetailedStats)
 
 
 

@@ -19,6 +19,7 @@ import { checkoutPaymentQuerySchema, verifyPaymentBodySchema } from "../validato
 import { buyMembership } from "../controllers/buyMembership.controller.js"
 import { cancelOrder, createOrder, orderHistory } from "../controllers/order.controller.js"
 import { createOrderBodySchema, createOrderParamsSchema, deleteOrderParamsSchema } from "../validator/order.validator.js"
+import { createEnquiry } from "../controllers/enquiry.controller.js"
 
 
 const userRouter = Router()
@@ -95,7 +96,7 @@ userRouter.get('/get-scheduled-class', userMiddleware, getScheduledClass)
 
 userRouter.get('/get-order-history', userMiddleware, orderHistory)
 
-
+userRouter.post('/create-enquiry', createEnquiry)
 
 
 

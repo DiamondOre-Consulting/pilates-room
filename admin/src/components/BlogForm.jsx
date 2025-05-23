@@ -7,8 +7,6 @@ import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Switch } from './ui/switch';
 import { Textarea } from './ui/textarea';
-import { useDispatch } from 'react-redux';
-import { createBlog } from '@/Redux/Slices/blogSlice';
 
 const BlogForm = ({ onSubmit, initialData = {} }) => {
     const { register, handleSubmit, control, formState: { errors }, watch, setValue } = useForm({
