@@ -38,8 +38,6 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   existingUser.upcomingSchedule.push({ item: createOrder._id });
 
-
-
   existingUser.memberShipPlan.remainingSession = existingUser.memberShipPlan.remainingSession - 1;
   if (!existingUser.memberShipPlan.startDate) {
     existingUser.memberShipPlan.startDate = new Date();
@@ -164,8 +162,6 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   sendResponse(res, 200, createOrder, "Order created successfully")
 })
-
-
 
 export const cancelOrder = asyncHandler(async (req, res) => {
 
@@ -293,26 +289,37 @@ export const cancelOrder = asyncHandler(async (req, res) => {
 
 })
 
-
-
-
-const updateOrderStatuses = asyncHandler(async () => {
+const updateOrderStatuses = async () => {
   const currentDate = new Date();
 
   const scheduledOrders = await Order.find({
-    status: 'scheduled',
-    'product.date': { $lte: currentDate }
+    status: 'scheduled'
   }).populate('product');
 
   for (const order of scheduledOrders) {
-    const scheduledDateTime = new Date(order.product.date);
-    if (scheduledDateTime < currentDate) {
+    const scheduledDate = new Date(order.scheduledDate);
+    console.log(order)
+    const scheduledTime = order.product.time;
+
+
+    const [time, period] = scheduledTime.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+
+    if (period === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    scheduledDate.setHours(hours, minutes, 0, 0);
+
+    if (scheduledDate < currentDate) {
       await Order.findByIdAndUpdate(order._id, {
         status: 'completed'
       });
     }
   }
-});
+};
 
 export const orderHistory = asyncHandler(async (req, res) => {
   const userId = req.user._id;
@@ -345,7 +352,7 @@ export const orderHistory = asyncHandler(async (req, res) => {
   sendResponse(res, 200, ordersWithStatus, "Order history");
 });
 
-export const allOrderHistory = asyncHandler(async (req, res) => {
+export const allOrderHistory = asyncHandler(async (req, res, next) => {
   await updateOrderStatuses();
 
   const page = parseInt(req.validatedData.query.page) || 1;
@@ -373,6 +380,8 @@ export const allOrderHistory = asyncHandler(async (req, res) => {
       .limit(limit),
     Order.countDocuments(query)
   ]);
+
+  console.log(orderHistory)
 
   const hasMore = page * limit < totalOrderHistory;
 

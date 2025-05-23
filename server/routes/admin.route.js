@@ -17,7 +17,7 @@ import { adminSignInBodySchema } from "../validator/auth.validator.js"
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
-import { getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
+import { getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
 
 
 
@@ -161,7 +161,7 @@ adminRouter.get('/dashboard-stats', getDashboardStats)
 
 adminRouter.get('/detailed-stats', getDetailedStats)
 
-
+adminRouter.get('/get-all-users', getAllUsers)
 
 
 

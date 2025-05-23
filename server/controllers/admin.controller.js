@@ -26,7 +26,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
     })
         .sort({ createdAt: -1 })
         .limit(10)
-        .populate('user', 'firstName lastName email')
+        .populate('user', 'firstName lastName email phoneNumber')
         .populate('product', 'title date time');
 
     const recentMembers = await User.find({ isMember: true })
@@ -148,9 +148,13 @@ const getDetailedStats = asyncHandler(async (req, res) => {
         }, "Detailed statistics retrieved successfully"));
 });
 
-
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({});
+    return res.status(200).json(new ApiResponse(200, users, "All users retrieved successfully"));
+});
 
 export {
     getDashboardStats,
-    getDetailedStats
+    getDetailedStats,
+    getAllUsers
 };
