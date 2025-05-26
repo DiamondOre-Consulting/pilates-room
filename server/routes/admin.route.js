@@ -12,8 +12,8 @@ import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../contro
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
-import { adminSignIn, adminSignOut, changePasswordForAdmin, getAdminProfile } from "../controllers/auth/auth.admin.controller.js"
-import { adminSignInBodySchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
+import { adminSignIn, adminSignOut, changePasswordForAdmin, forgotPasswordForAdmin, getAdminProfile, resetPasswordForAdmin } from "../controllers/auth/auth.admin.controller.js"
+import { adminSignInBodySchema, forgotPasswordBodySchema, newPasswordParamsSchema, resetPasswordBodySchema, resetPasswordParamsSchema } from "../validator/auth.validator.js"
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
@@ -167,6 +167,10 @@ adminRouter.get('/get-all-users', getAllUsers)
 adminRouter.post('/change-password/:newPassword', adminMiddleware, validate({ params: newPasswordParamsSchema }), changePasswordForAdmin)
 
 
+
+adminRouter.post('/forgot-password',validate({ body: forgotPasswordBodySchema }), forgotPasswordForAdmin)
+
+adminRouter.post('/reset-password/:resetToken', validate({ body: resetPasswordBodySchema, params: resetPasswordParamsSchema }), resetPasswordForAdmin)
 
 
 

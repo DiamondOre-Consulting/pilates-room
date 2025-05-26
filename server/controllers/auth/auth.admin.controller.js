@@ -83,12 +83,12 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 
 
 
-export const forgotPassword = asyncHandler(async (req, res) => {
+export const forgotPasswordForAdmin = asyncHandler(async (req, res) => {
   const { email } = req.validatedData.body;
 
-  const existingUser = await Admin.findOne({ email });
+  const existingAdmin = await Admin.findOne({ email });
 
-  if (!existingUser) {
+  if (!existingAdmin) {
     throw new ApiError("User not found", 400);
   }
 
@@ -96,13 +96,13 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
   const expiryTime = encodeURIComponent(resetPasswordTokenExpires)
 
-  existingUser.resetPasswordToken = resetToken;
-  existingUser.resetPasswordTokenExpires = resetPasswordTokenExpires;
+  existingAdmin.resetPasswordToken = resetToken;
+  existingAdmin.resetPasswordTokenExpires = resetPasswordTokenExpires;
 
-  await existingUser.save();
+  await existingAdmin.save();
 
 
-  const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingUser.email}/${expiryTime}`;
+  const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingAdmin.email}/${expiryTime}`;
 
   const emailTemplate = `
 <html>
@@ -190,26 +190,27 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   sendResponse(res, 200, null, "Password reset email sent successfully");
 });
 
-export const resetPassword = asyncHandler(async (req, res) => {
+export const resetPasswordForAdmin = asyncHandler(async (req, res) => {
 
   const { resetToken } = req.validatedData.params;
   let { newPassword } = req.validatedData.body;
 
-  const existingUser = await User.findOne({
+  const existingAdmin = await Admin.findOne({
     resetPasswordToken: resetToken,
     resetPasswordTokenExpires: { $gt: Date.now() },
   }).select('+password');
 
-  if (!existingUser) {
-    throw new ApiError("Token expired", 400)
+  if (!existingAdmin) {
+    throw new ApiError("Invalid or expired token", 400);
   }
+  
 
   newPassword = await bcrypt.hash(newPassword, 10);
-  existingUser.password = newPassword;
-  existingUser.resetPasswordToken = undefined;
-  existingUser.resetPasswordTokenExpires = undefined;
+  existingAdmin.password = newPassword;
+  existingAdmin.resetPasswordToken = undefined;
+  existingAdmin.resetPasswordTokenExpires = undefined;
 
-  await existingUser.save();
+  await existingAdmin.save();
 
   sendResponse(res, 200, null, "Password reset successfully");
 
