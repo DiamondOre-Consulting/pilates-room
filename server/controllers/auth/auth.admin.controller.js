@@ -60,3 +60,19 @@ export const getAdminProfile = asyncHandler(async(req,res)=>{
 
 
 
+export const changePasswordForAdmin = asyncHandler(async (req, res) => {
+
+  const { newPassword } = req.validatedData.params;
+  const existingAdmin = await Admin.findById(req.user._id).select('+password');
+  const isSame = await bcrypt.compare(newPassword, existingUser.password);
+  if (isSame) {
+    throw new ApiError("New password should be different", 400);
+  }
+  existingAdmin.password = await bcrypt.hash(newPassword, 10);
+  await existingAdmin.save();
+  sendResponse(res, 200, null, "Password changed successfully");
+
+})
+
+
+
