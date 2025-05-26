@@ -59,7 +59,7 @@ export const signIn = asyncHandler(async (req, res) => {
 export const signUp = asyncHandler(async (req, res) => {
 
   const { email, password, otp, firstName, lastName, phoneNumber } = req.validatedData.body
-  console.log(req.validatedData.body)
+  
 
   const existingUser = await User.findOne({ email })
 
@@ -333,6 +333,11 @@ export const getProfile = asyncHandler(async (req, res) => {
 
   sendResponse(res, 200, user, "User profile fetched successfully");
 });
+
+
+export const editAdmin = asyncHandler(async(req,res)=>{
+
+})
 
 
 

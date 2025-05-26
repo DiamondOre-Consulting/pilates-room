@@ -7,7 +7,8 @@ export const signUpBodySchema = z.object({
     lastName:z.string().min(3).max(30),
     email:z.string().email(),
     password:z.string().min(6).max(20),
-    otp:z.string().min(6).max(6)
+    otp:z.string().min(6).max(6),
+    phoneNumber:z.string().min(10).max(10),
 })
 
 export const signInBodySchema = z.object({
