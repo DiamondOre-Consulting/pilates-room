@@ -5,6 +5,7 @@ import sendResponse from "../../utils/sendResponse.js";
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
 import crypto from "crypto"
+import { sendMail } from "../../utils/sendmail.js";
 
 const cookieOptions = {
     httpOnly: true,
@@ -64,7 +65,7 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 
   const { newPassword } = req.validatedData.params;
   const existingAdmin = await Admin.findById(req.user._id).select('+password');
-  const isSame = await bcrypt.compare(newPassword, existingUser.password);
+  const isSame = await bcrypt.compare(newPassword, existingAdmin.password);
   if (isSame) {
     throw new ApiError("New password should be different", 400);
   }
