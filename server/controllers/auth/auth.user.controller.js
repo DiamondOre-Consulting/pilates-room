@@ -58,7 +58,7 @@ export const signIn = asyncHandler(async (req, res) => {
 
 export const signUp = asyncHandler(async (req, res) => {
 
-  const { email, password, otp, firstName, lastName, phoneNumber } = req.validatedData.body
+  const { email, password, otp, firstName, lastName, phoneNumber,birthDate } = req.validatedData.body
   
 
   const existingUser = await User.findOne({ email })
@@ -84,7 +84,8 @@ export const signUp = asyncHandler(async (req, res) => {
     password: hashedPassword,
     firstName,
     lastName,
-    phoneNumber
+    phoneNumber,
+    birthDate
   });
 
   otpStore.delete("email");
@@ -335,9 +336,32 @@ export const getProfile = asyncHandler(async (req, res) => {
 });
 
 
-export const editAdmin = asyncHandler(async(req,res)=>{
+export const editUser = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
 
-})
+  const {email, phoneNumber} = req.validatedData.body
+
+  const user = await User.findById(userId);
+  if (!user) {
+          throw new ApiError("User not found", 400);
+  }
+
+  if (email && email !== user.email) {
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) throw new ApiError("Email already in use", 400);
+  }
+
+  if (phone && phone !== user.phone) {
+    const existingPhone = await User.findOne({ phone });
+    if (existingPhone) throw new ApiError("Phone already in use", 400);
+  }
+
+  Object.assign(user, req.validatedData.body);
+
+  const updatedUser = await user.save();
+
+  sendResponse(res, 200, updatedUser, "User updated successfully");
+});
 
 
 

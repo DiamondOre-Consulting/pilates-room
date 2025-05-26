@@ -1,7 +1,7 @@
 import { Router } from "express"
 import validate from "../middlewares/zod.validator.js"
-import { signUpBodySchema, signInBodySchema, sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema } from "../validator/auth.validator.js"
-import { signIn, sendOtp, signUp, forgotPassword, resetPassword, changePassword, getProfile, signOut } from "../controllers/auth/auth.user.controller.js"
+import { signUpBodySchema, signInBodySchema, sendOtpBodySchema, forgotPasswordBodySchema, resetPasswordBodySchema, resetPasswordParamsSchema, newPasswordParamsSchema, editUserBodySchema } from "../validator/auth.validator.js"
+import { signIn, sendOtp, signUp, forgotPassword, resetPassword, changePassword, getProfile, signOut, editUser } from "../controllers/auth/auth.user.controller.js"
 import { userMiddleware } from "../middlewares/user.middleware.js"
 
 import { getClasses, getScheduledClass } from "../controllers/class.admin.controller.js"
@@ -97,6 +97,10 @@ userRouter.get('/get-scheduled-class', userMiddleware, getScheduledClass)
 userRouter.get('/get-order-history', userMiddleware, orderHistory)
 
 userRouter.post('/create-enquiry', createEnquiry)
+
+userRouter.put('/edit-user',userMiddleware,validate({
+    body:editUserBodySchema
+}),editUser)
 
 
 
