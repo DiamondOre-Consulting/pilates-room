@@ -1,4 +1,5 @@
 import { z } from "zod";
+import ApiError from "../utils/apiError";
 
 const validate = (schemas) => (req, res, next) => {
   try {
@@ -12,7 +13,16 @@ const validate = (schemas) => (req, res, next) => {
           req.body.moreInfo = req.body.moreInfo.map(item =>
             typeof item === 'string' ? JSON.parse(item) : item
           );
-        }
+         }
+         if (typeof req.body.weeks === 'string') {
+              try {
+                req.body.weeks = JSON.parse(req.body.weeks);
+              } catch (e) {
+               throw new ApiError("Invalid weeks format", 400);
+              }
+          }
+
+
         validatedData.body = schemas.body.parse(req.body);
       }
       if(schemas.params){
