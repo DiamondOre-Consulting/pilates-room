@@ -70,7 +70,7 @@ export const signUp = asyncHandler(async (req, res) => {
 
   const storedOtp = otpStore.get(email);
 
-  if (!storedOtp) {
+  if (!storedOtp){
     throw new ApiError("Otp is missing", 400)
   }
 
@@ -344,8 +344,8 @@ export const editUser = asyncHandler(async (req, res) => {
     if (existingEmail) throw new ApiError("Email already in use", 400);
   }
 
-  if (phone && phone !== user.phone) {
-    const existingPhone = await User.findOne({ phone });
+  if (phoneNumber && phoneNumber !== user.phoneNumber) {
+    const existingPhone = await User.findOne({ phoneNumber });
     if (existingPhone) throw new ApiError("Phone already in use", 400);
   }
 

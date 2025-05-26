@@ -86,7 +86,7 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.validatedData.body;
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await Admin.findOne({ email });
 
   if (!existingUser) {
     throw new ApiError("User not found", 400);
