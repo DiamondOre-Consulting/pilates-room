@@ -28,7 +28,7 @@ const Footer = () => {
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/terms-and--condition"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
@@ -37,7 +37,7 @@ const Footer = () => {
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/privacy-policy"}>
                   <a
                     title=""
                     className="flex text-sm text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"

@@ -119,6 +119,18 @@ export const logout = createAsyncThunk('/user/logout', async () => {
     }
 });
 
+export const editUser = createAsyncThunk('/user/edit-user' , async(data)=>{
+  try {
+    const response = await userAxiosInstance.put('/user/edit-user' , data);
+    console.log(response);
+    toast.success(response?.data?.message)
+    return response?.data
+  } catch (error) {
+    console.log(error)
+    toast.error(error?.response?.data?.message)
+  }
+})
+
 export const getScheduleClass = createAsyncThunk(
   "/user/get-schedule-class",
   async () => {

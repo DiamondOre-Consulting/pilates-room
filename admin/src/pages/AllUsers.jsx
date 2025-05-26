@@ -109,10 +109,10 @@ const AllUsers = () => {
                       {user?.createdAt.split("T")[0]}
                     </td>
                     <td className="px-4 py-2">
-                      {user?.isDiscovery ? "True" : "False"}
+                      {user?.isDiscovery ? "Yes" : "No"}
                     </td>
                     <td className="px-4 py-2">
-                      {user?.isMember ? "True" : "False"}
+                      {user?.isMember ? "Yes" : "No"}
                     </td>
 
                     <td className="px-4 py-2">

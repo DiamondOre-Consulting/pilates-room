@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import BookingSection from "../BookingSection";
+import ContactUs from "../ContactUs";
 
 const SingleTraining = () => {
   const id = useParams();
   const dispatch = useDispatch();
   console.log("this is id", id);
   const [data, setData] = useState();
+   const [contactusPopUp, setContactUsPopUp] = useState(false);
 
   const handleGetSingleTraining = async () => {
     try {
@@ -132,7 +134,7 @@ const SingleTraining = () => {
             </p>
           </div>
 
-          <p className=" mt-10 text-lg">₹{data?.price}</p>
+          {/* <p className=" mt-10 text-lg">₹{data?.price}</p> */}
         </div>
         <div className=" w-full">
           <p
@@ -143,8 +145,8 @@ const SingleTraining = () => {
             <Link to={`/moreInfo/${data?._id}`} state={{data}} className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
               More Info
             </Link>
-            <button className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
-              Book
+            <button onClick={()=> setContactUsPopUp(true)} className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+              Notify Me
             </button>
           </div>
         </div>
@@ -154,6 +156,24 @@ const SingleTraining = () => {
         
         <BookingSection />
       </div>
+
+        {contactusPopUp && (
+        <div className="fixed inset-0 z-[1000] bg-black/60 flex items-center justify-center px-4">
+          <div className="relative w-full max-w-2xl bg-light rounded-lg shadow-lg overflow-auto max-h-[90vh]">
+            {/* Close Button */}
+            <button
+              onClick={() => setContactUsPopUp(false)}
+              className="absolute top-1 cursor-pointer right-2 text-black hover:text-red-500 text-4xl  z-10"
+            >
+              &times;
+            </button>
+
+            <div className="p-6">
+              <ContactUs className="" />
+            </div>
+          </div>
+        </div>
+      )}
     
     </div>
   );

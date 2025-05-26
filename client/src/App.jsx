@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useDispatch } from "react-redux";
 import { userData } from "./Redux/Slices/authSlice";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 // Lazy-loaded pages
 const HomeMain = lazy(() => import("./pages/HomeMain"));
@@ -55,6 +57,8 @@ export default function App() {
           <Route path="/about-us" element={<Aboutus />} />
           <Route path="/:slug" element={<SingleBlogPage />} />
           <Route path="/all-blogs" element={<BlogPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+          <Route path="/terms-and--condition" element={<TermsAndConditions/>}/>
         </Routes>
       </Suspense>
       <Footer />

@@ -31,6 +31,7 @@ const Membership = () => {
         getMemberShipPackage(selectedPlan.toLowerCase())
       );
       setAllMemberShip(response?.payload?.data);
+      await dispatch(userData())
       console.log(response?.payload?.data);
     } catch (error) {
       console.log(error);
@@ -201,7 +202,7 @@ const Membership = () => {
                   <div className="flex flex-col justify-center  items-center space-y-4 w-full md:max-w-xl mx-auto ">
                     <h1 className="text-4xl uppercase">{ele?.packageName}</h1>
                     <p
-                      className={`text-center ${
+                      className={`text-center px-4 ${
                         index % 2 === 0 ? "text-gray-200" : "text-black "
                       } text-center`}
                       dangerouslySetInnerHTML={{ __html: ele?.description }}
@@ -346,12 +347,19 @@ const Membership = () => {
                         user?.data?.memberShipPlan?.package?._id === ele?._id
                       }
                       className={` ${
-                        user?.data?.memberShipPlan?.package?._id === ele?._id && user?.data?.isMember === true
-                          ? "bg-green-600":
-                       user?.data?.memberShipPlan?.package?._id === ele?._id &&
-  (user?.data?.memberShipPlan?.remainingSession === 0 ||
-    user?.data?.isMember == false ||
-    getTodayDate() > user?.data?.memberShipPlan?.expiryDate.split("T")[0])?"bg-red-600"
+                        user?.data?.memberShipPlan?.package?._id === ele?._id &&
+                        user?.data?.isMember === true
+                          ? "bg-green-600"
+                          : user?.data?.memberShipPlan?.package?._id ===
+                              ele?._id &&
+                            (user?.data?.memberShipPlan?.remainingSession ===
+                              0 ||
+                              user?.data?.isMember == false ||
+                              getTodayDate() >
+                                user?.data?.memberShipPlan?.expiryDate.split(
+                                  "T"
+                                )[0])
+                          ? "bg-red-600"
                           : "bg-dark"
                       } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
                     >

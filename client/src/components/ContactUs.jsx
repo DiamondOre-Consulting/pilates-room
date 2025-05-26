@@ -24,14 +24,24 @@ const ContactUs = () => {
     "/": "contactUs",
     "/class-schedule" :"contactUs" , 
     "/private-session" : "privateClass",
-    "/teacher-training" : "teacherTraining"
+    "/teacher-training" : "teacherTraining",
+    "/teacher-single-training/:id" :"teacherTraining"
   };
 
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const topic = topicMap[currentPath] || "contactUs";
-    setFormData((prev) => ({ ...prev, topic }));
-  }, [location]);
+useEffect(() => {
+  const currentPath = location.pathname;
+
+  let topic = "contactUs"; // default
+
+  if (currentPath === "/") topic = "contactUs";
+  else if (currentPath === "/class-schedule") topic = "contactUs";
+  else if (currentPath === "/private-session") topic = "privateClass";
+  else if (currentPath === "/teacher-training") topic = "teacherTraining";
+  else if (currentPath.startsWith("/teacher-single-training")) topic = "teacherTraining";
+
+  setFormData((prev) => ({ ...prev, topic }));
+}, [location]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +55,7 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    console.log("formData",formData)
     const response = await dispatch(contactUs(formData));
     setLoading(false);
     if (response?.payload?.success) {
