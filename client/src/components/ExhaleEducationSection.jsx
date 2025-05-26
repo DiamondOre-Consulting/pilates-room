@@ -39,7 +39,7 @@ const ExhaleEducationSection = () => {
                 </article>
 
                 <button className="border text-dark border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
-                 Workshps
+                 Workshops
                 </button>
               </div>
             </div>

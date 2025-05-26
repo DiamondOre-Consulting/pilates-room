@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useId } from "react"
+import { useId } from "react";
 import { OTPInput } from "input-otp";
 import { cn } from "@/lib/utils";
-
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   // const [otpField, setOtpField] = useState(false);
-    const id = useId()
+  const id = useId();
   const [otherFeild, setOtherFeild] = useState(false);
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -24,6 +24,8 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
     lastName: "",
     otp: "",
     password: "",
+    phoneNumber: "",
+    birthDate:""
   });
 
   const handleInputChange = (e) => {
@@ -34,12 +36,17 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
     }));
   };
 
+  const handlePhoneChange = (phoneNumber) => {
+    console.log(phoneNumber)
+    setFormData((prev) => ({ ...prev, phoneNumber }));
+  };
+
   const handleOtpChange = (value) => {
-  setFormData((prev) => ({
-    ...prev,
-    otp: value,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      otp: value,
+    }));
+  };
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
@@ -65,13 +72,15 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+console.log(formData)
     if (
       !formData?.email.trim() ||
       !formData?.otp.trim() ||
       !formData?.password.trim() ||
       !formData?.firstName.trim() ||
-      !formData?.lastName.trim()
+      !formData?.lastName.trim() ||
+      !formData?.phoneNumber.trim()||
+      !formData?.birthDate.trim()
     ) {
       toast.error("All the feilds are required");
       return;
@@ -92,24 +101,25 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
   };
 
   function Slot(props) {
-  return (
-    (<div
-      className={cn(
-        "border-input bg-background text-foreground flex size-9 items-center justify-center rounded-md border font-medium shadow-xs transition-[color,box-shadow]",
-        { "border-ring ring-ring/50 z-10 ring-[3px]": props.isActive }
-      )}>
-      {props.char !== null && <div>{props.char}</div>}
-    </div>)
-  );
-}
+    return (
+      <div
+        className={cn(
+          "border-input bg-background text-foreground flex size-9 items-center justify-center rounded-md border font-medium shadow-xs transition-[color,box-shadow]",
+          { "border-ring ring-ring/50 z-10 ring-[3px]": props.isActive }
+        )}
+      >
+        {props.char !== null && <div>{props.char}</div>}
+      </div>
+    );
+  }
   return (
     <div>
       <div>
         <div className="flex justify-between h-full">
           <div className=" w-full flex flex-col  items-center justify-center  h-full ">
-            <div className="py-4 h-[30rem] flex justify-center flex-col   px-8">
+            <div className="py-4 h-[33rem] flex justify-center flex-col  px-8">
               <h1 className=" text-3xl text-center">SignUp</h1>
-              <div className=" mt-6 flex flex-col justify-center  items-center  w-full">
+              <div className=" mt-1 flex flex-col justify-center  items-center  w-full">
                 <div className=" space-x-6 min-w-xs h-auto  items-center justify-center ">
                   <div className="flex flex-col w-full space-y-1">
                     <label className="text-md text-gray-600 text-left">
@@ -120,7 +130,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                       name="email"
                       value={formData?.email}
                       onChange={handleInputChange}
-                      className=" border border-gray-400 rounded-md py-1 px-1 focus:outline-none"
+                      className=" border border-gray-400 rounded-md py-1 px-1 w-full focus:outline-none"
                     />
                   </div>
 
@@ -133,20 +143,21 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                         onChange={handleInputChange}
                         className=" border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
                       /> */}
-                       <OTPInput
-        id={id}
-          name="otp"
-                       value={formData?.otp}
-                      onChange={handleOtpChange}
-        containerClassName="flex items-center gap-3 has-disabled:opacity-50"
-        maxLength={6}
-        render={({ slots }) => (
-          <div className="flex gap-2">
-            {slots.map((slot, idx) => (
-              <Slot key={idx} {...slot} />
-            ))}
-          </div>
-        )} />
+                      <OTPInput
+                        id={id}
+                        name="otp"
+                        value={formData?.otp}
+                        onChange={handleOtpChange}
+                        containerClassName="flex items-center gap-3 has-disabled:opacity-50"
+                        maxLength={6}
+                        render={({ slots }) => (
+                          <div className="flex gap-2">
+                            {slots.map((slot, idx) => (
+                              <Slot key={idx} {...slot} />
+                            ))}
+                          </div>
+                        )}
+                      />
                     </div>
                   )}
                 </div>
@@ -155,6 +166,9 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                   <>
                     {" "}
                     <div className=" w-full">
+
+                      <div className="flex space-x-2">
+                
                       <div className="flex flex-col mt-2 ">
                         <label className="text-md text-gray-600">
                           First Name
@@ -163,7 +177,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                           name="firstName"
                           value={formData?.firstName}
                           onChange={handleInputChange}
-                          className=" border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
+                          className=" border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
                         />
                       </div>
 
@@ -175,17 +189,41 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                           name="lastName"
                           value={formData?.lastName}
                           onChange={handleInputChange}
-                          className="border border-gray-400 rounded-md py-1 px-1 md:w-[20rem] focus:outline-none"
+                          className="border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
+                        />
+                      </div>
+        
+                      </div>
+                      <PhoneInput
+                      className="mt-2"
+                        country={"in"}
+                        value={formData.phoneNumber}
+                        onChange={handlePhoneChange}
+                        inputStyle={{ width: "100%" }}
+                        placeholder="Phone Number (optional)"
+                      />
+
+
+                        <div className="flex flex-col mt-2">
+                        <label className="text-md text-gray-600">
+                          DOB
+                        </label>
+                        <input
+                          name="birthDate"
+                          type="date"
+                          value={formData?.birthDate}
+                          onChange={handleInputChange}
+                          className="border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
                         />
                       </div>
                     </div>
-                    <div className="flex flex-col mt-2 ">
+                    <div className="flex flex-col mt-2 w-full">
                       <label className="text-md text-gray-600">Password</label>
                       <input
-                        type={showPassword ? "password" : "text"}
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         onChange={handleInputChange}
-                        className="border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
+                        className="border border-gray-400 rounded-md py-1 px-1 w-full focus:outline-none"
                       />
 
                       <p className="space-x-2 mt-2 text-sm flex items-center ">
