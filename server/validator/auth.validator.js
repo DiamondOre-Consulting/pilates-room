@@ -8,7 +8,7 @@ export const signUpBodySchema = z.object({
     email:z.string().email(),
     password:z.string().min(6).max(20),
     otp:z.string().min(6).max(6),
-    phoneNumber:z.string().min(10).max(10),
+    phoneNumber:z.string().min(12).max(12),
     birthDate:z.coerce.date()
 })
 
@@ -16,7 +16,7 @@ export const editUserBodySchema = z.object({
     firstName:z.string().min(3).max(30).optional(),
     lastName:z.string().min(3).max(30).optional(),
     email:z.string().email().optional(),
-    phoneNumber:z.string().min(10).max(10).optional(),
+    phoneNumber:z.string().min(12).max(12).optional(),
     birthDate:z.coerce.date().optional()
 })
 

@@ -55,7 +55,6 @@ export const signIn = asyncHandler(async (req, res) => {
 
 })
 
-
 export const signUp = asyncHandler(async (req, res) => {
 
   const { email, password, otp, firstName, lastName, phoneNumber,birthDate } = req.validatedData.body
@@ -110,7 +109,6 @@ export const signUp = asyncHandler(async (req, res) => {
 
 })
 
-
 export const sendOtp = asyncHandler(async (req, res) => {
 
   const { email } = req.validatedData.body
@@ -151,7 +149,6 @@ export const sendOtp = asyncHandler(async (req, res) => {
 
 
 })
-
 
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.validatedData.body;
@@ -286,7 +283,6 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
 })
 
-
 export const changePassword = asyncHandler(async (req, res) => {
 
   const { newPassword } = req.validatedData.params;
@@ -300,7 +296,6 @@ export const changePassword = asyncHandler(async (req, res) => {
   sendResponse(res, 200, null, "Password changed successfully");
 
 })
-
 
 export const signOut = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(req.user._id,
@@ -318,7 +313,6 @@ export const signOut = asyncHandler(async (req, res) => {
     .json({ success: true, message: "User logged out successfully!" });
 })
 
-
 export const getProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
@@ -334,7 +328,6 @@ export const getProfile = asyncHandler(async (req, res) => {
 
   sendResponse(res, 200, user, "User profile fetched successfully");
 });
-
 
 export const editUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
