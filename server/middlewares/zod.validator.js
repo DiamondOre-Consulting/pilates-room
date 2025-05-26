@@ -1,5 +1,5 @@
 import { z } from "zod";
-import ApiError from "../utils/apiError";
+import ApiError from "../utils/apiError.js";
 
 const validate = (schemas) => (req, res, next) => {
   try {
