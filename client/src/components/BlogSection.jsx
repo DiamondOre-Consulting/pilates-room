@@ -40,7 +40,7 @@ const BlogSection = () => {
   const handleGetBlog = async () => {
     try {
       const response = await dispatch(getBlogs());
-      console.log("response", response);
+      console.log("response blogsss", response);
       setBlogData(response?.payload?.data?.blogPosts);
     } catch (error) {
       console.log("error", error);
@@ -59,15 +59,22 @@ const BlogSection = () => {
     <div>
       <section className="ezy__blog4 light py-14 md:py-24 text-stone-800 bg-white dark:bg-[#0b1727] dark:text-white overflow-hidden">
         <div className=" px-6 md:px-8 xl:px-28">
-          <h1 className="text-center text-dark text-4xl uppercase">Our Blogs</h1>
+          <h1 className="text-center text-dark text-4xl uppercase">
+            Our Blogs
+          </h1>
 
           <div className="grid grid-cols-12 items-center mt-8 gap-6">
             <div className="col-span-12">{/* <FeaturedBlogItem /> */}</div>
-            {blogData?.map((blog, i) => (
-              <div className="col-span-12 md:col-span-6 lg:col-span-4" key={i}>
-                <BlogItem blog={blog} />
-              </div>
-            ))}
+            {blogData
+              ?.filter((blog) => blog.isFeatured)
+              .map((blog, i) => (
+                <div
+                  className="col-span-12 md:col-span-6 lg:col-span-4"
+                  key={i}
+                >
+                  <BlogItem blog={blog} />
+                </div>
+              ))}
           </div>
         </div>
       </section>

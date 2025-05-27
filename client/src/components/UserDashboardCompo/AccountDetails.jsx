@@ -119,7 +119,7 @@ const AccountDetails = () => {
             type="date"
             onChange={handleChange}
             name="birthDate"
-            value={editProfile?.birthDate.split("T")[0]}
+            value={editProfile?.birthDate?.split("T")[0]}
             className="focus:outline-none px-1 "
           />
         </div>

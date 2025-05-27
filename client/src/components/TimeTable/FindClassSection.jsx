@@ -286,7 +286,7 @@ const FindClassSection = () => {
 
   const isBookingClosed = (classTime) => {
     if (!classTime) return false;
-
+console.log(classTime)
     const [time, modifier] = classTime.split(" ");
     let [h, m] = time.split(":").map(Number);
     if (modifier === "PM" && h < 12) h += 12;
@@ -296,9 +296,10 @@ const FindClassSection = () => {
     start.setHours(h, m, 0, 0);
     const now = new Date();
     const diffMs = start - now;
-    return diffMs <= 0 || diffMs < 60 * 60 * 1000;
+    return diffMs <= 0 || diffMs < 60 * 60 * 1000; 
   };
 
+  console.log(isBookingClosed("11:00 AM"))
   const hasStarted = (classTime, day) => {
     if (!classTime || !day) return false;
 
@@ -313,6 +314,8 @@ const FindClassSection = () => {
     return Date.now() >= start.getTime();
   };
 
+  console.log( new Date(selectedDate).getDate())
+  console.log(new Date(getTodayDate()).getDate())
   console.log("selected date", toUtcMidnightIso(selectedDate).split("T")[0]);
   return (
     <div>
@@ -323,7 +326,7 @@ const FindClassSection = () => {
             <h1 className="text-3xl">Find a Class</h1>
           </div>
           <div className="flex flex-col justify-end md:items-end ">
-            <div className="flex space-x-1 md:space-x-6">
+            {/* <div className="flex space-x-1 md:space-x-6">
               <select
                 onChange={(e) => setLocation(e.target?.value)}
                 className="border rounded-md px-1 md:px-4 py-2 border-gray-300"
@@ -341,7 +344,7 @@ const FindClassSection = () => {
               <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
                 <option>Instructor</option>
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -568,6 +571,10 @@ const FindClassSection = () => {
                               return;
                             }
 
+                            if(cls?.capacity === 0 || cls.available === false ){
+                              return;
+                            }
+
                             if (!isLoggedIn) {
                               setIsPopUpOpen(true);
                               return;
@@ -576,7 +583,7 @@ const FindClassSection = () => {
                             if (
                               isBookingClosed(cls.time) &&
                               new Date(selectedDate).getDate() ===
-                                getTodayDate()
+                                new Date(getTodayDate()).getDate()
                             ) {
                               setShowModal(true);
                               return;
@@ -776,7 +783,12 @@ const FindClassSection = () => {
                             return isSameDate && !isToday;
                           }) ? (
                           "Cancel Class"
-                        ) : cls?.capacity === 0 || !cls.available ? (
+                        ) : 
+                        
+                        
+                        
+                        
+                        cls?.capacity === 0 || cls.available === false ? (
                           "Unavailable"
                         ) : (
                           "Book"

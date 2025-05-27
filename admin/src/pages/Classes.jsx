@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 import JoditEditor from "jodit-react";
 import TimePicker from "react-time-picker";
 
-
 const Classes = () => {
   const dispatch = useDispatch();
   const [addClassPopUp, setAddClassPopUp] = useState(false);
@@ -47,13 +46,24 @@ const Classes = () => {
 
   const [selectedDays, setSelectedDays] = useState([]);
 
+  // const toggleDay = (dayFullName) => {
+  //   setSelectedDays((prev) =>
+  //     prev.includes(dayFullName)
+  //       ? prev.filter((d) => d !== dayFullName)
+  //       : [...prev, dayFullName]
+  //   );
+  // };
+
+
   const toggleDay = (dayFullName) => {
-    setSelectedDays((prev) =>
-      prev.includes(dayFullName)
-        ? prev.filter((d) => d !== dayFullName)
-        : [...prev, dayFullName]
-    );
-  };
+  if (!dayFullName) return; 
+  setSelectedDays((prev) =>
+    prev.includes(dayFullName)
+      ? prev.filter((d) => d !== dayFullName)
+      : [...prev, dayFullName]
+  );
+};
+
 
   const formState = [
     {
@@ -65,7 +75,7 @@ const Classes = () => {
         minLength: { value: 2, message: "Minimum 2 characters required" },
       },
     },
-  
+
     {
       label: "Description",
       inputType: "textarea",
@@ -180,6 +190,7 @@ const Classes = () => {
     console.log(uploadedImage);
   };
 
+  console.log(selectedDays);
   const handleAddClass = async (data) => {
     try {
       console.log("Submitted Data:", data);
@@ -189,26 +200,31 @@ const Classes = () => {
       }
       const formData = new FormData();
 
-     Object.keys(data).forEach((key) => {
-    if (key !== "time") formData.append(key, data[key]);
+      Object.keys(data).forEach((key) => {
+        if (key !== "time") formData.append(key, data[key]);
+      });
+
+      if (data.time) {
+        const [hour, minute] = data.time.split(":");
+        const start = new Date();
+        start.setHours(hour);
+        start.setMinutes(minute);
+        const formattedStart = start.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }); // => "08:00 AM"
+        formData.append("time", formattedStart);
+      }
+
+      console.log(selectedDays, "infunction");
+
+     selectedDays
+  .filter((day) => day !== "")
+  .forEach((day) => {
+    formData.append("weeks", day);
   });
 
-  if (data.time) {
-    const [hour, minute] = data.time.split(":");
-    const start = new Date();
-    start.setHours(hour);
-    start.setMinutes(minute);
-    const formattedStart = start.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });           // => "08:00 AM"
-    formData.append("time", formattedStart);
-  }
-
-    selectedDays.forEach((day, index) => {
-  formData.append(`weeks[${index}]`, day);
-});
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -268,24 +284,27 @@ const Classes = () => {
     reset(data);
     // setValue("date", data?.date.split("T")[0]);
     setValue("instructorName", data?.instructor?.name);
-     setValue("weeks", data?.weeks || []);
-       setSelectedDays(data?.weeks || []);
+    setValue("weeks", data?.weeks || []);
+    setSelectedDays(data?.weeks || []);
     serPreviewImage(data?.instructor?.image?.secureUrl);
 
-      const formatTimeTo24H = (timeStr) => {
-        if (!timeStr) return "";
-        const [time, modifier] = timeStr.split(" "); // e.g. ["10:35", "PM"]
-        if (!time || !modifier) return "";
-      
-        let [hours, minutes] = time.split(":").map(Number);
-      
-        if (modifier === "PM" && hours < 12) hours += 12;
-        if (modifier === "AM" && hours === 12) hours = 0;
-      
-        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-      };
+    const formatTimeTo24H = (timeStr) => {
+      if (!timeStr) return "";
+      const [time, modifier] = timeStr.split(" "); // e.g. ["10:35", "PM"]
+      if (!time || !modifier) return "";
 
-      setValue("time" ,  formatTimeTo24H(data.time));
+      let [hours, minutes] = time.split(":").map(Number);
+
+      if (modifier === "PM" && hours < 12) hours += 12;
+      if (modifier === "AM" && hours === 12) hours = 0;
+
+      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+        2,
+        "0"
+      )}`;
+    };
+
+    setValue("time", formatTimeTo24H(data.time));
     console.log(id, data);
     setEditClassPopUp(true);
   };
@@ -294,27 +313,27 @@ const Classes = () => {
     try {
       const formData = new FormData();
 
-    Object.keys(data).forEach((key) => {
-  if (key !== "weeks" && key !== "time") {
-    formData.append(key, data[key]);
-  }
-});
-selectedDays.forEach((day, index) => {
-  formData.append(`weeks[${index}]`, day);
-});
+      Object.keys(data).forEach((key) => {
+        if (key !== "weeks" && key !== "time") {
+          formData.append(key, data[key]);
+        }
+      });
+      selectedDays.forEach((day, index) => {
+        formData.append(`weeks[${index}]`, day);
+      });
 
-    if (data.time) {
-    const [hour, minute] = data.time.split(":");
-    const start = new Date();
-    start.setHours(hour);
-    start.setMinutes(minute);
-    const formattedStart = start.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });        
-    formData.append("time", formattedStart);
-  }
+      if (data.time) {
+        const [hour, minute] = data.time.split(":");
+        const start = new Date();
+        start.setHours(hour);
+        start.setMinutes(minute);
+        const formattedStart = start.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
+        formData.append("time", formattedStart);
+      }
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -351,23 +370,23 @@ selectedDays.forEach((day, index) => {
 
           <div className="flex flex-col space-y-2">
             <button
-            
-              onClick={() =>{
-   reset({
-    title: "",
-    description: "",
-    instructorName: "",
-    image: null, 
-    location: "",
-    time: "",
-    duration: "",
-    capacity: "",
-    available: false,
-    enrolledCount: "",
-    weeks: [], 
-  });
+              onClick={() => {
+                reset({
+                  title: "",
+                  description: "",
+                  instructorName: "",
+                  image: null,
+                  location: "",
+                  time: "",
+                  duration: "",
+                  capacity: "",
+                  available: false,
+                  enrolledCount: "",
+                  // weeks: [],
+                });
 
-               setAddClassPopUp(true)}}
+                setAddClassPopUp(true);
+              }}
               className="bg-black text-white px-4 py-2 rounded-md  cursor-pointer text-sm"
             >
               Add Class
@@ -648,23 +667,19 @@ selectedDays.forEach((day, index) => {
                           : "border-gray-400"
                       }`}
                     />
-                  ) :
-
-
-                   input.inputType === "time" ? (
-                                  <TimePicker
-                                    onChange={(value) => setValue(input.name, value)}
-                                    value={watch(input.name)}
-                                    format="hh:mm a"
-                                    disableClock={true}
-                                    className={`border px-2 py-1 rounded w-full ${
-                                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                                    }`}
-                                  />
-                                ) :
-                  
-                  
-                  input.inputType === "file" ? (
+                  ) : input.inputType === "time" ? (
+                    <TimePicker
+                      onChange={(value) => setValue(input.name, value)}
+                      value={watch(input.name)}
+                      format="hh:mm a"
+                      disableClock={true}
+                      className={`border px-2 py-1 rounded w-full ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
+                    />
+                  ) : input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
@@ -833,23 +848,19 @@ selectedDays.forEach((day, index) => {
                         />
                       )}
                     </div>
-                  ) : 
-
-                  input.inputType === "time" ? (
-                                  <TimePicker
-                                    onChange={(value) => setValue(input.name, value)}
-                                    value={watch(input.name)}
-                                    format="hh:mm a"
-                                    disableClock={true}
-                                    className={`border px-2 py-1 rounded w-full ${
-                                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                                    }`}
-                                  />
-                                ) :
-                  
-                  
-                  
-                  input.inputType === "checkbox" ? (
+                  ) : input.inputType === "time" ? (
+                    <TimePicker
+                      onChange={(value) => setValue(input.name, value)}
+                      value={watch(input.name)}
+                      format="hh:mm a"
+                      disableClock={true}
+                      className={`border px-2 py-1 rounded w-full ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
+                    />
+                  ) : input.inputType === "checkbox" ? (
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -869,7 +880,7 @@ selectedDays.forEach((day, index) => {
                           <button
                             key={short}
                             type="button"
-                            value={watch('weeks')}
+                            value={watch("weeks")}
                             onClick={() => toggleDay(full)}
                             className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
             ${

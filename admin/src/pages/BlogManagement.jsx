@@ -81,7 +81,7 @@ const BlogManagement = () => {
             header: 'Featured',
             cell: ({ row }) => (
                 <span className={row?.isFeatured ? 'text-green-600' : 'text-gray-600'}>
-                    {row?.original?.isFeatured ? 'Yes' : 'No'}
+                    {row?.isFeatured ? 'Yes' : 'No'}
                 </span>
             ),
         },

@@ -295,15 +295,15 @@ const Membership = () => {
                           <br />
                           <span className="mr-1 text-2xl">₹</span>
                           <span className="text-xl">
-                            {ele?.perSessionPrice}
+                            {ele?.perSessionPrice}/week
                           </span>
-                          <span className="text-xl"> / {ele?.packageType}</span>
+                          {/* <span className="text-xl"> / {ele?.packageType}</span> */}
                         </p>
                       </div>
                       <div className="py-6 mb-6 flex flex-col text-wrap">
-                        <p>Price: {ele?.price}</p>
+                        <p>Price Total : {ele?.price}</p>
                         <p>Total Sessions: {ele?.totalSessions}</p>
-                        <p>Validity: {ele?.validity}</p>
+                        <p>Validity: {ele?.validity} weeks</p>
                         <p
                           className="text-wrap mx-auto overflow-x-auto px-10 mt-4"
                           dangerouslySetInnerHTML={{ __html: ele?.description }}
