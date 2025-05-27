@@ -62,7 +62,7 @@ const SingleBlogPage = () => {
                 alt=""
                 className="w-full h-auto rounded"
               />
-              <h1 className="font-semibold text-xl py-1">{blogData?.excerpt}</h1>
+              <h1 className="font-semibold text-xl mt-4">{blogData?.excerpt}</h1>
               <p className="py-6" dangerouslySetInnerHTML={{__html : blogData?.content}}></p>
             </div>
 

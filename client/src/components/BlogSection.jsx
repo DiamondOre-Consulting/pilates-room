@@ -10,12 +10,12 @@ const BlogItem = ({ blog }) => {
   const { title, description, author, date, image, id } = blog;
   // console.log(blogData);
   return (
-    <article className="shadow-lg bg-white dark:bg-[#1E2735] dark:shadow-none rounded-lg overflow-hidden mt-6 pb-2">
-      <img src={blog?.featuredImage?.url} className="h-auto w-full" />
+    <article className="shadow-lg bg-white h-[28rem] dark:bg-[#1E2735] dark:shadow-none rounded-lg overflow-hidden mt-6 pb-2">
+      <img src={blog?.featuredImage?.url} className="h-58  w-full" />
       <div className="p-3 pb-8 lg:p-6">
-        <h4 className="font-medium text-2xl mb-1">{blog?.title}</h4>
+        <h4 className="font-medium text-2xl mb-1 line-clamp-2 ">{blog?.title}</h4>
         <p className="opacity-80 mb-2">
-          <span className="mr-2">{blog?.excerpt}</span>
+          <span className="mr-2 line-clamp-2">{blog?.excerpt}</span>
           <span>
             {/* <FontAwesomeIcon icon={faClock} className="ml-1" />{" "} */}
             <span>{date}</span>
