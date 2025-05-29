@@ -27,6 +27,9 @@ export const getAllMembershipPackages = asyncHandler(async(req,res)=>{
     if(req.validatedData.query.packageType){
         query.packageType = req.validatedData.query.packageType
     }
+    if(req.validatedData.query.location){
+        query.location = req.validatedData.query.location
+    }
 
     const membershipPackages = await MembershipPackage.find(query)
     if(membershipPackages.length === 0){

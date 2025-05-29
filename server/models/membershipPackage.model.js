@@ -31,6 +31,12 @@ const membershipPackageSchema = new mongoose.Schema({
         enum:["monthly","quarterly","discovery"],
         required:true
     },
+    location:{
+         type:String,
+         lowercase:true,
+         enum:["faridabad","noida"],
+         required:true
+    },
     available: { type: Boolean, default: true },
      
 })
