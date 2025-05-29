@@ -39,6 +39,7 @@ export const buyMembership = asyncHandler(async (req, res) => {
 
         if (!existingUser.isDiscovery) {
             existingUser.memberShipPlan.memberShipFrom = new Date()
+            existingUser.memberShipPlan.location = membershipPackage.location
             existingUser.isDiscovery = true
             existingUser.discoveryPaymentId = paymentId
 

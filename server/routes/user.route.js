@@ -45,7 +45,7 @@ userRouter.post('/change-password/:newPassword', userMiddleware, validate({ para
 userRouter.get('/get-classes', validate({ query: getClassesQuerySchema }), getClasses)
 
 // userRouter.get('/get-all-packages', validate({
-//       query:getAllPackagesQuerySchema
+//    query:getAllPackagesQuerySchema
 // }),getAllPackages)
 
 userRouter.get('/fetch-more-info/:trainingId', userMiddleware, validate({
