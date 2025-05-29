@@ -16,7 +16,7 @@ const Schedule = () => {
       console.log("Schedule data:", response);
       setSchedulClass(response?.payload?.data || []);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -33,7 +33,7 @@ const Schedule = () => {
         await dispatch(userData());
       }
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setLoader(null);
     }

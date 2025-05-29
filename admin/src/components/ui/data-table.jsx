@@ -12,7 +12,6 @@ import { Button } from "./button";
 export const DataTable = ({ columns = [], data = [], page = 1, setPage, limit = 10 }) => {
     // Ensure data is an array
     const tableData = Array.isArray(data) ? data : [];
-    console.log(tableData)
     return (
         <div>
             <div className="rounded-md border">

@@ -16,7 +16,6 @@ const BlogForm = ({ onSubmit, initialData = {} }) => {
         }
     });
 
-    console.log(initialData)
 
     const title = watch('title');
     React.useEffect(() => {

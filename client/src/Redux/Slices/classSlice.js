@@ -4,12 +4,12 @@ import { toast } from "sonner";
 
 export const getAllClasses = createAsyncThunk(
   "/admin/all-class",
-  async ({ location, week  , limit , page}) => {
+  async ({ location, week, limit, page }) => {
     try {
-      console.log("data is ", location, week , limit , page );
+      console.log("data is ", location, week, limit, page);
       const queryParams = new URLSearchParams();
 
-      
+
       if (limit) queryParams.append("limit", limit);
       if (page) queryParams.append("page", page);
       if (location) queryParams.append("location", location);
@@ -20,7 +20,7 @@ export const getAllClasses = createAsyncThunk(
       toast.success(response?.data?.message);
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
       toast.error(error?.response?.data?.message);
     }
   }
@@ -30,7 +30,7 @@ const classSlice = createSlice({
   name: "class",
   initialState: null,
   reducers: {},
-  extraReducers: () => {},
+  extraReducers: () => { },
 });
 
 export default classSlice.reducer;

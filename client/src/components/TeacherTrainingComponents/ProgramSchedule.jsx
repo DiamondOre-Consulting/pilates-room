@@ -9,10 +9,9 @@ const ProgramSchedule = () => {
   const handleGetTrainings = async () => {
     try {
       const response = await dispatch(getAllTrainings());
-      console.log("response in program", response);
       setAllTrainings(response?.payload?.data);
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -20,7 +19,6 @@ const ProgramSchedule = () => {
     handleGetTrainings();
   }, []);
 
-  console.log("alltrainign", allTrainings);
   return (
     <div className="py-20 flex flex-col justify-center items-center">
       <h1 className="text-3xl md:text-5xl uppercase text-dark">

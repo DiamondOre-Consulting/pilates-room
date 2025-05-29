@@ -17,9 +17,7 @@ const BlogManagement = () => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [allBlogs, setAllBlogs] = useState([]);
-    console.log(allBlogs)
 
-    console.log(selectedBlog)
     const fetchBlogs = async () => {
         const res = await dispatch(getAllBlogs({ page, limit }));
         setAllBlogs(res?.payload?.data);
@@ -31,7 +29,6 @@ const BlogManagement = () => {
 
     const handleCreateBlog = async (formData) => {
         const res = await dispatch(createBlog(formData));
-        console.log(res)
         if (res?.payload?.success) {
             fetchBlogs()
             setIsCreateDialogOpen(false);
@@ -40,7 +37,6 @@ const BlogManagement = () => {
 
     const handleEditBlog = async (formData) => {
         const res = await dispatch(editBlog({ id: selectedBlog._id, formData }));
-        console.log(res)
         if (res?.payload?.success) {
             fetchBlogs()
             setIsEditDialogOpen(false);
@@ -49,7 +45,6 @@ const BlogManagement = () => {
     };
 
     const handleDeleteBlog = (id) => {
-        console.log(id)
         if (window.confirm('Are you sure you want to delete this blog?')) {
             dispatch(deleteBlog(id));
         }

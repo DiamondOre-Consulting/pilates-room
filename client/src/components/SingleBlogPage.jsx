@@ -6,43 +6,38 @@ import { Link, useParams } from "react-router-dom";
 const SingleBlogPage = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
-  console.log("maniaaaaaaaaaa", slug);
   const [blogData, setBlogData] = useState();
   const [allBlogsData, setAllBlogsData] = useState([]);
 
   const handleGetBlog = async () => {
     try {
       const response = await dispatch(getBlogs());
-      console.log("response", response);
       setAllBlogsData(response?.payload?.data?.blogPosts);
     } catch (error) {
-      console.log("error", error);
+      return
     }
   };
 
   const handleGetPostBySlug = async () => {
     try {
       const response = await dispatch(getBlogPostBySlug(slug));
-      console.log("response data", response);
       setBlogData(response?.payload?.data);
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
   useEffect(() => {
     handleGetPostBySlug();
     handleGetBlog();
-    console.log("signle blog refetch")
-  }, [dispatch , slug]);
+  }, [dispatch, slug]);
 
-  // console.log("all blog data", setAllBlogsData);
-  
-      useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
-      
-      
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   return (
     <>
       <section className="ezy__blog details1 light py-40  bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
@@ -63,11 +58,11 @@ const SingleBlogPage = () => {
                 className="w-full h-auto rounded"
               />
               <h1 className="font-semibold text-xl mt-4">{blogData?.excerpt}</h1>
-              <p className="py-6" dangerouslySetInnerHTML={{__html : blogData?.content}}></p>
+              <p className="py-6" dangerouslySetInnerHTML={{ __html: blogData?.content }}></p>
             </div>
 
-            
-           
+
+
             <div className="col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-9 px-4 md:pl-6 lg:pl-0">
               <>
                 <div className="bg-dark bg-opacity-90 dark:bg-[#1E2735] text-white rounded-t-lg py-4 px-3 mb-4">
@@ -77,8 +72,8 @@ const SingleBlogPage = () => {
                   <div key={i}>
                     {!!i && <hr className="my-4" />}
                     <Link
-                    to={`/${item?.slug}`}
-                    className="flex  items-start gap-4">
+                      to={`/${item?.slug}`}
+                      className="flex  items-start gap-4">
                       <img
                         src={item?.featuredImage?.url}
                         alt=""

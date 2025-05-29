@@ -25,7 +25,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
     otp: "",
     password: "",
     phoneNumber: "",
-    birthDate:""
+    birthDate: ""
   });
 
   const handleInputChange = (e) => {
@@ -64,7 +64,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
         setOtherFeild(true);
       }
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setLoader(false);
     }
@@ -72,14 +72,14 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-console.log(formData)
+    console.log(formData)
     if (
       !formData?.email.trim() ||
       !formData?.otp.trim() ||
       !formData?.password.trim() ||
       !formData?.firstName.trim() ||
       !formData?.lastName.trim() ||
-      !formData?.phoneNumber.trim()||
+      !formData?.phoneNumber.trim() ||
       !formData?.birthDate.trim()
     ) {
       toast.error("All the feilds are required");
@@ -94,7 +94,7 @@ console.log(formData)
         setIsPopUpOpen(false);
       }
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setLoader(false);
     }
@@ -168,34 +168,34 @@ console.log(formData)
                     <div className=" w-full">
 
                       <div className="flex space-x-2">
-                
-                      <div className="flex flex-col mt-2 ">
-                        <label className="text-md text-gray-600">
-                          First Name
-                        </label>
-                        <input
-                          name="firstName"
-                          value={formData?.firstName}
-                          onChange={handleInputChange}
-                          className=" border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
-                        />
-                      </div>
 
-                      <div className="flex flex-col mt-2">
-                        <label className="text-md text-gray-600">
-                          Last Name
-                        </label>
-                        <input
-                          name="lastName"
-                          value={formData?.lastName}
-                          onChange={handleInputChange}
-                          className="border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
-                        />
-                      </div>
-        
+                        <div className="flex flex-col mt-2 ">
+                          <label className="text-md text-gray-600">
+                            First Name
+                          </label>
+                          <input
+                            name="firstName"
+                            value={formData?.firstName}
+                            onChange={handleInputChange}
+                            className=" border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="flex flex-col mt-2">
+                          <label className="text-md text-gray-600">
+                            Last Name
+                          </label>
+                          <input
+                            name="lastName"
+                            value={formData?.lastName}
+                            onChange={handleInputChange}
+                            className="border border-gray-400 rounded-md py-1 px-1  focus:outline-none"
+                          />
+                        </div>
+
                       </div>
                       <PhoneInput
-                      className="mt-2"
+                        className="mt-2"
                         country={"in"}
                         value={formData.phoneNumber}
                         onChange={handlePhoneChange}
@@ -204,7 +204,7 @@ console.log(formData)
                       />
 
 
-                        <div className="flex flex-col mt-2">
+                      <div className="flex flex-col mt-2">
                         <label className="text-md text-gray-600">
                           DOB
                         </label>

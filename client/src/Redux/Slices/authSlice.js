@@ -38,7 +38,7 @@ export const userSignIn = createAsyncThunk("/user/sign-in", async (data) => {
     toast.success(response?.data?.message);
     return response?.data;
   } catch (error) {
-    console.log(error);
+    return;
     toast.error(error?.response?.data?.message);
   }
 });
@@ -56,7 +56,7 @@ export const forgotPassword = createAsyncThunk(
       toast.success(response?.data?.message);
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
       toast.error(error?.response?.data?.message);
     }
   }
@@ -90,7 +90,7 @@ export const changePassword = createAsyncThunk(
       toast.success(response?.data?.message);
       return response.data;
     } catch (error) {
-      console.log(error);
+      return;
       toast.error(error?.response?.data?.message);
     }
   }
@@ -102,31 +102,31 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
     console.log(response);
     return response?.data;
   } catch (error) {
-    console.log(error);
+    return;
     initialState.isLoggedIn = false;
   }
 });
 
 export const logout = createAsyncThunk('/user/logout', async () => {
-    try {
-        let res =await userAxiosInstance.get('/user/sign-out');
+  try {
+    let res = await userAxiosInstance.get('/user/sign-out');
 
-        res = await res;
-        return res.data;
-    } catch (e) {
-        return e?.response?.data?.message;
+    res = await res;
+    return res.data;
+  } catch (e) {
+    return e?.response?.data?.message;
 
-    }
+  }
 });
 
-export const editUser = createAsyncThunk('/user/edit-user' , async(data)=>{
+export const editUser = createAsyncThunk('/user/edit-user', async (data) => {
   try {
-    const response = await userAxiosInstance.put('/user/edit-user' , data);
+    const response = await userAxiosInstance.put('/user/edit-user', data);
     console.log(response);
     toast.success(response?.data?.message)
     return response?.data
   } catch (error) {
-    console.log(error)
+    return
     toast.error(error?.response?.data?.message)
   }
 })
@@ -138,7 +138,7 @@ export const getScheduleClass = createAsyncThunk(
       const response = await userAxiosInstance.get("/user/get-scheduled-class");
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );
@@ -150,7 +150,7 @@ export const getOrderData = createAsyncThunk(
       const response = await userAxiosInstance.get("/user/get-order-history");
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );
@@ -174,10 +174,10 @@ const authSlice = createSlice({
         console.log("active", action?.payload);
         state.isLoggedIn = true;
       })
-        .addCase(logout.fulfilled, (state) => {
-                state.user = {};
-                state.isLoggedIn = false;
-            })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = {};
+        state.isLoggedIn = false;
+      })
   },
 });
 

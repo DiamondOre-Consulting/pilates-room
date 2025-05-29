@@ -7,7 +7,7 @@ import TimePicker from "react-time-picker";
 import { createTraining } from "@/Redux/Slices/trainingSlice";
 import { useDispatch } from "react-redux";
 
-const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGetAllTrainings}) => {
+const CreateTraining = ({ setCreateTrainigPopUp, createTrainingPopUp, handleGetAllTrainings }) => {
   const [trainingImage, setTrainingImage] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState();
   const dispatch = useDispatch()
@@ -54,7 +54,7 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
     return fileName.split(".").pop();
   };
 
-  const handleFileChange = (e,ind) => {
+  const handleFileChange = (e, ind) => {
     const selectedFile = e?.target?.files?.[0];
     if (e.target.name === "thumbnailImage") {
       setThumbnailPreview(URL.createObjectURL(selectedFile));
@@ -99,12 +99,10 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
     }
   };
 
-  console.log(watch(`moreInfo[0].image.secureUrl`))
 
   const handleCreateTraining = async (data) => {
     try {
-        console.log(data)
-       
+
       const formData = new FormData();
 
       if (data.startTime) {
@@ -144,9 +142,9 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
                   item.description
                 );
                 formData.append(
-                    `moreInfo[${index}][uniqueId]`,
-                    item.uniqueId
-                  );
+                  `moreInfo[${index}][uniqueId]`,
+                  item.uniqueId
+                );
               }
             });
           } else {
@@ -154,7 +152,6 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
           }
         }
       });
-      console.log(data);
 
       trainingImage.forEach((file) => {
         formData.append("trainingImage", file);
@@ -167,10 +164,10 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
 
       if (response?.payload?.success === true) {
         setCreateTrainigPopUp(false);
-       await handleGetAllTrainings()
+        await handleGetAllTrainings()
       }
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -208,9 +205,8 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
           {formState?.map((input, index) => (
             <div
               key={index}
-              className={`flex flex-col ${
-                input.inputType === "textarea" ? "col-span-3" : ""
-              }`}
+              className={`flex flex-col ${input.inputType === "textarea" ? "col-span-3" : ""
+                }`}
             >
               <label className="mb-1">
                 {input.label}{" "}
@@ -222,10 +218,9 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
                   value={watch("description")}
                   config={config}
                   onBlur={(newContent) => setValue("description", newContent)}
-                  onChange={() => {}}
-                  className={`border px-2 py-1 w-full rounded border-black   ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  onChange={() => { }}
+                  className={`border px-2 py-1 w-full rounded border-black   ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               ) : input.inputType === "time" ? (
                 <TimePicker
@@ -233,17 +228,15 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
                   value={watch(input.name)}
                   format="hh:mm a"
                   disableClock={true}
-                  className={`border px-2 py-1 rounded w-full ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  className={`border px-2 py-1 rounded w-full ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               ) : input.inputType === "select" ? (
                 <>
                   <select
                     {...register(input.name, input.error)}
-                    className={`border px-2 py-1 rounded ${
-                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                    }`}
+                    className={`border px-2 py-1 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                      }`}
                   >
                     <option value="">Select category</option>
                     <option value="teacherTraining">Teacher Training</option>
@@ -261,9 +254,8 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
                     type="file"
                     name="thumbnailImage"
                     onChange={handleFileChange}
-                    className={`border px-2 py-1  w-40 rounded ${
-                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                    }`}
+                    className={`border px-2 py-1  w-40 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                      }`}
                   />
                   {thumbnailPreview && (
                     <img
@@ -287,9 +279,8 @@ const CreateTraining = ({setCreateTrainigPopUp  , createTrainingPopUp  ,handleGe
                 <input
                   type={input.inputType}
                   {...register(input.name, input.error)}
-                  className={`border px-2 py-1 rounded ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  className={`border px-2 py-1 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               )}
               {errors[input.name] && (

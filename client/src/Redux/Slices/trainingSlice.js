@@ -9,14 +9,14 @@ export const getAllTrainings = createAsyncThunk(
       const response = await userAxiosInstance.get("/admin/get-all-trainings");
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );
 
 export const getSingleTraining = createAsyncThunk(
   "/user-single-training",
-  async ({id}) => {
+  async ({ id }) => {
     try {
       const response = await userAxiosInstance.get(
         `/admin/get-single-training/${id}`
@@ -24,7 +24,7 @@ export const getSingleTraining = createAsyncThunk(
       console.log(response);
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );
@@ -32,7 +32,7 @@ const trainingSlice = createSlice({
   name: "training",
   initialState: null,
   reducers: {},
-  extraReducers: () => {},
+  extraReducers: () => { },
 });
 
 export default trainingSlice.reducer;

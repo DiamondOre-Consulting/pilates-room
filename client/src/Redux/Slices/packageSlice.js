@@ -17,7 +17,7 @@ export const getAllPackages = createAsyncThunk(
       toast.success(response?.data?.message);
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );
@@ -26,7 +26,7 @@ const packageSlice = createSlice({
   name: "package",
   initialState: null,
   reducers: {},
-  extraReducers: () => {},
+  extraReducers: () => { },
 });
 
 export default packageSlice.reducer;

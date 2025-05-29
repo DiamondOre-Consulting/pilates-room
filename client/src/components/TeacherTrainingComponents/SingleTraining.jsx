@@ -8,17 +8,15 @@ import ContactUs from "../ContactUs";
 const SingleTraining = () => {
   const id = useParams();
   const dispatch = useDispatch();
-  console.log("this is id", id);
   const [data, setData] = useState();
-   const [contactusPopUp, setContactUsPopUp] = useState(false);
+  const [contactusPopUp, setContactUsPopUp] = useState(false);
 
   const handleGetSingleTraining = async () => {
     try {
       const response = await dispatch(getSingleTraining(id));
-      console.log(response);
       setData(response?.payload?.data);
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -26,13 +24,12 @@ const SingleTraining = () => {
     handleGetSingleTraining();
   }, []);
 
-  console.log(data);
 
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   return (
     <div>
       <section className="w-full">
@@ -142,10 +139,10 @@ const SingleTraining = () => {
             dangerouslySetInnerHTML={{ __html: data?.description }}
           ></p>
           <div className="flex space-x-8 mt-4">
-            <Link to={`/moreInfo/${data?._id}`} state={{data}} className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+            <Link to={`/moreInfo/${data?._id}`} state={{ data }} className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
               More Info
             </Link>
-            <button onClick={()=> setContactUsPopUp(true)} className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+            <button onClick={() => setContactUsPopUp(true)} className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
               Notify Me
             </button>
           </div>
@@ -153,11 +150,11 @@ const SingleTraining = () => {
       </div>
 
       <div className="absolute fixed bottom-0 w-full z-40 md:block hidden">
-        
+
         <BookingSection />
       </div>
 
-        {contactusPopUp && (
+      {contactusPopUp && (
         <div className="fixed inset-0 z-[1000] bg-black/60 flex items-center justify-center px-4">
           <div className="relative w-full max-w-2xl bg-light rounded-lg shadow-lg overflow-auto max-h-[90vh]">
             {/* Close Button */}
@@ -174,7 +171,7 @@ const SingleTraining = () => {
           </div>
         </div>
       )}
-    
+
     </div>
   );
 };

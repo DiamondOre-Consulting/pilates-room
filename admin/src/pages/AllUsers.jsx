@@ -25,7 +25,6 @@ const AllUsers = () => {
   const handleGetAllUsers = async () => {
     setLoading(true);
     const response = await dispatch(getAllUsers());
-    console.log("response of all users", response);
     if (response?.payload?.success) {
       setUsers(response.payload?.data);
       setTotalPages(response.payload?.data?.pagination?.totalPages);
@@ -45,7 +44,6 @@ const AllUsers = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
   };
 
-  console.log(selectedUser);
 
   return (
     <HomeLayout>
@@ -154,9 +152,8 @@ const AllUsers = () => {
           <button
             onClick={handlePrevPage}
             disabled={page === 1}
-            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${
-              page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
-            }`}
+            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
+              }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -181,11 +178,10 @@ const AllUsers = () => {
           <button
             onClick={handleNextPage}
             disabled={page === totalPages}
-            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${
-              page === totalPages
-                ? "bg-gray-400 text-white"
-                : "bg-black text-white"
-            }`}
+            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${page === totalPages
+              ? "bg-gray-400 text-white"
+              : "bg-black text-white"
+              }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

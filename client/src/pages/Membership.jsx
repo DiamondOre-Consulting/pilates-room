@@ -23,12 +23,14 @@ const Membership = () => {
   const [selectedPlan, setSelectedPlan] = useState("Discovery");
   const [loader, setLoader] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-  
-  const [showLocationOverlay, setShowLocationOverlay] = useState(true);
+
   const [selectedLocation, setSelectedLocation] = useState(user?.data?.memberShipPlan?.location);
 
   const handleGetAllMemberShip = async () => {
     try {
+
+      console.log(1)
+
       const response = await dispatch(
         getMemberShipPackage({
           packageType: selectedPlan.toLowerCase(),
@@ -36,12 +38,10 @@ const Membership = () => {
         })
       );
       setAllMemberShip(response?.payload?.data);
-      if (response?.payload?.success) {
-        setShowLocationOverlay(false);
-      }
+
 
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -49,18 +49,17 @@ const Membership = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(()=>{
-    console.log(1)
-setSelectedLocation("")
-  },[isLoggedIn])
+  useEffect(() => {
+    setSelectedLocation(user?.data?.memberShipPlan?.location || "");
+  }, [isLoggedIn])
 
   useEffect(() => {
     if (selectedLocation && selectedPlan) {
       handleGetAllMemberShip();
     }
-  }, [selectedPlan]);
+  }, [selectedPlan, selectedLocation]);
 
-  console.log("jsaksfskjfjjkfsdjkf   kjdsfsjkdfs",selectedPlan , selectedLocation)
+  console.log("jsaksfskjfjjkfsdjkf   kjdsfsjkdfs", selectedPlan, selectedLocation)
   // const [membershipPackageId , setMembershipPackageId] = useState(null)
   const [razorpayKey, setRazorPayKey] = useState();
   const handleGetRazorPayKey = async () => {
@@ -70,7 +69,7 @@ setSelectedLocation("")
       setRazorPayKey(response?.payload?.data?.key);
       console.log("it is a key", razorpayKey);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -160,7 +159,8 @@ setSelectedLocation("")
     }
   };
 
-  console.log("ismember", user?.data?.isMember);
+
+
 
   const getTodayDate = () => {
     const today = new Date();
@@ -183,9 +183,9 @@ setSelectedLocation("")
       </section>
 
       <section
-        className={`ezy__pricing10  light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white`}
+        className={`ezy__pricing10  light  bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white`}
       >
-        <div className=" relative">
+        <div className=" relative py-14 md:py-24">
           <div className="grid ">
             <div className="flex flex-col items-center justify-center mb-4">
               <h3 className="text-3xl leading-none md:text-[45px] text-gray-800 font-bold mb-2">
@@ -196,11 +196,10 @@ setSelectedLocation("")
                 {["Discovery", "Monthly", "Quarterly"].map((label, index) => (
                   <button
                     key={index}
-                    className={`px-4 py-1 rounded-full cursor-pointer text-sm font-semibold transition-all ${
-                      selectedPlan === label
-                        ? "bg-white text-black"
-                        : "bg-transparent text-white"
-                    }`}
+                    className={`px-4 py-1 rounded-full cursor-pointer text-sm font-semibold transition-all ${selectedPlan === label
+                      ? "bg-white text-black"
+                      : "bg-transparent text-white"
+                      }`}
                     onClick={() => setSelectedPlan(label)}
                   >
                     {label}
@@ -214,22 +213,20 @@ setSelectedLocation("")
             <div>
               {allMemberShip?.map((ele, index) => (
                 <div
-                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-2 ${
-                    index % 2 === 0
-                      ? "bg-dark text-white "
-                      : "bg-white flex-col md:flex-row-reverse"
-                  }  py-20`}
+                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-2 ${index % 2 === 0
+                    ? "bg-dark text-white "
+                    : "bg-white flex-col md:flex-row-reverse"
+                    }  py-20`}
                 >
                   <div className="flex flex-col justify-center  items-center space-y-1 w-full md:max-w-xl mx-auto ">
                     <h1 className="text-4xl uppercase">{ele?.packageName}</h1>
                     <p
-                      className={`text-center px-4 ${
-                        index % 2 === 0 ? "text-gray-200" : "text-black "
-                      } text-center`}
+                      className={`text-center px-4 ${index % 2 === 0 ? "text-gray-200" : "text-black "
+                        } text-center`}
                       dangerouslySetInnerHTML={{ __html: ele?.description }}
                     ></p>
                     <p>Location : {ele?.location}</p>
-                    <p>Price : ₹ {ele?.price}</p>
+                    <p>Price : ₹ {ele?.price?.toLocaleString('en-IN')}</p>
                     <button
                       onClick={() => {
                         // console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
@@ -248,11 +245,10 @@ setSelectedLocation("")
                         }
                       }}
                       // disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
-                      className={`text-xl cursor-pointer mt-3 ${
-                        user?.data?.isDiscovery
-                          ? "bg-green-600 text-white"
-                          : "bg-white text-dark"
-                      }  rounded-md px-4 py-1`}
+                      className={`text-xl cursor-pointer mt-3 ${user?.data?.isDiscovery
+                        ? "bg-green-600 text-white"
+                        : "bg-white text-dark"
+                        }  rounded-md px-4 py-1`}
                     >
                       {loader ? (
                         <svg
@@ -303,12 +299,11 @@ setSelectedLocation("")
                 {allMemberShip?.map((ele, index) => (
                   <div
                     key={index}
-                    className={` ${
-                      user?.data?.isMember &&
-                      user?.data?.memberShipPlan?.package?._id != ele?._id
-                        ? "blur-sm"
-                        : "bg-gray-100"
-                    } dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
+                    className={` ${user?.data?.isMember &&
+                      user?.data?.memberShipPlan?.package?._id !== ele?._id
+                      ? "blur-sm"
+                      : "bg-gray-100"
+                      } dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
                   >
                     <div className="grow">
                       <div className="pt-6 bg-dark text-white rounded-t-2xl">
@@ -317,15 +312,15 @@ setSelectedLocation("")
                           <br />
                           <span className="mr-1 text-2xl">₹</span>
                           <span className="text-xl">
-                            {ele?.perSessionPrice}/week
+                            {ele?.perSessionPrice?.toLocaleString('en-IN')}/week
                           </span>
                           {/* <span className="text-xl"> / {ele?.packageType}</span> */}
                         </p>
                       </div>
                       <div className="py-6 mb-6 flex flex-col text-wrap">
-                        <p>Price Total : {ele?.price}</p>
+                        <p>Price Total : {ele?.price?.toLocaleString('en-IN')}</p>
                         <p>Total Sessions: {ele?.totalSessions}</p>
-                          <p>location: {ele?.location}</p>
+                        <p>location: {ele?.location}</p>
                         <p>Validity: {ele?.validity} weeks</p>
                         <p
                           className="text-wrap mx-auto overflow-x-auto px-10 mt-4"
@@ -345,13 +340,13 @@ setSelectedLocation("")
 
                         if (
                           user?.data?.memberShipPlan?.package?._id ===
-                            ele?._id &&
+                          ele?._id &&
                           (user?.data?.memberShipPlan?.remainingSession === 0 ||
                             user?.data?.isMember == false ||
                             getTodayDate() >
-                              user?.data?.memberShipPlan?.expiryDate.split(
-                                "T"
-                              )[0])
+                            user?.data?.memberShipPlan?.expiryDate.split(
+                              "T"
+                            )[0])
                         ) {
                           handleCheckOutPayment(ele?._id);
                         }
@@ -369,22 +364,21 @@ setSelectedLocation("")
                         user?.data?.isMember &&
                         user?.data?.memberShipPlan?.package?._id === ele?._id
                       }
-                      className={` ${
-                        user?.data?.memberShipPlan?.package?._id === ele?._id &&
+                      className={` ${user?.data?.memberShipPlan?.package?._id === ele?._id &&
                         user?.data?.isMember === true
-                          ? "bg-green-600"
-                          : user?.data?.memberShipPlan?.package?._id ===
-                              ele?._id &&
-                            (user?.data?.memberShipPlan?.remainingSession ===
-                              0 ||
-                              user?.data?.isMember == false ||
-                              getTodayDate() >
-                                user?.data?.memberShipPlan?.expiryDate.split(
-                                  "T"
-                                )[0])
+                        ? "bg-green-600"
+                        : user?.data?.memberShipPlan?.package?._id ===
+                          ele?._id &&
+                          (user?.data?.memberShipPlan?.remainingSession ===
+                            0 ||
+                            user?.data?.isMember == false ||
+                            getTodayDate() >
+                            user?.data?.memberShipPlan?.expiryDate.split(
+                              "T"
+                            )[0])
                           ? "bg-red-600"
                           : "bg-dark"
-                      } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
+                        } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
                     >
                       {loader === ele?._id ? (
                         <svg
@@ -404,33 +398,33 @@ setSelectedLocation("")
                           />
                         </svg>
                       ) : //   : user?.data?.isDiscovery && user?.data?.memberShipPlan?.remainingSession > 0 && user?.data?.isMember ? (
-                      //   "Session Booked"
-                      // ) : user?.data?.memberShipPlan?.remainingSession === 0 || user?.data?.isMember == false ||
-                      //   getTodayDate() >
-                      //     user?.data?.memberShipPlan?.expiryDate.split(
-                      //       "T"
-                      //     )[0] ? (
-                      //   "Renew Package"
-                      // ) : (
-                      //   "Book Now"
-                      // )}
+                        //   "Session Booked"
+                        // ) : user?.data?.memberShipPlan?.remainingSession === 0 || user?.data?.isMember == false ||
+                        //   getTodayDate() >
+                        //     user?.data?.memberShipPlan?.expiryDate.split(
+                        //       "T"
+                        //     )[0] ? (
+                        //   "Renew Package"
+                        // ) : (
+                        //   "Book Now"
+                        // )}
 
-                      user?.data?.memberShipPlan?.package?._id === ele?._id &&
-                        user?.data?.memberShipPlan?.remainingSession > 0 &&
-                        user?.data?.isMember === true ? (
-                        <p>Session Booked</p>
-                      ) : user?.data?.memberShipPlan?.package?._id ===
+                        user?.data?.memberShipPlan?.package?._id === ele?._id &&
+                          user?.data?.memberShipPlan?.remainingSession > 0 &&
+                          user?.data?.isMember === true ? (
+                          <p>Session Booked</p>
+                        ) : user?.data?.memberShipPlan?.package?._id ===
                           ele?._id &&
-                        (user?.data?.memberShipPlan?.remainingSession === 0 ||
-                          user?.data?.isMember == false ||
-                          getTodayDate() >
+                          (user?.data?.memberShipPlan?.remainingSession === 0 ||
+                            user?.data?.isMember == false ||
+                            getTodayDate() >
                             user?.data?.memberShipPlan?.expiryDate.split(
                               "T"
                             )[0]) ? (
-                        "Renew Your Package"
-                      ) : (
-                        <p>Book Now</p>
-                      )}
+                          "Renew Your Package"
+                        ) : (
+                          <p>Book Now</p>
+                        )}
                     </button>
                   </div>
                 ))}
@@ -468,7 +462,7 @@ setSelectedLocation("")
             </div>
           )}
 
-          {!user?.data?.isMember && showLocationOverlay && (
+          {(!user?.data?.isMember && !selectedLocation) && (
             <div className="absolute  h-screen inset-0 z-20 backdrop-blur-sm flex items-start pt-30 justify-center bg-black/60 text-white">
               <div className=" dark:bg-gray-900 p-6 md:w-5xl text-white  w-full text-center">
                 <h2 className="text-4xl md:text-8xl font-semibold mb-4 text-gray-300">

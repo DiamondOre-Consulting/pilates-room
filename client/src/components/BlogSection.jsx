@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 const BlogItem = ({ blog }) => {
   const { title, description, author, date, image, id } = blog;
-  // console.log(blogData);
   return (
     <article className="shadow-lg bg-white h-[28rem] dark:bg-[#1E2735] dark:shadow-none rounded-lg overflow-hidden mt-6 pb-2">
       <img src={blog?.featuredImage?.url} className="h-58  w-full" />
@@ -40,10 +39,9 @@ const BlogSection = () => {
   const handleGetBlog = async () => {
     try {
       const response = await dispatch(getBlogs());
-      console.log("response blogsss", response);
       setBlogData(response?.payload?.data?.blogPosts);
     } catch (error) {
-      console.log("error", error);
+      return
     }
   };
 

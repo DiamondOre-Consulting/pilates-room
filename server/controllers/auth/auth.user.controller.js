@@ -26,7 +26,14 @@ export const signIn = asyncHandler(async (req, res) => {
 
   const { email, password } = req.validatedData.body
 
-  const existingUser = await User.findOne({ email }).select('+password')
+  const existingUser = await User.findOne({ email }).select('+password').populate({
+    path: 'upcomingSchedule.item',
+    model: 'Order'
+  })
+    .populate({
+      path: 'memberShipPlan.package',
+      model: 'MembershipPackage'
+    });
 
   if (!existingUser) {
     throw new ApiError("User not found", 422);
@@ -57,8 +64,8 @@ export const signIn = asyncHandler(async (req, res) => {
 
 export const signUp = asyncHandler(async (req, res) => {
 
-  const { email, password, otp, firstName, lastName, phoneNumber,birthDate } = req.validatedData.body
-  
+  const { email, password, otp, firstName, lastName, phoneNumber, birthDate } = req.validatedData.body
+
 
   const existingUser = await User.findOne({ email })
 
@@ -70,7 +77,7 @@ export const signUp = asyncHandler(async (req, res) => {
 
   const storedOtp = otpStore.get(email);
 
-  if (!storedOtp){
+  if (!storedOtp) {
     throw new ApiError("Otp is missing", 400)
   }
 
@@ -332,11 +339,11 @@ export const getProfile = asyncHandler(async (req, res) => {
 export const editUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const {email, phoneNumber} = req.validatedData.body
+  const { email, phoneNumber } = req.validatedData.body
 
   const user = await User.findById(userId);
   if (!user) {
-          throw new ApiError("User not found", 400);
+    throw new ApiError("User not found", 400);
   }
 
   if (email && email !== user.email) {

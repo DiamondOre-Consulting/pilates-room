@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FiPhone } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import Signup from "@/pages/Signup";
@@ -40,13 +40,13 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
     };
   }, []);
 
-  
+  const location = useLocation()
+
 
   return (
     <ul
-      className={`flex flex-col lg:flex-row lg:justify-center px-3 pt-10 lg:pt-0 lg:items-center text-3xl lg:text-base gap-6 lg:gap-3 text-[1rem] fixed z-40 top-24 right-0 w-[16rem] h-screen lg:static lg:h-auto  lg:w-fit lg:bg-transparent bg-white text-dark transition-transform duration-300 ${
-        isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
-      }`}
+      className={`flex flex-col lg:flex-row lg:justify-center px-3 pt-10 lg:pt-0 lg:items-center text-3xl lg:text-base gap-6 lg:gap-3 text-[1rem] fixed z-40 top-24 right-0 w-[16rem] h-screen lg:static lg:h-auto  lg:w-fit lg:bg-transparent bg-white text-dark transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+        }`}
       id="navbar"
     >
       {routes.map((route, i) => (
@@ -54,8 +54,6 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
           <Link
             onClick={() => {
               setIsOpen(false);
-              routes.forEach((r) => (r.isActive = false));
-              route.isActive = true;
             }}
             className={`px-2 
                             hover:underline 
@@ -64,11 +62,10 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             transition-all 
                             tracking-wide
                             duration-200
-                            ${
-                              route.isActive
-                                ? "text-dark underline decoration-text-dark "
-                                : "opacity-90 hover:opacity-100"
-                            }`}
+                            ${location.pathname === route.href
+                ? "text-dark underline decoration-text-dark "
+                : "opacity-90 hover:opacity-100"
+              }`}
             to={route.href}
           >
             {route.name}
@@ -136,7 +133,7 @@ const Navbar = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const popupRef = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state?.auth);
-const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
+  const [userDashboardPopUp, setUserDashboardPopUp] = useState(false)
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -155,20 +152,18 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
     };
   }, [isPopUpOpen]);
 
-  console.log("data", user, isLoggedIn);
-
   const dispatch = useDispatch()
 
-   const handleLogout = async() => {
-     
-   const res =  await dispatch(logout());
-   if(res.payload.success){
+  const handleLogout = async () => {
 
-     await dispatch(userData())
-   }
+    const res = await dispatch(logout());
+    if (res.payload.success) {
 
-    };
-  
+      await dispatch(userData())
+    }
+
+  };
+
 
   return (
     <div className="fixed z-40 w-full">
@@ -214,7 +209,7 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
               </button>
               {isLoggedIn && (
                 <svg
-                onClick={()=> setUserDashboardPopUp(true)}
+                  onClick={() => setUserDashboardPopUp(true)}
                   className="text-gray-700 cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -233,16 +228,16 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
                 </svg>
               )}
 
-                { isLoggedIn &&(
+              {isLoggedIn && (
 
 
                 <button
-              onClick={handleLogout}
-              className="flex items-center  cursor-pointer transition-colors"
-            >
-              <IconLogout size={28} />
-              {/* <span className="text-sm">Logout</span> */}
-            </button>
+                  onClick={handleLogout}
+                  className="flex items-center  cursor-pointer transition-colors"
+                >
+                  <IconLogout size={28} />
+                  {/* <span className="text-sm">Logout</span> */}
+                </button>
               )
               }
               <button
@@ -275,7 +270,7 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
                 )}
               </button>
 
-            
+
             </div>
           </div>
         </div>
@@ -304,35 +299,35 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
 
 
 
-    {
-      userDashboardPopUp &&(
-        <div className='fixed inset-0 z-40 min-h-full    transition flex items-center justify-center'>
-        <div className="fixed inset-0 bg-black/50" onClick={()=> setUserDashboardPopUp(false)}></div>
-        <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
-        <button
-          type="button"
-          onClick={() => setUserDashboardPopUp(false)}
-          className="absolute top-2 right-2 cursor-pointer"
-        >
-          <svg
-            className="h-5 w-5 text-gray-600"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      <UserDashboard setUserDashboardPopUp={setUserDashboardPopUp}/>
-        </div>
-     
-    </div>
-      )
-    }
+      {
+        userDashboardPopUp && (
+          <div className='fixed inset-0 z-40 min-h-full    transition flex items-center justify-center'>
+            <div className="fixed inset-0 bg-black/50" onClick={() => setUserDashboardPopUp(false)}></div>
+            <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
+              <button
+                type="button"
+                onClick={() => setUserDashboardPopUp(false)}
+                className="absolute top-2 right-2 cursor-pointer"
+              >
+                <svg
+                  className="h-5 w-5 text-gray-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+              <UserDashboard setUserDashboardPopUp={setUserDashboardPopUp} />
+            </div>
+
+          </div>
+        )
+      }
     </div>
   );
 };

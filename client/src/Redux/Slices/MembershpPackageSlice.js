@@ -4,19 +4,19 @@ import { toast } from "sonner";
 
 export const getMemberShipPackage = createAsyncThunk(
   "/user/get-Package",
-  async ({packageType , location}) => {
+  async ({ packageType, location }) => {
     try {
       const queryParams = new URLSearchParams();
 
       if (packageType) queryParams.append("packageType", packageType);
-      if(location) queryParams.append('location' , location)
+      if (location) queryParams.append('location', location)
       const response = await userAxiosInstance.get(
         `/user/get-membership-packages?${queryParams?.toString()}`
       );
       console.log(response);
       return response?.data;
     } catch (error) {
-      console.log(error);
+      return;
     }
   }
 );

@@ -185,13 +185,10 @@ const Classes = () => {
     const previewImage = URL.createObjectURL(uploadedImage);
     serPreviewImage(previewImage);
     setInstructorImage(uploadedImage);
-    console.log(uploadedImage);
   };
 
-  console.log(selectedDays);
   const handleAddClass = async (data) => {
     try {
-      console.log("Submitted Data:", data);
       if (selectedDays.length === 0) {
         alert("Please select at least one day.");
         return;
@@ -215,7 +212,6 @@ const Classes = () => {
         formData.append("time", formattedStart);
       }
 
-      console.log(selectedDays, "infunction");
 
       selectedDays
         .filter((day) => day !== "")
@@ -233,19 +229,17 @@ const Classes = () => {
         await handleGetAllClasses();
       }
     } catch (error) {
-      console.error("Submission Error:", error);
+      return
     }
   };
 
   const handleGetAllClasses = async () => {
     try {
-      console.log(page, limit);
       const response = await dispatch(getAllClasses({ page, limit }));
-      console.log(response);
       setAllClasses(response?.payload?.data?.classes);
       setTotalPages(response?.payload?.data?.totalPages || 1);
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -263,15 +257,12 @@ const Classes = () => {
 
   const handleDeleteClass = async (id) => {
     try {
-      console.log(id);
       const response = await dispatch(deleteClass(id));
-      console.log(response);
       if (response?.payload?.statusCode == 200) {
-        console.log(response?.payload.statusCode);
         await handleGetAllClasses();
       }
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -492,9 +483,8 @@ const Classes = () => {
           <button
             onClick={handlePrevPage}
             disabled={page === 1}
-            className={`px-6 py-3 flex items-center justify-center ${
-              page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
-            }`}
+            className={`px-6 py-3 flex items-center justify-center ${page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
+              }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -520,11 +510,10 @@ const Classes = () => {
           <button
             onClick={handleNextPage}
             disabled={page === totalPages}
-            className={`px-6 py-3 flex items-center justify-center ${
-              page === totalPages
-                ? "bg-gray-400 text-white"
-                : "bg-black text-white"
-            }`}
+            className={`px-6 py-3 flex items-center justify-center ${page === totalPages
+              ? "bg-gray-400 text-white"
+              : "bg-black text-white"
+              }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -635,9 +624,8 @@ const Classes = () => {
               {formState?.map((input, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${
-                    input.inputType === "textarea" ? "w-full md:col-span-2" : ""
-                  }`}
+                  className={`flex flex-col ${input.inputType === "textarea" ? "w-full md:col-span-2" : ""
+                    }`}
                 >
                   <label className="mb-1">
                     {input.label}{" "}
@@ -651,22 +639,20 @@ const Classes = () => {
                       onBlur={(newContent) =>
                         setValue("description", newContent)
                       }
-                      onChange={() => {}}
-                      className={`border px-2 py-1 rounded ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      onChange={() => { }}
+                      className={`border px-2 py-1 rounded ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   ) : input.inputType === "select" ? (
                     <>
                       <select
                         {...register(input.name, input.error)}
-                        className={`border px-2 py-1 rounded ${
-                          errors[input.name]
-                            ? "border-red-500"
-                            : "border-gray-400"
-                        }`}
+                        className={`border px-2 py-1 rounded ${errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                          }`}
                       >
                         <option value="">Select Location</option>
                         <option value="gurugram">Gurugram</option>
@@ -684,22 +670,20 @@ const Classes = () => {
                       value={watch(input.name)}
                       format="hh:mm a"
                       disableClock={true}
-                      className={`border px-2 py-1 rounded w-full ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      className={`border px-2 py-1 rounded w-full ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   ) : input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 w-60 rounded ${
-                          errors[input.name]
-                            ? "border-red-500"
-                            : "border-gray-400"
-                        }`}
+                        className={`border px-2 py-1 w-60 rounded ${errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                          }`}
                       />
                       {previewImage && (
                         <img
@@ -731,11 +715,10 @@ const Classes = () => {
                             type="button"
                             onClick={() => toggleDay(full)}
                             className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
-            ${
-              selectedDays.includes(full)
-                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
-                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
-            }`}
+            ${selectedDays.includes(full)
+                                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+                              }`}
                           >
                             {short}
                           </button>
@@ -750,11 +733,10 @@ const Classes = () => {
                     <input
                       type={input.inputType}
                       {...register(input.name, input.error)}
-                      className={`border px-2 py-1 rounded ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      className={`border px-2 py-1 rounded ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   )}
 
@@ -817,9 +799,8 @@ const Classes = () => {
               {formState?.map((input, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${
-                    input.inputType === "textarea" ? "col-span-2" : ""
-                  }`}
+                  className={`flex flex-col ${input.inputType === "textarea" ? "col-span-2" : ""
+                    }`}
                 >
                   <label className="mb-1">
                     {input.label}{" "}
@@ -833,23 +814,21 @@ const Classes = () => {
                       onBlur={(newContent) =>
                         setValue("description", newContent)
                       }
-                      onChange={() => {}}
-                      className={`border px-2 py-1 rounded ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      onChange={() => { }}
+                      className={`border px-2 py-1 rounded ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   ) : input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 w-50 rounded ${
-                          errors[input.name]
-                            ? "border-red-500"
-                            : "border-gray-400"
-                        }`}
+                        className={`border px-2 py-1 w-50 rounded ${errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                          }`}
                       />
                       {previewImage && (
                         <img
@@ -863,11 +842,10 @@ const Classes = () => {
                     <>
                       <select
                         {...register(input.name, input.error)}
-                        className={`border px-2 py-1 rounded ${
-                          errors[input.name]
-                            ? "border-red-500"
-                            : "border-gray-400"
-                        }`}
+                        className={`border px-2 py-1 rounded ${errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                          }`}
                       >
                         <option value="">Select Location</option>
                         <option value="gurugram">Gurugram</option>
@@ -885,11 +863,10 @@ const Classes = () => {
                       value={watch(input.name)}
                       format="hh:mm a"
                       disableClock={true}
-                      className={`border px-2 py-1 rounded w-full ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      className={`border px-2 py-1 rounded w-full ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   ) : input.inputType === "checkbox" ? (
                     <label className="flex items-center gap-2">
@@ -914,11 +891,10 @@ const Classes = () => {
                             value={watch("weeks")}
                             onClick={() => toggleDay(full)}
                             className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
-            ${
-              selectedDays.includes(full)
-                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
-                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
-            }`}
+            ${selectedDays.includes(full)
+                                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+                              }`}
                           >
                             {short}
                           </button>
@@ -933,11 +909,10 @@ const Classes = () => {
                     <input
                       type={input.inputType}
                       {...register(input.name, input.error)}
-                      className={`border px-2 py-1 rounded ${
-                        errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                      }`}
+                      className={`border px-2 py-1 rounded ${errors[input.name]
+                        ? "border-red-500"
+                        : "border-gray-400"
+                        }`}
                     />
                   )}
                   {errors[input.name] && (

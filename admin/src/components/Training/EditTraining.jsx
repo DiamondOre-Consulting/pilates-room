@@ -7,15 +7,13 @@ import TimePicker from "react-time-picker";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 
-const EditTraining = ({ setEditTrainingPopUp, editData , handleGetAllTrainings}) => {
+const EditTraining = ({ setEditTrainingPopUp, editData, handleGetAllTrainings }) => {
   const [trainingImage, setTrainingImage] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState();
   const [thumbnailPreview, setThumbnailPreview] = useState("");
   const editor = useRef(null);
   const [trainingId, setTrainingId] = useState("");
   const dispatch = useDispatch();
-
-console.log(trainingImage)
 
   const config = {
     readonly: false,
@@ -45,15 +43,10 @@ console.log(trainingImage)
     },
   });
 
-  console.log("eidtdata", watch());
-  console.log("thumbnail imae", thumbnailImage);
-
   const { fields, append, remove, replace } = useFieldArray({
     control,
     name: "moreInfo",
   });
-
-  console.log(watch(`moreInfo[0].image.secureUrl`));
 
   useEffect(() => {
     if (editData) {
@@ -69,17 +62,17 @@ console.log(trainingImage)
 
       const formatTimeTo24H = (timeStr) => {
         if (!timeStr) return "";
-        const [time, modifier] = timeStr.split(" "); // e.g. ["10:35", "PM"]
+        const [time, modifier] = timeStr.split(" ");
         if (!time || !modifier) return "";
-      
+
         let [hours, minutes] = time.split(":").map(Number);
-      
+
         if (modifier === "PM" && hours < 12) hours += 12;
         if (modifier === "AM" && hours === 12) hours = 0;
-      
+
         return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
       };
-      
+
       reset({
         ...editData,
         moreInfo: normalizedMoreInfo,
@@ -94,7 +87,6 @@ console.log(trainingImage)
     }
   }, [editData]);
 
-  console.log(watch());
 
   const getuniqueId = () => {
     return uuidv4().slice(0, 10);
@@ -103,7 +95,6 @@ console.log(trainingImage)
   const getFileExtension = (fileName) => {
     return fileName.split(".").pop();
   };
-  console.log("id", trainingId);
 
   const handleFileChange = (e, ind) => {
     const selectedFile = e?.target?.files?.[0];
@@ -152,7 +143,6 @@ console.log(trainingImage)
 
   const handleEditTraining = async (data, trainingId) => {
     try {
-      console.log("this is data", data);
 
       const formData = new FormData();
 
@@ -200,16 +190,13 @@ console.log(trainingImage)
           }
         }
       });
-      console.log(data);
 
       trainingImage.forEach((file) => {
         formData.append("trainingImage", file);
       });
 
       formData.append("thumbnailImage", thumbnailImage);
-      console.log("this is trainning id", trainingId);
       const id = data?._id;
-      console.log("now ", id);
       const response = await dispatch(editTraining({ id, formData }));
 
       if (response?.payload?.success === true) {
@@ -217,7 +204,7 @@ console.log(trainingImage)
         await handleGetAllTrainings()
       }
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 
@@ -255,9 +242,8 @@ console.log(trainingImage)
           {formState?.map((input, index) => (
             <div
               key={index}
-              className={`flex flex-col ${
-                input.inputType === "textarea" ? "col-span-3" : ""
-              }`}
+              className={`flex flex-col ${input.inputType === "textarea" ? "col-span-3" : ""
+                }`}
             >
               <label className="mb-1">
                 {input.label}{" "}
@@ -269,10 +255,9 @@ console.log(trainingImage)
                   value={watch("description")}
                   config={config}
                   onBlur={(newContent) => setValue("description", newContent)}
-                  onChange={() => {}}
-                  className={`border px-2 py-1 w-full rounded border-black   ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  onChange={() => { }}
+                  className={`border px-2 py-1 w-full rounded border-black   ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               ) : input.inputType === "time" ? (
                 <TimePicker
@@ -280,17 +265,15 @@ console.log(trainingImage)
                   value={watch(input.name)}
                   format="hh:mm a"
                   disableClock={true}
-                  className={`border px-2 py-1 rounded w-full ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  className={`border px-2 py-1 rounded w-full ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               ) : input.inputType === "select" ? (
                 <>
                   <select
                     {...register(input.name, input.error)}
-                    className={`border px-2 py-1 rounded ${
-                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                    }`}
+                    className={`border px-2 py-1 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                      }`}
                   >
                     <option value="">Select category</option>
                     <option value="teacherTraining">Teacher Training</option>
@@ -308,9 +291,8 @@ console.log(trainingImage)
                     type="file"
                     name="thumbnailImage"
                     onChange={handleFileChange}
-                    className={`border px-2 py-1  w-40 rounded ${
-                      errors[input.name] ? "border-red-500" : "border-gray-400"
-                    }`}
+                    className={`border px-2 py-1  w-40 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                      }`}
                   />
                   {thumbnailPreview && (
                     <img
@@ -334,9 +316,8 @@ console.log(trainingImage)
                 <input
                   type={input.inputType}
                   {...register(input.name, input.error)}
-                  className={`border px-2 py-1 rounded ${
-                    errors[input.name] ? "border-red-500" : "border-gray-400"
-                  }`}
+                  className={`border px-2 py-1 rounded ${errors[input.name] ? "border-red-500" : "border-gray-400"
+                    }`}
                 />
               )}
               {errors[input.name] && (

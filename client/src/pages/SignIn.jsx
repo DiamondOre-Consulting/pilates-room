@@ -23,7 +23,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
         setIsPopUpOpen(false);
       }
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setLoader(false);
     }
@@ -39,7 +39,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
       const response = await dispatch(forgotPassword({ email }));
       console.log(response);
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setForgotPasswordPopUp(false);
       setIsPopUpOpen(false);
@@ -58,7 +58,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
                   onChange={(e) => setEmail(e.target.value)}
                   className=" border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                 />
-                
+
               </div>
 
               <div className="flex flex-col ">
@@ -111,7 +111,7 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
               className="mt-4  underline cursor-pointer"
               onClick={() => {
                 setForgotPasswordPopUp(true)
-            
+
               }}
             >
               Forgot password?

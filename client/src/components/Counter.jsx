@@ -26,7 +26,6 @@ const getCountdownToDateTime = (scheduledTime) => {
 
   const target = new Date();
   target.setHours(targetHour, targetMinute, 0, 0);
-// console.log("targeeeeeeeeeet",target)
   // if target already passed today, move to tomorrow
   if (now >= target) target.setDate(target.getDate() + 1);
 
@@ -45,7 +44,7 @@ const Counter = ({ scheduledDateTime = "18:30" }) => {
     seconds: 0,
   });
 
-  
+
 
   useEffect(() => {
     const update = () => setRemainingTime(getCountdownToDateTime(scheduledDateTime));

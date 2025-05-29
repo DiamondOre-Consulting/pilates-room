@@ -18,7 +18,7 @@ const IntroOffer = () => {
       console.log(response);
       setAllPackages(response?.payload?.data);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -60,18 +60,16 @@ const IntroOffer = () => {
 
       {allPackages?.map((pkg, index) => (
         <div
-          className={`flex md:px-0 px-4  flex-col md:flex-row md:space-y-0 space-y-4 ${
-            index % 2 === 0
+          className={`flex md:px-0 px-4  flex-col md:flex-row md:space-y-0 space-y-4 ${index % 2 === 0
               ? "bg-dark text-white "
               : "bg-white flex-col md:flex-row-reverse"
-          }  py-20`}
+            }  py-20`}
         >
           <div className="flex flex-col justify-center  items-center space-y-4 max-w-xl mx-auto ">
             <h1 className="text-4xl uppercase">{pkg?.title}</h1>
             <p
-              className={`text-center ${
-                index % 2 === 0 ? "text-gray-200" : "text-black "
-              } text-center`}
+              className={`text-center ${index % 2 === 0 ? "text-gray-200" : "text-black "
+                } text-center`}
               dangerouslySetInnerHTML={{ __html: pkg?.description }}
             ></p>
 
@@ -96,7 +94,7 @@ const IntroOffer = () => {
         </div>
       ))}
 
-      <BlogSection/>
+      <BlogSection />
 
       <ContactUs />
     </div>

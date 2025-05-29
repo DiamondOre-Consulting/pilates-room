@@ -31,7 +31,7 @@ const FindClassSection = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
-  const [wrongPackageclassBookingPopup , setWrongPackageClassBookingPopUp] = useState(false)
+  const [wrongPackageclassBookingPopup, setWrongPackageClassBookingPopUp] = useState(false)
 
   const handleGetAllClasses = async () => {
     try {
@@ -64,7 +64,7 @@ const FindClassSection = () => {
       setAllClasses(response?.payload?.data?.classes);
       setTotalPages(response?.payload?.data?.totalPages || 1);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -196,7 +196,7 @@ const FindClassSection = () => {
 
       console.log(response);
     } catch (error) {
-      console.log(error);
+      return;
       if (error?.response?.data?.statusCode === 400) {
         setMembershipErrorPopup(true);
       }
@@ -221,7 +221,7 @@ const FindClassSection = () => {
         await dispatch(userData());
       }
     } catch (error) {
-      console.log(error);
+      return;
     } finally {
       setLoader(false);
     }
@@ -414,11 +414,10 @@ const FindClassSection = () => {
             <button
               onClick={() => changeWeek(-1)}
               disabled={isCurrentWeek}
-              className={`mb-1 flex items-center justify-center size-6 sm:size-8 md:size-10 rounded-lg shrink-0 transition-all ${
-                isCurrentWeek
+              className={`mb-1 flex items-center justify-center size-6 sm:size-8 md:size-10 rounded-lg shrink-0 transition-all ${isCurrentWeek
                   ? " text-gray-400 cursor-not-allowed"
                   : " hover:text-gray-800 "
-              }`}
+                }`}
             >
               <FiChevronLeft className="text-xl" />
             </button>
@@ -431,9 +430,8 @@ const FindClassSection = () => {
                   className="flex items-center justify-center flex-col"
                 >
                   <p
-                    className={`text-sm uppercase mb-1 font-semibold ${
-                      isDisabled ? "text-gray-300" : "text-[#00354C]"
-                    }`}
+                    className={`text-sm uppercase mb-1 font-semibold ${isDisabled ? "text-gray-300" : "text-[#00354C]"
+                      }`}
                   >
                     {isToday(date) ? "Tod" : daysOfWeek[date.getDay()]}
                   </p>
@@ -444,11 +442,10 @@ const FindClassSection = () => {
                     className={`flex flex-col items-center justify-center size-8 sm:size-10 md:size-14 rounded-full border transition-all shrink-0 cursor-pointer
                   ${isToday(date) ? "" : "border-gray-300"}
                   ${isSelected(date) ? "bg-[#00354C] text-white" : ""}
-                  ${
-                    isDisabled
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "hover:bg-[#00354C]/20"
-                  }`}
+                  ${isDisabled
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "hover:bg-[#00354C]/20"
+                      }`}
                   >
                     <span className="text-md font-semibold">
                       {date.getDate()}
@@ -518,9 +515,8 @@ const FindClassSection = () => {
                         >
                           Show Details
                           <svg
-                            className={`transform transition-transform ${
-                              expandedCardIndex === index ? "rotate-180" : ""
-                            }`}
+                            className={`transform transition-transform ${expandedCardIndex === index ? "rotate-180" : ""
+                              }`}
                             width="14"
                             height="14"
                             viewBox="0 0 24 24"
@@ -535,11 +531,10 @@ const FindClassSection = () => {
                         </button>
 
                         <div
-                          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                            expandedCardIndex === index
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedCardIndex === index
                               ? "max-h-fit mt-2 opacity-100"
                               : "max-h-0 opacity-0"
-                          }`}
+                            }`}
                         >
                           <p
                             className="text-sm text-gray-600"
@@ -571,7 +566,7 @@ const FindClassSection = () => {
                               return;
                             }
 
-                            if(user?.data?.isMember && cls?.location != user?.data?.memberShipPlan?.package?.location){
+                            if (user?.data?.isMember && cls?.location != user?.data?.memberShipPlan?.package?.location) {
                               setWrongPackageClassBookingPopUp(true);
                               return
                             }
@@ -591,7 +586,7 @@ const FindClassSection = () => {
                             if (
                               isBookingClosed(cls.time) &&
                               new Date(selectedDate).getDate() ===
-                                new Date(getTodayDate()).getDate()
+                              new Date(getTodayDate()).getDate()
                             ) {
                               setShowModal(true);
                               return;
@@ -609,11 +604,11 @@ const FindClassSection = () => {
                                 return (
                                   s?.item?.product === cls?._id &&
                                   scheduledDate.getDate() ===
-                                    selectedDateObj.getDate() &&
+                                  selectedDateObj.getDate() &&
                                   scheduledDate.getMonth() ===
-                                    selectedDateObj.getMonth() &&
+                                  selectedDateObj.getMonth() &&
                                   scheduledDate.getFullYear() ===
-                                    selectedDateObj.getFullYear()
+                                  selectedDateObj.getFullYear()
                                 );
                               });
 
@@ -647,74 +642,73 @@ const FindClassSection = () => {
                             return (
                               s?.item?.product === cls?._id &&
                               scheduledDate.getDate() ===
-                                selectedDateObj.getDate() &&
+                              selectedDateObj.getDate() &&
                               scheduledDate.getMonth() ===
-                                selectedDateObj.getMonth() &&
+                              selectedDateObj.getMonth() &&
                               scheduledDate.getFullYear() ===
-                                selectedDateObj.getFullYear() &&
+                              selectedDateObj.getFullYear() &&
                               scheduledDate.toISOString().split("T")[0] ===
-                                getTodayDate()
+                              getTodayDate()
                             );
                           })
                         }
-                        className={`h-fit text-white w-full cursor-pointer md:w-full px-10 py-2 rounded-lg ${
-                          cls?.capacity === 0 || !cls.available
+                        className={`h-fit text-white w-full cursor-pointer md:w-full px-10 py-2 rounded-lg ${cls?.capacity === 0 || !cls.available
                             ? "bg-gray-400"
                             : isExpiredToday(
-                                cls?.time,
-                                toUtcMidnightIso(selectedDate)
-                              )
-                            ? "bg-gray-600"
-                            : hasStarted(cls.time, selectedDate)
-                            ? "bg-gray-600"
-                            : user?.data?.upcomingSchedule?.some((s) => {
-                                const scheduledDate = new Date(
-                                  s?.item?.scheduledDate
-                                );
-                                const selectedDateObj = new Date(selectedDate);
-                                return (
-                                  s?.item?.product === cls?._id &&
-                                  scheduledDate.getDate() ===
+                              cls?.time,
+                              toUtcMidnightIso(selectedDate)
+                            )
+                              ? "bg-gray-600"
+                              : hasStarted(cls.time, selectedDate)
+                                ? "bg-gray-600"
+                                : user?.data?.upcomingSchedule?.some((s) => {
+                                  const scheduledDate = new Date(
+                                    s?.item?.scheduledDate
+                                  );
+                                  const selectedDateObj = new Date(selectedDate);
+                                  return (
+                                    s?.item?.product === cls?._id &&
+                                    scheduledDate.getDate() ===
                                     selectedDateObj.getDate() &&
-                                  scheduledDate.getMonth() ===
+                                    scheduledDate.getMonth() ===
                                     selectedDateObj.getMonth() &&
-                                  scheduledDate.getFullYear() ===
+                                    scheduledDate.getFullYear() ===
                                     selectedDateObj.getFullYear() &&
-                                  scheduledDate.toISOString().split("T")[0] ===
+                                    scheduledDate.toISOString().split("T")[0] ===
                                     getTodayDate()
-                                );
-                              })
-                            ? "bg-green-500"
-                            : user?.data?.upcomingSchedule?.some((s) => {
-                                if (s?.item?.product !== cls?._id) return false;
+                                  );
+                                })
+                                  ? "bg-green-500"
+                                  : user?.data?.upcomingSchedule?.some((s) => {
+                                    if (s?.item?.product !== cls?._id) return false;
 
-                                const scheduledDate = new Date(
-                                  s?.item?.scheduledDate
-                                );
-                                const selectedDateObj = new Date(selectedDate);
-                                const today = new Date();
-                                today.setHours(0, 0, 0, 0);
+                                    const scheduledDate = new Date(
+                                      s?.item?.scheduledDate
+                                    );
+                                    const selectedDateObj = new Date(selectedDate);
+                                    const today = new Date();
+                                    today.setHours(0, 0, 0, 0);
 
-                                const isSameDate =
-                                  scheduledDate.getDate() ===
-                                    selectedDateObj.getDate() &&
-                                  scheduledDate.getMonth() ===
-                                    selectedDateObj.getMonth() &&
-                                  scheduledDate.getFullYear() ===
-                                    selectedDateObj.getFullYear();
+                                    const isSameDate =
+                                      scheduledDate.getDate() ===
+                                      selectedDateObj.getDate() &&
+                                      scheduledDate.getMonth() ===
+                                      selectedDateObj.getMonth() &&
+                                      scheduledDate.getFullYear() ===
+                                      selectedDateObj.getFullYear();
 
-                                const isToday =
-                                  scheduledDate.getDate() === today.getDate() &&
-                                  scheduledDate.getMonth() ===
-                                    today.getMonth() &&
-                                  scheduledDate.getFullYear() ===
-                                    today.getFullYear();
+                                    const isToday =
+                                      scheduledDate.getDate() === today.getDate() &&
+                                      scheduledDate.getMonth() ===
+                                      today.getMonth() &&
+                                      scheduledDate.getFullYear() ===
+                                      today.getFullYear();
 
-                                return isSameDate && !isToday;
-                              })
-                            ? "bg-red-600"
-                            : "bg-dark"
-                        }`}
+                                    return isSameDate && !isToday;
+                                  })
+                                    ? "bg-red-600"
+                                    : "bg-dark"
+                          }`}
                       >
                         {loader === cls?._id ? (
                           <div
@@ -740,56 +734,56 @@ const FindClassSection = () => {
                             <span className="ml-2">Loading...</span>
                           </div>
                         ) : isExpiredToday(
-                            cls?.time,
-                            toUtcMidnightIso(selectedDate)
-                          ) ? (
+                          cls?.time,
+                          toUtcMidnightIso(selectedDate)
+                        ) ? (
                           "Session Expired"
                         ) : hasStarted(cls.time, selectedDate) ? (
                           "Session Expired"
                         ) : user?.data?.upcomingSchedule?.some((s) => {
-                            const scheduledDate = new Date(
-                              s?.item?.scheduledDate
-                            );
-                            const selectedDateObj = new Date(selectedDate);
-                            return (
-                              s?.item?.product === cls?._id &&
-                              scheduledDate.getDate() ===
-                                selectedDateObj.getDate() &&
-                              scheduledDate.getMonth() ===
-                                selectedDateObj.getMonth() &&
-                              scheduledDate.getFullYear() ===
-                                selectedDateObj.getFullYear() &&
-                              scheduledDate.toISOString().split("T")[0] ===
-                                getTodayDate()
-                            );
-                          }) ? (
+                          const scheduledDate = new Date(
+                            s?.item?.scheduledDate
+                          );
+                          const selectedDateObj = new Date(selectedDate);
+                          return (
+                            s?.item?.product === cls?._id &&
+                            scheduledDate.getDate() ===
+                            selectedDateObj.getDate() &&
+                            scheduledDate.getMonth() ===
+                            selectedDateObj.getMonth() &&
+                            scheduledDate.getFullYear() ===
+                            selectedDateObj.getFullYear() &&
+                            scheduledDate.toISOString().split("T")[0] ===
+                            getTodayDate()
+                          );
+                        }) ? (
                           "Session Booked"
                         ) : user?.data?.upcomingSchedule?.some((s) => {
-                            if (s?.item?.product !== cls?._id) return false;
+                          if (s?.item?.product !== cls?._id) return false;
 
-                            const scheduledDate = new Date(
-                              s?.item?.scheduledDate
-                            );
-                            const selectedDateObj = new Date(selectedDate);
-                            const today = new Date();
-                            today.setHours(0, 0, 0, 0);
+                          const scheduledDate = new Date(
+                            s?.item?.scheduledDate
+                          );
+                          const selectedDateObj = new Date(selectedDate);
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
 
-                            const isSameDate =
-                              scheduledDate.getDate() ===
-                                selectedDateObj.getDate() &&
-                              scheduledDate.getMonth() ===
-                                selectedDateObj.getMonth() &&
-                              scheduledDate.getFullYear() ===
-                                selectedDateObj.getFullYear();
+                          const isSameDate =
+                            scheduledDate.getDate() ===
+                            selectedDateObj.getDate() &&
+                            scheduledDate.getMonth() ===
+                            selectedDateObj.getMonth() &&
+                            scheduledDate.getFullYear() ===
+                            selectedDateObj.getFullYear();
 
-                            const isToday =
-                              scheduledDate.getDate() === today.getDate() &&
-                              scheduledDate.getMonth() === today.getMonth() &&
-                              scheduledDate.getFullYear() ===
-                                today.getFullYear();
+                          const isToday =
+                            scheduledDate.getDate() === today.getDate() &&
+                            scheduledDate.getMonth() === today.getMonth() &&
+                            scheduledDate.getFullYear() ===
+                            today.getFullYear();
 
-                            return isSameDate && !isToday;
-                          }) ? (
+                          return isSameDate && !isToday;
+                        }) ? (
                           "Cancel Class"
                         ) : cls?.capacity === 0 || cls.available === false ? (
                           "Unavailable"
@@ -803,20 +797,20 @@ const FindClassSection = () => {
                         return (
                           s?.item?.product === cls?._id &&
                           scheduledDate.getDate() ===
-                            selectedDateObj.getDate() &&
+                          selectedDateObj.getDate() &&
                           scheduledDate.getMonth() ===
-                            selectedDateObj.getMonth() &&
+                          selectedDateObj.getMonth() &&
                           scheduledDate.getFullYear() ===
-                            selectedDateObj.getFullYear() &&
+                          selectedDateObj.getFullYear() &&
                           scheduledDate.toISOString().split("T")[0] ===
-                            getTodayDate()
+                          getTodayDate()
                         );
                       }) && (
-                        <div className="text-green-600 text-sm mt-2 flex items-center gap-1">
-                          <span>Starts In:</span>
-                          <Counter scheduledDateTime={cls?.time} />
-                        </div>
-                      )}
+                          <div className="text-green-600 text-sm mt-2 flex items-center gap-1">
+                            <span>Starts In:</span>
+                            <Counter scheduledDateTime={cls?.time} />
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -908,7 +902,7 @@ const FindClassSection = () => {
         )}
 
 
-            {wrongPackageclassBookingPopup && (
+        {wrongPackageclassBookingPopup && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
             <div className="bg-white relative p-6 rounded-2xl shadow-2xl max-w-md w-full text-center animate-fade-in">
               <svg
