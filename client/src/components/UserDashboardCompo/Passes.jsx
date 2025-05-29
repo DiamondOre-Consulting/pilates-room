@@ -46,8 +46,7 @@ const Passes = () => {
                 </span>
                 <span className="text-sm font-normal">
                   /{" "}
-                  {user?.data?.memberShipPlan?.package?.packageType ||
-                    "session"}
+                 Week
                 </span>
               </div>
             </div>
@@ -60,6 +59,10 @@ const Passes = () => {
               <p>
                 <span className="font-semibold">Validity:</span>{" "}
                 {user?.data?.memberShipPlan?.package?.validity || "N/A"}
+              </p>
+               <p>
+                <span className="font-semibold">Location:</span>{" "}
+                {user?.data?.memberShipPlan?.package?.location || "N/A"}
               </p>
               <p>
                 <span className="font-semibold">Total Sessions:</span>{" "}

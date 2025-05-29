@@ -23,27 +23,44 @@ const Membership = () => {
   const [selectedPlan, setSelectedPlan] = useState("Discovery");
   const [loader, setLoader] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-  console.log("userdata", user, isLoggedIn);
+  
+  const [showLocationOverlay, setShowLocationOverlay] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState(user?.data?.memberShipPlan?.location);
 
   const handleGetAllMemberShip = async () => {
     try {
       const response = await dispatch(
-        getMemberShipPackage(selectedPlan.toLowerCase())
+        getMemberShipPackage({
+          packageType: selectedPlan.toLowerCase(),
+          location: selectedLocation,
+        })
       );
       setAllMemberShip(response?.payload?.data);
-      await dispatch(userData())
-      console.log(response?.payload?.data);
+      if (response?.payload?.success) {
+        setShowLocationOverlay(false);
+      }
+
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(()=>{
+    console.log(1)
+setSelectedLocation("")
+  },[isLoggedIn])
+
   useEffect(() => {
-    handleGetAllMemberShip();
+    if (selectedLocation && selectedPlan) {
+      handleGetAllMemberShip();
+    }
   }, [selectedPlan]);
+
+  console.log("jsaksfskjfjjkfsdjkf   kjdsfsjkdfs",selectedPlan , selectedLocation)
   // const [membershipPackageId , setMembershipPackageId] = useState(null)
   const [razorpayKey, setRazorPayKey] = useState();
   const handleGetRazorPayKey = async () => {
@@ -151,6 +168,8 @@ const Membership = () => {
     console.log("today dateeeee", todayDate);
     return todayDate;
   };
+
+  console.log("all membership packages", allMemberShip);
   return (
     <div>
       <section className="w-full">
@@ -163,8 +182,10 @@ const Membership = () => {
         </div>
       </section>
 
-      <section className="ezy__pricing10 light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-        <div className=" ">
+      <section
+        className={`ezy__pricing10  light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white`}
+      >
+        <div className=" relative">
           <div className="grid ">
             <div className="flex flex-col items-center justify-center mb-4">
               <h3 className="text-3xl leading-none md:text-[45px] text-gray-800 font-bold mb-2">
@@ -193,13 +214,13 @@ const Membership = () => {
             <div>
               {allMemberShip?.map((ele, index) => (
                 <div
-                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-4 ${
+                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-2 ${
                     index % 2 === 0
                       ? "bg-dark text-white "
                       : "bg-white flex-col md:flex-row-reverse"
                   }  py-20`}
                 >
-                  <div className="flex flex-col justify-center  items-center space-y-4 w-full md:max-w-xl mx-auto ">
+                  <div className="flex flex-col justify-center  items-center space-y-1 w-full md:max-w-xl mx-auto ">
                     <h1 className="text-4xl uppercase">{ele?.packageName}</h1>
                     <p
                       className={`text-center px-4 ${
@@ -207,7 +228,8 @@ const Membership = () => {
                       } text-center`}
                       dangerouslySetInnerHTML={{ __html: ele?.description }}
                     ></p>
-
+                    <p>Location : {ele?.location}</p>
+                    <p>Price : ₹ {ele?.price}</p>
                     <button
                       onClick={() => {
                         // console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
@@ -226,7 +248,7 @@ const Membership = () => {
                         }
                       }}
                       // disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
-                      className={`text-xl cursor-pointer ${
+                      className={`text-xl cursor-pointer mt-3 ${
                         user?.data?.isDiscovery
                           ? "bg-green-600 text-white"
                           : "bg-white text-dark"
@@ -303,6 +325,7 @@ const Membership = () => {
                       <div className="py-6 mb-6 flex flex-col text-wrap">
                         <p>Price Total : {ele?.price}</p>
                         <p>Total Sessions: {ele?.totalSessions}</p>
+                          <p>location: {ele?.location}</p>
                         <p>Validity: {ele?.validity} weeks</p>
                         <p
                           className="text-wrap mx-auto overflow-x-auto px-10 mt-4"
@@ -442,6 +465,69 @@ const Membership = () => {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {!user?.data?.isMember && showLocationOverlay && (
+            <div className="absolute  h-screen inset-0 z-20 backdrop-blur-sm flex items-start pt-30 justify-center bg-black/60 text-white">
+              <div className=" dark:bg-gray-900 p-6 md:w-5xl text-white  w-full text-center">
+                <h2 className="text-4xl md:text-8xl font-semibold mb-4 text-gray-300">
+                  Select Your Location
+                </h2>
+
+                <div className="flex space-x-2">
+                  <select
+                    className="w-full py-2 cursor-poiner rounded-full px-2  bg-gray-100 text-black border "
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                  >
+                    <option value="">-- Choose Location --</option>
+                    <option value="faridabad">Faridabad</option>
+                    <option value="gurugram">Gurugram</option>
+                  </select>
+
+                  <button
+                    onClick={() => handleGetAllMemberShip()}
+                    disabled={!selectedLocation}
+                    class="group relative inline-flex cursor-pointer h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-950 font-medium text-neutral-200"
+                  >
+                    <div class="translate-x-0 transition group-hover:translate-x-[300%]">
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                      >
+                        <path
+                          d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div class="absolute -translate-x-[300%] transition group-hover:translate-x-0">
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                      >
+                        <path
+                          d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

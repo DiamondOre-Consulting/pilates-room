@@ -62,13 +62,7 @@ const UserDashboard = () => {
               <circle cx="12" cy="8" r="5" />
               <path d="M20 21a8 8 0 0 0-16 0" />
             </svg>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors"
-            >
-              <IconLogout size={20} />
-              <span className="text-sm">Logout</span>
-            </button>
+          
           </div>
         </div>
       </div>

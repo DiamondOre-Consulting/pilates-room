@@ -54,16 +54,14 @@ const Classes = () => {
   //   );
   // };
 
-
   const toggleDay = (dayFullName) => {
-  if (!dayFullName) return; 
-  setSelectedDays((prev) =>
-    prev.includes(dayFullName)
-      ? prev.filter((d) => d !== dayFullName)
-      : [...prev, dayFullName]
-  );
-};
-
+    if (!dayFullName) return;
+    setSelectedDays((prev) =>
+      prev.includes(dayFullName)
+        ? prev.filter((d) => d !== dayFullName)
+        : [...prev, dayFullName]
+    );
+  };
 
   const formState = [
     {
@@ -109,7 +107,7 @@ const Classes = () => {
     },
     {
       label: "Location",
-      inputType: "text",
+      inputType: "select",
       name: "location",
       required: true,
 
@@ -219,12 +217,11 @@ const Classes = () => {
 
       console.log(selectedDays, "infunction");
 
-     selectedDays
-  .filter((day) => day !== "")
-  .forEach((day) => {
-    formData.append("weeks", day);
-  });
-
+      selectedDays
+        .filter((day) => day !== "")
+        .forEach((day) => {
+          formData.append("weeks", day);
+        });
 
       if (instructorImage) {
         formData.append("instructor.image", instructorImage);
@@ -454,12 +451,6 @@ const Classes = () => {
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={() => handleDeleteClass(ele?._id)}
-                    className="px-6 py-2 border border-red-600 text-red-600 rounded-lg font-medium  transition-colors cursor-pointer "
-                  >
-                    Delete
-                  </button>
                 </div>
 
                 <div className="flex justify-center gap-4 mt-6 text-gray-500">
@@ -667,6 +658,26 @@ const Classes = () => {
                           : "border-gray-400"
                       }`}
                     />
+                  ) : input.inputType === "select" ? (
+                    <>
+                      <select
+                        {...register(input.name, input.error)}
+                        className={`border px-2 py-1 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
+                      >
+                        <option value="">Select Location</option>
+                        <option value="gurugram">Gurugram</option>
+                        <option value="faridabad">Faridabad</option>
+                      </select>
+                      {errors[input.name] && (
+                        <span className="text-red-500 text-xs">
+                          {errors[input.name].message}
+                        </span>
+                      )}
+                    </>
                   ) : input.inputType === "time" ? (
                     <TimePicker
                       onChange={(value) => setValue(input.name, value)}
@@ -848,6 +859,26 @@ const Classes = () => {
                         />
                       )}
                     </div>
+                  ) : input.inputType === "select" ? (
+                    <>
+                      <select
+                        {...register(input.name, input.error)}
+                        className={`border px-2 py-1 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
+                      >
+                        <option value="">Select Location</option>
+                        <option value="gurugram">Gurugram</option>
+                        <option value="faridabad">Faridabad</option>
+                      </select>
+                      {errors[input.name] && (
+                        <span className="text-red-500 text-xs">
+                          {errors[input.name].message}
+                        </span>
+                      )}
+                    </>
                   ) : input.inputType === "time" ? (
                     <TimePicker
                       onChange={(value) => setValue(input.name, value)}

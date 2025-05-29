@@ -31,6 +31,7 @@ const FindClassSection = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
+  const [wrongPackageclassBookingPopup , setWrongPackageClassBookingPopUp] = useState(false)
 
   const handleGetAllClasses = async () => {
     try {
@@ -286,7 +287,7 @@ const FindClassSection = () => {
 
   const isBookingClosed = (classTime) => {
     if (!classTime) return false;
-console.log(classTime)
+    console.log(classTime);
     const [time, modifier] = classTime.split(" ");
     let [h, m] = time.split(":").map(Number);
     if (modifier === "PM" && h < 12) h += 12;
@@ -296,10 +297,10 @@ console.log(classTime)
     start.setHours(h, m, 0, 0);
     const now = new Date();
     const diffMs = start - now;
-    return diffMs <= 0 || diffMs < 60 * 60 * 1000; 
+    return diffMs <= 0 || diffMs < 60 * 60 * 1000;
   };
 
-  console.log(isBookingClosed("11:00 AM"))
+  console.log(isBookingClosed("11:00 AM"));
   const hasStarted = (classTime, day) => {
     if (!classTime || !day) return false;
 
@@ -314,8 +315,8 @@ console.log(classTime)
     return Date.now() >= start.getTime();
   };
 
-  console.log( new Date(selectedDate).getDate())
-  console.log(new Date(getTodayDate()).getDate())
+  console.log(new Date(selectedDate).getDate());
+  console.log(new Date(getTodayDate()).getDate());
   console.log("selected date", toUtcMidnightIso(selectedDate).split("T")[0]);
   return (
     <div>
@@ -326,25 +327,24 @@ console.log(classTime)
             <h1 className="text-3xl">Find a Class</h1>
           </div>
           <div className="flex flex-col justify-end md:items-end ">
-            {/* <div className="flex space-x-1 md:space-x-6">
+            <div className="flex space-x-1 md:space-x-6">
               <select
                 onChange={(e) => setLocation(e.target?.value)}
                 className="border rounded-md px-1 md:px-4 py-2 border-gray-300"
               >
                 <option value={null}>Location</option>
-                {allClasses?.map((cls) => (
-                  <option value={cls?.location}>{cls?.location}</option>
-                ))}
+                <option value={"faridabad"}>Faridabad</option>
+                <option value={"gurugram"}>Gurugram</option>
               </select>
 
-              <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
+              {/* <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
                 <option>class Type</option>
-              </select>
-
+              </select> */}
+              {/* 
               <select className="border rounded-md px-1  md:px-4 py-2 border-gray-300">
                 <option>Instructor</option>
-              </select>
-            </div> */}
+              </select> */}
+            </div>
           </div>
         </div>
       </section>
@@ -571,7 +571,15 @@ console.log(classTime)
                               return;
                             }
 
-                            if(cls?.capacity === 0 || cls.available === false ){
+                            if(user?.data?.isMember && cls?.location != user?.data?.memberShipPlan?.package?.location){
+                              setWrongPackageClassBookingPopUp(true);
+                              return
+                            }
+
+                            if (
+                              cls?.capacity === 0 ||
+                              cls.available === false
+                            ) {
                               return;
                             }
 
@@ -783,12 +791,7 @@ console.log(classTime)
                             return isSameDate && !isToday;
                           }) ? (
                           "Cancel Class"
-                        ) : 
-                        
-                        
-                        
-                        
-                        cls?.capacity === 0 || cls.available === false ? (
+                        ) : cls?.capacity === 0 || cls.available === false ? (
                           "Unavailable"
                         ) : (
                           "Book"
@@ -904,6 +907,47 @@ console.log(classTime)
           </div>
         )}
 
+
+            {wrongPackageclassBookingPopup && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
+            <div className="bg-white relative p-6 rounded-2xl shadow-2xl max-w-md w-full text-center animate-fade-in">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => setWrongPackageClassBookingPopUp(false)}
+                className="absolute right-2 top-2 cursor-pointer"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-x-icon lucide-x"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <div className="flex flex-col items-center space-y-4">
+                <AlertTriangle className="text-red-500 w-12 h-12" />
+                <h2 className="text-2xl font-bold text-gray-800 upppercase">
+                  Access Denied
+                </h2>
+                <p className="text-gray-600">
+                  Your Membership Plan Location is {user?.data?.memberShipPlan?.package?.location} you can't access other
+                  location's class.
+                </p>
+                {/* <Link
+                  to={"/membership"}
+                  className="mt-4 px-5 py-2 bg-black  text-white cursor-pointer  transition duration-200"
+                >
+                  close
+                </Link> */}
+              </div>
+            </div>
+          </div>
+        )}
+
         {isPopUpOpen && (
           <div className="fixed inset-0 z-40 min-h-full    transition flex items-center justify-center">
             <div
@@ -912,18 +956,17 @@ console.log(classTime)
             ></div>
 
             <div className="bg-white z-80  rounded-md">
-           {isSignIn ? (
-  <SignIn
-    setIsPopUpOpen={setIsPopUpOpen}
-    setIsSignIn={setIsSignIn}
-  />
-) : (
-  <Signup
-    setIsPopUpOpen={setIsPopUpOpen}
-    setIsSignIn={setIsSignIn}
-  />
-)}
-
+              {isSignIn ? (
+                <SignIn
+                  setIsPopUpOpen={setIsPopUpOpen}
+                  setIsSignIn={setIsSignIn}
+                />
+              ) : (
+                <Signup
+                  setIsPopUpOpen={setIsPopUpOpen}
+                  setIsSignIn={setIsSignIn}
+                />
+              )}
             </div>
           </div>
         )}

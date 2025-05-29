@@ -46,6 +46,16 @@ const MembershipPackage = () => {
         minLength: { value: 2, message: "Minimum 2 characters required" },
       },
     },
+
+    {
+      label: "Location",
+      name: "location",
+      inputType: "select",
+      error: {
+        required: "location is required",
+        minLength: { value: 2, message: "Minimum 2 characters required" },
+      },
+    },
     {
       label: "Package Name",
       name: "packageName",
@@ -188,6 +198,7 @@ const MembershipPackage = () => {
               onClick={() => {
                 reset({
                   packageType: "",
+                  location: "",
                   packageName: "",
                   validity: "",
                   totalSessions: "",
@@ -328,7 +339,8 @@ const MembershipPackage = () => {
                             : "border-gray-400"
                         }`}
                       />
-                    ) : input.inputType === "select" ? (
+                    ) : input.inputType === "select" &&
+                      input.name === "packageType" ? (
                       <>
                         <select
                           {...register(input.name, input.error)}
@@ -342,6 +354,27 @@ const MembershipPackage = () => {
                           <option value="discovery">Discovery</option>
                           <option value="monthly">Monthly</option>
                           <option value="quarterly">Quarterly</option>
+                        </select>
+                        {errors[input.name] && (
+                          <span className="text-red-500 text-xs">
+                            {errors[input.name].message}
+                          </span>
+                        )}
+                      </>
+                    ) : input.inputType === "select" &&
+                      input.name === "location" ? (
+                      <>
+                        <select
+                          {...register(input.name, input.error)}
+                          className={`border px-2 py-1 rounded ${
+                            errors[input.name]
+                              ? "border-red-500"
+                              : "border-gray-400"
+                          }`}
+                        >
+                          <option value="">Select Location</option>
+                          <option value="gurugram">Gurugram</option>
+                          <option value="faridabad">Faridabad</option>
                         </select>
                         {errors[input.name] && (
                           <span className="text-red-500 text-xs">
@@ -460,7 +493,8 @@ const MembershipPackage = () => {
                             : "border-gray-400"
                         }`}
                       />
-                    ) : input.inputType === "select" ? (
+                    ) : input.inputType === "select" &&
+                      input.name === "packageType" ? (
                       <>
                         <select
                           {...register(input.name, input.error)}
@@ -471,9 +505,30 @@ const MembershipPackage = () => {
                           }`}
                         >
                           <option value="">Select Type</option>
+                          <option value="discovery">Discovery</option>
                           <option value="monthly">Monthly</option>
                           <option value="quarterly">Quarterly</option>
-                          <option value="discovery">Discovery</option>
+                        </select>
+                        {errors[input.name] && (
+                          <span className="text-red-500 text-xs">
+                            {errors[input.name].message}
+                          </span>
+                        )}
+                      </>
+                    ) : input.inputType === "select" &&
+                      input.name === "location" ? (
+                      <>
+                        <select
+                          {...register(input.name, input.error)}
+                          className={`border px-2 py-1 rounded ${
+                            errors[input.name]
+                              ? "border-red-500"
+                              : "border-gray-400"
+                          }`}
+                        >
+                          <option value="">Select Location</option>
+                          <option value="gurugram">Gurugram</option>
+                          <option value="faridabad">Faridabad</option>
                         </select>
                         {errors[input.name] && (
                           <span className="text-red-500 text-xs">

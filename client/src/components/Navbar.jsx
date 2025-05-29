@@ -6,8 +6,11 @@ import Signup from "@/pages/Signup";
 import SignIn from "@/pages/SignIn";
 import { RxCross1 } from "react-icons/rx";
 import logo from "../assets/TPR-Logo.webp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { IconLogout } from "@tabler/icons-react";
 import UserDashboard from "@/pages/UserDashboard";
+import { FaWhatsapp } from "react-icons/fa6";
+import { logout, userData } from "@/Redux/Slices/authSlice";
 
 const routes = [
   { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
@@ -36,6 +39,8 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  
 
   return (
     <ul
@@ -152,15 +157,28 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
 
   console.log("data", user, isLoggedIn);
 
+  const dispatch = useDispatch()
+
+   const handleLogout = async() => {
+     
+   const res =  await dispatch(logout());
+   if(res.payload.success){
+
+     await dispatch(userData())
+   }
+
+    };
+  
+
   return (
     <div className="fixed z-40 w-full">
-      <p className="text-center  text-dark bg-light py-2">
+      {/* <p className="text-center  text-dark bg-light py-2">
         New to Room? Make sure you check out our Intro Offers{" "}
         <Link to={"/intro-offers"} className="underline">
           here
         </Link>
         .
-      </p>
+      </p> */}
 
       <nav className=" top-0 left-0 w-full z-20  bg-mainBg text-zinc-900">
         <div className="mx-auto bg-white  z-20">
@@ -186,8 +204,8 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
                 />
               </div>
             </div>
-            <div className="flex items-center space-x-6">
-              <FiPhone className="text-2xl text-gray-600" />
+            <div className="flex items-center space-x-4">
+              <FaWhatsapp className="text-3xl text-gray-600" />
               <button
                 onClick={() => setIsPopUpOpen(true)}
                 className={`border border-[#FF6950] ${isLoggedIn ? "hidden" : "block"}  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white`}
@@ -214,8 +232,21 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               )}
+
+                { isLoggedIn &&(
+
+
+                <button
+              onClick={handleLogout}
+              className="flex items-center  cursor-pointer transition-colors"
+            >
+              <IconLogout size={28} />
+              {/* <span className="text-sm">Logout</span> */}
+            </button>
+              )
+              }
               <button
-                className="z-20 block cursor-pointer size-10 lg:hidden "
+                className="z-20 block cursor-pointer  lg:hidden "
                 type="button"
                 id="hamburger"
                 onClick={() => setIsOpen(!isOpen)}
@@ -243,6 +274,8 @@ const [userDashboardPopUp , setUserDashboardPopUp] = useState(false)
                   </>
                 )}
               </button>
+
+            
             </div>
           </div>
         </div>
