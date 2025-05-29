@@ -10,7 +10,7 @@ export const createMembershipPackageBodySchema = z.object({
     description:z.string().trim(),
     packageType:z.enum(["monthly","quarterly","discovery"]),
     available: z.boolean().optional(),
-    location:z.enum(["noida", "faridabad"])
+    location:z.enum(["gurugram", "faridabad"])
 })
 
 export const getSingleMembershipPackageParamsSchema = z.object({
@@ -32,7 +32,7 @@ export const editMembershipPackageBodySchema = z.object({
     description:z.string().trim().optional(),
     packageType:z.enum(["monthly","quarterly","discovery"]).optional(),
     available: z.boolean().optional(),
-      location:z.enum(["noida", "faridabad"]).optional()
+      location:z.enum(["gurugram", "faridabad"]).optional()
 })
 
 export const editMembershipPackageParamsSchema = z.object({

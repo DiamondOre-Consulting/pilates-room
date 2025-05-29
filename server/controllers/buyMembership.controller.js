@@ -402,7 +402,6 @@ export const buyMembership = asyncHandler(async (req, res) => {
 
             await sendMail("jadonyash755@gmail.com", `Order Received From ${existingUser.firstName} For membership`, emailTemplateForAdmin(existingUser.firstName, existingUser.lastName, existingUser.email, membershipPackage.packageName,membershipPackage.location))
 
-
         }
 
 

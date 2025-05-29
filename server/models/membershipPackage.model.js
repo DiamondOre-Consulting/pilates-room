@@ -34,7 +34,7 @@ const membershipPackageSchema = new mongoose.Schema({
     location:{
          type:String,
          lowercase:true,
-         enum:["faridabad","noida"],
+         enum:["faridabad","gurugram"],
          required:true
     },
     available: { type: Boolean, default: true },
