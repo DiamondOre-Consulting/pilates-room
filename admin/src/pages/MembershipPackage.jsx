@@ -216,44 +216,63 @@ const MembershipPackage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+        <div className="grid grid-cols-1 pb-10 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {allMembershipPackages?.map((pkg) => (
             <div
               key={pkg._id}
-              className="bg-white dark:bg-slate-800 shadow-lg rounded-2xl overflow-hidden flex flex-col justify-between"
+              className=" shadow-md rounded-2xl border border-gray-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="bg-gradient-to-r from-black to-natural-500 dark:bg-slate-700 px-6 py-4">
-                <p className="text-xl font-bold text-gray-100 dark:text-white">
-                  ₹{pkg.price}
-                  <span className="text-sm font-normal text-gray-100 dark:text-gray-300">
-                    {" "}
-                    /{pkg.packageType}
-                  </span>
-                </p>
-                <p className="text-sm text-gray-50 dark:text-gray-400">
-                  Per session: ₹{pkg.perSessionPrice}
+              <div className="bg-gradient-to-r from-black to-neutral-800  px-6 py-4">
+                <p className="text-xl text-center capitalize font-semibold text-gray-100 dark:text-white">
+                  {pkg?.packageName}
                 </p>
               </div>
 
-              <div className="p-6 text-gray-800 dark:text-white">
-                <h3 className="text-lg font-semibold mb-2">
-                  {pkg.packageName}
-                </h3>
-
-                <ul className="text-sm space-y-1">
-                  <li>
-                    <strong>Validity:</strong> {pkg.validity} weeks(s)
-                  </li>
-                  <li>
-                    <strong>Total Sessions:</strong> {pkg.totalSessions}
-                  </li>
-                  <li>
-                    <strong>Type:</strong> {pkg.packageType}
-                  </li>
-                  <li>
-                    <strong>Available:</strong> {pkg.available ? "Yes" : "No"}
-                  </li>
-                </ul>
+              <div className="p-2 text-gray-800 dark:text-white">
+                <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Total Price
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      ₹{pkg?.price.toLocaleString("en-IN")}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Price per week
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      ₹{pkg?.perSessionPrice.toLocaleString("en-IN")}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Available
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {pkg.available ? "Yes" : "No"}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Location
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {pkg.location}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Type
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {pkg?.packageType}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Total Sessions
+                    <span className="text-[1.01rem] capitalize dark:text-white text-black">
+                      {pkg?.totalSessions}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Validity
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {pkg?.validity} weeks
+                    </span>
+                  </p>
+                </div>
 
                 {/* <div
                   className="text-sm mt-4"
@@ -261,10 +280,10 @@ const MembershipPackage = () => {
                 /> */}
               </div>
 
-              <div className="px-6 pb-6 mt-auto flex  space-x-4">
+              <div className="px-2 pb-4 mt-auto flex  space-x-4">
                 <button
                   onClick={() => handleEditClick(pkg?._id, pkg)}
-                  className="w-full bg-green-500 cursor-pointer text-white py-2 px-4 rounded transition duration-300"
+                  className="w-full bg-green-700 cursor-pointer text-white py-2 px-4 rounded transition duration-300"
                 >
                   Edit
                 </button>

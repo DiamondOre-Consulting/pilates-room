@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import JoditEditor from "jodit-react";
 import TimePicker from "react-time-picker";
+import { Edit } from "lucide-react";
 
 const Classes = () => {
   const dispatch = useDispatch();
@@ -212,7 +213,6 @@ const Classes = () => {
         formData.append("time", formattedStart);
       }
 
-
       selectedDays
         .filter((day) => day !== "")
         .forEach((day) => {
@@ -229,7 +229,7 @@ const Classes = () => {
         await handleGetAllClasses();
       }
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -239,7 +239,7 @@ const Classes = () => {
       setAllClasses(response?.payload?.data?.classes);
       setTotalPages(response?.payload?.data?.totalPages || 1);
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -262,7 +262,7 @@ const Classes = () => {
         await handleGetAllClasses();
       }
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -375,219 +375,175 @@ const Classes = () => {
 
                 setAddClassPopUp(true);
               }}
-              className="bg-black text-white px-4 py-2 rounded-md  cursor-pointer text-sm"
+              className="bg-gradient-to-r from-neutral-800 via-neutral-600 to-neutral-800 text-white px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2"
             >
-              Add Class
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Add New Class
             </button>
 
-            <div className="flex space-x-2 items-center  text-sm">
-              <span>Page Limit : </span>
+            <div className="flex items-center space-x-3">
+              <span className="text-gray-600 font-medium">Items per page:</span>
               <select
-                className="border  px-2 cursor-pointer  py-1  border-gray-700 rounded-md"
+                className="bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer shadow-sm"
                 onChange={(e) => setLimit(e.target.value)}
               >
-                <option value={1}>10</option>
-                <option value={2}>20</option>
-                <option value={3}>30</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
               </select>
             </div>
           </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
           {allClasses?.map((ele) => (
-            <div className="w-full  bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-              <div className="h-20 bg-gradient-to-r from-black to-natural-500 relative">
-                <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-                  <div className="h-24 w-24 rounded-full border-4 border-white bg-white overflow-hidden shadow-md">
+            <div
+              key={ele._id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100"
+            >
+              <div className="relative h-16 bg-gradient-to-r from-neutral-900 via-neutral-600 to-neutral-900">
+                <button
+                  onClick={() => editClassClicked(ele?._id, ele)}
+                  className=" bg-green-50 z-10 size-9 flex items-center justify-center text-green-700 rounded absolute top-2 right-2 cursor-pointer hover:bg-blue-100 transition-colors duration-200 font-medium"
+                >
+                  <Edit className="size-5" />
+                </button>
+                <div className="absolute -bottom-10 w-full flex justify-center">
+                  <div
+                    className={`h-20 w-20 z-1 relative rounded-full border-4  ${
+                      ele?.available ? "border-green-500" : "border-red-500"
+                    }  bg-white shadow-lg`}
+                  >
                     <img
                       src={ele?.instructor?.image?.secureUrl}
-                      alt="Profile"
-                      className="h-full w-full object-cover"
+                      alt={ele?.instructor?.name}
+                      className="h-full w-full rounded-full object-cover"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="pt-14 px-6 pb-6 text-center">
-                <h1 className="text-xl font-bold text-gray-800">
-                  {ele?.instructor?.name}
-                </h1>
-                <p className="text-purple-600 font-medium">{ele?.title}</p>
+              <div className="pt-12 p-6">
+                <p className="text-blue-600 capitalize font-medium text-center mb-4">
+                  {ele?.title}
+                </p>
 
-                {/* <p
-                  dangerouslySetInnerHTML={{ __html: ele?.description }}
-                  className="text-gray-600 text-sm mt-2 mb-4"
-                /> */}
-
-                <div className="flex flex-wrap justify-center gap-2 my-4">
-                  <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
-                    Duration :- {ele?.duration}
-                  </span>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                    Capacity :- {ele?.capacity}
-                  </span>
-                  {/* <span className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                    Price :- {ele?.price}
-                  </span> */}
-                  {/* <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
-                JavaScript
-              </span> */}
+                <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Instructor
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {ele?.instructor?.name}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Duration
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {ele?.duration}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Capacity
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {ele?.time}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Location
+                    <span className="text-[1.01rem] capitalize dark:text-white text-black">
+                      {ele?.location}
+                    </span>
+                  </p>
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Capacity
+                    <span className="text-[1.01rem] dark:text-white text-black">
+                      {ele?.capacity}
+                    </span>
+                  </p>
                 </div>
-
-                <div className="flex gap-3 justify-center mt-6">
+                {/* 
+                <div className="flex justify-center gap-3">
                   <button
                     onClick={() => editClassClicked(ele?._id, ele)}
-                    className="px-6 py-2 bg-yellow-100 text-gray-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+                    className="px-6 py-2 bg-blue-50 w-full text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200 font-medium"
                   >
-                    Edit
+                    Edit Class
                   </button>
-                </div>
-
-                <div className="flex justify-center gap-4 mt-6 text-gray-500">
-                  <a
-                    href="#"
-                    aria-label="Twitter profile"
-                    className="hover:text-purple-600 transition-colors"
+                  <button
+                    onClick={() => handleDeleteClass(ele?._id)}
+                    className="px-6 py-2 bg-red-600 w-full text-white rounded-lg hover:bg-red-100 transition-colors duration-200 font-medium"
                   >
-                    <i className="fab fa-twitter text-xl"></i>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="GitHub profile"
-                    className="hover:text-purple-600 transition-colors"
-                  >
-                    <i className="fab fa-github text-xl"></i>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="LinkedIn profile"
-                    className="hover:text-purple-600 transition-colors"
-                  >
-                    <i className="fab fa-linkedin-in text-xl"></i>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="Dribbble profile"
-                    className="hover:text-purple-600 transition-colors"
-                  >
-                    <i className="fab fa-dribbble text-xl"></i>
-                  </a>
-                </div>
+                    Delete
+                  </button>
+                </div> */}
               </div>
             </div>
           ))}
         </div>
-
-        <div className="flex justify-center text-xl mt-4">
+        <div className="flex justify-center gap-4 my-8">
           <button
             onClick={handlePrevPage}
             disabled={page === 1}
-            className={`px-6 py-3 flex items-center justify-center ${page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
-              }`}
+            className={`p-2 rounded-lg flex items-center ${
+              page === 1
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-blue-50 text-blue-700 hover:bg-blue-100"
+            }`}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
+              className="h-6 w-6"
               fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-arrow-left-icon lucide-arrow-left"
             >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
 
-          <div className="px-6 py-3 border border-gray-800 text-black">
-            {page}
+          <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg font-medium text-gray-700">
+            Page {page} of {totalPages}
           </div>
 
           <button
             onClick={handleNextPage}
             disabled={page === totalPages}
-            className={`px-6 py-3 flex items-center justify-center ${page === totalPages
-              ? "bg-gray-400 text-white"
-              : "bg-black text-white"
-              }`}
+            className={`p-2 rounded-lg flex items-center ${
+              page === totalPages
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-blue-50 text-blue-700 hover:bg-blue-100"
+            }`}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
+              className="h-6 w-6"
               fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-arrow-right-icon lucide-arrow-right"
             >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>
-
-        {/* <div className="flex justify-center text-xl py-8">
-          <button
-            onClick={handlePrevPage}
-            disabled={page === 1}
-            className={`px-6 py-3 flex items-center justify-center ${
-              page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-arrow-left-icon lucide-arrow-left"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
-            </svg>
-          </button>
-
-          <div className="px-6 py-3 border border-gray-800 text-black">
-            {page}
-          </div>
-
-          <button
-            onClick={handleNextPage}
-            disabled={page === totalPages}
-            className={`px-6 py-3 flex items-center justify-center ${
-              page === totalPages
-                ? "bg-gray-400 text-white"
-                : "bg-black text-white"
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-arrow-right-icon lucide-arrow-right"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </button>
-        </div> */}
       </div>
 
       {addClassPopUp && (
@@ -624,8 +580,9 @@ const Classes = () => {
               {formState?.map((input, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${input.inputType === "textarea" ? "w-full md:col-span-2" : ""
-                    }`}
+                  className={`flex flex-col ${
+                    input.inputType === "textarea" ? "w-full md:col-span-2" : ""
+                  }`}
                 >
                   <label className="mb-1">
                     {input.label}{" "}
@@ -639,20 +596,22 @@ const Classes = () => {
                       onBlur={(newContent) =>
                         setValue("description", newContent)
                       }
-                      onChange={() => { }}
-                      className={`border px-2 py-1 rounded ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      onChange={() => {}}
+                      className={`border px-2 py-1 rounded ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   ) : input.inputType === "select" ? (
                     <>
                       <select
                         {...register(input.name, input.error)}
-                        className={`border px-2 py-1 rounded ${errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                          }`}
+                        className={`border px-2 py-1 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
                       >
                         <option value="">Select Location</option>
                         <option value="gurugram">Gurugram</option>
@@ -670,20 +629,22 @@ const Classes = () => {
                       value={watch(input.name)}
                       format="hh:mm a"
                       disableClock={true}
-                      className={`border px-2 py-1 rounded w-full ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      className={`border px-2 py-1 rounded w-full ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   ) : input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 w-60 rounded ${errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                          }`}
+                        className={`border px-2 py-1 w-60 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
                       />
                       {previewImage && (
                         <img
@@ -715,10 +676,11 @@ const Classes = () => {
                             type="button"
                             onClick={() => toggleDay(full)}
                             className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
-            ${selectedDays.includes(full)
-                                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
-                                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
-                              }`}
+            ${
+              selectedDays.includes(full)
+                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+            }`}
                           >
                             {short}
                           </button>
@@ -733,10 +695,11 @@ const Classes = () => {
                     <input
                       type={input.inputType}
                       {...register(input.name, input.error)}
-                      className={`border px-2 py-1 rounded ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      className={`border px-2 py-1 rounded ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   )}
 
@@ -799,8 +762,9 @@ const Classes = () => {
               {formState?.map((input, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${input.inputType === "textarea" ? "col-span-2" : ""
-                    }`}
+                  className={`flex flex-col ${
+                    input.inputType === "textarea" ? "col-span-2" : ""
+                  }`}
                 >
                   <label className="mb-1">
                     {input.label}{" "}
@@ -814,21 +778,23 @@ const Classes = () => {
                       onBlur={(newContent) =>
                         setValue("description", newContent)
                       }
-                      onChange={() => { }}
-                      className={`border px-2 py-1 rounded ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      onChange={() => {}}
+                      className={`border px-2 py-1 rounded ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   ) : input.inputType === "file" ? (
                     <div className="flex justify-between items-center">
                       <input
                         type="file"
                         onChange={handleFileUpload}
-                        className={`border px-2 py-1 w-50 rounded ${errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                          }`}
+                        className={`border px-2 py-1 w-50 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
                       />
                       {previewImage && (
                         <img
@@ -842,10 +808,11 @@ const Classes = () => {
                     <>
                       <select
                         {...register(input.name, input.error)}
-                        className={`border px-2 py-1 rounded ${errors[input.name]
-                          ? "border-red-500"
-                          : "border-gray-400"
-                          }`}
+                        className={`border px-2 py-1 rounded ${
+                          errors[input.name]
+                            ? "border-red-500"
+                            : "border-gray-400"
+                        }`}
                       >
                         <option value="">Select Location</option>
                         <option value="gurugram">Gurugram</option>
@@ -863,10 +830,11 @@ const Classes = () => {
                       value={watch(input.name)}
                       format="hh:mm a"
                       disableClock={true}
-                      className={`border px-2 py-1 rounded w-full ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      className={`border px-2 py-1 rounded w-full ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   ) : input.inputType === "checkbox" ? (
                     <label className="flex items-center gap-2">
@@ -891,10 +859,11 @@ const Classes = () => {
                             value={watch("weeks")}
                             onClick={() => toggleDay(full)}
                             className={`size-[2rem] md:size-[3rem] rounded-full border-2 mt-2 shadow-md flex items-center justify-center font-semibold text-xs md:text-sm uppercase transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none flex-shrink-0
-            ${selectedDays.includes(full)
-                                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
-                                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
-                              }`}
+            ${
+              selectedDays.includes(full)
+                ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-transparent shadow-lg"
+                : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+            }`}
                           >
                             {short}
                           </button>
@@ -909,10 +878,11 @@ const Classes = () => {
                     <input
                       type={input.inputType}
                       {...register(input.name, input.error)}
-                      className={`border px-2 py-1 rounded ${errors[input.name]
-                        ? "border-red-500"
-                        : "border-gray-400"
-                        }`}
+                      className={`border px-2 py-1 rounded ${
+                        errors[input.name]
+                          ? "border-red-500"
+                          : "border-gray-400"
+                      }`}
                     />
                   )}
                   {errors[input.name] && (
