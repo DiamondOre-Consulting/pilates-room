@@ -107,29 +107,27 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
   }
 });
 
-export const logout = createAsyncThunk('/user/logout', async () => {
+export const logout = createAsyncThunk("/user/logout", async () => {
   try {
-    let res = await userAxiosInstance.get('/user/sign-out');
+    let res = await userAxiosInstance.get("/user/sign-out");
 
-    res = await res;
     return res.data;
   } catch (e) {
     return e?.response?.data?.message;
-
   }
 });
 
-export const editUser = createAsyncThunk('/user/edit-user', async (data) => {
+export const editUser = createAsyncThunk("/user/edit-user", async (data) => {
   try {
-    const response = await userAxiosInstance.put('/user/edit-user', data);
+    const response = await userAxiosInstance.put("/user/edit-user", data);
     console.log(response);
-    toast.success(response?.data?.message)
-    return response?.data
+    toast.success(response?.data?.message);
+    return response?.data;
   } catch (error) {
-    return
-    toast.error(error?.response?.data?.message)
+    return;
+    toast.error(error?.response?.data?.message);
   }
-})
+});
 
 export const getScheduleClass = createAsyncThunk(
   "/user/get-schedule-class",
@@ -177,7 +175,7 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = {};
         state.isLoggedIn = false;
-      })
+      });
   },
 });
 

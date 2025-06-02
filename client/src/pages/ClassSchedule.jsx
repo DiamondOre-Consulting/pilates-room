@@ -25,7 +25,7 @@ const ClassSchedule = () => {
 
       <FindClassSection/>
 
-<RecommendedBy/>
+{/* <RecommendedBy/> */}
 <ContactUs/>
     </div>
   );

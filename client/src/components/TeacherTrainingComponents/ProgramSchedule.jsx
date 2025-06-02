@@ -11,7 +11,7 @@ const ProgramSchedule = () => {
       const response = await dispatch(getAllTrainings());
       setAllTrainings(response?.payload?.data);
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -55,7 +55,7 @@ const ProgramSchedule = () => {
                 {ele?.title}
               </a>
               <p
-                className="text-gray-500 text-sm"
+                className="text-gray-500 line-clamp-2 text-sm"
                 dangerouslySetInnerHTML={{ __html: ele?.description }}
               ></p>
             </div>

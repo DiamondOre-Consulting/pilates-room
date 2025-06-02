@@ -16,17 +16,17 @@ const Footer = () => {
 
       <section className="py-10 bg-dark text-white sm:pt-16 lg:pt-4">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-y-12 gap-x-8 xl:gap-x-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 md:gap-y-12 gap-x-8 xl:gap-x-12">
             <div className="lg:col-span-4 text-white">
               <ul className="mt-6 ">
-                <Link to={"/contact-us"}>
+                {/* <Link to={"/contact-us"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
                     Contact Us
                   </a>
-                </Link>
+                </Link> */}
 
                 <Link to={"/terms-and--condition"}>
                   <a
@@ -50,16 +50,16 @@ const Footer = () => {
 
             <div className="lg:col-span-4 text-white">
               <ul className="mt-6  flex flex-col justify-center  text-center items-center ">
-                <Link to={"/"}>
+                <Link to={"/class-schedule"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Location
+                    Book a Class
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/about-us"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
@@ -68,43 +68,43 @@ const Footer = () => {
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/about-us"}>
                   <a
                     title=""
                     className="flex text-sm text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Work at exhale
+                    About
                   </a>
                 </Link>
               </ul>
             </div>
 
             <div className="lg:col-span-4 w-full text-white">
-              <ul className="mt-6  flex flex-col justify-center  text-center items-center ">
+              <ul className="mt-6  flex flex-col justify-center  text-center items-start md:items-center ">
                 <Link to={"/"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    +91 34354645456
+                    +91 9561236539
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/all-blogs"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Our team
+                    Blogs
                   </a>
                 </Link>
 
-                <Link to={"/"}>
+                <Link to={"/teacher-training"}>
                   <a
                     title=""
                     className="flex text-sm text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Work at exhale
+                    Teacher training
                   </a>
                 </Link>
               </ul>
@@ -113,12 +113,22 @@ const Footer = () => {
 
           <hr className="mt-16 mb-10 border-gray-200" />
 
-            <p className="text-sm text-center text-gray-100 ">
-              © Copyright 2024, All Rights Reserved by DocLabz
-            </p>
+          <p className="text-sm text-center text-gray-100 ">
+            © Copyright 2025, All Rights Reserved by THE PILTES ROOM
+          </p>
 
-       
-         {/* / </div> */}
+          <p className="text-sm text-center mt-4 text-gray-100 ">
+            Designed & Developed by{" "}
+            <Link
+              to={"https://www.doclabz.com/"}
+              target="_blank"
+              className="underline tracking-wide"
+            >
+              DOCLABZ
+            </Link>
+          </p>
+
+          {/* / </div> */}
         </div>
       </section>
     </div>

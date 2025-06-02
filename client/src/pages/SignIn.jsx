@@ -58,7 +58,6 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
                   onChange={(e) => setEmail(e.target.value)}
                   className=" border border-gray-400 rounded-md py-1 px-1 w-[20rem] focus:outline-none"
                 />
-
               </div>
 
               <div className="flex flex-col ">
@@ -110,14 +109,16 @@ const SignIn = ({ setIsPopUpOpen, setIsSignIn }) => {
             <p
               className="mt-4  underline cursor-pointer"
               onClick={() => {
-                setForgotPasswordPopUp(true)
-
+                setForgotPasswordPopUp(true);
               }}
             >
               Forgot password?
             </p>
           </div>
-          <div onClick={() => setIsSignIn(false)} className="bg-dark cursor-pointer h-20 rounded-t-[10rem] w-full flex justify-center items-center  text-white  upercase text-xl shadow-xl">
+          <div
+            onClick={() => setIsSignIn(false)}
+            className="bg-dark cursor-pointer h-20 rounded-t-[10rem] w-full flex justify-center items-center  text-white  upercase text-xl shadow-xl"
+          >
             Sign Up
           </div>
           {/* <p className="lg:hidden md:hidden block mt-2 cursor-pointer">
