@@ -11,7 +11,7 @@ const TeacherTrainingEnquiry = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [contactEnquiry, setContactEnquiry] = useState([]);
-    const [showMOdel, setShowModel] = useState(false);
+  const [showMOdel, setShowModel] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleGetAllContactEnquiry = async () => {
@@ -44,8 +44,7 @@ const TeacherTrainingEnquiry = () => {
 
   console.log("contact Enqueriessssss", contactEnquiry);
 
-
-    const handleGetEnquiryById = async (id) => {
+  const handleGetEnquiryById = async (id) => {
     try {
       const response = await dispatch(getEnquiryById(id));
       console.log("responseee", response);
@@ -61,7 +60,7 @@ const TeacherTrainingEnquiry = () => {
       <div>
         <div className="flex justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All contact Enquiry</h1>
+            <h1 className="text-2xl">All Teacher Training Enquiries</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
@@ -78,7 +77,6 @@ const TeacherTrainingEnquiry = () => {
             </select>
           </div>
         </div>
-   
 
         {loading ? (
           <div className="flex justify-center py-10">Loading...</div>
@@ -103,7 +101,7 @@ const TeacherTrainingEnquiry = () => {
 
                     <td className="px-4 py-2">
                       <button
-                         onClick={() => handleGetEnquiryById(user?._id)}
+                        onClick={() => handleGetEnquiryById(user?._id)}
                         className="text-blue-600 hover:underline cursor-pointer"
                       >
                         <svg
@@ -188,7 +186,7 @@ const TeacherTrainingEnquiry = () => {
         </div>
       </div>
 
-        {showMOdel && selectedUser && (
+      {showMOdel && selectedUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity">
           <div className="bg-white rounded-xl shadow-2xl w-[90%] max-w-md p-6 relative">
             <button

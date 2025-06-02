@@ -13,7 +13,7 @@ import {
   IconPackage,
   IconWriting,
   IconUsersGroup,
-  IconChecks ,
+  IconChecks,
   IconAddressBook,
   IconTruckDelivery,
 } from "@tabler/icons-react";
@@ -38,12 +38,12 @@ const tabs = [
   { link: "/all-users", label: "All Users", icon: IconUsersGroup },
   {
     link: "/contact-enquiries",
-    label: "Contact Enquries",
+    label: "Contact Enquiries",
     icon: IconAddressBook,
   },
   {
     link: "/teacher-training-enquiries",
-    label: "Teacher Training Enquries",
+    label: "Teacher Training Enquiries",
     icon: IconAddressBook,
   },
 

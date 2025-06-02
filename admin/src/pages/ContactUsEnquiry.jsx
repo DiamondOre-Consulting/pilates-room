@@ -60,7 +60,7 @@ const ContactUsEnquiry = () => {
       <div>
         <div className="flex justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All contact Enquiry</h1>
+            <h1 className="text-2xl">All contact Enquiries</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 

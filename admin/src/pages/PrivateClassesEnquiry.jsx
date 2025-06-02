@@ -11,8 +11,8 @@ const PrivateClassesEnquiry = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [contactEnquiry, setContactEnquiry] = useState([]);
-    const [showMOdel, setShowModel] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+  const [showMOdel, setShowModel] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleGetAllContactEnquiry = async () => {
     setLoading(true);
@@ -42,24 +42,24 @@ const PrivateClassesEnquiry = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
   };
 
-  console.log("contact Enqueriessssss", contactEnquiry); 
-   const handleGetEnquiryById = async (id) => {
-      try {
-        const response = await dispatch(getEnquiryById(id));
-        console.log("responseee", response);
-        setSelectedUser(response?.payload?.data);
-        setShowModel(true);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  console.log("contact Enqueriessssss", contactEnquiry);
+  const handleGetEnquiryById = async (id) => {
+    try {
+      const response = await dispatch(getEnquiryById(id));
+      console.log("responseee", response);
+      setSelectedUser(response?.payload?.data);
+      setShowModel(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <HomeLayout>
       <div>
         <div className="flex justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All contact Enquiry</h1>
+            <h1 className="text-2xl">All Private Class Enquiries</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
@@ -76,7 +76,6 @@ const PrivateClassesEnquiry = () => {
             </select>
           </div>
         </div>
-   
 
         {loading ? (
           <div className="flex justify-center py-10">Loading...</div>
@@ -186,8 +185,7 @@ const PrivateClassesEnquiry = () => {
         </div>
       </div>
 
-
-        {showMOdel && selectedUser && (
+      {showMOdel && selectedUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity">
           <div className="bg-white rounded-xl shadow-2xl w-[90%] max-w-md p-6 relative">
             <button

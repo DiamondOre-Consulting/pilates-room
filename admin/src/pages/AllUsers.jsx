@@ -21,6 +21,7 @@ const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [showModel, setShowModel] = useState(false);
+  // const [searchItem, setSearchItem] = useState("");
 
   const handleGetAllUsers = async () => {
     setLoading(true);
@@ -44,16 +45,51 @@ const AllUsers = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
   };
 
+  const [searchItem, setSearchItem] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => clearTimeout(timer);
+    }, [value, delay]);
+
+    return debouncedValue;
+  };
+
+  const debouncedInputValue = useDebounce(searchItem, 1000);
+
+  const fetchSearchResult = async (query) => {};
+
+  useEffect(() => {
+    if (debouncedInputValue) {
+      fetchSearchResult(debouncedInputValue);
+    } else {
+      setSearchResults([]);
+    }
+  }, [debouncedInputValue]);
 
   return (
     <HomeLayout>
       <div>
         <div className="flex justify-between py-2">
-          <div className="flex flex-col">
-            <h1 className="text-2xl">All Users</h1>
-            <div className="w-20 h-1 bg-black"></div>
-          </div>
+          <div className="flex flex-col md:flex-row md:space-x-4">
+            <div className="flex flex-col">
+              <h1 className="text-2xl">All Users</h1>
+              <div className="w-20 h-1 bg-black"></div>
+            </div>
 
+            <input
+              type="text"
+              placeholder="Search User..."
+              className="border border-1 border-gray-800 rounded-md px-2 mt-5 md:mt-0 md:ml-4"
+            />
+          </div>
           <div className="flex space-x-2 items-center text-sm">
             <span>Page Limit:</span>
             <select
@@ -152,8 +188,9 @@ const AllUsers = () => {
           <button
             onClick={handlePrevPage}
             disabled={page === 1}
-            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
-              }`}
+            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${
+              page === 1 ? "bg-gray-400 text-white" : "bg-black text-white"
+            }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -178,10 +215,11 @@ const AllUsers = () => {
           <button
             onClick={handleNextPage}
             disabled={page === totalPages}
-            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${page === totalPages
-              ? "bg-gray-400 text-white"
-              : "bg-black text-white"
-              }`}
+            className={`px-6 py-3 flex items-center cursor-pointer justify-center ${
+              page === totalPages
+                ? "bg-gray-400 text-white"
+                : "bg-black text-white"
+            }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
