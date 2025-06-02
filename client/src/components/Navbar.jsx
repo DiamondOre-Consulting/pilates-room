@@ -21,7 +21,6 @@ const routes = [
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
   { name: "MEMBERSHIP", href: "/membership", isActive: false },
   { name: "BLOGS", href: "/all-blogs", isActive: false },
-
 ];
 
 const NavMenu = ({ routes, isOpen, setIsOpen }) => {
@@ -40,13 +39,13 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
     };
   }, []);
 
-  const location = useLocation()
-
+  const location = useLocation();
 
   return (
     <ul
-      className={`flex flex-col lg:flex-row lg:justify-center px-3 pt-10 lg:pt-0 lg:items-center text-3xl lg:text-base gap-6 lg:gap-3 text-[1rem] fixed z-40 top-24 right-0 w-[16rem] h-screen lg:static lg:h-auto  lg:w-fit lg:bg-transparent bg-white text-dark transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
-        }`}
+      className={`flex flex-col lg:flex-row lg:justify-center px-3 pt-10 lg:pt-0 lg:items-center text-3xl lg:text-base gap-6 lg:gap-3 text-[1rem] fixed z-40 top-12 right-0 w-[16rem] h-screen lg:static lg:h-auto  lg:w-fit lg:bg-transparent bg-white text-dark transition-transform duration-300 ${
+        isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+      }`}
       id="navbar"
     >
       {routes.map((route, i) => (
@@ -62,10 +61,11 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             transition-all 
                             tracking-wide
                             duration-200
-                            ${location.pathname === route.href
-                ? "text-dark underline decoration-text-dark "
-                : "opacity-90 hover:opacity-100"
-              }`}
+                            ${
+                              location.pathname === route.href
+                                ? "text-dark underline decoration-text-dark "
+                                : "opacity-90 hover:opacity-100"
+                            }`}
             to={route.href}
           >
             {route.name}
@@ -133,7 +133,7 @@ const Navbar = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const popupRef = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state?.auth);
-  const [userDashboardPopUp, setUserDashboardPopUp] = useState(false)
+  const [userDashboardPopUp, setUserDashboardPopUp] = useState(false);
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -152,18 +152,16 @@ const Navbar = () => {
     };
   }, [isPopUpOpen]);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
-
     const res = await dispatch(logout());
     if (res.payload.success) {
-
-      await dispatch(userData())
+      await dispatch(userData());
     }
-
   };
 
+  console.log("islogged in", isLoggedIn);
 
   return (
     <div className="fixed z-40 w-full">
@@ -200,10 +198,18 @@ const Navbar = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <FaWhatsapp className="text-3xl text-gray-600" />
+              <a
+                href="https://wa.me/919561236539"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaWhatsapp className="text-3xl text-gray-800  transition" />
+              </a>
               <button
                 onClick={() => setIsPopUpOpen(true)}
-                className={`border border-[#FF6950] ${isLoggedIn ? "hidden" : "block"}  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white`}
+                className={`border border-[#FF6950] ${
+                  isLoggedIn ? "hidden" : "block"
+                }  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white`}
               >
                 Login
               </button>
@@ -229,8 +235,6 @@ const Navbar = () => {
               )}
 
               {isLoggedIn && (
-
-
                 <button
                   onClick={handleLogout}
                   className="flex items-center  cursor-pointer transition-colors"
@@ -238,8 +242,7 @@ const Navbar = () => {
                   <IconLogout size={28} />
                   {/* <span className="text-sm">Logout</span> */}
                 </button>
-              )
-              }
+              )}
               <button
                 className="z-20 block cursor-pointer  lg:hidden "
                 type="button"
@@ -269,8 +272,6 @@ const Navbar = () => {
                   </>
                 )}
               </button>
-
-
             </div>
           </div>
         </div>
@@ -278,10 +279,7 @@ const Navbar = () => {
 
       {isPopUpOpen && (
         <div className="fixed inset-0 z-80 flex items-center justify-center bg-black/20">
-          <div
-            ref={popupRef}
-            className="bg-white  rounded-md"
-          >
+          <div ref={popupRef} className="bg-white  rounded-md">
             {isSignIn ? (
               <SignIn
                 setIsPopUpOpen={setIsPopUpOpen}
@@ -297,37 +295,35 @@ const Navbar = () => {
         </div>
       )}
 
-
-
-      {
-        userDashboardPopUp && (
-          <div className='fixed inset-0 z-40 min-h-full    transition flex items-center justify-center'>
-            <div className="fixed inset-0 bg-black/50" onClick={() => setUserDashboardPopUp(false)}></div>
-            <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
-              <button
-                type="button"
-                onClick={() => setUserDashboardPopUp(false)}
-                className="absolute top-2 right-2 cursor-pointer"
+      {userDashboardPopUp && (
+        <div className="fixed inset-0 z-40 min-h-full  transition flex items-center justify-center">
+          <div
+            className="fixed inset-0 bg-black/50"
+            onClick={() => setUserDashboardPopUp(false)}
+          ></div>
+          <div className="relative w-full max-w-4xl p-4 mx-auto bg-white rounded-xl z-50">
+            <button
+              type="button"
+              onClick={() => setUserDashboardPopUp(false)}
+              className="absolute top-2 right-2 cursor-pointer"
+            >
+              <svg
+                className="h-5 w-5 text-gray-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
               >
-                <svg
-                  className="h-5 w-5 text-gray-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-              <UserDashboard setUserDashboardPopUp={setUserDashboardPopUp} />
-            </div>
-
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            <UserDashboard setUserDashboardPopUp={setUserDashboardPopUp} />
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };

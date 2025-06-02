@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import banner from "../assets/banner.mp4";
+import banner from "../assets/home.webm";
 import BookingSection from "@/components/BookingSection";
 import { Link } from "react-router-dom";
 import ContactUs from "@/components/ContactUs";
@@ -85,7 +85,7 @@ const PrivateSession = () => {
               dangerouslySetInnerHTML={{ __html: info?.description }}
             ></p>
             <button
-            onClick={()=> setContactUsPopUp(true)}
+              onClick={() => setContactUsPopUp(true)}
               class={`group cursor-pointer relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md ${
                 index % 2 === 0
                   ? "border border-white text-neutral-200"

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import aboutimg from "../../assets/aboutimg.png";
 
 const stories = [
   {
@@ -29,45 +30,28 @@ const AboutSection = () => {
     <div>
       <section className="ezy__about9 light py-14 md:pt-20 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
         <div className=" px-4 my-10">
-          <div className="grid grid-cols-12 items-center gap-4 mb-12">
-            <div className="col-span-12 lg:col-span-6">
-              <h1 className="text-3xl leading-none font-bold uppercase tracking-wider mb-2">
-                Welcome to THe PliTes Room
+          <div className="grid grid-cols-12 items-start gap-10 mb-12">
+            <div className="col-span-12 lg:col-span-6 mt-10">
+              <h1 className="text-2xl md:text-4xl leading-wide font-bold uppercase tracking-wider mb-2">
+                Welcome to The Pilates Room, where passion meets precision!
               </h1>
               <hr className="bg-dark h-1 rounded-[3px] w-12 opacity-100 my-6" />
-              <p className="opacity-70 mb-2">
-                Since our inception set out in 2012, TalEx has set out to
-                disrupt inception the HR & Talent/Staffing Management industry.
-                Purposefully designed by our founders (Amrita Grewal and Julie
-                Dacar) to connect great companies and great talent.
+              <p className="opacity-70 mb-2 text-xl md:text-2xl md:tracking-wider">
+                Meet Shivani, the founder and driving force behind our studio
+                Leading the Classical Pilates Movement in North India
               </p>
-              <p className="opacity-70 mb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam aliquam ipsam cum accusamus, eligendi perferendis
-                dolorem? Commodi dolores eos laboriosam illum earum praesentium
-                dicta voluptatibus provident. Vero non aspernatur aliquid culpa
-                eius? Sint voluptatem pariatur consectetur alias laborum
-                molestiae quidem at doloribus explicabo delectus reprehenderit,
-                dolore voluptatum laboriosam natus, repudiandae aut animi cum
-                culpa impedit suscipit numquam sapiente accusamus. Sequi?
+              <p className="opacity-70 mb-2 text-xl md:text-2xl md:tracking-wider">
+                Shivani's journey with Pilates began as a quest for a stronger,
+                more balanced body. But what started as a personal pursuit soon
+                blossomed into a lifelong passion. Drawn to the rigorous
+                principles and proven effectiveness of Classical Pilates,
+                Shivani delved deep into this practice.
               </p>
-              <ul className="flex flex-col ezy__about9-features mt-5">
-                {stories.map((item, i) => (
-                  <li key={i}>
-                    <StoryItem item={item} index={i + 1} key={i} />
-                  </li>
-                ))}
-              </ul>
-              <div className="">
-                <Link to={'/intro-offers'} className="bg-gray-900 text-white dark:bg-white dark:text-black hover:bg-opacity-90 rounded-md px-5 py-2 transition">
-                  Learn More
-                </Link>
-              </div>
             </div>
             <div className="col-span-12 lg:col-span-6">
               <div className="mt-12 lg:mt-0">
                 <img
-                  src="https://exhalepilateslondon.com/wp-content/uploads/2023/01/9D4B9622.jpg"
+                  src={aboutimg}
                   alt=""
                   className="max-w-full h-auto rounded-2xl"
                 />
