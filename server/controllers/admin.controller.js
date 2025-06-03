@@ -170,12 +170,13 @@ const getAllUsers = asyncHandler(async (req, res) => {
         }
     :null;
    
-    pipeline.push({
-    $skip: (page - 1) * limit},
-    {$limit: limit}
-    )
+   
     
       if (searchStage) pipeline.push(searchStage);
+       pipeline.push({
+            $skip: (page - 1) * limit},
+            {$limit: limit}
+            )
       const users = await User.aggregate(pipeline);
 
         const countPipeline = [];
