@@ -4,9 +4,9 @@ import ApiError from '../utils/apiError.js';
 import Admin from '../models/admin.model.js';
 
 export const adminMiddleware = asyncHandler(async (req, res, next) => {
-    const accessToken = req.cookies.accessToken;
+    const accessToken = req.cookies.adminAccessToken;
     if (!accessToken) {
-        throw new ApiError("Access Token is missing", 401);
+        throw new ApiError("Admin Access Token Token is missing", 401);
     }
 
     const decodedToken = jwt.verify(accessToken, process.env.ADMIN_SECRET_KEY);
