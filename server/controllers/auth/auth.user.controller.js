@@ -1,4 +1,3 @@
-
 import asyncHandler from "../../utils/asyncHandler.js";
 import ApiError from "../../utils/apiError.js";
 import sendResponse from "../../utils/sendResponse.js";
@@ -6,12 +5,9 @@ import { randomUUID } from "crypto";
 import User from "../../models/user.model.js";
 import { sendMail } from "../../utils/sendmail.js";
 import bcrypt from "bcryptjs";
-import crypto from "crypto"
+import crypto from "crypto";
 
-
-
-
-const otpStore = new Map()
+const otpStore = new Map();
 
 const cookieOptions = {
   httpOnly: true,
@@ -19,20 +15,18 @@ const cookieOptions = {
   sameSite: "None",
 };
 
-
-
-
 export const signIn = asyncHandler(async (req, res) => {
+  const { email, password } = req.validatedData.body;
 
-  const { email, password } = req.validatedData.body
-
-  const existingUser = await User.findOne({ email }).select('+password').populate({
-    path: 'upcomingSchedule.item',
-    model: 'Order'
-  })
+  const existingUser = await User.findOne({ email })
+    .select("+password")
     .populate({
-      path: 'memberShipPlan.package',
-      model: 'MembershipPackage'
+      path: "upcomingSchedule.item",
+      model: "Order",
+    })
+    .populate({
+      path: "memberShipPlan.package",
+      model: "MembershipPackage",
     });
 
   if (!existingUser) {
@@ -44,7 +38,6 @@ export const signIn = asyncHandler(async (req, res) => {
   if (!passwordCheck) {
     throw new ApiError("Password is incorrect", 409);
   }
-
 
   const accessToken = await existingUser.generateAccessToken();
   const refreshAccessToken = await existingUser.generateRefreshToken();
@@ -59,18 +52,16 @@ export const signIn = asyncHandler(async (req, res) => {
   existingUser.resetPasswordTokenExpires = undefined;
 
   sendResponse(res, 200, existingUser, "User logged in successfully");
-
-})
+});
 
 export const signUp = asyncHandler(async (req, res) => {
+  const { email, password, otp, firstName, lastName, phoneNumber, birthDate } =
+    req.validatedData.body;
 
-  const { email, password, otp, firstName, lastName, phoneNumber, birthDate } = req.validatedData.body
-
-
-  const existingUser = await User.findOne({ email })
+  const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new ApiError("User already exist", 400)
+    throw new ApiError("User already exist", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -78,11 +69,11 @@ export const signUp = asyncHandler(async (req, res) => {
   const storedOtp = otpStore.get(email);
 
   if (!storedOtp) {
-    throw new ApiError("Otp is missing", 400)
+    throw new ApiError("Otp is missing", 400);
   }
 
   if (storedOtp.otp !== otp) {
-    throw new ApiError("Otp entered is not matching", 400)
+    throw new ApiError("Otp entered is not matching", 400);
   }
 
   const user = await User.create({
@@ -91,7 +82,7 @@ export const signUp = asyncHandler(async (req, res) => {
     firstName,
     lastName,
     phoneNumber,
-    birthDate
+    birthDate,
   });
 
   otpStore.delete("email");
@@ -99,7 +90,6 @@ export const signUp = asyncHandler(async (req, res) => {
   const token = await user.generateAccessToken();
   const refreshAccessToken = await user.generateRefreshToken();
   user.refreshAccessToken = refreshAccessToken;
-
 
   await user.save();
 
@@ -111,29 +101,25 @@ export const signUp = asyncHandler(async (req, res) => {
   res.cookie("accessToken", token, cookieOptions);
   res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
 
-  sendResponse(res, 200, user, "User created successfully")
-
-
-})
+  sendResponse(res, 200, user, "User created successfully");
+});
 
 export const sendOtp = asyncHandler(async (req, res) => {
+  const { email } = req.validatedData.body;
 
-  const { email } = req.validatedData.body
-
-  const existingUser = await User.findOne({ email })
+  const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new ApiError("User already exist", 400)
+    throw new ApiError("User already exist", 400);
   }
 
   const generatedOTP = () => {
-    return randomUUID().replace(/\D/g, '').slice(0, 6);
+    return randomUUID().replace(/\D/g, "").slice(0, 6);
   };
 
-  const otp = generatedOTP()
+  const otp = generatedOTP();
 
   otpStore.set(email, { otp, expiresAt: Date.now() + 5 * 60 * 1000 });
-
 
   const emailTemplate = `
     <div style="font-family: Arial, sans-serif; text-align: center;">
@@ -149,13 +135,10 @@ export const sendOtp = asyncHandler(async (req, res) => {
 
   sendMail(email, "OTP for signup", emailTemplate);
 
-  console.log(otp)
+  console.log(otp);
 
-  sendResponse(res, 200, null, "Otp sent successfully")
-
-
-
-})
+  sendResponse(res, 200, null, "Otp sent successfully");
+});
 
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.validatedData.body;
@@ -168,13 +151,12 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
   const resetToken = crypto.randomBytes(32).toString("hex");
   const resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
-  const expiryTime = encodeURIComponent(resetPasswordTokenExpires)
+  const expiryTime = encodeURIComponent(resetPasswordTokenExpires);
 
   existingUser.resetPasswordToken = resetToken;
   existingUser.resetPasswordTokenExpires = resetPasswordTokenExpires;
 
   await existingUser.save();
-
 
   const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingUser.email}/${expiryTime}`;
 
@@ -265,17 +247,16 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 });
 
 export const resetPassword = asyncHandler(async (req, res) => {
-
   const { resetToken } = req.validatedData.params;
   let { newPassword } = req.validatedData.body;
 
   const existingUser = await User.findOne({
     resetPasswordToken: resetToken,
     resetPasswordTokenExpires: { $gt: Date.now() },
-  }).select('+password');
+  }).select("+password");
 
   if (!existingUser) {
-    throw new ApiError("Token expired", 400)
+    throw new ApiError("Token expired", 400);
   }
 
   newPassword = await bcrypt.hash(newPassword, 10);
@@ -286,15 +267,12 @@ export const resetPassword = asyncHandler(async (req, res) => {
   await existingUser.save();
 
   sendResponse(res, 200, null, "Password reset successfully");
-
-
-})
+});
 
 export const changePassword = asyncHandler(async (req, res) => {
- 
-  const { newPassword,oldPassword } = req.validatedData.params;
+  const { newPassword, oldPassword } = req.validatedData.params;
 
-  const existingUser = await User.findById(req.user._id).select('+password');
+  const existingUser = await User.findById(req.user._id).select("+password");
   const isSame = await bcrypt.compare(newPassword, existingUser.password);
   const comparePassword = await existingUser.comparePassword(oldPassword);
 
@@ -308,37 +286,27 @@ export const changePassword = asyncHandler(async (req, res) => {
   existingUser.password = await bcrypt.hash(newPassword, 10);
   await existingUser.save();
   sendResponse(res, 200, null, "Password changed successfully");
-
-})
+});
 
 export const signOut = asyncHandler(async (req, res) => {
-
-  await User.findByIdAndUpdate(req.user._id,
-    {
-      $set: { refreshToken: "" }
-    },
-    { new: true }
-  )
-
- 
   return res
     .status(200)
     .clearCookie("accessToken", cookieOptions)
     .clearCookie("refreshAccessToken", cookieOptions)
     .json({ success: true, message: "User logged out successfully!" });
-})
+});
 
 export const getProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   const user = await User.findById(userId)
     .populate({
-      path: 'upcomingSchedule.item',
-      model: 'Order'
+      path: "upcomingSchedule.item",
+      model: "Order",
     })
     .populate({
-      path: 'memberShipPlan.package',
-      model: 'MembershipPackage'
+      path: "memberShipPlan.package",
+      model: "MembershipPackage",
     });
 
   sendResponse(res, 200, user, "User profile fetched successfully");
@@ -347,7 +315,7 @@ export const getProfile = asyncHandler(async (req, res) => {
 export const editUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const { email, phoneNumber } = req.validatedData.body
+  const { email, phoneNumber } = req.validatedData.body;
 
   const user = await User.findById(userId);
   if (!user) {
@@ -370,14 +338,3 @@ export const editUser = asyncHandler(async (req, res) => {
 
   sendResponse(res, 200, updatedUser, "User updated successfully");
 });
-
-
-
-
-
-
-
-
-
-
-

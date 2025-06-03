@@ -85,6 +85,17 @@ export const extendExpiry = createAsyncThunk(
   }
 );
 
+export const adminAddUser = createAsyncThunk("/admin/add-user", async () => {
+  try {
+    const response = await adminAxiosInstance.post("/admin/add-user");
+    console.log(response);
+    toast.success(response?.data?.message);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const adminSlice = createSlice({
   name: "admin",
   initialState: null,

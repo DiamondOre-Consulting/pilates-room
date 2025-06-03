@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { HomeLayout } from "@/Layout/HomeLayout";
-import { extendExpiry, getAllUsers } from "@/Redux/Slices/adminSlice";
+import {
+  adminAddUser,
+  extendExpiry,
+  getAllUsers,
+} from "@/Redux/Slices/adminSlice";
 import {
   X,
   Mail,
@@ -11,9 +15,10 @@ import {
   UserX,
 } from "lucide-react";
 import { Eye, EyeOff, Pencil } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { getMemberShipPackage } from "@/Redux/Slices/MembershpPackageSlice";
 
 // import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -37,6 +42,7 @@ const AllUsers = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, onSubmit },
   } = useForm();
 
@@ -122,8 +128,6 @@ const AllUsers = () => {
     }
   };
 
-  console.log(selectedUser?.memberShipPlan?.expiryDate);
-
   useEffect(() => {
     if (selectedUser?.memberShipPlan?.expiryDate) {
       setExpiryDate(selectedUser.memberShipPlan.expiryDate.split("T")[0]);
@@ -131,6 +135,33 @@ const AllUsers = () => {
       setExpiryDate("");
     }
   }, [selectedUser]);
+
+  const [allpackages, setAllPackages] = useState([]);
+  const handleGetAllMemberShipPackage = async () => {
+    try {
+      const response = await dispatch(getMemberShipPackage());
+      console.log(response);
+      setAllPackages(response?.payload?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllMemberShipPackage();
+  }, []);
+
+  console.log(allpackages);
+
+  const handleAddUser = async (data) => {
+    console.log(data);
+    try {
+      const res = await dispatch(adminAddUser(data));
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <HomeLayout>
@@ -379,16 +410,12 @@ const AllUsers = () => {
                   {/* <p><strong>Subscription ID:</strong> {selectedUser.memberShipPlan.subscriptionId}</p> */}
                   <p>
                     <strong>Start Date:</strong>{" "}
-                    {new Date(
-                      selectedUser.memberShipPlan.startDate
-                    ).toLocaleDateString()}
+                    {selectedUser.memberShipPlan.startDate.split("T")[0]}
                   </p>
                   <p className="flex items-center  space-x-3">
                     <p>
                       <strong>Expiry Date:</strong>{" "}
-                      {new Date(
-                        selectedUser.memberShipPlan.expiryDate
-                      ).toLocaleDateString()}
+                      {selectedUser.memberShipPlan.expiryDate.split("T")[0]}
                     </p>
                     <Pencil
                       className="text-[10px] cursor-pointer"
@@ -473,10 +500,7 @@ const AllUsers = () => {
 
             <h2 className="text-xl font-bold mb-4">Add New User</h2>
 
-            <form
-              onSubmit={handleSubmit((data) => console.log("Submitted:", data))}
-              className="space-y-4"
-            >
+            <form onSubmit={handleSubmit(handleAddUser)} className="space-y-4">
               <div className="flex space-x-4">
                 <div>
                   <label className="block text-sm font-medium">
@@ -544,11 +568,46 @@ const AllUsers = () => {
                 <label className="block text-sm font-medium">
                   Phone Number
                 </label>
-                <PhoneInput
-                  country={"in"}
-                  onChange={handlePhoneChange}
-                  inputStyle={{ width: "100%" }}
+                <Controller
+                  name="phoneNumber"
+                  control={control}
+                  rules={{ required: "Phone number is required" }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      country={"in"}
+                      inputStyle={{ width: "100%" }}
+                      {...field}
+                    />
+                  )}
                 />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-xs">
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-1 font-medium">Select Package</label>
+                <select
+                  {...register("selectedPackage", {
+                    required: "Package is required",
+                  })}
+                  className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                >
+                  <option>Select Package</option>
+                  {allpackages?.map((pkg, index) => (
+                    <option key={index} value={pkg?._id}>
+                      {pkg.packageName} - {pkg.location} - {pkg.packageType}
+                    </option>
+                  ))}
+                </select>
+
+                {errors.selectedPackage && (
+                  <p className="text-red-500 text-xs">
+                    {errors.selectedPackage.message}
+                  </p>
+                )}
               </div>
 
               <div>

@@ -157,7 +157,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     const res = await dispatch(logout());
     if (res.payload.success) {
-      await dispatch(userData());
+      // await dispatch(userData());
     }
   };
 

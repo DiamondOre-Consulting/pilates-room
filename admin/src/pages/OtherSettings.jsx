@@ -65,7 +65,7 @@ const OtherSettings = () => {
               className="absolute right-2 top-[38px] cursor-pointer text-gray-600"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </div>
           </div>
 
@@ -83,7 +83,7 @@ const OtherSettings = () => {
               className="absolute right-2 top-[38px] cursor-pointer text-gray-600"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </div>
           </div>
 
