@@ -177,11 +177,14 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
       const users = await User.aggregate(pipeline);
 
-      if(!users){
+      const totalPages = Math.ceil(users.length / limit);
+
+
+      if(!users.length){
         throw new ApiError("Users not found", 400);
       }
       
-      sendResponse(res, 200,  users,"Users retrieved successfully");
+      sendResponse(res, 200, {totalPages,page,users},"Users retrieved successfully");
 });
 
 export {
