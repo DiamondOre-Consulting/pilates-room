@@ -177,7 +177,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
       const users = await User.aggregate(pipeline);
 
-        const totalCount = await User.countDocuments(match);
+        const totalCount = await User.countDocuments();
         const totalPages = Math.ceil(totalCount / limit);
 
         if (!users.length) {
