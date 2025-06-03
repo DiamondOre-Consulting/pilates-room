@@ -152,48 +152,56 @@ const getDetailedStats = asyncHandler(async (req, res) => {
 });
 
 const getAllUsers = asyncHandler(async (req, res) => {
+  const { searchTerm, page = 1, limit = 10 } = req.validatedData.query;
 
-    const {searchTerm, page=1, limit=10 } = req.validatedData.query
+  const pipeline = [];
+  const fields = ["firstName", "lastName", "email"];
 
-    const pipeline = [];
+  const searchStage = searchTerm
+  ? {
+      $search: {
+        compound: {
+          should: fields.map((field) => ({
+            autocomplete: {
+              query: searchTerm,
+              path: field,
+              fuzzy: { maxEdits: 1},
+            },
+          })),
+        },
+      },
+    }
+  : null;
 
-    const searchStage=searchTerm? {
-        
-            $search:{
-                 text: {
-                    query: searchTerm,
-                    path: ["firstName", "lastName", "email"],
-                    fuzzy: {
-                    maxEdits: 2,          
-                    }
-                }
-            }
-        }
-    :null;
-   
-   
-    
-      if (searchStage) pipeline.push(searchStage);
-       pipeline.push({
-            $skip: (page - 1) * limit},
-            {$limit: limit}
-            )
-      const users = await User.aggregate(pipeline);
+  if (searchStage) pipeline.push(searchStage);
+  pipeline.push(
+    {
+      $skip: (page - 1) * limit,
+    },
+    { $limit: limit }
+  );
+  const users = await User.aggregate(pipeline);
+  console.log(searchTerm);
+  console.log(users);
 
-        const countPipeline = [];
-        if (searchStage) countPipeline.push(searchStage);
-        countPipeline.push({ $count: "count" });
+  const countPipeline = [];
+  if (searchStage) countPipeline.push(searchStage);
+  countPipeline.push({ $count: "count" });
 
-        const countResult = await User.aggregate(countPipeline);
-        const totalCount = countResult[0]?.count || 0;
-        const totalPages = Math.ceil(totalCount / limit);
-        if (!users.length) {
-        throw new ApiError("Users not found", 400);
-        }
+  const countResult = await User.aggregate(countPipeline);
+  console.log(countResult);
+  const totalCount = countResult[0]?.count || 0;
+  const totalPages = Math.ceil(totalCount / limit);
+  if (!users.length) {
+    throw new ApiError("Users not found", 400);
+  }
 
-
-     
-      sendResponse(res, 200, {pagination:{page,limit,totalPages},users},"Users retrieved successfully");
+  sendResponse(
+    res,
+    200,
+    { pagination: { page, limit, totalPages }, users },
+    "Users retrieved successfully"
+  );
 });
 
 const editUserMembership = asyncHandler(async (req, res) => {
