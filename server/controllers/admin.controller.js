@@ -164,8 +164,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
                     query: searchTerm,
                     path: ["firstName", "lastName", "email"],
                     fuzzy: {
-                    maxEdits: 2,       
-                    prefixLength: 1,   
+                    maxEdits: 2,          
                     }
                 }
             }
