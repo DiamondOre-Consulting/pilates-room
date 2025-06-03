@@ -184,7 +184,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
         throw new ApiError("Users not found", 400);
       }
       
-      sendResponse(res, 200, {totalPages,page,users},"Users retrieved successfully");
+      sendResponse(res, 200, {pagination:{page,limit,totalPages},users},"Users retrieved successfully");
 });
 
 export {
