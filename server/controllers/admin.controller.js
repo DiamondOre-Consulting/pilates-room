@@ -2,6 +2,7 @@ import User from '../models/user.model.js';
 import Order from '../models/order.model.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import asyncHandler from '../utils/asyncHandler.js';
+import sendResponse from '../utils/sendResponse.js';
 
 const getDashboardStats = asyncHandler(async (req, res) => {
     const totalUsers = await User.countDocuments();
@@ -149,8 +150,38 @@ const getDetailedStats = asyncHandler(async (req, res) => {
 });
 
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({});
-    return res.status(200).json(new ApiResponse(200, users, "All users retrieved successfully"));
+
+    const {fullName , email, page=1, limit=10 } = req.validatedData.query
+
+    const pipeline = [];
+
+    if(fullName||email){
+        pipeline.push({
+            $search:{
+                index:'default',
+                compound: {
+                    should: [
+                        ...(fullName ? [{ text: { query: fullName, path: "fullName" } }] : []),
+                        ...(email ? [{ text: { query: email, path: "email" } }] : [])
+                ]
+        }
+            }
+        })
+    }
+   
+    pipeline.push({
+    $skip: (page - 1) * limit},
+    {$limit: limit}
+    )
+    
+
+      const users = await User.aggregate(pipeline);
+
+      if(!users){
+        throw new ApiError("Users not found", 400);
+      }
+      
+      sendResponse(res, 200, "Users retrieved successfully", users);
 });
 
 export {

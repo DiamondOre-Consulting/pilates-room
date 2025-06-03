@@ -18,6 +18,7 @@ import { allOrderHistory, getSingleOrder } from "../controllers/order.controller
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
 import { getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
+import { getAllUsersQuerySchema } from "../validator/user.validator.js"
 
 
 
@@ -161,7 +162,9 @@ adminRouter.get('/dashboard-stats', getDashboardStats)
 
 adminRouter.get('/detailed-stats', getDetailedStats)
 
-adminRouter.get('/get-all-users', getAllUsers)
+adminRouter.get('/get-all-users', validate({
+    query: getAllUsersQuerySchema
+}),getAllUsers)
 
 
 adminRouter.post('/change-password/:newPassword', adminMiddleware, validate({ params: newPasswordParamsSchema }), changePasswordForAdmin)
