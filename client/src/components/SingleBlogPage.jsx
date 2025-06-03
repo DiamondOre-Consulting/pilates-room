@@ -14,7 +14,7 @@ const SingleBlogPage = () => {
       const response = await dispatch(getBlogs());
       setAllBlogsData(response?.payload?.data?.blogPosts);
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -23,7 +23,7 @@ const SingleBlogPage = () => {
       const response = await dispatch(getBlogPostBySlug(slug));
       setBlogData(response?.payload?.data);
     } catch (error) {
-      return
+      return;
     }
   };
 
@@ -32,15 +32,13 @@ const SingleBlogPage = () => {
     handleGetBlog();
   }, [dispatch, slug]);
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-
   return (
     <>
-      <section className="ezy__blog details1 light py-40  bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
+      <section className="ezy__blog details1 light py-20 md:py-32  bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
         <div className="container px-4 mx-auto">
           <div className="grid md:grid-cols-3 gap-4">
             <div className="col-span-3 md:col-span-2 px-4">
@@ -57,11 +55,14 @@ const SingleBlogPage = () => {
                 alt=""
                 className="w-full h-auto rounded"
               />
-              <h1 className="font-semibold text-xl mt-4">{blogData?.excerpt}</h1>
-              <p className="py-6" dangerouslySetInnerHTML={{ __html: blogData?.content }}></p>
+              <h1 className="font-semibold text-xl mt-4">
+                {blogData?.excerpt}
+              </h1>
+              <p
+                className="py-6"
+                dangerouslySetInnerHTML={{ __html: blogData?.content }}
+              ></p>
             </div>
-
-
 
             <div className="col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-9 px-4 md:pl-6 lg:pl-0">
               <>
@@ -73,7 +74,8 @@ const SingleBlogPage = () => {
                     {!!i && <hr className="my-4" />}
                     <Link
                       to={`/${item?.slug}`}
-                      className="flex  items-start gap-4">
+                      className="flex  items-start gap-4"
+                    >
                       <img
                         src={item?.featuredImage?.url}
                         alt=""

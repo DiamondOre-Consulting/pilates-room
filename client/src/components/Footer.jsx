@@ -45,6 +45,15 @@ const Footer = () => {
                     Privacy ploicy
                   </a>
                 </Link>
+
+                <Link to={"/refund-policy"}>
+                  <a
+                    title=""
+                    className="flex text-sm text-gray-100 uppercase mt-4 transition-all duration-200 hover:text-color1 focus:text-orange-600"
+                  >
+                    Refund ploicy
+                  </a>
+                </Link>
               </ul>
             </div>
 
