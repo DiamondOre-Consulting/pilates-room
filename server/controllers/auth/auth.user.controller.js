@@ -312,6 +312,7 @@ export const changePassword = asyncHandler(async (req, res) => {
 })
 
 export const signOut = asyncHandler(async (req, res) => {
+
   await User.findByIdAndUpdate(req.user._id,
     {
       $set: { refreshToken: "" }
@@ -319,7 +320,7 @@ export const signOut = asyncHandler(async (req, res) => {
     { new: true }
   )
 
-  console.log("object")
+ 
   return res
     .status(200)
     .clearCookie("accessToken", cookieOptions)
