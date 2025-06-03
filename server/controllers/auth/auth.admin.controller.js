@@ -36,8 +36,8 @@ export const adminSignIn = asyncHandler(async (req, res) => {
          existingAdmin.refreshAccessToken = refreshAccessToken;
          await existingAdmin.save();
      
-         res.cookie("accessToken", accessToken, cookieOptions);
-         res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+         res.cookie("AdminAccessToken", accessToken, cookieOptions);
+         res.cookie("AdminRefreshAccessToken", refreshAccessToken, cookieOptions);
          existingAdmin.password = undefined;
          existingAdmin.refreshAccessToken = undefined;
          existingAdmin.resetPasswordToken = undefined;
@@ -48,8 +48,8 @@ export const adminSignIn = asyncHandler(async (req, res) => {
 })
 
 export const adminSignOut = asyncHandler(async (req, res) => {
-    res.clearCookie("accessToken", cookieOptions);
-    res.clearCookie("refreshAccessToken", cookieOptions);
+    res.clearCookie("AdminAccessToken", cookieOptions);
+    res.clearCookie("AdminRefreshAccessToken", cookieOptions);
     sendResponse(res, 200, null, "User logged out successfully");
 });
 
