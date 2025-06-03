@@ -291,10 +291,17 @@ export const resetPassword = asyncHandler(async (req, res) => {
 })
 
 export const changePassword = asyncHandler(async (req, res) => {
+ 
+  const { newPassword,oldPassword } = req.validatedData.params;
 
-  const { newPassword } = req.validatedData.params;
   const existingUser = await User.findById(req.user._id).select('+password');
   const isSame = await bcrypt.compare(newPassword, existingUser.password);
+  const comparePassword = await existingUser.comparePassword(oldPassword);
+
+  if (!comparePassword) {
+    throw new ApiError("Old password is incorrect", 400);
+  }
+
   if (isSame) {
     throw new ApiError("New password should be different", 400);
   }

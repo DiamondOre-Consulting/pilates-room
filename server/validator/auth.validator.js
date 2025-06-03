@@ -50,6 +50,7 @@ export const resetPasswordParamsSchema = z.object({
 
 
 export const newPasswordParamsSchema = z.object({
+    oldPassword : z.string().trim(),
     newPassword : z.string().trim()
 })
 

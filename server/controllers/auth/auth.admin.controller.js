@@ -63,8 +63,14 @@ export const getAdminProfile = asyncHandler(async(req,res)=>{
 
 export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 
-  const { newPassword } = req.validatedData.params;
+  const { newPassword,oldPassword } = req.validatedData.params;
   const existingAdmin = await Admin.findById(req.user._id).select('+password');
+   const comparePassword = await existingAdmin.comparePassword(oldPassword);
+  
+    if (!comparePassword) {
+      throw new ApiError("Old password is incorrect", 400);
+    }
+  
   const isSame = await bcrypt.compare(newPassword, existingAdmin.password);
   if (isSame) {
     throw new ApiError("New password should be different", 400);
