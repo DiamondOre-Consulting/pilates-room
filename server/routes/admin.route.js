@@ -11,13 +11,13 @@ import { createTrainingBodySchema, deleteTrainingParamsSchema, editTrainingBodyS
 import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../controllers/coupon.controller.js"
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
-import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
+import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, editUserMembershipForAdminBodySchema, editUserMembershipForAdminParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
 import { adminSignIn, adminSignOut, changePasswordForAdmin, forgotPasswordForAdmin, getAdminProfile, resetPasswordForAdmin } from "../controllers/auth/auth.admin.controller.js"
 import { adminSignInBodySchema, forgotPasswordBodySchema, newPasswordParamsSchema, resetPasswordBodySchema, resetPasswordParamsSchema } from "../validator/auth.validator.js"
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
-import { getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
+import { editUserMembership, getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
 import { getAllUsersQuerySchema } from "../validator/user.validator.js"
 
 
@@ -173,6 +173,11 @@ adminRouter.post('/change-password/:newPassword', adminMiddleware, validate({ pa
 adminRouter.post('/forgot-password',validate({ body: forgotPasswordBodySchema }), forgotPasswordForAdmin)
 
 adminRouter.post('/reset-password/:resetToken', validate({ body: resetPasswordBodySchema, params: resetPasswordParamsSchema }), resetPasswordForAdmin)
+
+
+adminRouter.put('/edit-user-membership/:userId', validate({
+    body: editUserMembershipForAdminBodySchema, params: editUserMembershipForAdminParamsSchema
+}), editUserMembership)
 
 
 

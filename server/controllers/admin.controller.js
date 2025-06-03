@@ -177,18 +177,38 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
       const users = await User.aggregate(pipeline);
 
-      const totalPages = Math.ceil(users.length / limit);
+        const totalCount = await User.countDocuments(match);
+        const totalPages = Math.ceil(totalCount / limit);
 
-
-      if(!users.length){
+        if (!users.length) {
         throw new ApiError("Users not found", 400);
-      }
-      
+        }
+
+
+     
       sendResponse(res, 200, {pagination:{page,limit,totalPages},users},"Users retrieved successfully");
 });
+
+const editUserMembership = asyncHandler(async (req, res) => {
+    
+    const {expiryDate} = req.validatedData.body;
+    const {userId} = req.validatedData.params;
+    const user = await User.findById(userId);
+    if(!user){
+        throw new ApiError("User not found", 400);
+    }
+    if(expiryDate<new Date()){
+        throw new ApiError("Invalid expiry date", 400);
+    }
+    user.memberShipPlan.expiryDate = expiryDate;
+    await user.save();
+    sendResponse(res, 200, user, "User membership updated successfully");
+
+})
 
 export {
     getDashboardStats,
     getDetailedStats,
-    getAllUsers
+    getAllUsers,
+    editUserMembership
 };

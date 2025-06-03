@@ -49,3 +49,12 @@ export const buyMembershipBodySchema = z.object({
     membershipPackageId:z.string().trim(),
     paymentId:z.string().trim()
 })
+
+
+export const editUserMembershipForAdminBodySchema = z.object({
+    expiryDate:z.coerce.date().optional(),
+})
+
+export const editUserMembershipForAdminParamsSchema = z.object({
+    userId:z.string().trim()
+})
