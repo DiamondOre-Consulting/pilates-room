@@ -40,7 +40,7 @@ userRouter.post('/forgot-password', validate({ body: forgotPasswordBodySchema })
 
 userRouter.post('/reset-password/:resetToken', validate({ body: resetPasswordBodySchema, params: resetPasswordParamsSchema }), resetPassword)
 
-userRouter.post('/change-password/:newPassword', userMiddleware, validate({ params: newPasswordParamsSchema }), changePassword)
+userRouter.post('/change-password/:newPassword/:oldPassword', userMiddleware, validate({ params: newPasswordParamsSchema }), changePassword)
 
 userRouter.get('/get-classes', validate({ query: getClassesQuerySchema }), getClasses)
 

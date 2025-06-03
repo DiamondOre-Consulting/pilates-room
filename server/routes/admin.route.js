@@ -167,7 +167,7 @@ adminRouter.get('/get-all-users', validate({
 }),getAllUsers)
 
 
-adminRouter.post('/change-password/:newPassword', adminMiddleware, validate({ params: newPasswordParamsSchema }), changePasswordForAdmin)
+adminRouter.post('/change-password/:newPassword/:oldPassword', adminMiddleware, validate({ params: newPasswordParamsSchema }), changePasswordForAdmin)
 
 
 adminRouter.post('/forgot-password',validate({ body: forgotPasswordBodySchema }), forgotPasswordForAdmin)
