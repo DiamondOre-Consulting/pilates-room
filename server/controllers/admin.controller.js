@@ -3,6 +3,8 @@ import Order from '../models/order.model.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import sendResponse from '../utils/sendResponse.js';
+import ApiError from '../utils/apiError.js';
+
 
 const getDashboardStats = asyncHandler(async (req, res) => {
     const totalUsers = await User.countDocuments();
