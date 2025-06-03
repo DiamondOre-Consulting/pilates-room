@@ -151,35 +151,40 @@ const getDetailedStats = asyncHandler(async (req, res) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
 
-    const {fullName , email, page=1, limit=10 } = req.validatedData.query
+    const {searchTerm, page=1, limit=10 } = req.validatedData.query
 
     const pipeline = [];
 
-    if(fullName||email){
-        pipeline.push({
+    const searchStage=searchTerm? {
+        
             $search:{
-                index:'default',
-                compound: {
-                    should: [
-                        ...(fullName ? [{ text: { query: fullName, path: "fullName" } }] : []),
-                        ...(email ? [{ text: { query: email, path: "email" } }] : [])
-                ]
-        }
+                 text: {
+                    query: searchTerm,
+                    path: ["firstName", "lastName", "email"],
+                    fuzzy: {
+                    maxEdits: 2,       
+                    prefixLength: 1,   
+                    }
+                }
             }
-        })
-    }
+        }
+    :null;
    
     pipeline.push({
     $skip: (page - 1) * limit},
     {$limit: limit}
     )
     
-
+      if (searchStage) pipeline.push(searchStage);
       const users = await User.aggregate(pipeline);
 
-        const totalCount = await User.countDocuments();
-        const totalPages = Math.ceil(totalCount / limit);
+        const countPipeline = [];
+        if (searchStage) countPipeline.push(searchStage);
+        countPipeline.push({ $count: "count" });
 
+        const countResult = await User.aggregate(countPipeline);
+        const totalCount = countResult[0]?.count || 0;
+        const totalPages = Math.ceil(totalCount / limit);
         if (!users.length) {
         throw new ApiError("Users not found", 400);
         }
