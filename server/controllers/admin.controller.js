@@ -4,6 +4,7 @@ import { ApiResponse } from '../utils/apiResponse.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import sendResponse from '../utils/sendResponse.js';
 import ApiError from '../utils/apiError.js';
+import MembershipPackage from '../models/membershipPackage.model.js';
 
 
 const getDashboardStats = asyncHandler(async (req, res) => {
@@ -247,12 +248,45 @@ const createUserByAdmin = asyncHandler(async(req,res)=>{
         sendResponse(res, 200, null, "User created successfully");
 })
 
+const addMembershipPlanByAdmin = asyncHandler(async(req,res)=>{
+        const {userId, memberPackageId} = req.validatedData.params;
+        
+        const existingUser = User.findById(userId);
+        if(!existingUser){
+            throw new ApiError("User not found", 400);
+        }
+        const membershipPackage = await MembershipPackage.findById(memberPackageId);
+        if(!membershipPackage){
+            throw new ApiError("Membership package not found", 400);
+        }
+        if(!existingUser.isDiscovery){
+            existingUser.memberShipPlan.memberShipFrom = new Date()
+            existingUser.memberShipPlan.location = membershipPackage.location
+            existingUser.isDiscovery = true
+        }
+        else{
+            existingUser.memberShipPlan.memberShipCount = existingUser.memberShipPlan.memberShipCount + 1;
 
+            existingUser.isMember = true
+            existingUser.memberShipPlan = {
+                package: membershipPackage._id,
+                registrationDate: new Date(),
+                remainingSession: membershipPackage.totalSessions,
+                status: "active",
+                location: membershipPackage.location
+            }
+        }
+
+        await existingUser.save();
+        sendResponse(res, 200, null, "Membership package added successfully");
+
+})
 
 export {
     getDashboardStats,
     getDetailedStats,
     getAllUsers,
     editUserMembership,
-    createUserByAdmin
+    createUserByAdmin,
+    addMembershipPlanByAdmin
 };

@@ -17,9 +17,9 @@ import { adminSignInBodySchema, forgotPasswordBodySchema, newPasswordParamsSchem
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
 import { deleteEnquiry, getAllEnquiries, getEnquiryById } from "../controllers/enquiry.controller.js"
-import { createUserByAdmin, editUserMembership, getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
+import { addMembershipPlanByAdmin, createUserByAdmin, editUserMembership, getAllUsers, getDashboardStats, getDetailedStats } from "../controllers/admin.controller.js"
 import { getAllUsersQuerySchema } from "../validator/user.validator.js"
-import { createUserByAdminBodySchema } from "../validator/admin.validator.js"
+import { addMembershipByAdminParamsSchema, createUserByAdminBodySchema } from "../validator/admin.validator.js"
 
 
 
@@ -183,6 +183,11 @@ adminRouter.put('/edit-user-membership/:userId', validate({
 adminRouter.post('/create-user-by-admin', validate({
     body: createUserByAdminBodySchema
 }), createUserByAdmin)
+
+
+adminRouter.put('/add-membership-by-admin/:userId/:memberPackageId', validate({
+    params: addMembershipByAdminParamsSchema
+}),addMembershipPlanByAdmin)
 
 
 

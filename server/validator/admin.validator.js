@@ -8,3 +8,8 @@ export const createUserByAdminBodySchema = z.object({
     phoneNumber:z.string().min(12).max(12),
     birthDate:z.coerce.date()
 })
+
+export const addMembershipByAdminParamsSchema = z.object({
+    userId:z.string().trim(),
+    membershipPackageId:z.string().trim()
+})
