@@ -221,9 +221,38 @@ const editUserMembership = asyncHandler(async (req, res) => {
 
 })
 
+
+const createUserByAdmin = asyncHandler(async(req,res)=>{
+    
+      const { email, password, firstName, lastName, phoneNumber, birthDate } =
+          req.validatedData.body;
+      
+        const existingUser = await User.findOne({ email });
+      
+        if (existingUser) {
+          throw new ApiError("User already exist", 400);
+        }
+      
+        const hashedPassword = await bcrypt.hash(password, 10);
+              
+        const user=await User.create({
+          email,
+          password: hashedPassword,
+          firstName,
+          lastName,
+          phoneNumber,
+          birthDate,
+        });
+      
+        sendResponse(res, 200, null, "User created successfully");
+})
+
+
+
 export {
     getDashboardStats,
     getDetailedStats,
     getAllUsers,
-    editUserMembership
+    editUserMembership,
+    createUserByAdmin
 };
