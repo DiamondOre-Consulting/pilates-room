@@ -185,7 +185,7 @@ adminRouter.post('/create-user-by-admin', validate({
 }), createUserByAdmin)
 
 
-adminRouter.put('/add-membership-by-admin/:userId/:memberPackageId', validate({
+adminRouter.put('/add-membership-by-admin/:userId/:membershipPackageId', validate({
     params: addMembershipByAdminParamsSchema
 }),addMembershipPlanByAdmin)
 
