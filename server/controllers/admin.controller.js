@@ -261,16 +261,29 @@ const addMembershipPlanByAdmin = asyncHandler(async(req,res)=>{
         if(!membershipPackage){
             throw new ApiError("Membership package not found", 400);
         }
+
         if(!existingUser.isDiscovery){
+
+            if(!existingUser.memberShipPlan){
+                existingUser.memberShipPlan = {}
+            }
+            else{
+                existingUser.memberShipPlan.package = membershipPackage._id
+            }
+
             existingUser.memberShipPlan.memberShipFrom = new Date()
             existingUser.memberShipPlan.location = membershipPackage.location
             existingUser.isDiscovery = true
         }
         else{
+             if(!existingUser.memberShipPlan){
+                existingUser.memberShipPlan = {}
+            }
             existingUser.memberShipPlan.memberShipCount = existingUser.memberShipPlan.memberShipCount + 1;
 
             existingUser.isMember = true
             existingUser.memberShipPlan = {
+                ...existingUser.memberShipPlan,
                 package: membershipPackage._id,
                 registrationDate: new Date(),
                 remainingSession: membershipPackage.totalSessions,

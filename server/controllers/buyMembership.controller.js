@@ -38,6 +38,9 @@ export const buyMembership = asyncHandler(async (req, res) => {
 
 
         if (!existingUser.isDiscovery) {
+             if(!existingUser.memberShipPlan){
+                existingUser.memberShipPlan = {}
+            }
             existingUser.memberShipPlan.memberShipFrom = new Date()
             existingUser.memberShipPlan.location = membershipPackage.location
             existingUser.isDiscovery = true
@@ -104,12 +107,16 @@ export const buyMembership = asyncHandler(async (req, res) => {
 
         }
         else {
+             if(!existingUser.memberShipPlan){
+                existingUser.memberShipPlan = {}
+            }
             existingUser.memberShipPlan.memberShipCount = existingUser.memberShipPlan.memberShipCount + 1;
 
 
 
             existingUser.isMember = true
             existingUser.memberShipPlan = {
+                ...existingUser.memberShipPlan,
                 package: membershipPackage._id,
                 registrationDate: new Date(),
                 remainingSession: membershipPackage.totalSessions,
