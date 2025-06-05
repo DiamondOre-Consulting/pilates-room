@@ -5,6 +5,8 @@ import asyncHandler from '../utils/asyncHandler.js';
 import sendResponse from '../utils/sendResponse.js';
 import ApiError from '../utils/apiError.js';
 import MembershipPackage from '../models/membershipPackage.model.js';
+import bcrypt from 'bcryptjs';
+
 
 
 const getDashboardStats = asyncHandler(async (req, res) => {
