@@ -251,13 +251,13 @@ const createUserByAdmin = asyncHandler(async(req,res)=>{
 })
 
 const addMembershipPlanByAdmin = asyncHandler(async(req,res)=>{
-        const {userId, memberPackageId} = req.validatedData.params;
+        const {userId, membershipPackageId} = req.validatedData.params;
         
         const existingUser = User.findById(userId);
         if(!existingUser){
             throw new ApiError("User not found", 400);
         }
-        const membershipPackage = await MembershipPackage.findById(memberPackageId);
+        const membershipPackage = await MembershipPackage.findById(membershipPackageId);
         if(!membershipPackage){
             throw new ApiError("Membership package not found", 400);
         }
