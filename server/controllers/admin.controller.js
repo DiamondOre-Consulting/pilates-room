@@ -253,7 +253,7 @@ const createUserByAdmin = asyncHandler(async(req,res)=>{
 const addMembershipPlanByAdmin = asyncHandler(async(req,res)=>{
         const {userId, membershipPackageId} = req.validatedData.params;
         
-        const existingUser = User.findById(userId);
+        const existingUser = await User.findById(userId);
         if(!existingUser){
             throw new ApiError("User not found", 400);
         }
