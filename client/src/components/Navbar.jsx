@@ -164,7 +164,7 @@ const Navbar = () => {
   console.log("islogged in", isLoggedIn);
 
   return (
-    <div className="fixed z-40 w-full">
+    <div className="fixed z-[1000] w-full">
       {/* <p className="text-center  text-dark bg-light py-2">
         New to Room? Make sure you check out our Intro Offers{" "}
         <Link to={"/intro-offers"} className="underline">
@@ -296,7 +296,7 @@ const Navbar = () => {
       )}
 
       {userDashboardPopUp && (
-        <div className="fixed inset-0 z-40 min-h-full  transition flex items-center justify-center">
+        <div className="fixed inset-0 z-[1000] min-h-full  transition flex items-center justify-center">
           <div
             className="fixed inset-0 bg-black/50"
             onClick={() => setUserDashboardPopUp(false)}

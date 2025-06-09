@@ -24,12 +24,13 @@ const Membership = () => {
   const [loader, setLoader] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
-  const [selectedLocation, setSelectedLocation] = useState(user?.data?.memberShipPlan?.location);
+  const [selectedLocation, setSelectedLocation] = useState(
+    user?.data?.memberShipPlan?.location
+  );
 
   const handleGetAllMemberShip = async () => {
     try {
-
-      console.log(1)
+      console.log(1);
 
       const response = await dispatch(
         getMemberShipPackage({
@@ -38,8 +39,6 @@ const Membership = () => {
         })
       );
       setAllMemberShip(response?.payload?.data);
-
-
     } catch (error) {
       return;
     }
@@ -51,7 +50,7 @@ const Membership = () => {
 
   useEffect(() => {
     setSelectedLocation(user?.data?.memberShipPlan?.location || "");
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (selectedLocation && selectedPlan) {
@@ -59,7 +58,11 @@ const Membership = () => {
     }
   }, [selectedPlan, selectedLocation]);
 
-  console.log("jsaksfskjfjjkfsdjkf   kjdsfsjkdfs", selectedPlan, selectedLocation)
+  console.log(
+    "jsaksfskjfjjkfsdjkf   kjdsfsjkdfs",
+    selectedPlan,
+    selectedLocation
+  );
   // const [membershipPackageId , setMembershipPackageId] = useState(null)
   const [razorpayKey, setRazorPayKey] = useState();
   const handleGetRazorPayKey = async () => {
@@ -159,9 +162,6 @@ const Membership = () => {
     }
   };
 
-
-
-
   const getTodayDate = () => {
     const today = new Date();
     const todayDate = today.toISOString().split("T")[0];
@@ -196,10 +196,11 @@ const Membership = () => {
                 {["Discovery", "Monthly", "Quarterly"].map((label, index) => (
                   <button
                     key={index}
-                    className={`px-4 py-1 rounded-full cursor-pointer text-sm font-semibold transition-all ${selectedPlan === label
-                      ? "bg-white text-black"
-                      : "bg-transparent text-white"
-                      }`}
+                    className={`px-4 py-1 rounded-full cursor-pointer text-sm font-semibold transition-all ${
+                      selectedPlan === label
+                        ? "bg-white text-black"
+                        : "bg-transparent text-white"
+                    }`}
                     onClick={() => setSelectedPlan(label)}
                   >
                     {label}
@@ -213,20 +214,22 @@ const Membership = () => {
             <div>
               {allMemberShip?.map((ele, index) => (
                 <div
-                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-2 ${index % 2 === 0
-                    ? "bg-dark text-white "
-                    : "bg-white flex-col md:flex-row-reverse"
-                    }  py-20`}
+                  className={`flex  flex-col md:flex-row md:space-y-0 space-y-2 ${
+                    index % 2 === 0
+                      ? "bg-dark text-white "
+                      : "bg-white flex-col md:flex-row-reverse"
+                  }  py-20`}
                 >
                   <div className="flex flex-col justify-center  items-center space-y-1 w-full md:max-w-xl mx-auto ">
                     <h1 className="text-4xl uppercase">{ele?.packageName}</h1>
                     <p
-                      className={`text-center px-4 ${index % 2 === 0 ? "text-gray-200" : "text-black "
-                        } text-center`}
+                      className={`text-center px-4 ${
+                        index % 2 === 0 ? "text-gray-200" : "text-black "
+                      } text-center`}
                       dangerouslySetInnerHTML={{ __html: ele?.description }}
                     ></p>
                     <p>Location : {ele?.location}</p>
-                    <p>Price : ₹ {ele?.price?.toLocaleString('en-IN')}</p>
+                    <p>Price : ₹ {ele?.price?.toLocaleString("en-IN")}</p>
                     <button
                       onClick={() => {
                         // console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
@@ -245,10 +248,11 @@ const Membership = () => {
                         }
                       }}
                       // disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
-                      className={`text-xl cursor-pointer mt-3 ${user?.data?.isDiscovery
-                        ? "bg-green-600 text-white"
-                        : "bg-white text-dark"
-                        }  rounded-md px-4 py-1`}
+                      className={`text-xl cursor-pointer mt-3 ${
+                        user?.data?.isDiscovery
+                          ? "bg-green-600 text-white"
+                          : "bg-white text-dark"
+                      }  rounded-md px-4 py-1`}
                     >
                       {loader ? (
                         <svg
@@ -293,94 +297,121 @@ const Membership = () => {
             </div>
           ) : (
             <div className="relative py-10">
-              <div
-                className={`grid grid-cols-1 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center transition duration-300 `}
-              >
-                {allMemberShip?.map((ele, index) => (
+              <div className="grid grid-cols-1 px-4 sm:px-6 lg:px-10 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
+                {allMemberShip?.map((pkg) => (
                   <div
-                    key={index}
-                    className={` ${user?.data?.isMember &&
-                      user?.data?.memberShipPlan?.package?._id !== ele?._id
-                      ? "blur-sm"
-                      : "bg-gray-100"
-                      } dark:bg-slate-800 h-full flex flex-col rounded-2xl overflow-hidden`}
+                    key={pkg._id}
+                    className=" shadow-md rounded-xl border max-w-[25rem] border-gray-300 overflow-hidden flex flex-col justify-between"
                   >
-                    <div className="grow">
-                      <div className="pt-6 bg-dark text-white rounded-t-2xl">
-                        <p className="leading-[60px]">
-                          <span className="text-4xl">{ele?.packageName}</span>
-                          <br />
-                          <span className="mr-1 text-2xl">₹</span>
-                          <span className="text-xl">
-                            {ele?.perSessionPrice?.toLocaleString('en-IN')}/week
+                    <div className="bg-gradient-to-r from-[#002433] to-[#00354C]  px-6 py-4">
+                      <p className="text-xl md:text-2xl text-center capitalize font-semibold text-gray-100 dark:text-white">
+                        {pkg?.packageName}
+                      </p>
+                    </div>
+
+                    <div className="p-2 text-gray-800 dark:text-white">
+                      <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Total Price
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            ₹{pkg?.price.toLocaleString("en-IN")}
                           </span>
-                          {/* <span className="text-xl"> / {ele?.packageType}</span> */}
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Price per week
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            ₹{pkg?.perSessionPrice.toLocaleString("en-IN")}
+                          </span>
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Available
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            {pkg.available ? "Yes" : "No"}
+                          </span>
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Location
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            {pkg.location}
+                          </span>
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Type
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            {pkg?.packageType}
+                          </span>
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Total Sessions
+                          <span className="text-[1.01rem] capitalize dark:text-white text-black">
+                            {pkg?.totalSessions}
+                          </span>
+                        </p>
+                        <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                          Validity
+                          <span className="text-[1.01rem] dark:text-white text-black">
+                            {pkg?.validity} weeks
+                          </span>
                         </p>
                       </div>
-                      <div className="py-6 mb-6 flex flex-col text-wrap">
-                        <p>Price Total : {ele?.price?.toLocaleString('en-IN')}</p>
-                        <p>Total Sessions: {ele?.totalSessions}</p>
-                        <p>location: {ele?.location}</p>
-                        <p>Validity: {ele?.validity} weeks</p>
-                        <p
-                          className="text-wrap mx-auto overflow-x-auto px-10 mt-4"
-                          dangerouslySetInnerHTML={{ __html: ele?.description }}
-                        ></p>
-                      </div>
+
+                      {/* <div
+                  className="text-sm mt-4"
+                  dangerouslySetInnerHTML={{ __html: pkg.description }}
+                /> */}
                     </div>
 
                     <button
                       onClick={() => {
                         if (
                           user?.data?.isMember &&
-                          user?.data?.memberShipPlan?.package?._id === ele?._id
+                          user?.data?.memberShipPlan?.package?._id === pkg?._id
                         ) {
                           return;
                         }
 
                         if (
                           user?.data?.memberShipPlan?.package?._id ===
-                          ele?._id &&
+                            pkg?._id &&
                           (user?.data?.memberShipPlan?.remainingSession === 0 ||
                             user?.data?.isMember == false ||
                             getTodayDate() >
-                            user?.data?.memberShipPlan?.expiryDate.split(
-                              "T"
-                            )[0])
+                              user?.data?.memberShipPlan?.expiryDate.split(
+                                "T"
+                              )[0])
                         ) {
-                          handleCheckOutPayment(ele?._id);
+                          handleCheckOutPayment(pkg?._id);
                         }
 
                         if (!isLoggedIn) {
                           console.log("clicked", isLoggedIn, showSignIn);
                           setIsPopUpOpen(true);
                         } else {
-                          console.log("Selected package ID:", ele?._id);
-                          // setMembershipPackageId(ele?._id)
-                          handleCheckOutPayment(ele?._id);
+                          handleCheckOutPayment(pkg?._id);
                         }
                       }}
                       disabled={
                         user?.data?.isMember &&
-                        user?.data?.memberShipPlan?.package?._id === ele?._id
+                        user?.data?.memberShipPlan?.package?._id === pkg?._id
                       }
-                      className={` ${user?.data?.memberShipPlan?.package?._id === ele?._id &&
+                      className={` ${
+                        user?.data?.memberShipPlan?.package?._id === pkg?._id &&
                         user?.data?.isMember === true
-                        ? "bg-green-600"
-                        : user?.data?.memberShipPlan?.package?._id ===
-                          ele?._id &&
-                          (user?.data?.memberShipPlan?.remainingSession ===
-                            0 ||
-                            user?.data?.isMember == false ||
-                            getTodayDate() >
-                            user?.data?.memberShipPlan?.expiryDate.split(
-                              "T"
-                            )[0])
+                          ? "bg-green-600"
+                          : user?.data?.memberShipPlan?.package?._id ===
+                              pkg?._id &&
+                            (user?.data?.memberShipPlan?.remainingSession ===
+                              0 ||
+                              user?.data?.isMember == false ||
+                              getTodayDate() >
+                                user?.data?.memberShipPlan?.expiryDate.split(
+                                  "T"
+                                )[0])
                           ? "bg-red-600"
                           : "bg-dark"
-                        } px-8 py-3 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300 mt-12 mb-2`}
+                      } px-6 mt-4 py-2 m-2 rounded cursor-pointer text-white hover:bg-opacity-90 duration-300`}
                     >
-                      {loader === ele?._id ? (
+                      {loader === pkg?._id ? (
                         <svg
                           aria-hidden="true"
                           className="w-6 h-6 text-gray-200 text-center flex justify-center items-center mx-auto animate-spin dark:text-gray-600 fill-blue-600"
@@ -398,33 +429,33 @@ const Membership = () => {
                           />
                         </svg>
                       ) : //   : user?.data?.isDiscovery && user?.data?.memberShipPlan?.remainingSession > 0 && user?.data?.isMember ? (
-                        //   "Session Booked"
-                        // ) : user?.data?.memberShipPlan?.remainingSession === 0 || user?.data?.isMember == false ||
-                        //   getTodayDate() >
-                        //     user?.data?.memberShipPlan?.expiryDate.split(
-                        //       "T"
-                        //     )[0] ? (
-                        //   "Renew Package"
-                        // ) : (
-                        //   "Book Now"
-                        // )}
+                      //   "Session Booked"
+                      // ) : user?.data?.memberShipPlan?.remainingSession === 0 || user?.data?.isMember == false ||
+                      //   getTodayDate() >
+                      //     user?.data?.memberShipPlan?.expiryDate.split(
+                      //       "T"
+                      //     )[0] ? (
+                      //   "Renew Package"
+                      // ) : (
+                      //   "Book Now"
+                      // )}
 
-                        user?.data?.memberShipPlan?.package?._id === ele?._id &&
-                          user?.data?.memberShipPlan?.remainingSession > 0 &&
-                          user?.data?.isMember === true ? (
-                          <p>Session Booked</p>
-                        ) : user?.data?.memberShipPlan?.package?._id ===
-                          ele?._id &&
-                          (user?.data?.memberShipPlan?.remainingSession === 0 ||
-                            user?.data?.isMember == false ||
-                            getTodayDate() >
+                      user?.data?.memberShipPlan?.package?._id === pkg?._id &&
+                        user?.data?.memberShipPlan?.remainingSession > 0 &&
+                        user?.data?.isMember === true ? (
+                        <p>Session Booked</p>
+                      ) : user?.data?.memberShipPlan?.package?._id ===
+                          pkg?._id &&
+                        (user?.data?.memberShipPlan?.remainingSession === 0 ||
+                          user?.data?.isMember == false ||
+                          getTodayDate() >
                             user?.data?.memberShipPlan?.expiryDate.split(
                               "T"
                             )[0]) ? (
-                          "Renew Your Package"
-                        ) : (
-                          <p>Book Now</p>
-                        )}
+                        "Renew Your Package"
+                      ) : (
+                        <p>Book Now</p>
+                      )}
                     </button>
                   </div>
                 ))}
@@ -462,7 +493,7 @@ const Membership = () => {
             </div>
           )}
 
-          {(!user?.data?.isMember && !selectedLocation) && (
+          {!user?.data?.isMember && !selectedLocation && (
             <div className="absolute  h-screen inset-0 z-20 backdrop-blur-sm flex items-start pt-30 justify-center bg-black/60 text-white">
               <div className=" dark:bg-gray-900 p-6 md:w-5xl text-white  w-full text-center">
                 <h2 className="text-4xl md:text-8xl font-semibold mb-4 text-gray-300">

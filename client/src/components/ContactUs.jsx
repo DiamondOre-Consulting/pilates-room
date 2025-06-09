@@ -5,7 +5,7 @@ import "react-phone-input-2/lib/style.css";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-const ContactUs = () => {
+const ContactUs = ({ setPopup }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -17,6 +17,7 @@ const ContactUs = () => {
     topic: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -25,8 +26,12 @@ const ContactUs = () => {
     "/class-schedule": "contactUs",
     "/private-session": "privateClass",
     "/teacher-training": "teacherTraining",
-    "/teacher-single-training/:id": "teacherTraining"
+    "/teacher-single-training/:id": "teacherTraining",
   };
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [formData]);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -37,11 +42,11 @@ const ContactUs = () => {
     else if (currentPath === "/class-schedule") topic = "contactUs";
     else if (currentPath === "/private-session") topic = "privateClass";
     else if (currentPath === "/teacher-training") topic = "teacherTraining";
-    else if (currentPath.startsWith("/teacher-single-training")) topic = "teacherTraining";
+    else if (currentPath.startsWith("/teacher-single-training"))
+      topic = "teacherTraining";
 
     setFormData((prev) => ({ ...prev, topic }));
   }, [location]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +60,14 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const { email, name, message, phone } = formData;
+
+    if (!email || !name || !message || !phone) {
+      setLoading(false);
+      setErrorMessage("All fields are required!");
+    }
+
     const response = await dispatch(contactUs(formData));
     setLoading(false);
     if (response?.payload?.success) {
@@ -66,6 +79,8 @@ const ContactUs = () => {
         message: "",
         topic: formData.topic,
       });
+
+      setPopup(false);
 
       setTimeout(() => {
         setPopupVisible(false);
@@ -96,6 +111,7 @@ const ContactUs = () => {
             onChange={handleChange}
           />
           <input
+            type="email"
             className="py-4 px-2 w-full border-gray-100 bg-white"
             placeholder="Email"
             name="email"
@@ -143,8 +159,12 @@ const ContactUs = () => {
             )}
           </button>
         </form>
+        {errorMessage && (
+          <p className="text-md text-center text-red-500 font-semibold capitalize">
+            {errorMessage}
+          </p>
+        )}
       </div>
-
 
       {popupVisible && (
         <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-white border border-green-400 text-green-700 px-6 py-4 rounded-xl shadow-2xl z-50 animate-slide-fade">
@@ -157,7 +177,11 @@ const ContactUs = () => {
               stroke="currentColor"
               strokeWidth="2"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
             </svg>
             <p className="text-md font-semibold">
               Thank you for reaching out! We'll get back to you shortly.
@@ -165,7 +189,6 @@ const ContactUs = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

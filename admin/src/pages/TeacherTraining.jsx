@@ -14,6 +14,7 @@ import "react-time-picker/dist/TimePicker.css";
 import { Cards } from "@/components/Training/Cards";
 import CreateTraining from "@/components/Training/CreateTraining";
 import EditTraining from "@/components/Training/EditTraining";
+import { Edit } from "lucide-react";
 
 const TeacherTraining = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const TeacherTraining = () => {
   const [thumbnailImage, setThumbnailImage] = useState("");
   const [trainingImage, setTrainingImage] = useState();
   const [trainingId, setTrainingId] = useState();
-const [data , setData] = useState()
+  const [data, setData] = useState();
   const [editTrainingData, setTrainingData] = useState(null);
   const [editTrainingPopUp, setEditTrainingPopUp] = useState(false);
   const [moreInfoEditImagesIndex, setMoreInfoEditImagesIndex] = useState([]);
@@ -62,8 +63,6 @@ const [data , setData] = useState()
     control,
     name: "newMoreInfo",
   });
-
-
 
   const handleMoreInfoImageChange = (e, index) => {
     const file = e.target.files[0];
@@ -101,13 +100,9 @@ const [data , setData] = useState()
     }
   };
 
-
-
   console.log(trainingImages);
   console.log("new ", newTrainningImages);
   console.log("indexing number", moreInfoEditImagesIndex);
-
-
 
   const editor = useRef(null);
 
@@ -314,16 +309,99 @@ const [data , setData] = useState()
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-12 gap-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 mt-12 gap-6">
           {allTrainings?.map((trn) => (
-            <Cards trn={trn} setData={setData} handleGetAllTrainings={handleGetAllTrainings}  setEditTrainingPopUp={setEditTrainingPopUp}/>
+            <Cards
+              trn={trn}
+              setData={setData}
+              handleGetAllTrainings={handleGetAllTrainings}
+              setEditTrainingPopUp={setEditTrainingPopUp}
+            />
+          ))}
+        </div> */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
+          {allTrainings?.map((ele) => (
+            <div
+              key={ele._id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100"
+            >
+              <div className="relative h-16 bg-gradient-to-r from-neutral-900 via-neutral-600 to-neutral-900">
+                <button
+                  onClick={() => {
+                    setData(ele);
+                    setEditTrainingPopUp(true);
+                  }}
+                  className=" bg-green-50 z-10 size-9 flex items-center justify-center text-green-700 rounded absolute top-2 right-2 cursor-pointer hover:bg-blue-100 transition-colors duration-200 font-medium"
+                >
+                  <Edit className="size-5" />
+                </button>
+                <div className="absolute -bottom-10 w-full flex justify-center">
+                  <div
+                    className={`h-20 w-20 z-1 relative rounded-full border-4  ${
+                      ele?.available ? "border-green-500" : "border-red-500"
+                    }  bg-white shadow-lg`}
+                  >
+                    <img
+                      src={ele?.thumbnail?.secureUrl}
+                      alt={ele?.title}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-12 p-6">
+                <p className="text-blue-600 capitalize font-medium text-center mb-4">
+                  {ele?.title}
+                </p>
+
+                <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                  <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
+                    Location
+                    <span className="text-[1.01rem] capitalize dark:text-white text-black">
+                      {ele?.location}
+                    </span>
+                  </p>
+                  <p
+                    dangerouslySetInnerHTML={{ __html: ele?.description }}
+                    className="p-1 line-clamp-4 w-full text-sm  text-gray-500 "
+                  />
+                </div>
+                {/* 
+                <div className="flex justify-center gap-3">
+                  <button
+                    onClick={() => editClassClicked(ele?._id, ele)}
+                    className="px-6 py-2 bg-blue-50 w-full text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200 font-medium"
+                  >
+                    Edit Class
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClass(ele?._id)}
+                    className="px-6 py-2 bg-red-600 w-full text-white rounded-lg hover:bg-red-100 transition-colors duration-200 font-medium"
+                  >
+                    Delete
+                  </button>
+                </div> */}
+              </div>
+            </div>
           ))}
         </div>
 
-        {createTrainingPopUp && <CreateTraining handleGetAllTrainings={handleGetAllTrainings} createTrainingPopUp={createTrainingPopUp} setCreateTrainigPopUp={setCreateTrainigPopUp}/>}
+        {createTrainingPopUp && (
+          <CreateTraining
+            handleGetAllTrainings={handleGetAllTrainings}
+            createTrainingPopUp={createTrainingPopUp}
+            setCreateTrainigPopUp={setCreateTrainigPopUp}
+          />
+        )}
 
         {editTrainingPopUp && (
-   <EditTraining setEditTrainingPopUp={setEditTrainingPopUp} editData={data} handleGetAllTrainings={handleGetAllTrainings} />
+          <EditTraining
+            setEditTrainingPopUp={setEditTrainingPopUp}
+            editData={data}
+            handleGetAllTrainings={handleGetAllTrainings}
+          />
         )}
       </div>
     </HomeLayout>

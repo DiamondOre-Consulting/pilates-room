@@ -141,7 +141,7 @@ const PrivateSession = () => {
             </button>
 
             <div className="p-6">
-              <ContactUs className="" />
+              <ContactUs setPopup={setContactUsPopUp} className="" />
             </div>
           </div>
         </div>

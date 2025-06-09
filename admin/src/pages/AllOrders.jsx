@@ -5,6 +5,7 @@ import "react-calendar/dist/Calendar.css";
 // import BeatLoader from "react-spinners/BeatLoader";
 import { HomeLayout } from "@/Layout/HomeLayout";
 import { getAllOrders } from "@/Redux/Slices/orderSlice";
+import { IconRestore } from "@tabler/icons-react";
 
 const AllOrders = () => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const AllOrders = () => {
           </div>
         </div>
 
-        <div className="my-4 relative">
+        <div className="my-4 relative flex">
           <button
             onClick={() => setShowCalendar(!showCalendar)}
             className="border px-4 py-2 rounded bg-black text-white"
@@ -87,6 +88,13 @@ const AllOrders = () => {
               <Calendar onChange={handleDateChange} value={date} />
             </div>
           )}
+
+          <button
+            onClick={() => setDate()}
+            className="border  p-2 ml-2 rounded bg-red-100 text-red-600 cursor-pointer"
+          >
+            <IconRestore />
+          </button>
         </div>
 
         {loading ? (

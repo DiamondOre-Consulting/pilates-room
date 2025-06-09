@@ -33,7 +33,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
     <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased  md:max-w-4xl  md:px-8 lg:px-12">
       <div className="relative grid grid-cols-1  gap-20 md:grid-cols-2">
         <div>
-          <div className="relative h-90 w-full ">
+          <div className="relative z-[100] h-90 w-full ">
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -64,7 +64,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
                     duration: 0.4,
                     ease: "easeInOut",
                   }}
-                  className="absolute inset-0 origin-bottom"
+                  className="absolute z-[100] inset-0 origin-bottom"
                 >
                   <img
                     src={testimonial.src}
@@ -72,7 +72,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
                     width={400}
                     height={400}
                     draggable={false}
-                    className="h-full w-full rounded-3xl object-cover object-center"
+                    className="h-full w-full rounded-xl object-cover object-center"
                   />
                 </motion.div>
               ))}

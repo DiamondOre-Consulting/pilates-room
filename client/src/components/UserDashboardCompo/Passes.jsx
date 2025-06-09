@@ -1,35 +1,42 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Passes = () => {
+const Passes = ({ setUserDashboardPopUp }) => {
   const { isLoggedIn, user } = useSelector((state) => state?.auth);
-
+  const navigate = useNavigate();
   return (
-    <div> 
+    <div>
       {!user?.data?.isDiscovery ? (
         <div className="space-y-2 text-center">
           <p className="text-gray-700 text-lg mb-6">
             You don’t have a Discovery pack yet. Try a session first!
           </p>
-          <Link
-            to={"/membership"}
+          <button
+            onClick={() => {
+              setUserDashboardPopUp(false);
+
+              navigate("/membership");
+            }}
             className="px-4 py-2 rounded bg-dark text-white"
           >
             Buy Discovery Pack
-          </Link>
+          </button>
         </div>
       ) : !user?.data?.isMember ? (
         <div className="space-y-2 text-center">
           <p className="text-gray-700 text-lg mb-6">
             No membership package found.
           </p>
-          <Link
-            to={"/membership"}
+          <button
+            onClick={() => {
+              setUserDashboardPopUp(false);
+              navigate("/membership");
+            }}
             className="px-4 py-2 rounded bg-dark text-white"
           >
             Buy Membership
-          </Link>
+          </button>
         </div>
       ) : (
         <div className="max-w-md mx-auto p-4">
@@ -44,10 +51,7 @@ const Passes = () => {
                 <span>
                   {user?.data?.memberShipPlan?.package?.perSessionPrice || "0"}
                 </span>
-                <span className="text-sm font-normal">
-                  /{" "}
-                 Week
-                </span>
+                <span className="text-sm font-normal">/ Week</span>
               </div>
             </div>
 
@@ -60,7 +64,7 @@ const Passes = () => {
                 <span className="font-semibold">Validity:</span>{" "}
                 {user?.data?.memberShipPlan?.package?.validity || "N/A"}
               </p>
-               <p>
+              <p>
                 <span className="font-semibold">Location:</span>{" "}
                 {user?.data?.memberShipPlan?.package?.location || "N/A"}
               </p>

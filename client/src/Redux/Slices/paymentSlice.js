@@ -7,8 +7,6 @@ export const getRazorpaykey = createAsyncThunk(
   async () => {
     try {
       const response = await userAxiosInstance.get("/user/key");
-      console.log(response);
-      // toast.success(response?.data?.message);
       return response?.data;
     } catch (error) {
       return;
@@ -40,7 +38,7 @@ export const checkOutPayment = createAsyncThunk(
 export const varifyPayment = createAsyncThunk(
   "/user/varifypayment",
   async (data) => {
-    console.log(data)
+    console.log(data);
     try {
       const response = await userAxiosInstance.post(
         "/user/verify-payment",
@@ -54,49 +52,61 @@ export const varifyPayment = createAsyncThunk(
   }
 );
 
-export const createMembership = createAsyncThunk('/user/create-order', async ({ membershipPackageId, paymentId }) => {
-  try {
-    const response = await userAxiosInstance.post(`/user/buy-membership/${membershipPackageId}/${paymentId}`);
-    console.log(response);
-    toast?.success(response?.data?.message)
-    return response?.data
-  } catch (error) {
-    return
+export const createMembership = createAsyncThunk(
+  "/user/create-order",
+  async ({ membershipPackageId, paymentId }) => {
+    try {
+      const response = await userAxiosInstance.post(
+        `/user/buy-membership/${membershipPackageId}/${paymentId}`
+      );
+      console.log(response);
+      toast?.success(response?.data?.message);
+      return response?.data;
+    } catch (error) {
+      return;
+    }
   }
-})
+);
 
-
-export const createOrderForClassBooking = createAsyncThunk('/user/create-order', async (data) => {
-  try {
-    console.log("dataaaaaaaaaaaaaa in creating ", data?.date)
-    const response = await userAxiosInstance.post(`/user/create-order/${data?.classId}`, data);
-    toast.success(response?.data?.message)
-    return response?.data
-    console.log(response);
-  } catch (error) {
-    return
-    return error
+export const createOrderForClassBooking = createAsyncThunk(
+  "/user/create-order",
+  async (data) => {
+    try {
+      console.log("dataaaaaaaaaaaaaa in creating ", data?.date);
+      const response = await userAxiosInstance.post(
+        `/user/create-order/${data?.classId}`,
+        data
+      );
+      toast.success(response?.data?.message);
+      return response?.data;
+      console.log(response);
+    } catch (error) {
+      return;
+      return error;
+    }
   }
-})
+);
 
-export const cancelOrder = createAsyncThunk('/user/cancel-order', async (orderId) => {
-  try {
-    const response = await userAxiosInstance.put(`/user/cancel-order/${orderId}`);
-    console.log(response)
-    return response?.data
-  } catch (error) {
-    return
+export const cancelOrder = createAsyncThunk(
+  "/user/cancel-order",
+  async (orderId) => {
+    try {
+      const response = await userAxiosInstance.put(
+        `/user/cancel-order/${orderId}`
+      );
+      console.log(response);
+      return response?.data;
+    } catch (error) {
+      return;
+    }
   }
-})
-
-
-
+);
 
 const paymentSlice = createSlice({
   name: "payment",
   initialState: null,
   reducers: {},
-  extraReducers: () => { },
+  extraReducers: () => {},
 });
 
 export default paymentSlice.reducer;

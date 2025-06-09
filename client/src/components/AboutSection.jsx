@@ -8,13 +8,10 @@ const AboutSection = () => {
           <div className="flex flex-col md:flex-row gap-10 md:gap-20  justify-center items-center md:items-start  mx-auto">
             <div className="text-start flex flex-col justify-start items-center   ">
               <h2 className="  w-full text-4xl md:text-[5rem] leading-wide md:leading-tight text-center">
-                WELCOME TO
+                Welcome to
               </h2>
               <h2 className=" w-full text-4xl md:-mt-4  md:text-[5rem] leading-wide md:leading-tight text-center md:text-left">
-                The PILATES
-              </h2>
-              <h2 className=" w-full text-4xl md:-mt-4  md:text-[5rem] leading-wide md:leading-tight text-center md:text-left">
-                ROOM
+                The Pilates Room
               </h2>
             </div>
             <div className="md:w-1/2 mt-5 space-y-6 lg:pr-4">

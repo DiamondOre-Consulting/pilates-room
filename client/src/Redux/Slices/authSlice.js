@@ -81,16 +81,16 @@ export const userResetPassword = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
   "/user/change-password",
-  async (newPassword) => {
+  async (password) => {
     try {
+      console.log("passsword new ", password, "old");
       const response = await userAxiosInstance.post(
-        `/user/change-password/${newPassword}`
+        `/user/change-password/${password?.newPassword}/${password?.oldPassword}`
       );
-      console.log(response);
       toast.success(response?.data?.message);
-      return response.data;
+      return response?.data;
     } catch (error) {
-      return;
+      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }

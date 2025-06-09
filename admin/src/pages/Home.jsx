@@ -200,7 +200,7 @@ const Home = () => {
                 Recent Classes
               </h3>
               <Link
-                to={'/all-bookings'}
+                to={"/orders"}
                 className="text-sm text-[#DD7003] hover:text-[#c66502]"
               >
                 View all
@@ -269,8 +269,7 @@ const Home = () => {
                       {item?.firstName} {item?.lastName}{" "}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {item?.email} <br></br>{" "}
-                      {item?.product?.time}
+                      {item?.email} <br></br> {item?.product?.time}
                     </p>
                   </div>
                   {item?.membershipStatus && (
@@ -316,7 +315,7 @@ const Home = () => {
             >
               <TrendingUp className="h-5 w-5 text-[#DD7003]" />
               <span className="text-sm font-medium text-gray-900">
-                View Bookings 
+                View Bookings
               </span>
             </Link>
             <Link

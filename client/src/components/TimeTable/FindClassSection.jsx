@@ -333,7 +333,7 @@ const FindClassSection = () => {
                 onChange={(e) => setLocation(e.target?.value)}
                 className="border rounded-md px-1 md:px-4 py-2 border-gray-300"
               >
-                <option value={null}>Location</option>
+                <option value={""}>All</option>
                 <option value={"faridabad"}>Faridabad</option>
                 <option value={"gurugram"}>Gurugram</option>
               </select>
@@ -631,10 +631,6 @@ const FindClassSection = () => {
                               await handleCreateOrder(cls?._id);
                             }
                           } catch (error) {
-                            console.error(
-                              "Error handling button click:",
-                              error
-                            );
                             toast.error(
                               "Something went wrong. Please try again."
                             );
