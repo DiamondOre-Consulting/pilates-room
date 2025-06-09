@@ -38,8 +38,8 @@ export const userSignIn = createAsyncThunk("/user/sign-in", async (data) => {
     toast.success(response?.data?.message);
     return response?.data;
   } catch (error) {
-    return;
     toast.error(error?.response?.data?.message);
+    throw error;
   }
 });
 
@@ -102,8 +102,8 @@ export const userData = createAsyncThunk("/user/user-data", async () => {
     console.log(response);
     return response?.data;
   } catch (error) {
-    return;
     initialState.isLoggedIn = false;
+    return;
   }
 });
 
@@ -124,8 +124,8 @@ export const editUser = createAsyncThunk("/user/edit-user", async (data) => {
     toast.success(response?.data?.message);
     return response?.data;
   } catch (error) {
-    return;
     toast.error(error?.response?.data?.message);
+    return;
   }
 });
 
@@ -163,9 +163,20 @@ const authSlice = createSlice({
         state.user = action?.payload;
         state.isLoggedIn = true;
       })
+      .addCase(userSignIn.rejected, (state, action) => {
+        console.log("userSignIn rejected:", action?.error);
+        state.isLoggedIn = false;
+        state.user = {};
+      })
       .addCase(userSignIn.fulfilled, (state, action) => {
-        state.user = action?.payload;
-        state.isLoggedIn = true;
+        console.log("is fullfilment", action);
+        if (action.payload?.error) {
+          state.isLoggedIn = false;
+          state.user = {};
+        } else {
+          state.user = action?.payload;
+          state.isLoggedIn = true;
+        }
       })
       .addCase(userData.fulfilled, (state, action) => {
         state.user = action?.payload;

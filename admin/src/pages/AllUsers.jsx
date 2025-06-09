@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { HomeLayout } from "@/Layout/HomeLayout";
 import {
+  addMemberShip,
   adminAddUser,
   extendExpiry,
   getAllUsers,
@@ -43,7 +44,7 @@ const AllUsers = () => {
     handleSubmit,
     reset,
     control,
-    formState: { errors, onSubmit },
+    formState: { errors, onSubmit, isSubmitting },
   } = useForm();
 
   const handlePhoneChange = (phoneNumber) => {
@@ -158,15 +159,41 @@ const AllUsers = () => {
     try {
       const res = await dispatch(adminAddUser(data));
       console.log(res);
+      if (res?.payload?.success) {
+        setAddUserPopUp(false);
+        await handleGetAllUsers();
+      }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const [addMemberShipPopup, setAddMembershipPop] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [packageId, setPackageId] = useState("");
+  console.log(userId, packageId);
+  const [isDiscoveryUser, setIsDiscoveryUser] = useState(false);
+  const handleAddMemberShip = async (data) => {
+    try {
+      console.log("this is data", data);
+      const response = await dispatch(
+        addMemberShip({ userId, membershipPackageId: data?.selectedPackage })
+      );
+      if (response?.payload?.success) {
+        setAddMembershipPop(false);
+        await handleGetAllUsers();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setAddMembershipPop(false);
     }
   };
 
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
+        <div className="flex flex-col  md:flex-row justify-between py-2">
           <div className="flex flex-col md:flex-row md:space-x-4">
             <div className="flex flex-col">
               <h1 className="text-2xl">All Users</h1>
@@ -184,7 +211,7 @@ const AllUsers = () => {
           <div className="flex space-x-2 items-center text-sm">
             <span>Page Limit:</span>
             <select
-              className="border px-2 cursor-pointer py-1 border-gray-700 rounded-md"
+              className="border px-2 cursor-pointer py-1 md:mt-0 mt-3 border-gray-700 rounded-md"
               value={limit}
               onChange={(e) => setLimit(Number(e.target.value))}
             >
@@ -244,11 +271,60 @@ const AllUsers = () => {
                     <td className="px-4 py-2">
                       {user?.createdAt.split("T")[0]}
                     </td>
-                    <td className="px-4 py-2">
-                      {user?.isDiscovery ? "Yes" : "No"}
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        {user?.isDiscovery ? "Yes" : "No"}
+                        {!user?.isDiscovery && (
+                          <svg
+                            onClick={() => {
+                              setAddMembershipPop(true);
+                              setUserId(user?._id);
+                              setIsDiscoveryUser(false);
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="lucide lucide-plus text-red-400 shadow-md  cursor-pointer hover:scale-110 transition-transform"
+                          >
+                            <path d="M5 12h14" />
+                            <path d="M12 5v14" />
+                          </svg>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-4 py-2">
-                      {user?.isMember ? "Yes" : "No"}
+
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        {user?.isMember ? "Yes" : "No"}
+                        {!user?.isMember && user?.isDiscovery && (
+                          <svg
+                            onClick={() => {
+                              setAddMembershipPop(true);
+                              setUserId(user?._id);
+                              setIsDiscoveryUser(true);
+                            }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="lucide lucide-plus text-red-400 cursor-pointer shadow-md  hover:scale-110 transition-transform"
+                          >
+                            <path d="M5 12h14" />
+                            <path d="M12 5v14" />
+                          </svg>
+                        )}
+                      </div>
                     </td>
 
                     <td className="px-4 py-2">
@@ -410,12 +486,12 @@ const AllUsers = () => {
                   {/* <p><strong>Subscription ID:</strong> {selectedUser.memberShipPlan.subscriptionId}</p> */}
                   <p>
                     <strong>Start Date:</strong>{" "}
-                    {selectedUser.memberShipPlan.startDate.split("T")[0]}
+                    {selectedUser?.memberShipPlan?.startDate?.split("T")[0]}
                   </p>
                   <p className="flex items-center  space-x-3">
                     <p>
                       <strong>Expiry Date:</strong>{" "}
-                      {selectedUser.memberShipPlan.expiryDate.split("T")[0]}
+                      {selectedUser?.memberShipPlan?.expiryDate?.split("T")[0]}
                     </p>
                     <Pencil
                       className="text-[10px] cursor-pointer"
@@ -424,7 +500,7 @@ const AllUsers = () => {
                   </p>
                   <p>
                     <strong>Remaining Sessions:</strong>{" "}
-                    {selectedUser.memberShipPlan.remainingSession}
+                    {selectedUser?.memberShipPlan?.remainingSession}
                   </p>
                 </div>
               )}
@@ -493,7 +569,7 @@ const AllUsers = () => {
           <div className="bg-white p-8 rounded-xl w-full max-w-lg shadow-2xl relative text-gray-800">
             <button
               onClick={() => setAddUserPopUp(false)}
-              className="absolute top-3 right-4 text-gray-500 hover:text-black"
+              className="absolute cursor-pointer top-3 right-4 text-gray-500 hover:text-black"
             >
               <X size={24} />
             </button>
@@ -523,14 +599,14 @@ const AllUsers = () => {
                   <label className="block text-sm font-medium">Last Name</label>
                   <input
                     type="text"
-                    {...register("LastName", {
+                    {...register("lastName", {
                       required: "Last Name is required",
                     })}
                     className="w-full border px-3 py-2 rounded-md mt-1"
                   />
-                  {errors.LastName && (
+                  {errors.lastName && (
                     <p className="text-red-500 text-xs">
-                      {errors.LastName.message}
+                      {errors.lastName.message}
                     </p>
                   )}
                 </div>
@@ -553,13 +629,13 @@ const AllUsers = () => {
                 <input
                   type="date"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md"
-                  {...register("dob", {
+                  {...register("birthDate", {
                     required: "Date of birth is required",
                   })}
                 />
-                {errors.dob && (
+                {errors.birthDate && (
                   <p className="text-red-600 text-sm mt-1">
-                    {errors.dob.message}
+                    {errors.birthDate.message}
                   </p>
                 )}
               </div>
@@ -587,7 +663,7 @@ const AllUsers = () => {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block mb-1 font-medium">Select Package</label>
                 <select
                   {...register("selectedPackage", {
@@ -608,7 +684,7 @@ const AllUsers = () => {
                     {errors.selectedPackage.message}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="block text-sm font-medium">Password</label>
@@ -636,9 +712,77 @@ const AllUsers = () => {
 
               <button
                 type="submit"
-                className="bg-black text-white w-full px-4 py-2 rounded-md"
+                className="bg-black cursor-pointer text-white w-full px-4 py-2 rounded-md"
               >
-                Add User
+                {isSubmitting ? (
+                  <div className="border-2 mx-auto rounded-full border-dashed animate-spin border-white size-5"></div>
+                ) : (
+                  "Add User"
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {addMemberShipPopup && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-xl w-full max-w-lg shadow-2xl relative text-gray-800">
+            <button
+              onClick={() => setAddMembershipPop(false)}
+              className="absolute cursor-pointer top-3 right-4 text-gray-500 hover:text-black"
+            >
+              <X size={24} />
+            </button>
+
+            <h2 className="text-xl font-bold mb-4">Add MemberShip Package</h2>
+
+            <form
+              onSubmit={handleSubmit(handleAddMemberShip)}
+              className="space-y-4"
+            >
+              <div>
+                <label className="block mb-1 font-medium">Select Package</label>
+                <select
+                  {...register("selectedPackage", {
+                    required: "Package is required",
+                  })}
+                  onChange={(e) => {
+                    setPackageId(e.target.value);
+                  }}
+                  className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                >
+                  <option>Select Package</option>
+                  {allpackages
+                    ?.filter((pkg) =>
+                      isDiscoveryUser
+                        ? pkg.packageType !== "discovery"
+                        : pkg.packageType === "discovery"
+                    )
+                    .map((pkg, index) => (
+                      <option key={index} value={pkg?._id}>
+                        {pkg?.packageName} - {pkg?.location} -{" "}
+                        {pkg?.packageType}
+                      </option>
+                    ))}
+                </select>
+
+                {errors.selectedPackage && (
+                  <p className="text-red-500 text-xs">
+                    {errors.selectedPackage.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="bg-black cursor-pointer text-white w-full px-4 py-2 rounded-md"
+              >
+                {isSubmitting ? (
+                  <div className="border-2 mx-auto rounded-full border-dashed animate-spin border-white size-5"></div>
+                ) : (
+                  "Add Membership"
+                )}
               </button>
             </form>
           </div>

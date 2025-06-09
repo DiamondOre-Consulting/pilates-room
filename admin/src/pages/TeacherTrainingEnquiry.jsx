@@ -58,13 +58,13 @@ const TeacherTrainingEnquiry = () => {
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
+        <div className="flex flex-col md:flex-row justify-between py-2">
           <div className="flex flex-col">
             <h1 className="text-2xl">All Teacher Training Enquiries</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
-          <div className="flex space-x-2 items-center text-sm">
+          <div className="flex space-x-2 md:mt-0 mt-4 items-center text-sm">
             <span>Page Limit:</span>
             <select
               className="border px-2 cursor-pointer py-1 border-gray-700 rounded-md"

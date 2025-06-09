@@ -85,17 +85,42 @@ export const extendExpiry = createAsyncThunk(
   }
 );
 
-export const adminAddUser = createAsyncThunk("/admin/add-user", async () => {
-  try {
-    const response = await adminAxiosInstance.post("/admin/add-user");
-    console.log(response);
-    toast.success(response?.data?.message);
-    return response?.data;
-  } catch (error) {
-    console.log(error);
-  }
-});
+export const adminAddUser = createAsyncThunk(
+  "/admin/add-user",
+  async (data) => {
+    try {
+      const response = await adminAxiosInstance.post(
+        "/admin/create-user-by-admin",
+        data
+      );
+      console.log(response);
+      toast.success(response?.data?.message);
 
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+export const addMemberShip = createAsyncThunk(
+  "/admin/add-membership",
+  async ({ userId, membershipPackageId }) => {
+    try {
+      console.log("iddds", userId, membershipPackageId);
+      const response = await adminAxiosInstance.put(
+        `/admin/add-membership-by-admin/${userId}/${membershipPackageId}`
+      );
+      console.log(response);
+      toast.success(response?.data?.message);
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
 const adminSlice = createSlice({
   name: "admin",
   initialState: null,
