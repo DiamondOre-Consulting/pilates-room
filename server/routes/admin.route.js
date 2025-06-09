@@ -12,7 +12,7 @@ import { createCoupon, deleteCoupon, editCoupon, getAllCoupons } from "../contro
 import { createCouponBodySchema, deleteCouponParamsSchema, editCouponBodySchema, editCouponParamsSchema } from "../validator/coupon.validator.js"
 import { createMembershipPackage, deleteMembershipPackage, editMembershipPackage, getAllMembershipPackages, getSingleMembershipPackage } from "../controllers/membershipPackage.controller.js"
 import { createMembershipPackageBodySchema, deleteMembershipPackageParamsSchema, editMembershipPackageBodySchema, editMembershipPackageParamsSchema, editUserMembershipForAdminBodySchema, editUserMembershipForAdminParamsSchema, getAllMembershipPackagesForUserQuerySchema, getSingleMembershipPackageParamsSchema } from "../validator/membershipPackage.validator.js"
-import { adminSignIn, adminSignOut, changePasswordForAdmin, forgotPasswordForAdmin, getAdminProfile, resetPasswordForAdmin } from "../controllers/auth/auth.admin.controller.js"
+import { adminSignIn, adminSignOut, changePasswordForAdmin, forgotPasswordForAdmin, getAdminProfile, refreshAdminAccessToken, resetPasswordForAdmin } from "../controllers/auth/auth.admin.controller.js"
 import { adminSignInBodySchema, forgotPasswordBodySchema, newPasswordParamsSchema, resetPasswordBodySchema, resetPasswordParamsSchema } from "../validator/auth.validator.js"
 import { allOrderHistory, getSingleOrder } from "../controllers/order.controller.js"
 import { getAllOrdersQuerySchema, getSingleOrderParamsSchema } from "../validator/order.validator.js"
@@ -188,6 +188,9 @@ adminRouter.post('/create-user-by-admin', validate({
 adminRouter.put('/add-membership-by-admin/:userId/:membershipPackageId', validate({
     params: addMembershipByAdminParamsSchema
 }),addMembershipPlanByAdmin)
+
+
+adminRouter.get('/refresh-token', refreshAdminAccessToken)
 
 
 

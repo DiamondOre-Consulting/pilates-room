@@ -6,6 +6,7 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
 import crypto from "crypto"
 import { sendMail } from "../../utils/sendmail.js";
+import { validateAdminRefreshToken } from "../../utils/validateAdminRefreshToken.js";
 
 const cookieOptions = {
     httpOnly: true,
@@ -36,8 +37,8 @@ export const adminSignIn = asyncHandler(async (req, res) => {
          existingAdmin.refreshAccessToken = refreshAccessToken;
          await existingAdmin.save();
      
-         res.cookie("AdminAccessToken", accessToken, cookieOptions);
-         res.cookie("AdminRefreshAccessToken", refreshAccessToken, cookieOptions);
+         res.cookie("accessToken", accessToken, cookieOptions);
+         res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
          existingAdmin.password = undefined;
          existingAdmin.refreshAccessToken = undefined;
          existingAdmin.resetPasswordToken = undefined;
@@ -48,8 +49,8 @@ export const adminSignIn = asyncHandler(async (req, res) => {
 })
 
 export const adminSignOut = asyncHandler(async (req, res) => {
-    res.clearCookie("AdminAccessToken", cookieOptions);
-    res.clearCookie("AdminRefreshAccessToken", cookieOptions);
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshAccessToken", cookieOptions);
     sendResponse(res, 200, null, "User logged out successfully");
 });
 
@@ -81,6 +82,31 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 
 })
 
+export const refreshAdminAccessToken = asyncHandler(async (req, res) => {
+
+  const refreshToken = req.cookies.refreshAccessToken;
+  if (!refreshToken) return res.sendStatus(401);
+
+  
+  const isValid = await validateAdminRefreshToken(req, res);
+
+  if(!isValid){
+    throw new ApiError("Invalid or expired token", 400);
+  }
+  
+  const admin = await Admin.findOne({ refreshToken });
+  if (!admin) return res.sendStatus(403);
+
+
+  const accessToken = await admin.generateAccessToken();
+  const newRefreshToken = await admin.generateRefreshToken();
+
+  
+  res.cookie("accessToken", accessToken, cookieOptions);
+  res.cookie("refreshAccessToken", newRefreshToken, cookieOptions);
+  
+  sendResponse(res, 200, null, "Tokens refreshed successfully");
+});
 
 
 

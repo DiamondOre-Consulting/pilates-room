@@ -6,6 +6,7 @@ import User from "../../models/user.model.js";
 import { sendMail } from "../../utils/sendmail.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { validateUserRefreshToken } from "../../utils/validateUserRefreshToken.js";
 
 const otpStore = new Map();
 
@@ -337,4 +338,32 @@ export const editUser = asyncHandler(async (req, res) => {
   const updatedUser = await user.save();
 
   sendResponse(res, 200, updatedUser, "User updated successfully");
+});
+
+
+export const refreshUserAccessToken = asyncHandler(async (req, res) => {
+
+  const refreshToken = req.cookies.refreshAccessToken;
+  if (!refreshToken) return res.sendStatus(401);
+
+  
+  const isValid = await validateUserRefreshToken(req, res);
+
+   if(!isValid){
+      throw new ApiError("Invalid or expired token", 400);
+   }
+
+  
+  const user = await User.findOne({ refreshToken });
+  if (!user) return res.sendStatus(403);
+
+
+  const accessToken = await user.generateAccessToken();
+  const newRefreshToken = await user.generateRefreshToken();
+
+  
+  res.cookie("accessToken", accessToken, cookieOptions);
+  res.cookie("refreshAccessToken", newRefreshToken, cookieOptions);
+  
+  sendResponse(res, 200, null, "Tokens refreshed successfully");
 });

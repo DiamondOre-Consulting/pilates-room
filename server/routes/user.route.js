@@ -20,6 +20,7 @@ import {
   getProfile,
   signOut,
   editUser,
+  refreshUserAccessToken,
 } from "../controllers/auth/auth.user.controller.js";
 import { userMiddleware } from "../middlewares/user.middleware.js";
 
@@ -223,5 +224,9 @@ userRouter.put(
   }),
   editUser
 );
+
+
+
+userRouter.get('/refresh-token', refreshUserAccessToken)
 
 export default userRouter;
