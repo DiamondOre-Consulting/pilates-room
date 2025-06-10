@@ -3,8 +3,7 @@ import banner from "../assets/home.webm";
 import About from "@/components/TeacherTrainingComponents/About";
 import ProgramSchedule from "@/components/TeacherTrainingComponents/ProgramSchedule";
 import Testimonial from "@/components/Testimonial";
-import RecommendedBy from "@/components/RecommendedBy";
-import CrouselSection from "@/components/TeacherTrainingComponents/CrouselSection";
+
 const TeacherTraining = () => {
   useEffect(() => {
     window.scrollTo(0, 0);

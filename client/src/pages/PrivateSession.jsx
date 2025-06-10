@@ -57,12 +57,12 @@ const PrivateSession = () => {
             <h1 className="text-[2rem] md:text-[5rem] uppercase">
               Private Sessions
             </h1>
-            <Link
+            {/* <Link
               to={"/intro-offers"}
               className="uppercase border text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
             >
               Book a private session
-            </Link>
+            </Link> */}
           </div>
         </section>
       </div>

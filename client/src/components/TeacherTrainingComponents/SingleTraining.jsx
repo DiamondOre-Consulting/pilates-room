@@ -16,15 +16,13 @@ const SingleTraining = () => {
       const response = await dispatch(getSingleTraining(id));
       setData(response?.payload?.data);
     } catch (error) {
-      return
+      return;
     }
   };
 
   useEffect(() => {
     handleGetSingleTraining();
   }, []);
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,7 +33,9 @@ const SingleTraining = () => {
       <section className="w-full">
         <div
           className="w-full h-[32rem] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center relative"
-          style={{ backgroundImage: `url(${data?.thumbnail?.secureUrl})` }}
+          style={{
+            backgroundImage: `url("https://images.pexels.com/photos/4534694/pexels-photo-4534694.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
+          }}
         >
           <div className="absolute inset-0 bg-black/20 z-0"></div>
           <div className="z-10">
@@ -48,7 +48,10 @@ const SingleTraining = () => {
 
       <div className="flex md:flex-row flex-col justify-between border  px-10 py-10 items-center">
         <div className="max-w-xl  w-full">
-          <Link to={'/teacher-training'} className="text-dark text-xl flex items-center uppercase tracking-wider">
+          <Link
+            to={"/teacher-training"}
+            className="text-dark text-xl flex items-center uppercase tracking-wider"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -71,46 +74,6 @@ const SingleTraining = () => {
           </h1>
 
           <div className="flex flex-col gap-y-1">
-            <p className="flex items-center space-x-1 text-dark">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="lucide lucide-calendar-icon lucide-calendar"
-              >
-                <path d="M8 2v4" />
-                <path d="M16 2v4" />
-                <rect width="16" height="16" x="3" y="4" rx="2" />
-                <path d="M3 10h18" />
-              </svg>{" "}
-              <p>{data?.date.split("T")[0]}</p>
-            </p>
-            <p className="flex items-center space-x-1 text-dark">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="lucide lucide-clock-icon lucide-clock"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              <p>
-                {data?.startTime} - {data?.endTime}
-              </p>
-            </p>
             <p className="flex items-center space-x-1 underline text-dark">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -139,10 +102,17 @@ const SingleTraining = () => {
             dangerouslySetInnerHTML={{ __html: data?.description }}
           ></p>
           <div className="flex space-x-8 mt-4">
-            <Link to={`/moreInfo/${data?._id}`} state={{ data }} className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+            <Link
+              to={`/moreInfo/${data?._id}`}
+              state={{ data }}
+              className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+            >
               More Info
             </Link>
-            <button onClick={() => setContactUsPopUp(true)} className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
+            <button
+              onClick={() => setContactUsPopUp(true)}
+              className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+            >
               Notify Me
             </button>
           </div>
@@ -150,7 +120,6 @@ const SingleTraining = () => {
       </div>
 
       <div className="absolute fixed bottom-0 w-full z-40 md:block hidden">
-
         <BookingSection />
       </div>
 
@@ -171,7 +140,6 @@ const SingleTraining = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
