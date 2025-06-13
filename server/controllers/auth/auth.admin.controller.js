@@ -4,74 +4,66 @@ import ApiError from "../../utils/apiError.js";
 import sendResponse from "../../utils/sendResponse.js";
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
-import crypto from "crypto"
+import crypto from "crypto";
 import { sendMail } from "../../utils/sendmail.js";
 import { validateAdminRefreshToken } from "../../utils/validateAdminRefreshToken.js";
 
 const cookieOptions = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
 };
 
-
 export const adminSignIn = asyncHandler(async (req, res) => {
-    
-         const {email,password} = req.validatedData.body
-     
-         const existingAdmin = await Admin.findOne({email}).select('+password')
-         
-         if (!existingAdmin) {
-             throw new ApiError("User not found", 422);
-         }
-     
-         const passwordCheck = await existingAdmin.comparePassword(password);
-     
-         if (!passwordCheck) {
-             throw new ApiError("Password is incorrect", 409);
-         }
-     
-     
-         const accessToken = await existingAdmin.generateAccessToken();
-         const refreshAccessToken = await existingAdmin.generateRefreshToken();
-         existingAdmin.refreshAccessToken = refreshAccessToken;
-         await existingAdmin.save();
-     
-         res.cookie("accessToken", accessToken, cookieOptions);
-         res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
-         existingAdmin.password = undefined;
-         existingAdmin.refreshAccessToken = undefined;
-         existingAdmin.resetPasswordToken = undefined;
-         existingAdmin.resetPasswordTokenExpires = undefined;
-     
-         sendResponse(res, 200, existingAdmin, "User logged in successfully");
+  const { email, password } = req.validatedData.body;
 
-})
+  const existingAdmin = await Admin.findOne({ email }).select("+password");
 
-export const adminSignOut = asyncHandler(async (req, res) => {
-    res.clearCookie("accessToken", cookieOptions);
-    res.clearCookie("refreshAccessToken", cookieOptions);
-    sendResponse(res, 200, null, "User logged out successfully");
+  if (!existingAdmin) {
+    throw new ApiError("User not found", 422);
+  }
+
+  const passwordCheck = await existingAdmin.comparePassword(password);
+
+  if (!passwordCheck) {
+    throw new ApiError("Password is incorrect", 409);
+  }
+
+  const accessToken = await existingAdmin.generateAccessToken();
+  const refreshToken = await existingAdmin.generateRefreshToken();
+  existingAdmin.refreshToken = refreshToken;
+  await existingAdmin.save();
+
+  res.cookie("accessToken", accessToken, cookieOptions);
+  res.cookie("refreshToken", refreshToken, cookieOptions);
+  existingAdmin.password = undefined;
+  existingAdmin.refreshToken = undefined;
+  existingAdmin.resetPasswordToken = undefined;
+  existingAdmin.resetPasswordTokenExpires = undefined;
+
+  sendResponse(res, 200, existingAdmin, "User logged in successfully");
 });
 
+export const adminSignOut = asyncHandler(async (req, res) => {
+  res.clearCookie("accessToken", cookieOptions);
+  res.clearCookie("refreshToken", cookieOptions);
+  sendResponse(res, 200, null, "User logged out successfully");
+});
 
-export const getAdminProfile = asyncHandler(async(req,res)=>{  
-    const user = req.user
-    sendResponse(res, 200, user, "User profile fetched successfully");
-})
-
-
+export const getAdminProfile = asyncHandler(async (req, res) => {
+  const user = req.user;
+  sendResponse(res, 200, user, "User profile fetched successfully");
+});
 
 export const changePasswordForAdmin = asyncHandler(async (req, res) => {
+  const { newPassword, oldPassword } = req.validatedData.params;
+  const existingAdmin = await Admin.findById(req.user._id).select("+password");
+  const comparePassword = await existingAdmin.comparePassword(oldPassword);
 
-  const { newPassword,oldPassword } = req.validatedData.params;
-  const existingAdmin = await Admin.findById(req.user._id).select('+password');
-   const comparePassword = await existingAdmin.comparePassword(oldPassword);
-  
-    if (!comparePassword) {
-      throw new ApiError("Old password is incorrect", 400);
-    }
-  
+  if (!comparePassword) {
+    throw new ApiError("Old password is incorrect", 400);
+  }
+
   const isSame = await bcrypt.compare(newPassword, existingAdmin.password);
   if (isSame) {
     throw new ApiError("New password should be different", 400);
@@ -79,42 +71,31 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
   existingAdmin.password = await bcrypt.hash(newPassword, 10);
   await existingAdmin.save();
   sendResponse(res, 200, null, "Password changed successfully");
-
-})
+});
 
 export const refreshAdminAccessToken = asyncHandler(async (req, res) => {
-
-  const refreshToken = req.cookies.refreshAccessToken;
+  console.log(1);
+  const refreshToken = req.cookies.refreshToken;
+  console.log(refreshToken);
   if (!refreshToken) return res.sendStatus(401);
 
-  
   const isValid = await validateAdminRefreshToken(req, res);
 
-  if(!isValid){
+  if (!isValid) {
     throw new ApiError("Invalid or expired token", 400);
   }
-  
+
   const admin = await Admin.findOne({ refreshToken });
   if (!admin) return res.sendStatus(403);
-
 
   const accessToken = await admin.generateAccessToken();
   const newRefreshToken = await admin.generateRefreshToken();
 
-  
-  res.cookie("accessToken", accessToken, cookieOptions);
-  res.cookie("refreshAccessToken", newRefreshToken, cookieOptions);
-  
-  sendResponse(res, 200, null, "Tokens refreshed successfully");
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshToken", newRefreshToken, cookieOptions);
 });
-
-
-
-
-
-
-
-
 
 export const forgotPasswordForAdmin = asyncHandler(async (req, res) => {
   const { email } = req.validatedData.body;
@@ -127,13 +108,12 @@ export const forgotPasswordForAdmin = asyncHandler(async (req, res) => {
 
   const resetToken = crypto.randomBytes(32).toString("hex");
   const resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
-  const expiryTime = encodeURIComponent(resetPasswordTokenExpires)
+  const expiryTime = encodeURIComponent(resetPasswordTokenExpires);
 
   existingAdmin.resetPasswordToken = resetToken;
   existingAdmin.resetPasswordTokenExpires = resetPasswordTokenExpires;
 
   await existingAdmin.save();
-
 
   const resetUrl = `http://localhost:5173/reset-password/${resetToken}/${existingAdmin.email}/${expiryTime}`;
 
@@ -224,19 +204,17 @@ export const forgotPasswordForAdmin = asyncHandler(async (req, res) => {
 });
 
 export const resetPasswordForAdmin = asyncHandler(async (req, res) => {
-
   const { resetToken } = req.validatedData.params;
   let { newPassword } = req.validatedData.body;
 
   const existingAdmin = await Admin.findOne({
     resetPasswordToken: resetToken,
     resetPasswordTokenExpires: { $gt: Date.now() },
-  }).select('+password');
+  }).select("+password");
 
   if (!existingAdmin) {
     throw new ApiError("Invalid or expired token", 400);
   }
-  
 
   newPassword = await bcrypt.hash(newPassword, 10);
   existingAdmin.password = newPassword;
@@ -246,12 +224,4 @@ export const resetPasswordForAdmin = asyncHandler(async (req, res) => {
   await existingAdmin.save();
 
   sendResponse(res, 200, null, "Password reset successfully");
-
-
-})
-
-
-
-
-
-
+});
