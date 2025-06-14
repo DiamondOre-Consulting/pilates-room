@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { sendMail } from "../../utils/sendmail.js";
 import { validateAdminRefreshToken } from "../../utils/validateAdminRefreshToken.js";
+import jwt from "jsonwebtoken";
 
 const cookieOptions = {
   httpOnly: true,
@@ -74,27 +75,45 @@ export const changePasswordForAdmin = asyncHandler(async (req, res) => {
 });
 
 export const refreshAdminAccessToken = asyncHandler(async (req, res) => {
-  console.log(1);
-  const refreshToken = req.cookies.refreshToken;
-  console.log(refreshToken);
-  if (!refreshToken) return res.sendStatus(401);
+  const incomingRefreshToken = req.cookies.refreshToken;
 
-  const isValid = await validateAdminRefreshToken(req, res);
-
-  if (!isValid) {
-    throw new ApiError("Invalid or expired token", 400);
+  if (!incomingRefreshToken) {
+    throw new ApiError("You are not logged in!", 401);
   }
 
-  const admin = await Admin.findOne({ refreshToken });
-  if (!admin) return res.sendStatus(403);
+  console.log(req.cookies);
+  console.log(2);
 
-  const accessToken = await admin.generateAccessToken();
-  const newRefreshToken = await admin.generateRefreshToken();
+  const decodedToken = jwt.verify(
+    incomingRefreshToken,
+    process.env.ADMIN_REFRESH_SECRET_KEY
+  );
+
+  const user = await Admin.findById(decodedToken?.id).select(
+    "-emailVerificationToken -emailVerificationExpiry"
+  );
+
+  if (!user) {
+    throw new ApiError("Invalid Token!", 401);
+  }
+
+  if (user.refreshToken !== incomingRefreshToken) {
+    throw new ApiError("Invalid Token!", 401);
+  }
+
+  let accessToken = await user.generateAccessToken();
+  let refreshToken = await user.generateRefreshToken();
+
+  console.log(refreshToken, accessToken);
 
   return res
     .status(200)
     .cookie("accessToken", accessToken, cookieOptions)
-    .cookie("refreshToken", newRefreshToken, cookieOptions);
+    .cookie("refreshToken", refreshToken, cookieOptions)
+    .json({
+      accessToken,
+      refreshToken,
+    });
 });
 
 export const forgotPasswordForAdmin = asyncHandler(async (req, res) => {

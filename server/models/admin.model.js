@@ -46,7 +46,7 @@ adminSchema.methods = {
     const token = jwt.sign(
       { id: admin._id, email: admin.email, fullName: admin.fullName },
       process.env.ADMIN_SECRET_KEY,
-      { expiresIn: "60m" }
+      { expiresIn: "15m" }
     );
     return token;
   },

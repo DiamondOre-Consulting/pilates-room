@@ -340,30 +340,44 @@ export const editUser = asyncHandler(async (req, res) => {
   sendResponse(res, 200, updatedUser, "User updated successfully");
 });
 
-
 export const refreshUserAccessToken = asyncHandler(async (req, res) => {
+  const incomingRefreshToken = req.cookies.refreshAccessToken;
 
-  const refreshToken = req.cookies.refreshAccessToken;
-  if (!refreshToken) return res.sendStatus(401);
+  if (!incomingRefreshToken) {
+    throw new ApiError("You are not logged in!", 401);
+  }
 
-  
-  const isValid = await validateUserRefreshToken(req, res);
+  console.log(req.cookies);
+  console.log(2);
 
-   if(!isValid){
-      throw new ApiError("Invalid or expired token", 400);
-   }
+  const decodedToken = jwt.verify(
+    incomingRefreshToken,
+    process.env.ADMIN_REFRESH_SECRET_KEY
+  );
 
-  
-  const user = await User.findOne({ refreshToken });
-  if (!user) return res.sendStatus(403);
+  const user = await User.findById(decodedToken?.id).select(
+    "-emailVerificationToken -emailVerificationExpiry"
+  );
 
+  if (!user) {
+    throw new ApiError("Invalid Token!", 401);
+  }
 
-  const accessToken = await user.generateAccessToken();
-  const newRefreshToken = await user.generateRefreshToken();
+  if (user.refreshAccessToken !== incomingRefreshToken) {
+    throw new ApiError("Invalid Token!", 401);
+  }
 
-  
-  res.cookie("accessToken", accessToken, cookieOptions);
-  res.cookie("refreshAccessToken", newRefreshToken, cookieOptions);
-  
-  sendResponse(res, 200, null, "Tokens refreshed successfully");
+  let accessToken = await user.generateAccessToken();
+  let refreshAccessToken = await user.generateRefreshToken();
+
+  console.log(refreshAccessToken, accessToken);
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshAccessToken", refreshAccessToken, cookieOptions)
+    .json({
+      accessToken,
+      refreshAccessToken,
+    });
 });
