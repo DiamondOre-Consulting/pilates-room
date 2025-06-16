@@ -229,7 +229,9 @@ const Membership = () => {
                       dangerouslySetInnerHTML={{ __html: ele?.description }}
                     ></p>
                     <p>Location : {ele?.location}</p>
-                    <p>Price : ₹ {ele?.price?.toLocaleString("en-IN")}</p>
+                    <p className="">
+                      Price : ₹ {ele?.price?.toLocaleString("en-IN")}
+                    </p>
                     <button
                       onClick={() => {
                         // console.log("dataaaaaaaaaaaa",user?.data?.memberShipPlan?.package?._id === ele?._id)
@@ -248,7 +250,7 @@ const Membership = () => {
                         }
                       }}
                       // disabled={ user?.data?.isMember && user?.data?.memberShipPlan?.package?._id === ele?._id}
-                      className={`text-xl cursor-pointer mt-3 ${
+                      className={`text-xl  cursor-pointer mt-3 ${
                         user?.data?.isDiscovery
                           ? "bg-green-600 text-white"
                           : "bg-white text-dark"
@@ -280,7 +282,7 @@ const Membership = () => {
                   </div>
 
                   <div
-                    className="justify-center items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-80 "
+                    className="justify-center md:mt-0 mt-4 items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-80 "
                     style={{
                       backgroundImage: `url('https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
                       backgroundSize: "cover",

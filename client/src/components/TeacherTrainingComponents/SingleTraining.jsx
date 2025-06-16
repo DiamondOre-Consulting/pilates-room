@@ -105,13 +105,13 @@ const SingleTraining = () => {
             <Link
               to={`/moreInfo/${data?._id}`}
               state={{ data }}
-              className="border uppercase  border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+              className="border uppercase  border-[#FF6950]  px-4 md:px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
             >
               More Info
             </Link>
             <button
               onClick={() => setContactUsPopUp(true)}
-              className="border uppercase border-[#FF6950]  px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+              className="border uppercase border-[#FF6950]  px-4 md:px-10 py-3 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
             >
               Notify Me
             </button>
