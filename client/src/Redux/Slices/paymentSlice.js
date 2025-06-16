@@ -29,7 +29,6 @@ export const checkOutPayment = createAsyncThunk(
       console.log(response);
       return response?.data;
     } catch (error) {
-      return;
       toast.error(error?.response?.data?.message);
     }
   }
@@ -63,7 +62,8 @@ export const createMembership = createAsyncThunk(
       toast?.success(response?.data?.message);
       return response?.data;
     } catch (error) {
-      return;
+      console.log(error);
+      return error;
     }
   }
 );
@@ -81,7 +81,7 @@ export const createOrderForClassBooking = createAsyncThunk(
       return response?.data;
       console.log(response);
     } catch (error) {
-      return;
+      // return;
       return error;
     }
   }
@@ -106,7 +106,6 @@ const paymentSlice = createSlice({
   name: "payment",
   initialState: null,
   reducers: {},
-  extraReducers: () => {},
 });
 
 export default paymentSlice.reducer;

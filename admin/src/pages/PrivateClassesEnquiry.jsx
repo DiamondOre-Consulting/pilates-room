@@ -95,7 +95,9 @@ const PrivateClassesEnquiry = () => {
                 {contactEnquiry.map((user, idx) => (
                   <tr key={idx} className="border-t">
                     <td className="px-4 py-2 min-w-40">{user?.name}</td>
-                    <td className="px-4 py-2">{user?.email}</td>
+                    <td className="px-4 py-2 max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden">
+                      {user?.email}
+                    </td>
                     <td className="px-4 py-2">+{user?.phone}</td>
 
                     <td className="px-4 py-2">

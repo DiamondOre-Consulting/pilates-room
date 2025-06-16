@@ -142,12 +142,10 @@ const Home = () => {
 
   return (
     <HomeLayout>
-      <div className="p-6">
+      <div className="p-2 md:p-6">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">
-            Welcome back! Here's what's happening with your store.
-          </p>
+          <p className="text-gray-600">Welcome back!</p>
         </div>
 
         {/* Stats Grid */}
@@ -193,7 +191,7 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-sm p-6"
+            className="bg-white rounded-xl shadow-sm p-3 md:p-6"
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
@@ -213,7 +211,7 @@ const Home = () => {
                     <Users className="h-4 w-4 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-xs md:text-sm font-medium text-gray-900">
                       {item?.user?.firstName} {item?.user?.lastName}{" "}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -228,11 +226,11 @@ const Home = () => {
                           ? "bg-green-100 text-green-800"
                           : item?.status === "pending"
                           ? "bg-yellow-100 text-yellow-800"
-                          : "bg-red-100 text-red-800"
-                          ? item?.status === "scheduled"
-                          : "bg-green-200 text-green-800"
-                          ? item?.status === "cancelled"
-                          : "bg-red-200 text-red-800"
+                          : item?.status === "scheduled"
+                          ? "bg-orange-200 text-orange-800"
+                          : item?.status === "cancelled"
+                          ? "bg-red-200 text-red-800"
+                          : "bg-gray-200 text-gray-800"
                       }`}
                     >
                       {item?.status}
@@ -268,7 +266,7 @@ const Home = () => {
                     <p className="text-sm font-medium text-gray-900">
                       {item?.firstName} {item?.lastName}{" "}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs truncate w-20  md:w-full text-gray-500">
                       {item?.email} <br></br> {item?.product?.time}
                     </p>
                   </div>

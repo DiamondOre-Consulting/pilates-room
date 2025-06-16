@@ -10,7 +10,7 @@ const BookingSection = () => {
     <div className="flex    uppercase justify-between text-center items-center md:h-20 bg-white text-xl ">
       <Link
         to={"/private-session"}
-        className="flex justify-center items-center w-full py-4  font-semibold text-md   sm:text-lg md:text-xl  cursor-pointer hover:underline 
+        className="flex justify-center items-center w-full py-4  font-semibold text-sm   sm:text-lg md:text-xl  cursor-pointer hover:underline 
                             hover:text-[#FF6950]
                             underline-offset-4 
                             transition-all 
@@ -21,7 +21,7 @@ const BookingSection = () => {
 
       <Link
         to={"/class-schedule"}
-        className="flex justify-center items-center w-full py-4  font-semibold text-md sm:text-lg md:text-xl h-full   hover:underline 
+        className="flex justify-center items-center w-full py-4  font-semibold text-sm sm:text-lg md:text-xl h-full   hover:underline 
                              hover:text-[#FF6950]
                             underline-offset-4 
                             transition-all 
@@ -31,7 +31,7 @@ const BookingSection = () => {
       </Link>
       <Link
         to={"/teacher-training"}
-        className="flex justify-center items-center w-full font-semibold text-md sm:text-lg md:text-xl py-4   hover:underline 
+        className="flex justify-center items-center w-full font-semibold text-sm sm:text-lg md:text-xl py-4   hover:underline 
                             underline-offset-4 
                              hover:text-[#FF6950]
                             transition-all 

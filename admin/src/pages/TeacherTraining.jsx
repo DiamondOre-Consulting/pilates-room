@@ -356,7 +356,7 @@ const TeacherTraining = () => {
                   {ele?.title}
                 </p>
 
-                <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                <div className="flex flex-col md:min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
                   <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
                     Location
                     <span className="text-[1.01rem] capitalize dark:text-white text-black">

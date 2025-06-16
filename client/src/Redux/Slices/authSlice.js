@@ -35,7 +35,7 @@ export const userSignUp = createAsyncThunk("/user/signup", async (data) => {
 export const userSignIn = createAsyncThunk("/user/sign-in", async (data) => {
   try {
     const response = await userAxiosInstance.post("/user/signin", data);
-    toast.success(response?.data?.message);
+    // toast.success(response?.data?.message);
     return response?.data;
   } catch (error) {
     toast.error(error?.response?.data?.message);

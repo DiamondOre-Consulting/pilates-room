@@ -119,7 +119,9 @@ const AllOrders = () => {
                     <td className="px-4 py-2 min-w-40">
                       {order?.user?.firstName} {order?.user?.lastName}
                     </td>
-                    <td className="px-4 py-2">{order?.user?.email}</td>
+                    <td className="px-4 py-2 max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden ">
+                      {order?.user?.email}
+                    </td>
                     <td className="px-4 py-2">{order?.product?.time}</td>
                     <td className="px-4 py-2">{order?.product?.location}</td>
                     <td className="px-4 py-2 flex items-center gap-2">

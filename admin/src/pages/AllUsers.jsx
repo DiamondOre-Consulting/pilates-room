@@ -205,7 +205,7 @@ const AllUsers = () => {
               value={searchItem}
               onChange={(e) => setSearchItem(e.target.value)}
               placeholder="Search User..."
-              className="border border-1 border-gray-800 rounded-md px-2 mt-5 md:mt-0 md:ml-4"
+              className="border border-1 border-gray-800 rounded-md px-2 py-2 mt-5 md:mt-0 md:ml-4"
             />
           </div>
           <div className="flex space-x-2 items-center text-sm">
@@ -267,7 +267,9 @@ const AllUsers = () => {
                     <td className="px-4 py-2 min-w-40">
                       {user?.firstName} {user?.lastName}{" "}
                     </td>
-                    <td className="px-4 py-2">{user?.email}</td>
+                    <td className="px-4 py-2 max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden">
+                      {user?.email}
+                    </td>
                     <td className="px-4 py-2">
                       {user?.createdAt.split("T")[0]}
                     </td>
@@ -526,7 +528,7 @@ const AllUsers = () => {
                   type="date"
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(e.target.value)}
-                  className="border border-gray-400 px-2 py-1 rounded-md mt-3"
+                  className="border border-gray-400 px-2 py-1 w-full rounded-md mt-3"
                 />
               </div>
             )}

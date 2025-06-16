@@ -58,9 +58,9 @@ const ContactUsEnquiry = () => {
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
+        <div className="flex md:flex-row flex-col md:gap-y-0 gap-y-2 justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All contact Enquiries</h1>
+            <h1 className="text-2xl">All Contact Enquiries</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
@@ -96,7 +96,9 @@ const ContactUsEnquiry = () => {
                 {contactEnquiry.map((user, idx) => (
                   <tr key={idx} className="border-t">
                     <td className="px-4 py-2 min-w-40">{user?.name}</td>
-                    <td className="px-4 py-2">{user?.email}</td>
+                    <td className="px-4 py-2 overflow-hidden max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden">
+                      {user?.email}
+                    </td>
                     <td className="px-4 py-2">+{user?.phone}</td>
 
                     <td className="px-4 py-2">

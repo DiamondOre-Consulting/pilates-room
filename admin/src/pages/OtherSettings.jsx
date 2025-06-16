@@ -48,8 +48,8 @@ const OtherSettings = () => {
   return (
     <HomeLayout>
       <div className=" h-screen  flex justify-center items-center">
-        <form className="bg-white shadow-md rounded-md py-10 flex flex-col justify-center   p-6">
-          <h1 className="text-xl md:text-4xl mb-6">Change Password</h1>
+        <form className="bg-white shadow-md rounded-md border border-black max-w-xs py-10 flex flex-col justify-center   p-6">
+          <h1 className="text-xl md:text-2xl mb-6">Change Password</h1>
 
           {/* Old Password */}
           <div className="flex flex-col space-y-1 relative">

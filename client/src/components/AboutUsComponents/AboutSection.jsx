@@ -30,8 +30,8 @@ const AboutSection = () => {
     <div>
       <section className="ezy__about9 light py-14 md:pt-20 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
         <div className=" px-4 my-10">
-          <div className="grid grid-cols-12 items-start gap-10 mb-12">
-            <div className="col-span-12 lg:col-span-6 mt-10">
+          <div className="flex md:flex-row flex-col items-start gap-10 mb-12">
+            <div className="max-w-3xl mt-10">
               <h1 className="text-2xl md:text-4xl leading-wide font-bold uppercase tracking-wider mb-2">
                 Welcome to The Pilates Room, where passion meets precision!
               </h1>

@@ -350,13 +350,13 @@ const Classes = () => {
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
+        <div className="flex  flex-col md:flex-row md:gap-y-0 gap-y-2 justify-between py-2">
           <div className="flex flex-col">
-            <h1 className="text-2xl">All Classes</h1>
+            <h1 className="text-xl md:text-2xl">All Classes</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col md:space-y-2">
             <button
               onClick={() => {
                 reset({
@@ -375,7 +375,7 @@ const Classes = () => {
 
                 setAddClassPopUp(true);
               }}
-              className="bg-gradient-to-r from-neutral-800 via-neutral-600 to-neutral-800 text-white px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2"
+              className="bg-gradient-to-r cursor-pointer  md:text-sm text-xs from-neutral-800 via-neutral-600 to-neutral-800 text-white px-2 md:px-6 text-center w-fit py-2 md:py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -440,7 +440,7 @@ const Classes = () => {
                   {ele?.title}
                 </p>
 
-                <div className="flex flex-col min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
+                <div className="flex flex-col md:min-w-[19rem] p-1 pb-0 gap-1 text-[15px]  text-gray-500   capitalize">
                   <p className="p-1 flex w-full items-center justify-between border-b-[1px] text-sm border-gray-300 text-gray-500 ">
                     Instructor
                     <span className="text-[1.01rem] dark:text-white text-black">

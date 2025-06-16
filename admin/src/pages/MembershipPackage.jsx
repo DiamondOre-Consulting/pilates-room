@@ -187,8 +187,8 @@ const MembershipPackage = () => {
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
-          <div className="flex flex-col">
+        <div className="flex md:flex-row md:gap-y-0 gap-y-2 flex-col justify-between py-2">
+          <div className="flex flex-col ">
             <h1 className="text-xl md:text-2xl">All Membership Package</h1>
             <div className="w-20 md:w-40 h-1 bg-black"></div>
           </div>
@@ -209,7 +209,7 @@ const MembershipPackage = () => {
                 });
                 setAddMembershipPackage(true);
               }}
-              className="bg-black text-white px-2 md:px-4 py-2 rounded-md  cursor-pointer text-xs md:text-sm"
+              className="bg-black text-white w-fit px-2 md:px-4 py-2 rounded-md  cursor-pointer text-xs md:text-sm"
             >
               Add Membership Package
             </button>

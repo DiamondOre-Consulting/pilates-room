@@ -5,7 +5,6 @@ import adminAxiosInstance from "@/Helper/axiosInstance";
 export const adminSignin = createAsyncThunk("/admin/sign-in", async (data) => {
   try {
     const response = await adminAxiosInstance.post("/admin/sign-in", data);
-    toast.success(response?.data?.message);
 
     return response?.data;
   } catch (error) {
