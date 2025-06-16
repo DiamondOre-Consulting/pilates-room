@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       match: /^[0-9]{6}$/,
     },
+    refreshToken: {
+      type: String,
+      default: null,
+    },
     resetPasswordToken: {
       type: String,
       default: null,

@@ -41,14 +41,14 @@ export const signIn = asyncHandler(async (req, res) => {
   }
 
   const accessToken = await existingUser.generateAccessToken();
-  const refreshAccessToken = await existingUser.generateRefreshToken();
-  existingUser.refreshAccessToken = refreshAccessToken;
+  const refreshToken = await existingUser.generateRefreshToken();
+  existingUser.refreshToken = refreshToken;
   await existingUser.save();
 
   res.cookie("accessToken", accessToken, cookieOptions);
   res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
   existingUser.password = undefined;
-  existingUser.refreshAccessToken = undefined;
+  existingUser.refreshToken = undefined;
   existingUser.resetPasswordToken = undefined;
   existingUser.resetPasswordTokenExpires = undefined;
 
@@ -59,7 +59,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const { email, password, otp, firstName, lastName, phoneNumber, birthDate } =
     req.validatedData.body;
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({$or:[{ email }, {phoneNumber }]});
 
   if (existingUser) {
     throw new ApiError("User already exist", 400);
@@ -89,15 +89,16 @@ export const signUp = asyncHandler(async (req, res) => {
   otpStore.delete("email");
 
   const token = await user.generateAccessToken();
-  const refreshAccessToken = await user.generateRefreshToken();
-  user.refreshAccessToken = refreshAccessToken;
+  const refreshToken = await user.generateRefreshToken();
+  user.refreshToken = refreshToken;
 
   await user.save();
 
   user.password = undefined;
-  user.refreshAccessToken = undefined;
+  user.refreshToken = undefined;
   user.resetPasswordToken = undefined;
   user.resetPasswordTokenExpires = undefined;
+  
 
   res.cookie("accessToken", token, cookieOptions);
   res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
