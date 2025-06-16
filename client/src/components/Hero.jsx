@@ -1,5 +1,5 @@
 import React from "react";
-import banner from "../assets/Home.webm";
+import banner from "../assets/home.webm";
 import { Link } from "react-router-dom";
 const Hero = () => {
   return (
