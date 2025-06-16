@@ -46,7 +46,7 @@ export const signIn = asyncHandler(async (req, res) => {
   await existingUser.save();
 
   res.cookie("accessToken", accessToken, cookieOptions);
-  res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+  res.cookie("refreshAccessToken", refreshToken, cookieOptions);
   existingUser.password = undefined;
   existingUser.refreshToken = undefined;
   existingUser.resetPasswordToken = undefined;
@@ -101,7 +101,7 @@ export const signUp = asyncHandler(async (req, res) => {
   
 
   res.cookie("accessToken", token, cookieOptions);
-  res.cookie("refreshAccessToken", refreshAccessToken, cookieOptions);
+  res.cookie("refreshAccessToken", refreshToken, cookieOptions);
 
   sendResponse(res, 200, user, "User created successfully");
 });
