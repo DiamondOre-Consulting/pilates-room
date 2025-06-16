@@ -29,8 +29,8 @@ adminAxiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
     } else {
-      return;
       // toast.error(error.response.data.message);
+      return Promise.reject(error);
     }
   }
 );

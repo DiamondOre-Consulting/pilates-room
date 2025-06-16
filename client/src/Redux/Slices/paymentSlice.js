@@ -9,7 +9,7 @@ export const getRazorpaykey = createAsyncThunk(
       const response = await userAxiosInstance.get("/user/key");
       return response?.data;
     } catch (error) {
-      return;
+      return error;
       // toast.error(error?.response?.data?.message);
     }
   }
@@ -30,6 +30,7 @@ export const checkOutPayment = createAsyncThunk(
       return response?.data;
     } catch (error) {
       toast.error(error?.response?.data?.message);
+      return error;
     }
   }
 );
@@ -46,7 +47,7 @@ export const varifyPayment = createAsyncThunk(
       console.log(response);
       return response.data;
     } catch (error) {
-      return;
+      return error;
     }
   }
 );
@@ -59,7 +60,7 @@ export const createMembership = createAsyncThunk(
         `/user/buy-membership/${membershipPackageId}/${paymentId}`
       );
       console.log(response);
-      toast?.success(response?.data?.message);
+      response?.data?.message && toast?.success(response?.data?.message);
       return response?.data;
     } catch (error) {
       console.log(error);
@@ -79,7 +80,6 @@ export const createOrderForClassBooking = createAsyncThunk(
       );
       toast.success(response?.data?.message);
       return response?.data;
-      console.log(response);
     } catch (error) {
       // return;
       return error;
@@ -97,7 +97,7 @@ export const cancelOrder = createAsyncThunk(
       console.log(response);
       return response?.data;
     } catch (error) {
-      return;
+      return error;
     }
   }
 );
