@@ -29,7 +29,7 @@ userAxiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
     } else {
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
       return Promise.reject(error);
     }
   }

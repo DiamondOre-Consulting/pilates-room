@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const RefundPolicy = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="p-8 text-[#000b69] bg-[#f7f7f7] min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Refund Policy</h1>
+    <div className="p-8 py-32 text-[#000b69] bg-[#f7f7f7] min-h-screen">
+      <h1 className="text-4xl text-black font-bold mb-6">Refund Policy</h1>
       <p className="mb-6">
         Thank you for shopping at{" "}
         <a

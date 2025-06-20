@@ -42,7 +42,7 @@ const Footer = () => {
                     title=""
                     className="flex text-sm text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Privacy ploicy
+                    Privacy policy
                   </a>
                 </Link>
 
@@ -51,7 +51,7 @@ const Footer = () => {
                     title=""
                     className="flex text-sm text-gray-100 uppercase mt-4 transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Refund ploicy
+                    Refund policy
                   </a>
                 </Link>
               </ul>
