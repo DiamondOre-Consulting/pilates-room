@@ -44,10 +44,10 @@ const WhatWeDo = () => {
             </div>
           </div>
           <Link
-            to={"/intro-offers"}
+            to={"/why-pilates"}
             className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
           >
-            Intro offers
+            Why Pilates
           </Link>
         </div>
 
@@ -93,9 +93,12 @@ const WhatWeDo = () => {
               </p>
             </div>
           </div>
-          <button className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white">
-            Teacher Training
-          </button>
+          <Link
+            to={"/private-session"}
+            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+          >
+            Private Sessions
+          </Link>
         </div>
       </div>
     </div>

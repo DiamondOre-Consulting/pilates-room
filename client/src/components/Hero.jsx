@@ -20,7 +20,7 @@ const Hero = () => {
             Pioneering Classical <br /> Pilates In North India
           </h1>
           <Link
-            to={"/intro-offers"}
+            to={"/why-pilates"}
             className="uppercase border w-fit mx-auto text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
           >
             Get Started

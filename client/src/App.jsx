@@ -67,7 +67,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomeMain />} />
           <Route path="/sign-up" element={<Signup />} />
-          <Route path="/intro-offers" element={<IntroOffer />} />
+          <Route path="/why-pilates" element={<IntroOffer />} />
           <Route
             path="/reset-password/:token/:email/:expiry"
             element={<ResetPassword />}

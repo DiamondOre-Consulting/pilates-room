@@ -13,7 +13,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { logout, userData } from "@/Redux/Slices/authSlice";
 
 const routes = [
-  { name: "INTRO OFFER", href: "/intro-offers", isActive: false },
+  { name: "Why Pilates", href: "/why-pilates", isActive: false },
   { name: "ABOUT US", href: "/about-us", isActive: false },
 
   { name: "BOOK CLASS", href: "/class-schedule", isActive: false },
