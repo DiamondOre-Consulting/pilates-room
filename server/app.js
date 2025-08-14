@@ -21,9 +21,6 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
       "https://www.thepilatesroom.co.in",
       "https://www.admin.thepilatesroom.co.in",
       "https://thepilatesroom.co.in",
