@@ -25,7 +25,7 @@ app.use(
       "http://localhost:5174",
       "http://localhost:5175",
       "https://www.thepilatesroom.co.in",
-      "https://www.adminthepilatesroom.co.in",
+      "https://www.admin.thepilatesroom.co.in",
       "https://thepilatesroom.co.in",
       "https://admin.thepilatesroom.co.in",
       "https://pilates-room-frontend.onrender.com",
