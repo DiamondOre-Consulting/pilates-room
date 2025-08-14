@@ -6,14 +6,27 @@ const teamMembers = [
       "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755149660/IMG_2124_qj5g12.jpg",
     fullName: "Shivani",
     designation: "Founder & Lead Instructor",
-    bio: `Shivani is a certified Classical Pilates instructor with a deep understanding of the method's history, principles, and application. Her passion for teaching shines through in every session, as she guides clients with meticulous instruction, personalized attention, and a genuine commitment to their success.\n\nWhat motivates Shivani?\n\n- Witnessing the positive impact of Classical Pilates on her clients' lives\n- Sharing the knowledge of this timeless practice with the North Indian community\n- Building a supportive community where everyone feels empowered to reach their fitness goals`,
+    bio: `Trained in New York and a proud third-generation Pilates instructor, Shivani brought the gold standard of movement to India by opening the first-ever classical Pilates studio in Delhi NCR and Pan-India! She's building a community that values strength, control, and true mind-body connection.`,
   },
   {
     picture:
-      "https://st4.depositphotos.com/9998432/24360/v/450/depositphotos_243600690-stock-illustration-person-gray-photo-placeholder-girl.jpg",
-    fullName: "Jamjuree",
-    designation: "Classical Pilates Instructor",
-    bio: `Sharing Shivani's passion for Classical Pilates, Jamjuree brings her own unique experience and expertise to The Pilates Room. With a strong foundation in the principles of the practice, Jamjuree creates a supportive and encouraging environment where clients feel empowered to reach their full potential. Her meticulous attention to detail ensures proper form and technique for optimal results.\n\nTogether, Shivani and Jamjuree offer a combined wealth of knowledge and a genuine commitment to your well-being. They are dedicated to tailoring sessions to your individual needs and goals, ensuring a safe and rewarding Pilates experience.`,
+      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755154296/IMG_2124_hjsgre.jpg",
+    fullName: "Juree",
+    designation: "Senior Instructor",
+    bio: `Juree first came to us as a client and never left! She found Pilates meditative but the strength she built through classical practice was unlike anything she'd experienced before.
+    
+Fast forward 2.5 years, she's now a senior instructor, sharing the method that changed her life!`,
+  },
+  {
+    picture:
+      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755154375/IMG_1913_vovl4g.jpg",
+    fullName: "DR. Aditi ",
+    designation: "Pilates Instructor",
+    bio: `Doctor by degree, Pilates girl at heart! She started her training at The Pilates Room a year ago and guess what?
+
+Classical Pilates helped her become symptom-free from scoliosis. Now she’s on a mission to help others feel just as strong and free.
+
+strong spine, stronger spirit`,
   },
 ];
 

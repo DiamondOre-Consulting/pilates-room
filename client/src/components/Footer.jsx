@@ -9,9 +9,9 @@ const Footer = () => {
   return (
     <div>
       <img
-        src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148115/IMG_5911_1_o3mgov.jpg"
+        src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157850/IMG_5911_1_o3mgov_nduy4l.jpg"
         alt="footer animation"
-        className="h-[10rem] md:h-[28rem] w-full object-cover"
+        className="h-[10rem] md:h-[32rem] w-full object-cover"
       />
 
       <section className="py-10 bg-dark text-white sm:pt-16 lg:pt-4">
@@ -68,12 +68,12 @@ const Footer = () => {
                   </a>
                 </Link>
 
-                <Link to={"/about-us"}>
+                <Link to={"/contact-us"}>
                   <a
                     title=""
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
                   >
-                    Our team
+                    Contact Us
                   </a>
                 </Link>
 
@@ -90,6 +90,14 @@ const Footer = () => {
 
             <div className="lg:col-span-4 w-full text-white">
               <ul className="mt-6  flex flex-col justify-center  text-center items-start md:items-center ">
+                <Link to={"/"}>
+                  <a
+                    title=""
+                    className="flex text-sm mb-4 text-gray-100  transition-all duration-200 hover:text-color1 focus:text-orange-600"
+                  >
+                    shivanikher100@gmail.com
+                  </a>
+                </Link>
                 <Link to={"/"}>
                   <a
                     title=""

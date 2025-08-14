@@ -7,6 +7,7 @@ import { userData } from "./Redux/Slices/authSlice";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
+import ContactUsPage from "./pages/ContactUsPage";
 
 // Lazy-loaded pages
 const HomeMain = lazy(() => import("./pages/HomeMain"));
@@ -90,6 +91,7 @@ export default function App() {
             element={<TermsAndConditions />}
           />
           <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/contact-us" element={<ContactUsPage />} />
         </Routes>
       </Suspense>
       <Footer />

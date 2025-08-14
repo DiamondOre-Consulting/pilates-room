@@ -15,7 +15,7 @@ const PrivateSession = () => {
           description: `Our classes are a great way to develop your Pilates practice, but for tailoring results to your unique needs and goals, nothing beats a 1-2-1 private session.`,
           image: {
             secureUrl:
-              "https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg",
+              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157350/IMG_1922_xugf5h.jpg",
           },
         },
         {
@@ -24,7 +24,7 @@ const PrivateSession = () => {
           Private sessions teach you exactly how the exercises should be executed and are tailored for your body to maximise your results. Working with all the Pilates apparatus, including the Reformer, Cadillac, chairs, barrels etc., your sessions will be full of variety. You will lengthen, strengthen and open the shoulders, back, arms, hips, bum, legs and feet all whilst engaging and strengthening your core for stability and balance.`,
           image: {
             secureUrl:
-              "https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg",
+              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157027/IMG_2168_rvcjkd.jpg",
           },
         },
         {
@@ -32,7 +32,7 @@ const PrivateSession = () => {
           description: `A Private session is perfect if you want to refine and develop your Pilates practice whilst addressing your specific needs and goals.`,
           image: {
             secureUrl:
-              "https://exhalepilateslondon.com/wp-content/uploads/2025/01/Exhale_Nov24_111-1-scaled.jpg",
+              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157028/IMG_2157_1_gr70jf.jpg",
           },
         },
       ],

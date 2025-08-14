@@ -21,6 +21,7 @@ const routes = [
   { name: "TEACHER TRAINING", href: "/teacher-training", isActive: false },
   { name: "MEMBERSHIP", href: "/membership", isActive: false },
   { name: "BLOGS", href: "/all-blogs", isActive: false },
+  { name: "CONTACT US", href: "/contact-us", isActive: false },
 ];
 
 const NavMenu = ({ routes, isOpen, setIsOpen }) => {

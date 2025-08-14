@@ -11,8 +11,8 @@ const ExhaleEducationSection = () => {
               Our Studios
             </h2>
 
-            <div className="flex flex-col md:flex-row justify-between w-full gap-y-8 md:gap-y-0 md:gap-x-20 items-center mt-12">
-              <div className="flex flex-col justify-center items-center md:items-start">
+            <div className="flex flex-col md:flex-row justify-between w-full gap-y-8 md:gap-y-0 md:gap-x-10 items-center mt-12">
+              <div className="flex flex-col w-full justify-center items-center md:items-start">
                 <article className="rounded-lg relative w-full">
                   <img
                     src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755146025/IMG_9875.JPEG_uiqdhb.jpg"
@@ -28,7 +28,7 @@ const ExhaleEducationSection = () => {
                 </article>
               </div>
 
-              <div className="flex flex-col justify-start items-center md:items-end">
+              <div className="flex flex-col w-full  justify-start items-center md:items-end">
                 <article className="rounded-lg relative w-full">
                   <img
                     src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755146295/IMG_9873_1_uxvrth.jpg"
