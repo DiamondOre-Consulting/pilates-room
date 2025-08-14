@@ -7,7 +7,7 @@ const Hero = () => {
       <section className="relative h-[80vh] md:h-screen flex flex-col items-center justify-center text-center text-white overflow-x-hidden">
         <div className=" absolute top-0 left-0 w-full h-full overflow-hidden">
           <video
-            className="min-w-full min-h-[80vh] border absolute object-cover z-20"
+            className="min-w-full min-h-[80vh] border absolute object-cover "
             src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755145104/IMG_1063_f5mzii.mov"
             autoPlay
             muted
