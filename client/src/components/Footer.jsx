@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div>
       <img
-        src={fromgif}
+        src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148115/IMG_5911_1_o3mgov.jpg"
         alt="footer animation"
         className="h-[10rem] md:h-[28rem] w-full object-cover"
       />

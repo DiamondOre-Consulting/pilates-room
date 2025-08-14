@@ -42,27 +42,30 @@ const PrivateSession = () => {
   return (
     <>
       <div>
-        <section className="relative h-[80vh] md:h-screen flex flex-col items-center justify-center text-center text-white">
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-            <video
-              className="min-w-full min-h-full border absolute object-cover"
-              src={banner}
-              autoPlay
-              muted
-              loop
-            ></video>
+        <section className="relative h-[80vh] md:h-screen w-full">
+          <div className="absolute inset-0 w-full h-full overflow-hidden">
+            <img
+              className="w-full h-full object-cover"
+              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148040/IMG_8650_tjkwor_lyhzjl.jpg"
+              alt="Private Pilates Session"
+            />
           </div>
-          <div className="absolute top-0 left-0 w-full h-full bg-black/40 z-10"></div>
-          <div className="video-content max-w-4xl leading-22 z-10">
-            <h1 className="text-[2rem] md:text-[5rem] uppercase">
-              Private Sessions
-            </h1>
-            {/* <Link
-              to={"/intro-offers"}
-              className="uppercase border text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
-            >
-              Book a private session
-            </Link> */}
+
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
+
+          <div className="relative text-white z-20 h-full flex flex-col items-center justify-center text-center px-4">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl  uppercase tracking-wide mb-8">
+                Private Sessions
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+                Personalized one-on-one Pilates instruction tailored to your
+                unique needs and goals
+              </p>
+              <button className="uppercase border-2 border-white px-8 py-3 text-lg md:text-xl rounded-md hover:bg-[#FF6950] hover:border-[#FF6950] transition-all duration-300">
+                Book a private session
+              </button>
+            </div>
           </div>
         </section>
       </div>

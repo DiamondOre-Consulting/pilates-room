@@ -1,60 +1,54 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import aboutimg from "../../assets/aboutimg.png";
-
-const stories = [
-  {
-    text: "Beautiful and easy to understand UI.",
-  },
-  {
-    text: "Theme advantages are pixel perfect design & clear code",
-  },
-  {
-    text: "Present your services with flexible",
-  },
-  {
-    text: "Find more creative ideas for your projects",
-  },
-  {
-    text: "Faucibus porta lacus fringilla vel",
-  },
-];
-
-const StoryItem = ({ item, index }) => {
-  const { text } = item;
-  return <>{index !== stories.length && <hr className="w-11/12 my-2" />}</>;
-};
 
 const AboutSection = () => {
   return (
-    <div>
-      <section className="ezy__about9 light py-14 md:pt-20 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
-        <div className=" px-4 my-10">
-          <div className="flex md:flex-row flex-col items-start gap-10 mb-12">
-            <div className="max-w-3xl mt-10">
-              <h1 className="text-2xl md:text-4xl leading-wide font-bold uppercase tracking-wider mb-2">
+    <div className="w-full">
+      <section className="ezy__about9 light py-14 md:py-20 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mt-6 lg:mt-10">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-wider mb-4 leading-tight">
                 Welcome to The Pilates Room, where passion meets precision!
               </h1>
+
               <hr className="bg-dark h-1 rounded-[3px] w-12 opacity-100 my-6" />
-              <p className="opacity-70 mb-2 text-xl md:text-2xl md:tracking-wider">
-                Meet Shivani, the founder and driving force behind our studio
-                Leading the Classical Pilates Movement in North India
-              </p>
-              <p className="opacity-70 mb-2 text-xl md:text-2xl md:tracking-wider">
-                Shivani's journey with Pilates began as a quest for a stronger,
-                more balanced body. But what started as a personal pursuit soon
-                blossomed into a lifelong passion. Drawn to the rigorous
-                principles and proven effectiveness of Classical Pilates,
-                Shivani delved deep into this practice.
-              </p>
+
+              <div className="space-y-6">
+                <p className="text-lg md:text-xl opacity-80 leading-relaxed">
+                  Meet Shivani, the founder and driving force behind our studio,
+                  leading the Classical Pilates Movement in North India.
+                </p>
+
+                <p className="text-lg md:text-xl opacity-80 leading-relaxed">
+                  Shivani's journey with Pilates began as a quest for a
+                  stronger, more balanced body. What started as personal pursuit
+                  blossomed into a lifelong passion. Drawn to the rigorous
+                  principles and proven effectiveness of Classical Pilates,
+                  Shivani has dedicated herself to mastering and teaching this
+                  transformative method.
+                </p>
+
+                <p className="text-lg md:text-xl opacity-80 leading-relaxed">
+                  With certifications in both classical and contemporary
+                  Pilates, Shivani brings a unique blend of traditional
+                  techniques and modern understanding to every session, helping
+                  clients achieve optimal alignment, core strength, and overall
+                  wellness.
+                </p>
+              </div>
             </div>
-            <div className="col-span-12 lg:col-span-6">
-              <div className="mt-12 lg:mt-0">
+
+            {/* Image Content */}
+            <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
+              <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src={aboutimg}
-                  alt=""
-                  className="max-w-full h-auto rounded-2xl"
+                  src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148046/IMG_8655_oaehil.jpg"
+                  alt="Shivani teaching Pilates"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               </div>
             </div>
           </div>

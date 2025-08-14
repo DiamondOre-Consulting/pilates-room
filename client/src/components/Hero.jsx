@@ -8,7 +8,7 @@ const Hero = () => {
         <div className=" absolute top-0 left-0 w-full h-full overflow-hidden">
           <video
             className="min-w-full min-h-full border absolute object-cover"
-            src={banner}
+            src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755145104/IMG_1063_f5mzii.mov"
             autoPlay
             muted
             loop
