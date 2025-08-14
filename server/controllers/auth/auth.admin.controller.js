@@ -9,12 +9,29 @@ import { sendMail } from "../../utils/sendmail.js";
 import { validateAdminRefreshToken } from "../../utils/validateAdminRefreshToken.js";
 import jwt from "jsonwebtoken";
 
-const cookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: "None",
-};
+const getCookieOptions = (req) => {
+  const isProduction = process.env.NODE_ENV === "production";
+  const configuredDomain = process.env.COOKIE_DOMAIN; // e.g., .chhaapp.in
+  const host = req.hostname;
+  const normalizedDomain = configuredDomain?.replace(/^\./, "");
 
+  // Only set domain if current host is a subdomain of configured domain
+  const shouldUseDomain = Boolean(
+    normalizedDomain && host.endsWith(normalizedDomain)
+  );
+
+  // If using same-site domain (subdomain), Lax is fine; otherwise use None for cross-site
+  const sameSite = shouldUseDomain ? "Lax" : "None";
+
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite,
+    ...(shouldUseDomain ? { domain: configuredDomain } : {}),
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+};
 export const adminSignIn = asyncHandler(async (req, res) => {
   const { email, password } = req.validatedData.body;
 
@@ -35,6 +52,8 @@ export const adminSignIn = asyncHandler(async (req, res) => {
   existingAdmin.refreshToken = refreshToken;
   await existingAdmin.save();
 
+  const cookieOptions = getCookieOptions(req);
+
   res.cookie("accessToken", accessToken, cookieOptions);
   res.cookie("refreshToken", refreshToken, cookieOptions);
   existingAdmin.password = undefined;
@@ -46,6 +65,12 @@ export const adminSignIn = asyncHandler(async (req, res) => {
 });
 
 export const adminSignOut = asyncHandler(async (req, res) => {
+  const cookieOptions = getCookieOptions(req);
+
+  for (let cookie in req.cookies) {
+    res.clearCookie(cookie, cookieOptions);
+  }
+
   res.clearCookie("accessToken", cookieOptions);
   res.clearCookie("refreshToken", cookieOptions);
   sendResponse(res, 200, null, "User logged out successfully");
