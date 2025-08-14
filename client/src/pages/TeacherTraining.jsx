@@ -47,14 +47,7 @@ const TeacherTraining = () => {
             muted
             playsInline
             loop
-          >
-            <source
-              src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755151651/IMG_3576_ecsoyi.mov"
-              type="video/mp4"
-              playsInline
-            />
-            Your browser does not support the video tag.
-          </video>
+          ></video>
         </div>
       </section>
       <ProgramSchedule />
