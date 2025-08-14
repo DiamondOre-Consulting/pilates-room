@@ -11,6 +11,7 @@ const Hero = () => {
             src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755145104/IMG_1063_f5mzii.mov"
             autoPlay
             muted
+            playsInline
             loop
           ></video>
         </div>

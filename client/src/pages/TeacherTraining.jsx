@@ -43,7 +43,7 @@ const TeacherTraining = () => {
             className="w-full h-auto aspect-video object-cover"
             src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755151651/IMG_3576_ecsoyi.mov"
             controls
-            autoPlay // Note: React uses camelCase (autoPlay instead of autoplay)
+            autoPlay
             muted
             playsInline
             loop
@@ -51,6 +51,7 @@ const TeacherTraining = () => {
             <source
               src="https://res.cloudinary.com/dmpkp9ux2/video/upload/v1755151651/IMG_3576_ecsoyi.mov"
               type="video/mp4"
+              playsInline
             />
             Your browser does not support the video tag.
           </video>

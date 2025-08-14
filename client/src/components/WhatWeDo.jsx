@@ -24,7 +24,7 @@ const WhatWeDo = () => {
       </div>
 
       <div className="flex  justify-between flex-wrap gap-y-10 mt-20 px-4 md:px-32">
-        <div className="flex  flex-col justify-center  items-center">
+        <div className="flex w-full md:w-fit  flex-col justify-center  items-center">
           <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755145891/IMG_8611_zny5dy.jpg"
@@ -50,7 +50,7 @@ const WhatWeDo = () => {
           </Link>
         </div>
 
-        <div className="flex flex-col justify-center  items-center">
+        <div className="flex flex-col w-full md:w-fit  justify-center  items-center">
           <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148038/IMG_2080_xufl63.jpg"
@@ -77,7 +77,7 @@ const WhatWeDo = () => {
           </Link>
         </div>
 
-        <div className="flex flex-col justify-center  items-center">
+        <div className="flex w-full md:w-fit  flex-col justify-center  items-center">
           <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148040/IMG_8650_tjkwor_lyhzjl.jpg"
