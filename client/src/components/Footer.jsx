@@ -90,18 +90,20 @@ const Footer = () => {
 
             <div className="lg:col-span-4 w-full text-white">
               <ul className="mt-6  flex flex-col justify-center  text-center items-start md:items-center ">
-                <Link to={"/"}>
+                <Link to="/">
                   <a
-                    title=""
-                    className="flex text-sm mb-4 text-gray-100  transition-all duration-200 hover:text-color1 focus:text-orange-600"
+                    title="Email Shivani"
+                    className="flex text-sm mb-4 text-gray-100 transition-all duration-200 hover:text-color1 focus:text-orange-600"
+                    href="mailto:shivanikher100@gmail.com"
                   >
                     shivanikher100@gmail.com
                   </a>
                 </Link>
-                <Link to={"/"}>
+                <Link to="/">
                   <a
-                    title=""
+                    title="Call +91 9561236539"
                     className="flex text-sm mb-4 text-gray-100 uppercase transition-all duration-200 hover:text-color1 focus:text-orange-600"
+                    href="tel:+919561236539"
                   >
                     +91 9561236539
                   </a>
