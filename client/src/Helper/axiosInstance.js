@@ -1,9 +1,8 @@
 import axios from "axios";
-import { toast } from "sonner";
 
 // const BASE_URL = "http://localhost:8000/api/v1";
 // const BASE_URL = "https://pilates-room-backend.onrender.com/api/v1";
-const BASE_URL = "https://pilates-cyjkg.ondigitalocean.app/api/v1";
+const BASE_URL = "https://api.thepilatesroom.co.in/api/v1";
 // http://localhost:8000/api/v1
 
 const userAxiosInstance = axios.create();
