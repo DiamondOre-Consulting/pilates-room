@@ -133,7 +133,7 @@ const Footer = () => {
           <hr className="mt-16 mb-10 border-gray-200" />
 
           <p className="text-sm text-center text-gray-100 ">
-            © Copyright 2025, All Rights Reserved by THE PILTES ROOM
+            © Copyright 2025, All Rights Reserved by THE PILATES ROOM
           </p>
 
           <p className="text-sm text-center mt-4 text-gray-100 ">
