@@ -22,7 +22,7 @@ const Hero = () => {
           </h1>
           <Link
             to={"/why-pilates"}
-            className="uppercase border w-fit mx-auto text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#FF6950]"
+            className="uppercase border w-fit mx-auto text-base transition-all duration-300 ease-in-out hover:border-0 cursor-pointer border-white px-4 py-1 rounded-md text-xl hover:bg-[#33463a]"
           >
             Get Started
           </Link>

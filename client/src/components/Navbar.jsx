@@ -13,7 +13,12 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { logout, userData } from "@/Redux/Slices/authSlice";
 
 const routes = [
-  { name: "Why Pilates", href: "/why-pilates", isActive: false },
+  {
+    name: "WHY PILATES",
+    href: "/why-pilates",
+    isActive: false,
+    isSpecial: true,
+  },
   { name: "ABOUT US", href: "/about-us", isActive: false },
 
   { name: "BOOK CLASS", href: "/class-schedule", isActive: false },
@@ -62,6 +67,7 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             transition-all 
                             tracking-wide
                             duration-200
+                               ${route.isSpecial ? "font-bold text-dark" : ""}
                             ${
                               location.pathname === route.href
                                 ? "text-dark underline decoration-text-dark "

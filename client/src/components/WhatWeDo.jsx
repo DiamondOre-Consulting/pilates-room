@@ -17,7 +17,7 @@ const WhatWeDo = () => {
         </p>
         <Link
           to={"/class-schedule"}
-          className="border text-dark bg-white hover:text-white mt-6 border-gray-800 text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+          className=" border text-white bg-[#33463a] hover:text-white mt-6 border-gray-800 text-xl uppercase px-8 py-1 cursor-pointer rounded-md hover:bg-[#2a3a2f] transition-all duration-300 ease-in-out"
         >
           View class timetable
         </Link>
@@ -44,7 +44,7 @@ const WhatWeDo = () => {
           </div>
           <Link
             to={"/why-pilates"}
-            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md  transition-all duration-300 ease-in-out hover:text-white"
           >
             Why Pilates
           </Link>
@@ -71,7 +71,7 @@ const WhatWeDo = () => {
           </div>
           <Link
             to={"/teacher-training"}
-            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md  transition-all duration-300 ease-in-out hover:text-white"
           >
             Teacher Training
           </Link>
@@ -98,7 +98,7 @@ const WhatWeDo = () => {
           </div>
           <Link
             to={"/private-session"}
-            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white"
+            className="border text-dark border-gray-800 mt-4  text-xl uppercase  px-8 py-1 cursor-pointer rounded-md  transition-all duration-300 ease-in-out hover:text-white"
           >
             Private Sessions
           </Link>

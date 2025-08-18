@@ -11,7 +11,7 @@ const BookingSection = () => {
       <Link
         to={"/private-session"}
         className="flex justify-center items-center w-full py-4  font-semibold text-sm   sm:text-lg md:text-xl  cursor-pointer hover:underline 
-                            hover:text-[#FF6950]
+                            hover:text-[#33463a]
                             underline-offset-4 
                             transition-all 
                             duration-200"
@@ -22,7 +22,7 @@ const BookingSection = () => {
       <Link
         to={"/class-schedule"}
         className="flex justify-center items-center w-full py-4  font-semibold text-sm sm:text-lg md:text-xl h-full   hover:underline 
-                             hover:text-[#FF6950]
+                             hover:text-[#33463a]
                             underline-offset-4 
                             transition-all 
                             duration-200  border-x-2 border-black "
@@ -33,7 +33,7 @@ const BookingSection = () => {
         to={"/teacher-training"}
         className="flex justify-center items-center w-full font-semibold text-sm sm:text-lg md:text-xl py-4   hover:underline 
                             underline-offset-4 
-                             hover:text-[#FF6950]
+                             hover:text-[#33463a]
                             transition-all 
                             duration-200"
       >
