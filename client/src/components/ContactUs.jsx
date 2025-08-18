@@ -96,9 +96,9 @@ const ContactUs = ({ setPopup }) => {
             Let's keep in touch
           </h1>
           <p className="mt-4 text-dark text-base md:text-xl text-center">
-            Receive the latest news, updates, offers and goings on from Exhale
-            Pilates. Don’t worry, we will never pass on your details to someone
-            else. Simply subscribe below.
+            Receive the latest news, updates, offers and goings on from{" "}
+            <span className="font-bold">Pilates</span>. Don’t worry, we will
+            never pass on your details to someone else. Simply subscribe below.
           </p>
         </div>
 
