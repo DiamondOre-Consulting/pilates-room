@@ -24,12 +24,12 @@ const TeacherTraining = () => {
           </div>
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          {/* <div className="absolute inset-0 bg-black/40 z-10"></div> */}
 
           {/* Content Centered Vertically and Horizontally */}
           <div className="relative top-40 z-20 w-full px-4">
             <div className="max-w-4xl mx-auto transform md:-translate-y-10">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wider mb-4">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-wider mt-4">
                 Teacher Training
               </h1>
             </div>

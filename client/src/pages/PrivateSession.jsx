@@ -51,7 +51,7 @@ const PrivateSession = () => {
             />
           </div>
 
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          {/* <div className="absolute inset-0 bg-black/40 z-10"></div> */}
 
           <div className="relative text-white z-20 h-full flex flex-col items-center justify-center text-center px-4">
             <div className="max-w-4xl mx-auto">
