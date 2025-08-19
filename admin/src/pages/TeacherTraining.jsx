@@ -5,6 +5,7 @@ import {
   editTraining,
   getAllTrainings,
 } from "@/Redux/Slices/trainingSlice";
+import { Trash } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -335,6 +336,13 @@ const TeacherTraining = () => {
                   className=" bg-green-50 z-10 size-9 flex items-center justify-center text-green-700 rounded absolute top-2 right-2 cursor-pointer hover:bg-blue-100 transition-colors duration-200 font-medium"
                 >
                   <Edit className="size-5" />
+                </button>
+
+                <button
+                  onClick={() => handleDeleteTraining(ele?._id)}
+                  className=" bg-red-100 z-10 size-9 flex items-center justify-center text-red-700 rounded absolute top-2 left-2 cursor-pointer  transition-colors duration-200 font-medium"
+                >
+                  <Trash className="size-5" />
                 </button>
                 <div className="absolute -bottom-10 w-full flex justify-center">
                   <div
