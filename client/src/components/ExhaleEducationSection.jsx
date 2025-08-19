@@ -15,7 +15,7 @@ const ExhaleEducationSection = () => {
               <div className="flex flex-col w-full justify-center items-center md:items-start">
                 <article className="rounded-lg relative w-full">
                   <img
-                    src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755146025/IMG_9875.JPEG_uiqdhb.jpg"
+                    src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587459/IMG_1252_lqpywa.png"
                     className="h-80 w-full mb-6 rounded-lg shadow-lg object-cover"
                     alt="Faridabad"
                   />
@@ -31,7 +31,7 @@ const ExhaleEducationSection = () => {
               <div className="flex flex-col w-full  justify-start items-center md:items-end">
                 <article className="rounded-lg relative w-full">
                   <img
-                    src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755146295/IMG_9873_1_uxvrth.jpg"
+                    src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587455/IMG_9742_wnqri5.jpg"
                     className="h-80 w-full mb-6 rounded-lg shadow-lg object-cover"
                     alt="Gurugram"
                   />

@@ -6,11 +6,15 @@ const PrivacyPolicy = () => {
   }, []);
 
   return (
-    <div className="bg-[#F8F9FA] min-h-screen text-[#00354C] px-6 py-38 md:px-24">
+    <div className="bg-dark min-h-screen text-white px-6 py-38 md:px-24">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-semibold text-center mb-8">
+          Privacy Policy
+        </h1>
+
+        <h1 className="text-3xl md:text-3xl font-semibold text-center mb-8">
           Welcome to <br />
-          <span className="text-[#00354C] font-bold">The Pilates Room</span>
+          <span className="text-white font-bold">The Pilates Room</span>
         </h1>
 
         <div className="space-y-4">
@@ -324,311 +328,326 @@ const PrivacyPolicy = () => {
           style={{
             // maxWidth: 900,
             margin: "auto",
+            color: "white",
             // padding: 20,
             // fontFamily: "Arial, sans-serif",
             // lineHeight: 1.6,
             color: "#333",
           }}
-          className="space-y-4 mt-8"
+          className="space-y-4 mt-8 text-white"
         >
-          <h1 className="font-bold mt-4">
+          <h1 className="font-bold mt-4 text-white">
             DURATION FOR WHICH YOUR INFORMATION IS STORED
           </h1>
-          <p>
-            We will retain Your information for as long as it is required for us
-            to retain for the purposes stated hereinabove, including for the
-            purpose of complying with legal obligation or business compliances.
-          </p>
-          <p>
-            Further, please note that we may not be able to delete all
-            communications or photos, files, or other documents publicly made
-            available by you on the Platform (for example: comments, feedback,
-            etc.), however, we shall anonymize your Personal Information in such
-            a way that you can no longer be identified as an individual in
-            association with such information made available by you on the
-            Platform. We will never disclose aggregated or de-identified
-            information in a manner that could identify you as an individual.
-          </p>
-          <p>
-            <strong>Note:</strong> If you wish to exercise any of your rights
-            (as specified in ‘Your Rights’ section below) to access, modify and
-            delete any or all information stored about you, then you may do so
-            by using the options provided within the Platform. You can always
-            write to us at the email address specified in the ‘Grievances’
-            section below.
-          </p>
+          <div className="text-white">
+            <p>
+              We will retain Your information for as long as it is required for
+              us to retain for the purposes stated hereinabove, including for
+              the purpose of complying with legal obligation or business
+              compliances.
+            </p>
+            <p>
+              Further, please note that we may not be able to delete all
+              communications or photos, files, or other documents publicly made
+              available by you on the Platform (for example: comments, feedback,
+              etc.), however, we shall anonymize your Personal Information in
+              such a way that you can no longer be identified as an individual
+              in association with such information made available by you on the
+              Platform. We will never disclose aggregated or de-identified
+              information in a manner that could identify you as an individual.
+            </p>
 
-          <h2 className="font-bold">MODIFICATION TO PRIVACY POLICY:</h2>
-          <p>
-            We may modify, revise or change our Policy from time to time; when
-            we do, we will revise the ‘updated date’ at the beginning of this
-            page. We encourage You to check our Platform frequently to see the
-            recent changes. Unless stated otherwise, our current Policy applies
-            to all information that we have about You.
-          </p>
+            <p>
+              <strong>Note:</strong> If you wish to exercise any of your rights
+              (as specified in ‘Your Rights’ section below) to access, modify
+              and delete any or all information stored about you, then you may
+              do so by using the options provided within the Platform. You can
+              always write to us at the email address specified in the
+              ‘Grievances’ section below.
+            </p>
 
-          <h2 className="font-bold">GRIEVANCES:</h2>
-          <p>
-            If you have any questions about this Policy, wish to exercise your
-            rights, concerns about privacy or grievances, please write to us
-            with a thorough description via email to{" "}
-            <a href="mailto:shivanikher100@gmail.com">
-              shivanikher100@gmail.com
-            </a>
-            .
-          </p>
+            <h2 className="font-bold">MODIFICATION TO PRIVACY POLICY:</h2>
+            <p>
+              We may modify, revise or change our Policy from time to time; when
+              we do, we will revise the ‘updated date’ at the beginning of this
+              page. We encourage You to check our Platform frequently to see the
+              recent changes. Unless stated otherwise, our current Policy
+              applies to all information that we have about You.
+            </p>
 
-          <h2 className="font-bold">COUNTRY SPECIFIC ADDITIONAL RIGHTS</h2>
-          <h3 className="font-bold">
-            TERMS APPLICABLE IF YOU ARE AN INDIAN RESIDENT
-          </h3>
-          <p>
-            <strong>Your Rights:</strong> If you are located in India, you may
-            have the following rights under the Personal Data Protection Bill
-            (PDPB) when it becomes a legislation. All requests can be made by
-            using the option provided to you within the Platform upon your
-            login. You may also write to us as stated in the “Grievances”
-            section above, and we will address your concerns to the extent
-            required by law.
-          </p>
-          <ul>
-            <li>
-              <strong>Right to Confirmation and Access:</strong> You have the
-              right to get confirmation and access to your Personal Information
-              that is with us along with other supporting information.
-            </li>
-            <li>
-              <strong>Right to Correction:</strong> You have the right to ask us
-              to rectify your Personal Information that is with us that you
-              think is inaccurate. You also have the right to ask us to update
-              your Personal Information that you think is incomplete or
-              out-of-date.
-            </li>
-            <li>
-              <strong>Right to Data Portability:</strong> You have the right to
-              ask that we transfer the Personal Information you gave us to
-              another organisation, or to you, under certain circumstances.
-            </li>
-            <li>
-              <strong>Right to be Forgotten:</strong> You have the right to
-              restrict or prevent the continuing disclosure of your Personal
-              Information under certain circumstances.
-            </li>
-            <li>
-              <strong>Right to Erasure:</strong> If you wish to withdraw/remove
-              your Personal Information from our Platform, you have the right to
-              request erasure of your Personal Information from our Platform.
-              However, please note that such erasure will remove all your
-              Personal Information from our Platform (except as specifically
-              stated in this Policy) and may result in deletion of your account
-              on the Platform permanently, and the same will not be retrievable.
-            </li>
-          </ul>
-
-          <h3>
-            TERMS APPLICABLE IF YOU ARE A RESIDENT OF UNITED KINGDOM (UK), A
-            EUROPEAN UNION (EU) COUNTRY OR EUROPEAN ECONOMIC AREA (EEA)
-          </h3>
-          <p>
-            <strong>Your Rights:</strong> If you are located in the United
-            Kingdom (UK) or European Union (EU) or European Economic Area (EEA),
-            you have the following rights under the UK and EU General Data
-            Protection Regulation (GDPR) respectively. All requests should be
-            sent to the address noted in the “Grievances” section above, and we
-            will fulfil requests to the extent required by applicable law.
-          </p>
-          <ul>
-            <li>
-              <strong>Right to access Your Personal Information:</strong> You
-              have the right to receive confirmation as to whether or not
-              Personal Information concerning you is being processed and, where
-              that is the case, access to the Personal Information can be
-              sought;
-            </li>
-            <li>
-              <strong>Right to Rectification:</strong> Our goal is to keep your
-              Personal Information accurate, current and complete. Please
-              contact us if you believe your information is inaccurate or
-              incomplete;
-            </li>
-            <li>
-              <strong>Right to Erasure:</strong> In some cases, you have a legal
-              right to request that we erase your Personal Information;
-            </li>
-            <li>
-              <strong>Right to object to Processing:</strong> You have the right
-              to object to our processing of your Personal Information under
-              certain conditions;
-            </li>
-            <li>
-              <strong>Right to restrict Processing:</strong> You have the right
-              to request that we restrict the processing of your Personal
-              Information, under certain conditions;
-            </li>
-            <li>
-              <strong>Right to Data Portability:</strong> You have the right to
-              request that we transfer the data that we have collected to
-              another organization, or directly to you, under certain
-              conditions;
-            </li>
-            <li>
-              <strong>
-                Right to make a complaint to a government supervisory authority:
-              </strong>{" "}
-              If you believe we have not processed your Personal Information in
-              accordance with applicable provisions of the GDPR, we encourage
-              you to contact us at email address provided in the ‘Grievances’
-              section above. You also have the right to make a GDPR complaint to
-              the relevant Supervisory Authority or seek a remedy through the
-              courts. A list of Supervisory Authorities is available at:{" "}
-              <a
-                href="https://edpb.europa.eu/about-edpb/board/members_en"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://edpb.europa.eu/about-edpb/board/members_en
-              </a>
-              . If you need further assistance regarding your rights, please
-              contact us using the contact information provided below, and we
-              will consider your request in accordance with applicable law. You
-              can identify the supervising authority of your concern by visiting{" "}
-              <a
-                href="https://edpb.europa.eu/about-edpb/board/members_en"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://edpb.europa.eu/about-edpb/board/members_en
+            <h2 className="font-bold">GRIEVANCES:</h2>
+            <p>
+              If you have any questions about this Policy, wish to exercise your
+              rights, concerns about privacy or grievances, please write to us
+              with a thorough description via email to{" "}
+              <a href="mailto:shivanikher100@gmail.com">
+                shivanikher100@gmail.com
               </a>
               .
-            </li>
-            <li>
-              <strong>
-                Right to not be subject to automated decision-making, including
-                profiling:
-              </strong>{" "}
-              You have the right not to be subject to a decision based solely on
-              automated processing, including profiling, which produces legal or
-              similarly significant effects concerning you.
-            </li>
-          </ul>
-          <p>
-            We collect and process Personal Information about you only where we
-            have a legal rationale to do so. Specific legal rationale applied
-            for the same will depend on the type of Personal Information
-            collected and the context in which the same is being processed,
-            including the Services involved.
-          </p>
+            </p>
 
-          <h3>TERMS APPLICABLE IF YOU ARE A CALIFORNIA STATE RESIDENT</h3>
-          <p>
-            If you are a California state resident, then you have the following
-            rights to the extent, and in the manner, set out in the CCPA:
-          </p>
-          <ul>
-            <li>
-              The right to access the Personal Information that we hold on you;
-            </li>
-            <li>
-              The right to know what Personal Information we intend on
-              collecting from them before the point of collection;
-            </li>
-            <li>
-              The right to opt in or out of marketing, analytics, and other
-              similar activities;
-            </li>
-            <li>The right to equal services without discrimination; and</li>
-            <li>The right to request deletion of Personal Information.</li>
-          </ul>
-          <p>
-            The above rights, the manner in which you can exercise the same and
-            the category of and the manner in which we collect your information,
-            are detailed below.
-          </p>
+            <h2 className="font-bold">COUNTRY SPECIFIC ADDITIONAL RIGHTS</h2>
+            <h3 className="font-bold">
+              TERMS APPLICABLE IF YOU ARE AN INDIAN RESIDENT
+            </h3>
+            <p>
+              <strong>Your Rights:</strong> If you are located in India, you may
+              have the following rights under the Personal Data Protection Bill
+              (PDPB) when it becomes a legislation. All requests can be made by
+              using the option provided to you within the Platform upon your
+              login. You may also write to us as stated in the “Grievances”
+              section above, and we will address your concerns to the extent
+              required by law.
+            </p>
+            <ul>
+              <li>
+                <strong>Right to Confirmation and Access:</strong> You have the
+                right to get confirmation and access to your Personal
+                Information that is with us along with other supporting
+                information.
+              </li>
+              <li>
+                <strong>Right to Correction:</strong> You have the right to ask
+                us to rectify your Personal Information that is with us that you
+                think is inaccurate. You also have the right to ask us to update
+                your Personal Information that you think is incomplete or
+                out-of-date.
+              </li>
+              <li>
+                <strong>Right to Data Portability:</strong> You have the right
+                to ask that we transfer the Personal Information you gave us to
+                another organisation, or to you, under certain circumstances.
+              </li>
+              <li>
+                <strong>Right to be Forgotten:</strong> You have the right to
+                restrict or prevent the continuing disclosure of your Personal
+                Information under certain circumstances.
+              </li>
+              <li>
+                <strong>Right to Erasure:</strong> If you wish to
+                withdraw/remove your Personal Information from our Platform, you
+                have the right to request erasure of your Personal Information
+                from our Platform. However, please note that such erasure will
+                remove all your Personal Information from our Platform (except
+                as specifically stated in this Policy) and may result in
+                deletion of your account on the Platform permanently, and the
+                same will not be retrievable.
+              </li>
+            </ul>
 
-          <h4>CCPA NOTICE AT COLLECTION:</h4>
-          <p>
-            For purposes of the CCPA, in collecting the information described
-            above, we collect the categories of Personal Information listed
-            below from you:
-          </p>
-          <ul>
-            <li>
-              <strong>Identifiers:</strong> We may collect your name, email
-              address, mobile number, username, unique personal identifier, and
-              Internet Protocol (IP) address. We use Identifiers as set forth in
-              the “How We Use and Share the Information Collected” section of
-              this Policy, like your name, contact information, and device and
-              online identifiers.
-            </li>
-            <li>
-              <strong>
-                Characteristics of Personal Information described in the
-                California Customer Records statute:
-              </strong>{" "}
-              We may collect your name, email address, username, unique personal
-              identifier, and gender. We use Categories of Personal Information
-              described in the California Consumer Records statute as set forth
-              in the ‘How We Use and Share the Information Collected’ section of
-              this Policy.
-            </li>
-            <li>
-              <strong>
-                Internet or other electronic network activity information:
-              </strong>{" "}
-              We may collect information on your online activity and interaction
-              with the Platform including the IP address, browser type, and
-              internet service provider. We use these categories of Personal
-              Information for analytics, marketing, and to provide the services.
-            </li>
-          </ul>
+            <h3>
+              TERMS APPLICABLE IF YOU ARE A RESIDENT OF UNITED KINGDOM (UK), A
+              EUROPEAN UNION (EU) COUNTRY OR EUROPEAN ECONOMIC AREA (EEA)
+            </h3>
+            <p>
+              <strong>Your Rights:</strong> If you are located in the United
+              Kingdom (UK) or European Union (EU) or European Economic Area
+              (EEA), you have the following rights under the UK and EU General
+              Data Protection Regulation (GDPR) respectively. All requests
+              should be sent to the address noted in the “Grievances” section
+              above, and we will fulfil requests to the extent required by
+              applicable law.
+            </p>
+            <ul>
+              <li>
+                <strong>Right to access Your Personal Information:</strong> You
+                have the right to receive confirmation as to whether or not
+                Personal Information concerning you is being processed and,
+                where that is the case, access to the Personal Information can
+                be sought;
+              </li>
+              <li>
+                <strong>Right to Rectification:</strong> Our goal is to keep
+                your Personal Information accurate, current and complete. Please
+                contact us if you believe your information is inaccurate or
+                incomplete;
+              </li>
+              <li>
+                <strong>Right to Erasure:</strong> In some cases, you have a
+                legal right to request that we erase your Personal Information;
+              </li>
+              <li>
+                <strong>Right to object to Processing:</strong> You have the
+                right to object to our processing of your Personal Information
+                under certain conditions;
+              </li>
+              <li>
+                <strong>Right to restrict Processing:</strong> You have the
+                right to request that we restrict the processing of your
+                Personal Information, under certain conditions;
+              </li>
+              <li>
+                <strong>Right to Data Portability:</strong> You have the right
+                to request that we transfer the data that we have collected to
+                another organization, or directly to you, under certain
+                conditions;
+              </li>
+              <li>
+                <strong>
+                  Right to make a complaint to a government supervisory
+                  authority:
+                </strong>{" "}
+                If you believe we have not processed your Personal Information
+                in accordance with applicable provisions of the GDPR, we
+                encourage you to contact us at email address provided in the
+                ‘Grievances’ section above. You also have the right to make a
+                GDPR complaint to the relevant Supervisory Authority or seek a
+                remedy through the courts. A list of Supervisory Authorities is
+                available at:{" "}
+                <a
+                  href="https://edpb.europa.eu/about-edpb/board/members_en"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://edpb.europa.eu/about-edpb/board/members_en
+                </a>
+                . If you need further assistance regarding your rights, please
+                contact us using the contact information provided below, and we
+                will consider your request in accordance with applicable law.
+                You can identify the supervising authority of your concern by
+                visiting{" "}
+                <a
+                  href="https://edpb.europa.eu/about-edpb/board/members_en"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://edpb.europa.eu/about-edpb/board/members_en
+                </a>
+                .
+              </li>
+              <li>
+                <strong>
+                  Right to not be subject to automated decision-making,
+                  including profiling:
+                </strong>{" "}
+                You have the right not to be subject to a decision based solely
+                on automated processing, including profiling, which produces
+                legal or similarly significant effects concerning you.
+              </li>
+            </ul>
+            <p>
+              We collect and process Personal Information about you only where
+              we have a legal rationale to do so. Specific legal rationale
+              applied for the same will depend on the type of Personal
+              Information collected and the context in which the same is being
+              processed, including the Services involved.
+            </p>
 
-          <h4>EXERCISE OF CALIFORNIA RESIDENTS’ PRIVACY RIGHTS:</h4>
-          <p>
-            If you are a California resident, you can exercise certain rights
-            regarding your Personal Information. To exercise your rights, you
-            may contact us as detailed below:
-          </p>
-          <ul>
-            <li>
-              <strong>Right to Know and Access:</strong> You have the right to
-              request access to the Personal Information we have collected about
-              you in the last 12 months and to request a copy of that
-              information.
-            </li>
-            <li>
-              <strong>Right to Delete:</strong> You have the right to request
-              that we delete your Personal Information, subject to certain
-              exceptions.
-            </li>
-            <li>
-              <strong>Right to Opt-Out of Sale of Personal Information:</strong>{" "}
-              We do not sell your Personal Information. If this changes, you
-              will be able to opt out.
-            </li>
-            <li>
-              <strong>Right to Non-Discrimination:</strong> We will not
-              discriminate against you for exercising your privacy rights.
-            </li>
-          </ul>
+            <h3>TERMS APPLICABLE IF YOU ARE A CALIFORNIA STATE RESIDENT</h3>
+            <p>
+              If you are a California state resident, then you have the
+              following rights to the extent, and in the manner, set out in the
+              CCPA:
+            </p>
+            <ul>
+              <li>
+                The right to access the Personal Information that we hold on
+                you;
+              </li>
+              <li>
+                The right to know what Personal Information we intend on
+                collecting from them before the point of collection;
+              </li>
+              <li>
+                The right to opt in or out of marketing, analytics, and other
+                similar activities;
+              </li>
+              <li>The right to equal services without discrimination; and</li>
+              <li>The right to request deletion of Personal Information.</li>
+            </ul>
+            <p>
+              The above rights, the manner in which you can exercise the same
+              and the category of and the manner in which we collect your
+              information, are detailed below.
+            </p>
 
-          <h2>CONTACT DETAILS</h2>
-          <p>
-            If you have questions or concerns about this Privacy Policy or our
-            privacy practices, please contact us at:{" "}
-            <a href="mailto:shivanikher100@gmail.com">
-              shivanikher100@gmail.com
-            </a>
-            .
-          </p>
+            <h4>CCPA NOTICE AT COLLECTION:</h4>
+            <p>
+              For purposes of the CCPA, in collecting the information described
+              above, we collect the categories of Personal Information listed
+              below from you:
+            </p>
+            <ul>
+              <li>
+                <strong>Identifiers:</strong> We may collect your name, email
+                address, mobile number, username, unique personal identifier,
+                and Internet Protocol (IP) address. We use Identifiers as set
+                forth in the “How We Use and Share the Information Collected”
+                section of this Policy, like your name, contact information, and
+                device and online identifiers.
+              </li>
+              <li>
+                <strong>
+                  Characteristics of Personal Information described in the
+                  California Customer Records statute:
+                </strong>{" "}
+                We may collect your name, email address, username, unique
+                personal identifier, and gender. We use Categories of Personal
+                Information described in the California Consumer Records statute
+                as set forth in the ‘How We Use and Share the Information
+                Collected’ section of this Policy.
+              </li>
+              <li>
+                <strong>
+                  Internet or other electronic network activity information:
+                </strong>{" "}
+                We may collect information on your online activity and
+                interaction with the Platform including the IP address, browser
+                type, and internet service provider. We use these categories of
+                Personal Information for analytics, marketing, and to provide
+                the services.
+              </li>
+            </ul>
+
+            <h4>EXERCISE OF CALIFORNIA RESIDENTS’ PRIVACY RIGHTS:</h4>
+            <p>
+              If you are a California resident, you can exercise certain rights
+              regarding your Personal Information. To exercise your rights, you
+              may contact us as detailed below:
+            </p>
+            <ul>
+              <li>
+                <strong>Right to Know and Access:</strong> You have the right to
+                request access to the Personal Information we have collected
+                about you in the last 12 months and to request a copy of that
+                information.
+              </li>
+              <li>
+                <strong>Right to Delete:</strong> You have the right to request
+                that we delete your Personal Information, subject to certain
+                exceptions.
+              </li>
+              <li>
+                <strong>
+                  Right to Opt-Out of Sale of Personal Information:
+                </strong>{" "}
+                We do not sell your Personal Information. If this changes, you
+                will be able to opt out.
+              </li>
+              <li>
+                <strong>Right to Non-Discrimination:</strong> We will not
+                discriminate against you for exercising your privacy rights.
+              </li>
+            </ul>
+
+            <h2>CONTACT DETAILS</h2>
+            <p>
+              If you have questions or concerns about this Privacy Policy or our
+              privacy practices, please contact us at:{" "}
+              <a href="mailto:shivanikher100@gmail.com">
+                shivanikher100@gmail.com
+              </a>
+              .
+            </p>
+          </div>
         </div>
-
-        <ul className="list-disc list-inside text-md text-gray-700">
+        <ul className="list-disc list-inside text-md text-gray-100">
           <a href="mailto:shivanikher100@gmail.com">shivanikher100@gmail.com</a>
           <li>Phone: +91 9561236539</li>
           <li>Address: The Pilates Room, gurugram, India</li>
         </ul>
 
-        <div className="mt-12 border-t pt-6 text-sm text-gray-500 text-center">
+        <div className="mt-12 border-t pt-6 text-sm text-gray-100 text-center">
           <p>
             © {new Date().getFullYear()} The Pilates Room. All rights reserved.
           </p>

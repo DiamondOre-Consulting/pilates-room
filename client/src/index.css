@@ -139,6 +139,29 @@
   border: 1px #6f412c;
 }
 
-body {
+/* body {
   font-family: "Fira Sans Extra Condensed", sans-serif;
+} */
+
+/* src/fonts.css */
+@layer base {
+  @font-face {
+    font-family: "MinionPro";
+    src: url("/fonts/MinionPro-Regular.otf") format("opentype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "MinionPro";
+    src: url("/fonts/MinionPro-Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  html {
+    font-family: "MinionPro";
+  }
+}
+
+p , .pera{
+  font-family: "Montserrat", sans-serif;
 }

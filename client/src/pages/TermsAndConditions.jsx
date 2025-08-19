@@ -6,11 +6,11 @@ const TermsAndConditions = () => {
   }, []);
 
   return (
-    <div className="bg-[#F8F9FA] min-h-screen text-[#00354C] px-6 py-32 md:px-24">
+    <div className="bg-dark min-h-screen text-white px-6 py-32 md:px-24">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-semibold text-center mb-8">
           Terms & Conditions <br />
-          <span className="text-[#00354C] font-bold">The Pilates Room</span>
+          <span className="text-white font-bold">The Pilates Room</span>
         </h1>
 
         <p className="mb-4">
@@ -225,7 +225,7 @@ const TermsAndConditions = () => {
           content/material offered therein.
         </p>
 
-        <div className="mt-12 border-t pt-6 text-sm text-gray-500 text-center">
+        <div className="mt-12 border-t pt-6 text-sm text-gray-100 text-center">
           <p>
             © {new Date().getFullYear()} Exhale Pilates. All rights reserved.
           </p>

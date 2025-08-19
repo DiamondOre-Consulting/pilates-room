@@ -27,7 +27,7 @@ const WhatWeDo = () => {
         <div className="flex w-full md:w-fit  flex-col justify-center  items-center">
           <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
-              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755145891/IMG_8611_zny5dy.jpg"
+              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587449/IMG_1229_qdtuck.jpg"
               alt="Pilates Class"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

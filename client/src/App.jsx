@@ -8,6 +8,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ContactUsPage from "./pages/ContactUsPage";
+import InStudioTerms from "./pages/InSudioTerms";
 
 // Lazy-loaded pages
 const HomeMain = lazy(() => import("./pages/HomeMain"));
@@ -86,12 +87,13 @@ export default function App() {
           <Route path="/:slug" element={<SingleBlogPage />} />
           <Route path="/all-blogs" element={<BlogPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route
-            path="/terms-and--condition"
-            element={<TermsAndConditions />}
-          />
+          <Route path="/terms-and-condition" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
+          <Route
+            path="/in-studio-terms-and-conditions"
+            element={<InStudioTerms />}
+          />
         </Routes>
       </Suspense>
       <Footer />

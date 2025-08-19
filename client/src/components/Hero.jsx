@@ -17,7 +17,7 @@ const Hero = () => {
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-black/40  z-10"></div>
         <div className="video-content w-sm md:w-4xl  flex flex-col gap-4  z-10">
-          <h1 className="text-[2rem] md:text-[5rem] md:leading-24 ">
+          <h1 className="text-[2rem] md:text-[5rem] md:leading-24 font-[MinionPro]">
             Pioneering Classical <br /> Pilates In North India
           </h1>
           <Link

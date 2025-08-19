@@ -3,14 +3,14 @@ import React from "react";
 const teamMembers = [
   {
     picture:
-      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755149660/IMG_2124_qj5g12.jpg",
+      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755588293/IMG_1192_zmtbap.jpg",
     fullName: "Shivani",
     designation: "Founder & Lead Instructor",
     bio: `Trained in New York and a proud third-generation Pilates instructor, Shivani brought the gold standard of movement to India by opening the first-ever classical Pilates studio in Delhi NCR and Pan-India! She's building a community that values strength, control, and true mind-body connection.`,
   },
   {
     picture:
-      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755154296/IMG_2124_hjsgre.jpg",
+      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587448/IMG_1187_vzjtjj.jpg",
     fullName: "Juree",
     designation: "Senior Instructor",
     bio: `Juree first came to us as a client and never left! She found Pilates meditative but the strength she built through classical practice was unlike anything she'd experienced before.
@@ -42,7 +42,7 @@ const TeamMemberItem = ({ member, index }) => (
         <img
           src={member.picture}
           alt={member.fullName}
-          className="w-full h-full object-cover object-top  hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover object-top   hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
       </div>
