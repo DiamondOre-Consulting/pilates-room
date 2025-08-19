@@ -28,6 +28,18 @@ Classical Pilates helped her become symptom-free from scoliosis. Now she’s on 
 
 strong spine, stronger spirit`,
   },
+
+  {
+    picture:
+      "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587449/IMG_1188_qr8h28.jpg",
+    fullName: "DR. Sakshi",
+    designation: "Pilates Instructor",
+    bio: `What started as a workout turned into a full-on transformation! Pilates helped Sakshi build strength, flexibility, and deep body awareness, all while melting away stress.
+
+For her, it's more than movement, it's a total mind-body reset.
+
+When control looks like poetry in motion`,
+  },
 ];
 
 const TeamMemberItem = ({ member, index }) => (
@@ -42,7 +54,7 @@ const TeamMemberItem = ({ member, index }) => (
         <img
           src={member.picture}
           alt={member.fullName}
-          className="w-full h-full object-cover object-top   hover:scale-105 transition-transform duration-300"
+          className="w-full h-full grayscale object-cover object-top   hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
       </div>

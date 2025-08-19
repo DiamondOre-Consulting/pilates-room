@@ -111,7 +111,7 @@ const PrivateSession = () => {
           </div>
 
           <div
-            className="justify-center items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-[38rem]"
+            className="justify-center items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-[20rem] md:h-[38rem]"
             style={{
               backgroundImage: `url('${info?.image?.secureUrl}')`,
               backgroundSize: "cover",

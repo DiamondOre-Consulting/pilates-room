@@ -218,9 +218,9 @@ const Navbar = () => {
               </a>
               <button
                 onClick={() => setIsPopUpOpen(true)}
-                className={`border border-[#FF6950] ${
+                className={`border border-[#33463a] ${
                   isLoggedIn ? "hidden" : "block"
-                }  px-3 py-1 cursor-pointer rounded-md hover:bg-[#FF6950] transition-all duration-300 ease-in-out hover:text-white`}
+                }  px-3 py-1 cursor-pointer rounded-md hover:bg-[#33463a] transition-all duration-300 ease-in-out hover:text-white`}
               >
                 Login
               </button>
