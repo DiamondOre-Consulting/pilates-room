@@ -20,14 +20,11 @@ const ACommitment = () => {
         </p>
       </div>
 
+      <h3 className="text-3xl text-center font-semibold text-gray-200">
+        What Sets Our Reformers Apart?
+      </h3>
       <div className="flex flex-col md:flex-row md:items-start gap-10">
-        <div className="w-full md:w-1/3 text-center md:text-left">
-          <h3 className="text-3xl font-semibold text-gray-200">
-            What Sets Our Reformers Apart?
-          </h3>
-        </div>
-
-        <div className="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="bg-[#f9f9f9] p-6 rounded-xl shadow-md">
             <h4 className="text-xl font-semibold text-[#2E2E2E] mb-2">
               Superior Comfort
@@ -47,6 +44,17 @@ const ACommitment = () => {
               The Reformers utilize springs with higher resistance levels,
               offering a more challenging workout that promotes faster strength
               gains and deeper muscle engagement.
+            </p>
+          </div>
+
+          <div className="bg-[#f9f9f9] p-6 rounded-xl shadow-md">
+            <h4 className="text-xl font-semibold text-[#2E2E2E] mb-2">
+              First in India - Authentic Classical Equipment
+            </h4>
+            <p className="text-gray-600">
+              India's first true classical Pilates equipment, faithfully crafted
+              to original standards for authentic movement and superior
+              performance.
             </p>
           </div>
         </div>

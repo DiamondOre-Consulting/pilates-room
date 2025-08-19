@@ -44,7 +44,7 @@ const AboutSection = () => {
             <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
               <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755155233/IMG_2149_klke4k.jpg"
+                  src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755579382/IMG_1185_wouttj.jpg"
                   alt="Shivani teaching Pilates"
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
