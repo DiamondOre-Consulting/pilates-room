@@ -25,7 +25,7 @@ const WhatWeDo = () => {
 
       <div className="flex  justify-between flex-wrap gap-y-10 mt-20 px-4 md:px-32">
         <div className="flex w-full md:w-fit  flex-col justify-center  items-center">
-          <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-96 h-[28rem] relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
               src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587449/IMG_1229_qdtuck.jpg"
               alt="Pilates Class"
@@ -51,9 +51,9 @@ const WhatWeDo = () => {
         </div>
 
         <div className="flex flex-col w-full md:w-fit  justify-center  items-center">
-          <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-96 h-[28rem] relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
-              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148038/IMG_2080_xufl63.jpg"
+              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587451/IMG_1185_cdtgh4.jpg"
               alt="Pilates Instructor Training"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
@@ -78,9 +78,9 @@ const WhatWeDo = () => {
         </div>
 
         <div className="flex w-full md:w-fit  flex-col justify-center  items-center">
-          <div className="w-full md:w-96 h-90 relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+          <div className="w-full md:w-96 h-[28rem] relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
             <img
-              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148040/IMG_8650_tjkwor_lyhzjl.jpg"
+              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587449/IMG_1245_yrttpi.jpg"
               alt="Private Pilates Session"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

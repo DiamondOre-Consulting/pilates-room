@@ -12,7 +12,7 @@ const ClassSchedule = () => {
   return (
     <div>
       <section className="w-full">
-        <div className="w-full h-[22rem] bg-[url('https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755146295/IMG_9873_1_uxvrth.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
+        <div className="w-full h-[28rem] bg-[url('https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587455/IMG_9742_wnqri5.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
           <div>
             <h1 className="text-white text-center xl:text-7xl lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
               Class Schedule

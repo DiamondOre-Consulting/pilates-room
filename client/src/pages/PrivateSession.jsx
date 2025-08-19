@@ -15,7 +15,7 @@ const PrivateSession = () => {
           description: `Our classes are a great way to develop your Pilates practice, but for tailoring results to your unique needs and goals, nothing beats a 1-2-1 private session.`,
           image: {
             secureUrl:
-              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157350/IMG_1922_xugf5h.jpg",
+              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755589629/IMG_1244_y8hdnp.jpg",
           },
         },
         {
@@ -24,7 +24,7 @@ const PrivateSession = () => {
           Private sessions teach you exactly how the exercises should be executed and are tailored for your body to maximise your results. Working with all the Pilates apparatus, including the Reformer, Cadillac, chairs, barrels etc., your sessions will be full of variety. You will lengthen, strengthen and open the shoulders, back, arms, hips, bum, legs and feet all whilst engaging and strengthening your core for stability and balance.`,
           image: {
             secureUrl:
-              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755157027/IMG_2168_rvcjkd.jpg",
+              "https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755589910/DSC00069_gaxjf0.jpg",
           },
         },
         {
@@ -46,7 +46,7 @@ const PrivateSession = () => {
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <img
               className="w-full h-full object-cover"
-              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148040/IMG_8650_tjkwor_lyhzjl.jpg"
+              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755590666/DSC00121_joxphh.jpg"
               alt="Private Pilates Session"
             />
           </div>
@@ -55,16 +55,9 @@ const PrivateSession = () => {
 
           <div className="relative text-white z-20 h-full flex flex-col items-center justify-center text-center px-4">
             <div className="max-w-4xl mx-auto">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl  uppercase tracking-wide mb-8">
+              <h1 className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl  uppercase tracking-wide mb-8">
                 Private Sessions
               </h1>
-              <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-                Personalized one-on-one Pilates instruction tailored to your
-                unique needs and goals
-              </p>
-              <button className="uppercase border-2 border-white px-8 py-3 text-lg md:text-xl rounded-md hover:bg-[#FF6950] hover:border-[#FF6950] transition-all duration-300">
-                Book a private session
-              </button>
             </div>
           </div>
         </section>
@@ -118,7 +111,7 @@ const PrivateSession = () => {
           </div>
 
           <div
-            className="justify-center items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-80"
+            className="justify-center items-center w-full md:w-[35rem] flex mx-auto rounded-lg h-[38rem]"
             style={{
               backgroundImage: `url('${info?.image?.secureUrl}')`,
               backgroundSize: "cover",

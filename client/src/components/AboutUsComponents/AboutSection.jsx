@@ -9,7 +9,7 @@ const AboutSection = () => {
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
             {/* Text Content */}
             <div className="w-full lg:w-1/2 mt-6 lg:mt-10">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-wider mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl  lg:text-4xl font-bold uppercase tracking-wider mb-4 leading-tight">
                 Welcome to The Pilates Room, where passion meets precision!
               </h1>
 

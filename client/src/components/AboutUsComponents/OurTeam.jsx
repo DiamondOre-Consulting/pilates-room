@@ -54,7 +54,7 @@ const TeamMemberItem = ({ member, index }) => (
         <h3 className="text-3xl md:text-4xl font-bold mb-2">
           {member.fullName}
         </h3>
-        <p className="text-lg text-dark font-medium mb-6">
+        <p className="text-lg text-dark font-[MinionPro] italic font-medium mb-6">
           {member.designation}
         </p>
         <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">
@@ -72,7 +72,7 @@ const OurTeam = () => {
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Meet The Team</h2>
-          <p className="text-xl font-semibold text-dark mb-4">
+          <p className="text-xl font-semibold text-dark mb-4 font-[MinionPro] italic">
             Your Guides to a Stronger, Healthier You
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">

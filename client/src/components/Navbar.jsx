@@ -67,7 +67,11 @@ const NavMenu = ({ routes, isOpen, setIsOpen }) => {
                             transition-all 
                             tracking-wide
                             duration-200
-                               ${route.isSpecial ? "font-bold text-dark" : ""}
+                               ${
+                                 route.isSpecial
+                                   ? " text-dark font-semibold"
+                                   : ""
+                               }
                             ${
                               location.pathname === route.href
                                 ? "text-dark underline decoration-text-dark "

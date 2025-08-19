@@ -173,9 +173,9 @@ const Membership = () => {
   return (
     <div>
       <section className="w-full">
-        <div className="w-full h-[28rem] bg-[url('https://exhalepilateslondon.com/wp-content/uploads/2022/11/class-schedule.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
+        <div className="w-full h-[28rem] bg-[url('https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755587455/IMG_9742_wnqri5.jpg')] bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center ">
           <div>
-            <h1 className="text-white text-center xl:text-7xl uppercase lg:text-4xl md:text-4xl sm:text-4xl text-4xl ">
+            <h1 className="text-white text-center xl:text-7xl uppercase lg:text-4xl md:text-4xl sm:text-4xl text-3xl ">
               Book Membership
             </h1>
           </div>
@@ -498,13 +498,13 @@ const Membership = () => {
           {!user?.data?.isMember && !selectedLocation && (
             <div className="absolute  h-screen inset-0 z-20 backdrop-blur-sm flex items-start pt-30 justify-center bg-black/60 text-white">
               <div className=" dark:bg-gray-900 p-6 md:w-5xl text-white  w-full text-center">
-                <h2 className="text-4xl md:text-8xl font-semibold mb-4 text-gray-300">
+                <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-gray-300">
                   Select Your Location
                 </h2>
 
                 <div className="flex space-x-2">
                   <select
-                    className="w-full py-2 cursor-poiner rounded-full px-2  bg-gray-100 text-black border "
+                    className="w-full mx-auto py-2 cursor-poiner rounded-full px-2 bg-gray-100 text-black border "
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value)}
                   >
@@ -516,7 +516,7 @@ const Membership = () => {
                   <button
                     onClick={() => handleGetAllMemberShip()}
                     disabled={!selectedLocation}
-                    class="group relative inline-flex cursor-pointer h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-950 font-medium text-neutral-200"
+                    class="group relative ml-2 inline-flex cursor-pointer h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-neutral-950 font-medium text-neutral-200"
                   >
                     <div class="translate-x-0 transition group-hover:translate-x-[300%]">
                       <svg
