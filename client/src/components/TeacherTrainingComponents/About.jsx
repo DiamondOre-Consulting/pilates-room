@@ -11,11 +11,11 @@ const About = () => {
       </h1>
 
       <p className="text-center text-sm md:text-xl text-dark">
-        Pilates at Exhale changes people. It changes their mind, body and
-        wellbeing. It changes careers too. So if you love Pilates and want to
-        discover more. If you want to build your own community of Pilates
-        lovers. Or if you’re already on the road to becoming a teacher and want
-        to complete the journey, do it with us.
+        <span className="font-semibold">The Pilates Room</span> changes people.
+        It changes their mind, body and wellbeing. It changes careers too. So if
+        you love Pilates and want to discover more. If you want to build your
+        own community of Pilates lovers. Or if you’re already on the road to
+        becoming a teacher and want to complete the journey, do it with us.
       </p>
 
       <button
