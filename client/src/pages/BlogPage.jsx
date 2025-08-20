@@ -21,13 +21,9 @@ const BlogPage = () => {
     handleGetBlog();
   }, []);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
-      
-
-      
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -54,15 +50,17 @@ const BlogPage = () => {
                     />
                     <div className="p-3 pb-8 lg:p-6">
                       <h4 className="font-medium text-2xl mb-1 line-clamp-2">
-                        {blog?.title} 
+                        {blog?.title}
                       </h4>
                       <p className="opacity-80 mb-6">
-                        <span className="mr-2 ">{blog?.excerpt}</span>
+                        <span className="mr-2 line-clamp-2">
+                          {blog?.excerpt}
+                        </span>
                       </p>
                       {/* <p className="opacity-60 mt-3 mb-6">{description}</p> */}
                       <Link
                         to={`/${blog?.slug}`}
-                        className="bg-transparent hover:bg-[#00354C]  border border-blue-900 hover:text-white py-2 px-5 rounded transition"
+                        className="bg-dark text-white py-2 px-5 rounded transition"
                       >
                         Read More
                       </Link>

@@ -12,7 +12,9 @@ const BlogItem = ({ blog }) => {
     <article className="shadow-lg bg-white h-[28rem] dark:bg-[#1E2735] dark:shadow-none rounded-lg overflow-hidden mt-6 pb-2">
       <img src={blog?.featuredImage?.url} className="h-58  w-full" />
       <div className="p-3 pb-8 lg:p-6">
-        <h4 className="font-medium text-2xl mb-1 line-clamp-2 ">{blog?.title}</h4>
+        <h4 className="font-medium text-2xl mb-1 line-clamp-2 ">
+          {blog?.title}
+        </h4>
         <p className="opacity-80 mb-2">
           <span className="mr-2 line-clamp-2">{blog?.excerpt}</span>
           <span>
@@ -23,7 +25,7 @@ const BlogItem = ({ blog }) => {
         <p className="opacity-60 mt-3 mb-6">{description}</p>
         <Link
           to={`/${blog?.slug}`}
-          className="bg-transparent hover:bg-[#00354C] border border-blue-900 hover:text-white py-2 px-5 rounded transition"
+          className="bg-dark text-white py-2 px-5 rounded transition"
         >
           Read More
         </Link>
@@ -41,7 +43,7 @@ const BlogSection = () => {
       const response = await dispatch(getBlogs());
       setBlogData(response?.payload?.data?.blogPosts);
     } catch (error) {
-      return
+      return;
     }
   };
 
