@@ -3,6 +3,7 @@ import banner from "../assets/home.webm";
 import About from "@/components/TeacherTrainingComponents/About";
 import ProgramSchedule from "@/components/TeacherTrainingComponents/ProgramSchedule";
 import Testimonial from "@/components/Testimonial";
+import hero from '../assets/imgchange2.jpg'
 
 const TeacherTraining = () => {
   useEffect(() => {
@@ -14,10 +15,10 @@ const TeacherTraining = () => {
       <div>
         <section className="relative h-[60vh] md:h-screen w-full overflow-hidden flex items-center justify-center text-center text-white">
           {/* Background Image with Perfect Alignment */}
-          <div className="absolute inset-0 w-full h-full">
+          <div className="absolute  inset-0 w-full h-full">
             <img
               className="absolute w-full h-full object-cover object-center"
-              src="https://res.cloudinary.com/dmpkp9ux2/image/upload/v1755148044/IMG_2124_j4vccq.jpg"
+              src={hero}
               alt="Pilates instructor demonstrating technique"
               loading="eager"
             />
