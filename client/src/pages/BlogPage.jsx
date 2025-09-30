@@ -37,7 +37,7 @@ const BlogPage = () => {
           <div className="grid grid-cols-12 items-center  gap-6">
             <div className="col-span-12">{/* <FeaturedBlogItem /> */}</div>
             {blogData
-              ?.filter((blog) => !blog.isFeatured)
+              // ?.filter((blog) => !blog.isFeatured)
               .map((blog, i) => (
                 <div
                   className="col-span-12 md:col-span-6 lg:col-span-4"
