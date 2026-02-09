@@ -4,13 +4,14 @@ import adminAxiosInstance from "../../Helper/axiosInstance";
 
 export const getAllOrders = createAsyncThunk(
   "/admin/getAllOrder",
-  async ({ limit, page, date }) => {
+  async ({ limit, page, date, search }) => {
     try {
       const queryParams = new URLSearchParams();
 
       if (limit) queryParams.append("limit", limit);
       if (page) queryParams.append("page", page);
       if (date) queryParams.append("date", date);
+      if (search) queryParams.append("search", search);
       console.log(1)
       const response = await adminAxiosInstance.get(`/admin/get-all-orders?${queryParams.toString()}`);
       console.log(response)

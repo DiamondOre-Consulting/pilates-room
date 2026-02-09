@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 // import BeatLoader from "react-spinners/BeatLoader";
 import { HomeLayout } from "@/Layout/HomeLayout";
 import { getAllOrders } from "@/Redux/Slices/orderSlice";
-import { IconRestore } from "@tabler/icons-react";
+
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
 
 const AllOrders = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [date, setDate] = useState();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleGetAllOrders = async () => {
     setLoading(true);
-    let formattedDate;
-    if (date) {
-      formattedDate = date.toISOString().split("T")[0];
-    }
     const response = await dispatch(
-      getAllOrders({ page, limit, date: formattedDate })
+      getAllOrders({ page, limit, search: debouncedSearchTerm })
     );
 
     console.log(response);
@@ -39,7 +48,7 @@ const AllOrders = () => {
 
   useEffect(() => {
     handleGetAllOrders();
-  }, [page, limit, date]);
+  }, [page, limit, debouncedSearchTerm]);
 
   const handlePrevPage = () => {
     if (page > 1) setPage((prev) => prev - 1);
@@ -48,54 +57,58 @@ const AllOrders = () => {
   const handleNextPage = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
   };
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    setPage(1);
-    setShowCalendar(false);
-  };
+
   return (
     <HomeLayout>
       <div>
-        <div className="flex justify-between py-2">
+        <div className="flex justify-between py-2 items-center flex-wrap gap-4">
           <div className="flex flex-col">
             <h1 className="text-2xl">All Bookings</h1>
             <div className="w-20 h-1 bg-black"></div>
           </div>
 
-          <div className="flex space-x-2 items-center text-sm">
-            <span>Page Limit:</span>
-            <select
-              className="border px-2 cursor-pointer py-1 border-gray-700 rounded-md"
-              value={limit}
-              onChange={(e) => setLimit(Number(e.target.value))}
-            >
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={30}>30</option>
-            </select>
+          <div className="flex items-center gap-4">
+             {/* Search Input */}
+              <div className="relative">
+                  <input
+                      type="text"
+                      placeholder="Search Name or Email..."
+                      className="border border-gray-300 rounded px-3 py-2 text-sm w-64 focus:outline-none focus:border-black"
+                      value={searchTerm}
+                      onChange={(e) => {
+                          setSearchTerm(e.target.value);
+                          setPage(1); // Reset to page 1 on search
+                      }}
+                  />
+                  {searchTerm && (
+                    <button 
+                        onClick={()=>{setSearchTerm(""); setPage(1)}}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"
+                    >
+                        ✕
+                    </button>
+                  )}
+              </div>
+
+              <div className="flex space-x-2 items-center text-sm hidden md:flex">
+                <span>Page Limit:</span>
+                <select
+                  className="border px-2 cursor-pointer py-1 border-gray-700 rounded-md"
+                  value={limit}
+                  onChange={(e) => {
+                      setLimit(Number(e.target.value));
+                      setPage(1);
+                  }}
+                >
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={30}>30</option>
+                </select>
+              </div>
           </div>
         </div>
 
-        <div className="my-4 relative flex">
-          <button
-            onClick={() => setShowCalendar(!showCalendar)}
-            className="border px-4 py-2 rounded bg-black text-white"
-          >
-            Select Date
-          </button>
-          {showCalendar && (
-            <div className="absolute z-10 mt-2">
-              <Calendar onChange={handleDateChange} value={date} />
-            </div>
-          )}
-
-          <button
-            onClick={() => setDate()}
-            className="border  p-2 ml-2 rounded bg-red-100 text-red-600 cursor-pointer"
-          >
-            <IconRestore />
-          </button>
-        </div>
+        {/* Removed Date Picker UI */}
 
         {loading ? (
           <div className="flex justify-center py-10">Loading...</div>
@@ -106,10 +119,10 @@ const AllOrders = () => {
                 <tr>
                   <th className="px-4 py-2">Name</th>
                   <th className="px-4 py-2">Email</th>
-                  <th className="px-4 py-2">Time</th>
+                  <th className="px-4 py-2">Time / Package</th>
                   <th className="px-4 py-2">Location</th>
-                  <th className="px-4 py-2">Instructor</th>
-                  <th className="px-4 py-2">status</th>
+                  <th className="px-4 py-2">Instructor / Type</th>
+                  <th className="px-4 py-2">Status</th>
                   <th className="px-4 py-2">Action</th>
                 </tr>
               </thead>
@@ -122,20 +135,32 @@ const AllOrders = () => {
                     <td className="px-4 py-2 max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden ">
                       {order?.user?.email}
                     </td>
-                    <td className="px-4 py-2">{order?.product?.time}</td>
-                    <td className="px-4 py-2">{order?.product?.location}</td>
+                    <td className="px-4 py-2">
+                        {order?.product?.time || order?.membershipPackage?.packageName}
+                    </td>
+                    <td className="px-4 py-2">
+                        {order?.product ? order?.product?.location : order?.user?.memberShipPlan?.location || "N/A"}
+                    </td>
                     <td className="px-4 py-2 flex items-center gap-2">
-                      <img
-                        src={order?.product?.instructor?.image?.secureUrl}
-                        alt="Instructor"
-                        className="w-6 h-6 rounded-full object-cover"
-                      />
-                      {order?.product?.instructor?.name}
+                      {order?.product ? (
+                        <>
+                          <img
+                            src={order?.product?.instructor?.image?.secureUrl}
+                            alt="Instructor"
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                          {order?.product?.instructor?.name}
+                        </>
+                      ) : (
+                        <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded capitalize">
+                          {order?.orderType || "Membership"}
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-2">
                       <span
                         className={`px-2 py-1 rounded text-xs font-medium ${
-                          order?.status === "scheduled"
+                          order?.status === "scheduled" || order?.status === "active"
                             ? "bg-green-200 text-green-800"
                             : "bg-red-200 text-red-800"
                         }`}
@@ -239,68 +264,80 @@ const AllOrders = () => {
                 ✕
               </button>
 
-              {/* Class Title & Date */}
-              <h2 className="text-2xl sm:text-3xl font-semibold text-black mb-6 mb-1">
-                {selectedOrder.product.title}
-              </h2>
-              <p className="text-sm text-gray-600">
-                📅{" "}
-                <strong>
-                  {new Date(selectedOrder.scheduledDate).toLocaleDateString()}
-                </strong>
-              </p>
+              {/* DETAILS FOR CLASS BOOKING */}
+              {selectedOrder.product ? (
+                <>
+                  <h2 className="text-2xl sm:text-3xl font-semibold text-black mb-6 mb-1">
+                    {selectedOrder.product.title}
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    📅{" "}
+                    <strong>
+                      {new Date(selectedOrder.scheduledDate).toLocaleDateString()}
+                    </strong>
+                  </p>
 
-              {/* Session Info */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700 text-sm">
-                <p>
-                  <strong>🕒 Time:</strong> {selectedOrder.product.time}
-                </p>
-                <p>
-                  <strong>⏱ Duration:</strong> {selectedOrder.product.duration}
-                </p>
-                <p>
-                  <strong>📍 Location:</strong> {selectedOrder.product.location}
-                </p>
-                <p>
-                  <strong>📅 Weekdays:</strong>{" "}
-                  {selectedOrder.product.weeks.join(", ")}
-                </p>
-                <p>
-                  <strong>👥 Enrolled:</strong>{" "}
-                  {selectedOrder.product.enrolledCount} /{" "}
-                  {selectedOrder.product.capacity}
-                </p>
-                <p>
-                  <strong>📌 Status:</strong> {selectedOrder.status}
-                </p>
-                <p>
-                  <strong>✅ Availability:</strong>{" "}
-                  {selectedOrder.product.available
-                    ? "Available"
-                    : "Unavailable"}
-                </p>
-              </div>
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700 text-sm">
+                    <p><strong>🕒 Time:</strong> {selectedOrder.product.time}</p>
+                    <p><strong>⏱ Duration:</strong> {selectedOrder.product.duration}</p>
+                    <p><strong>📍 Location:</strong> {selectedOrder.product.location}</p>
+                    <p><strong>📅 Weekdays:</strong> {selectedOrder.product.weeks.join(", ")}</p>
+                    <p><strong>👥 Enrolled:</strong> {selectedOrder.product.enrolledCount} / {selectedOrder.product.capacity}</p>
+                    <p><strong>📌 Status:</strong> {selectedOrder.status}</p>
+                    <p><strong>✅ Availability:</strong> {selectedOrder.product.available ? "Available" : "Unavailable"}</p>
+                  </div>
 
-              <hr className="my-5 border-gray-300" />
+                  <hr className="my-5 border-gray-300" />
 
-              <div className="flex items-center gap-4 mb-3">
-                <img
-                  src={selectedOrder.product.instructor.image.secureUrl}
-                  alt="Instructor"
-                  className="w-16 h-16 rounded-full border border-gray-300 shadow-sm"
-                />
-                <p>
-                  <strong>Instructor:</strong>{" "}
-                  {selectedOrder.product.instructor.name}
-                </p>
-              </div>
+                  <div className="flex items-center gap-4 mb-3">
+                    <img
+                      src={selectedOrder.product.instructor.image.secureUrl}
+                      alt="Instructor"
+                      className="w-16 h-16 rounded-full border border-gray-300 shadow-sm"
+                    />
+                    <p><strong>Instructor:</strong> {selectedOrder.product.instructor.name}</p>
+                  </div>
 
-              <div
-                className="bg-blue-50 p-3 rounded-md text-sm text-gray-800"
-                dangerouslySetInnerHTML={{
-                  __html: selectedOrder.product.description,
-                }}
-              />
+                  <div
+                    className="bg-blue-50 p-3 rounded-md text-sm text-gray-800"
+                    dangerouslySetInnerHTML={{
+                      __html: selectedOrder.product.description,
+                    }}
+                  />
+                </>
+              ) : (
+                /* DETAILS FOR MEMBERSHIP/DISCOVERY */
+                <>
+                  <h2 className="text-2xl sm:text-3xl font-semibold text-black mb-6 mb-1">
+                    {selectedOrder.membershipPackage?.packageName || "Membership Details"}
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    📅{" "}
+                    <strong>
+                        Action Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}
+                    </strong>
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700 text-sm">
+                    <p><strong>🆔 Type:</strong> {selectedOrder.orderType.toUpperCase()}</p>
+                    <p><strong>📍 Location:</strong> {selectedOrder.user.memberShipPlan?.location || "N/A"}</p>
+                    <p><strong>📌 Status:</strong> {selectedOrder.status}</p>
+                    <p><strong>💳 Transaction ID:</strong> {selectedOrder.transactionId || "N/A"}</p>
+                    {selectedOrder.amount > 0 && (
+                        <p><strong>💰 Amount:</strong> ₹{selectedOrder.amount}</p>
+                    )}
+                  </div>
+                  
+                  {selectedOrder.membershipPackage && (
+                      <div className="mt-4 bg-gray-50 p-4 rounded-md">
+                          <h4 className="font-semibold mb-2">Package Details</h4>
+                          <p><strong>Sessions:</strong> {selectedOrder.membershipPackage.totalSessions}</p>
+                          <p><strong>Validity:</strong> {selectedOrder.membershipPackage.validity} Weeks</p>
+                          <p><strong>Description:</strong> {selectedOrder.membershipPackage.description}</p>
+                      </div>
+                  )}
+                </>
+              )}
 
               <hr className="my-5 border-gray-300" />
 
@@ -317,33 +354,31 @@ const AllOrders = () => {
                 </p>
               </div>
 
-              {/* Membership Info */}
+              {/* Membership Info (Global for User) */}
               <div className="mt-4 text-sm text-gray-700 space-y-1">
                 <h3 className="font-semibold text-blue-600">
-                  🏷 Membership Details
+                  🏷 Current Membership Status
                 </h3>
                 <p>
                   <strong>Status:</strong>{" "}
-                  {selectedOrder.user.memberShipPlan.status}
+                  {selectedOrder.user.memberShipPlan?.status || "N/A"}
                 </p>
-                <p>
-                  <strong>Registered On:</strong>{" "}
-                  {new Date(
-                    selectedOrder.user.memberShipPlan.registrationDate
-                  ).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Start Date:</strong>{" "}
-                  {new Date(
-                    selectedOrder.user.memberShipPlan.startDate
-                  ).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Expires On:</strong>{" "}
-                  {new Date(
-                    selectedOrder.user.memberShipPlan.expiryDate
-                  ).toLocaleDateString()}
-                </p>
+                {selectedOrder.user.memberShipPlan?.registrationDate && (
+                    <p>
+                    <strong>Registered On:</strong>{" "}
+                    {new Date(
+                        selectedOrder.user.memberShipPlan.registrationDate
+                    ).toLocaleDateString()}
+                    </p>
+                )}
+                {selectedOrder.user.memberShipPlan?.expiryDate && (
+                    <p>
+                    <strong>Expires On:</strong>{" "}
+                    {new Date(
+                        selectedOrder.user.memberShipPlan.expiryDate
+                    ).toLocaleDateString()}
+                    </p>
+                )}
               </div>
             </div>
           </div>

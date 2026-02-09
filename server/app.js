@@ -22,6 +22,7 @@ app.use(
   cors({
     origin: [
       "https://www.thepilatesroom.co.in",
+      "http://localhost:5174",
       "https://www.admin.thepilatesroom.co.in",
       "https://thepilatesroom.co.in",
       "https://admin.thepilatesroom.co.in",

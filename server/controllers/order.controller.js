@@ -297,26 +297,45 @@ const updateOrderStatuses = async () => {
   }).populate('product');
 
   for (const order of scheduledOrders) {
-    const scheduledDate = new Date(order.scheduledDate);
-    console.log(order)
-    const scheduledTime = order.product.time;
-
-
-    const [time, period] = scheduledTime.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
-
-    if (period === 'PM' && hours !== 12) {
-      hours += 12;
-    } else if (period === 'AM' && hours === 12) {
-      hours = 0;
+    if (!order.product || !order.product.time) {
+      console.warn(`Skipping order ${order._id}: Product or time missing`);
+      continue;
     }
 
-    scheduledDate.setHours(hours, minutes, 0, 0);
+    try {
+      const scheduledDate = new Date(order.scheduledDate);
+      // console.log(order)
+      const scheduledTime = order.product.time;
 
-    if (scheduledDate < currentDate) {
-      await Order.findByIdAndUpdate(order._id, {
-        status: 'completed'
-      });
+
+      const [time, period] = scheduledTime.split(' ');
+      if (!time || !period) {
+          console.warn(`Skipping order ${order._id}: Invalid time format ${scheduledTime}`);
+          continue;
+      }
+      
+      let [hours, minutes] = time.split(':').map(Number);
+      
+      if (isNaN(hours) || isNaN(minutes)) {
+           console.warn(`Skipping order ${order._id}: Invalid time numbers ${scheduledTime}`);
+           continue;
+      }
+
+      if (period === 'PM' && hours !== 12) {
+        hours += 12;
+      } else if (period === 'AM' && hours === 12) {
+        hours = 0;
+      }
+
+      scheduledDate.setHours(hours, minutes, 0, 0);
+
+      if (scheduledDate < currentDate) {
+        await Order.findByIdAndUpdate(order._id, {
+          status: 'completed'
+        });
+      }
+    } catch (err) {
+      console.error(`Error processing order ${order._id}:`, err);
     }
   }
 };
@@ -357,42 +376,137 @@ export const allOrderHistory = asyncHandler(async (req, res, next) => {
 
   const page = parseInt(req.validatedData.query.page) || 1;
   const limit = parseInt(req.validatedData.query.limit) || 10;
-  const date = req.validatedData.query.date;
+  const dateStr = req.validatedData.query.date;
+  const search = req.validatedData.query.search;
+  
+  // Base queries
+  let orderQuery = {};
+  let userQuery = {
+      $or: [
+          { isDiscovery: true },
+          { isMember: true }
+      ]
+  };
 
-  const query = {};
-
-  if (date) {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date(date);
-    endOfDay.setHours(23, 59, 59, 999);
-
-    query.createdAt = { $gte: startOfDay, $lte: endOfDay };
+  // 1. Search Logic
+  let matchingUserIds = null;
+  if (search) {
+      // Find users matching search term
+      const searchRegex = new RegExp(search, 'i');
+      const users = await User.find({
+          $or: [
+              { firstName: searchRegex },
+              { lastName: searchRegex },
+              { email: searchRegex }
+          ]
+      }).select('_id');
+      
+      matchingUserIds = users.map(u => u._id);
+      
+      // Filter orders by these users
+      orderQuery.user = { $in: matchingUserIds };
+      
+      // Filter user query for memberships
+      userQuery._id = { $in: matchingUserIds };
   }
 
-  const [orderHistory, totalOrderHistory] = await Promise.all([
-    Order.find(query)
+  // 2. Date Logic (Optional, kept for API flexibility)
+  let startOfDay, endOfDay;
+  if (dateStr) {
+    startOfDay = new Date(dateStr);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    endOfDay = new Date(dateStr);
+    endOfDay.setHours(23, 59, 59, 999);
+    
+    // Apply date filter to Order query
+    orderQuery.createdAt = { $gte: startOfDay, $lte: endOfDay };
+  }
+  
+  // 3. Fetch Data
+  
+  // Fetch Orders (Class bookings)
+  const orders = await Order.find(orderQuery)
       .populate('product')
       .populate('user')
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit),
-    Order.countDocuments(query)
-  ]);
+      .sort({ createdAt: -1 });
 
-  console.log(orderHistory)
+  // Fetch Users with memberships/discovery
+  // Create membership objects only for matching users
+  const usersWithMemberships = await User.find(userQuery).populate('memberShipPlan.package');
 
-  const hasMore = page * limit < totalOrderHistory;
+  // Normalize User memberships into "Order" objects
+  const membershipOrders = [];
+
+  for (const user of usersWithMemberships) {
+      // 1. Discovery Purchase
+      if (user.isDiscovery) {
+          const discoveryDate = user.memberShipPlan?.memberShipFrom || user.createdAt;
+          
+          // Apply date filter if exists
+          if (!dateStr || (new Date(discoveryDate) >= startOfDay && new Date(discoveryDate) <= endOfDay)) {
+               membershipOrders.push({
+                  _id: `discovery-${user._id}`,
+                  user: user,
+                  product: null, 
+                  membershipPackage: {
+                      packageName: "Discovery Package",
+                      ...(user.memberShipPlan?.package ? user.memberShipPlan.package.toObject() : {})
+                  },
+                  orderType: 'discovery',
+                  status: 'active',
+                  scheduledDate: discoveryDate, // The date they bought it
+                  createdAt: discoveryDate,
+                  amount: 0,
+                  transactionId: user.discoveryPaymentId
+              });
+          }
+      }
+
+      // 2. Membership Purchase
+      if (user.isMember && user.memberShipPlan?.package) {
+          const membershipDate = user.memberShipPlan.registrationDate || user.createdAt;
+
+          // Apply date filter if exists
+          if (!dateStr || (new Date(membershipDate) >= startOfDay && new Date(membershipDate) <= endOfDay)) {
+               membershipOrders.push({
+                  _id: `membership-${user._id}`,
+                  user: user,
+                  product: null,
+                  membershipPackage: user.memberShipPlan.package,
+                  orderType: 'membership',
+                  status: user.memberShipPlan.status || 'active',
+                  scheduledDate: membershipDate,
+                  createdAt: membershipDate,
+                  amount: user.memberShipPlan.package.price,
+                  transactionId: user.memberShipPlan.subscriptionId
+              });
+          }
+      }
+  }
+
+  // Combine lists
+  const allRecords = [...orders, ...membershipOrders];
+
+  // Sort by createdAt descending (Latest First)
+  allRecords.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  // Pagination
+  const totalRecords = allRecords.length;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const paginatedRecords = allRecords.slice(startIndex, endIndex);
+
+  const hasMore = endIndex < totalRecords;
 
   sendResponse(res, 200, {
-    data: orderHistory,
+    data: paginatedRecords,
     pagination: {
       page,
       limit,
-      total: totalOrderHistory,
+      total: totalRecords,
       hasMore,
-      totalPages: Math.ceil(totalOrderHistory / limit)
+      totalPages: Math.ceil(totalRecords / limit)
     }
   }, "Order history fetched successfully");
 });

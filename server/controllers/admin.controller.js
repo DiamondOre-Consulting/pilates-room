@@ -184,13 +184,20 @@ const getAllUsers = asyncHandler(async (req, res) => {
       }
     : null;
 
-  if (searchStage) pipeline.push(searchStage);
+  if (searchStage) {
+    pipeline.push(searchStage);
+  }
+
+  // Always sort by latest first
+  pipeline.push({ $sort: { createdAt: -1 } });
+
   pipeline.push(
     {
       $skip: (page - 1) * limit,
     },
     { $limit: limit }
   );
+  
   const users = await User.aggregate(pipeline);
 
   const countPipeline = [];
@@ -200,14 +207,18 @@ const getAllUsers = asyncHandler(async (req, res) => {
   const countResult = await User.aggregate(countPipeline);
   const totalCount = countResult[0]?.count || 0;
   const totalPages = Math.ceil(totalCount / limit);
-  if (!users.length) {
-    throw new ApiError("Users not found", 400);
+  
+  // Only throw if no users found at ALL (page 1), or for search if nothing matches.
+  // Pagination 400 is weird for high pages, better return empty array.
+  if (!users.length && page === 1 && !searchTerm) {
+    // Optionally throw or just return empty
+     // throw new ApiError("Users not found", 400);
   }
 
   sendResponse(
     res,
     200,
-    { pagination: { page, limit, totalPages }, users: users.reverse() },
+    { pagination: { page, limit, totalPages }, users: users }, // Removed .reverse()
     "Users retrieved successfully"
   );
 });
