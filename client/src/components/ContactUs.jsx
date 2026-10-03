@@ -123,7 +123,7 @@ const ContactUs = ({ setPopup }) => {
             value={formData.phone}
             onChange={handlePhoneChange}
             inputStyle={{ width: "100%" }}
-            placeholder="Phone Number (optional)"
+            placeholder="Phone Number"
           />
           <textarea
             className="py-4 px-2 w-full border-gray-100 bg-white"
