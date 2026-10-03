@@ -9,6 +9,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ContactUsPage from "./pages/ContactUsPage";
 import InStudioTerms from "./pages/InSudioTerms";
+import ThankYou from "./pages/ThankYou";
 
 // Lazy-loaded pages
 const HomeMain = lazy(() => import("./pages/HomeMain"));
@@ -90,6 +91,7 @@ export default function App() {
           <Route path="/terms-and-condition" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
+          <Route path="/thank-you" element={<ThankYou />} />
           <Route
             path="/in-studio-terms-and-conditions"
             element={<InStudioTerms />}

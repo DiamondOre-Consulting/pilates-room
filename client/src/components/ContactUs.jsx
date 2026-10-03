@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ContactUs = ({ setPopup }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -66,6 +67,7 @@ const ContactUs = ({ setPopup }) => {
     if (!email || !name || !message || !phone) {
       setLoading(false);
       setErrorMessage("All fields are required!");
+      return;
     }
 
     const response = await dispatch(contactUs(formData));
@@ -80,11 +82,8 @@ const ContactUs = ({ setPopup }) => {
         topic: formData.topic,
       });
 
-      setPopup(false);
-
-      setTimeout(() => {
-        // setPopupVisible(false);
-      }, 3000);
+      setPopup?.(false);
+      navigate("/thank-you");
     }
   };
 
