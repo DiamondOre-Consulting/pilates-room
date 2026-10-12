@@ -14,6 +14,10 @@ import {
   BadgeCheck,
   UserCheck,
   UserX,
+  Phone,
+  Cake,
+  MapPin,
+  ShoppingBag,
 } from "lucide-react";
 import { Eye, EyeOff, Pencil } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
@@ -30,6 +34,15 @@ const formatPhone = (phone) => {
     return `+${phone}`;
   }
 };
+
+const formatDate = (date) =>
+  date
+    ? new Date(date).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "N/A";
 
 // import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -434,7 +447,7 @@ const AllUsers = () => {
       </div>
       {showModel && selectedUser && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-2xl w-full max-w-xl shadow-2xl relative text-gray-800">
+          <div className="bg-white p-8 rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl relative text-gray-800">
             <button
               onClick={() => setShowModel(false)}
               className="absolute top-3 right-4 cursor-pointer text-gray-400 hover:text-gray-900 transition"
@@ -464,10 +477,50 @@ const AllUsers = () => {
               </p>
 
               <p className="flex items-center gap-2">
+                <Phone className="text-teal-500" size={18} />
+                <span>
+                  <strong>Phone:</strong>{" "}
+                  {formatPhone(selectedUser.phoneNumber)}
+                </span>
+              </p>
+
+              <p className="flex items-center gap-2">
+                <Cake className="text-rose-500" size={18} />
+                <span>
+                  <strong>Date of Birth:</strong>{" "}
+                  {formatDate(selectedUser.birthDate)}
+                </span>
+              </p>
+
+              <p className="flex items-center gap-2">
+                <MapPin className="text-orange-500" size={18} />
+                <span>
+                  <strong>Postal Code:</strong>{" "}
+                  {selectedUser.postalCode || "N/A"}
+                </span>
+              </p>
+
+              <p className="flex items-center gap-2">
+                <MapPin className="text-cyan-500" size={18} />
+                <span>
+                  <strong>Preferred Location:</strong>{" "}
+                  {selectedUser.preferredLocation || "N/A"}
+                </span>
+              </p>
+
+              <p className="flex items-center gap-2">
                 <CalendarCheck className="text-amber-500" size={18} />
                 <span>
                   <strong>Registered On:</strong>{" "}
-                  {new Date(selectedUser.createdAt).toLocaleDateString()}
+                  {formatDate(selectedUser.createdAt)}
+                </span>
+              </p>
+
+              <p className="flex items-center gap-2">
+                <ShoppingBag className="text-lime-600" size={18} />
+                <span>
+                  <strong>Total Bookings:</strong>{" "}
+                  {selectedUser.orderHistory?.length || 0}
                 </span>
               </p>
 
@@ -498,7 +551,24 @@ const AllUsers = () => {
                     <strong>Status:</strong>{" "}
                     {selectedUser.memberShipPlan.status}
                   </p>
-                  {/* <p><strong>Package ID:</strong> {selectedUser.memberShipPlan.package}</p> */}
+                  <p>
+                    <strong>Package:</strong>{" "}
+                    {allpackages?.find(
+                      (pkg) => pkg?._id === selectedUser.memberShipPlan.package
+                    )?.packageName || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {selectedUser.memberShipPlan.location || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Member Since:</strong>{" "}
+                    {formatDate(selectedUser.memberShipPlan.memberShipFrom)}
+                  </p>
+                  <p>
+                    <strong>Memberships Purchased:</strong>{" "}
+                    {selectedUser.memberShipPlan.memberShipCount || 0}
+                  </p>
                   {/* <p><strong>Subscription ID:</strong> {selectedUser.memberShipPlan.subscriptionId}</p> */}
                   <p>
                     <strong>Start Date:</strong>{" "}
