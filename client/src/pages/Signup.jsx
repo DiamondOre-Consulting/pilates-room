@@ -200,7 +200,7 @@ const Signup = ({ setIsPopUpOpen, setIsSignIn }) => {
                         value={formData.phoneNumber}
                         onChange={handlePhoneChange}
                         inputStyle={{ width: "100%" }}
-                        placeholder="Phone Number (optional)"
+                        placeholder="Phone Number"
                       />
 
 

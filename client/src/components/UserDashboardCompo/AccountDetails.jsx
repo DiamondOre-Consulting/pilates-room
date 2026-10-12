@@ -70,6 +70,10 @@ const AccountDetails = () => {
 
   const handleEditUserDetails = async (e) => {
     e.preventDefault();
+    if (!editProfile?.phoneNumber?.trim()) {
+      toast.error("Phone number is required");
+      return;
+    }
     setLoader(true);
     try {
       const response = await dispatch(editUser(editProfile));
@@ -135,7 +139,7 @@ const AccountDetails = () => {
             value={editProfile?.phoneNumber}
             onChange={handlePhoneChange}
             inputStyle={{ width: "100%" }}
-            placeholder="Phone Number (optional)"
+            placeholder="Phone Number"
           />
         </div>
 

@@ -254,6 +254,7 @@ const AllUsers = () => {
                 <tr>
                   <th className="px-4 py-2">Name</th>
                   <th className="px-4 py-2">Email</th>
+                  <th className="px-4 py-2">Phone</th>
                   <th className="px-4 py-2">Registerd On</th>
                   <th className="px-4 py-2">Discovery</th>
                   <th className="px-4 py-2">Member</th>
@@ -269,6 +270,9 @@ const AllUsers = () => {
                     </td>
                     <td className="px-4 py-2 max-w-[150px] truncate text-ellipsis whitespace-nowrap overflow-hidden">
                       {user?.email}
+                    </td>
+                    <td className="px-4 py-2 whitespace-nowrap">
+                      {user?.phoneNumber ? `+${user.phoneNumber}` : "N/A"}
                     </td>
                     <td className="px-4 py-2">
                       {user?.createdAt.split("T")[0]}
