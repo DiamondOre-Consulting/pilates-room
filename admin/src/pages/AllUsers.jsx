@@ -20,6 +20,16 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { getMemberShipPackage } from "@/Redux/Slices/MembershpPackageSlice";
+import { parsePhoneNumber } from "libphonenumber-js";
+
+const formatPhone = (phone) => {
+  if (!phone) return "N/A";
+  try {
+    return parsePhoneNumber(`+${phone}`).formatInternational();
+  } catch {
+    return `+${phone}`;
+  }
+};
 
 // import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -272,7 +282,7 @@ const AllUsers = () => {
                       {user?.email}
                     </td>
                     <td className="px-4 py-2 whitespace-nowrap">
-                      {user?.phoneNumber ? `+${user.phoneNumber}` : "N/A"}
+                      {formatPhone(user?.phoneNumber)}
                     </td>
                     <td className="px-4 py-2">
                       {user?.createdAt.split("T")[0]}
